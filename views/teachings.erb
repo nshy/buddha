@@ -10,13 +10,16 @@
   <body>
     <div class="container">
     <h1 class="teaching-header"> Учения переданные в центре </h1>
-    <% @doc.xpath('/archive/teachings').each do |teaching| %>
-      <% next if not teaching_check(teaching) %>
-      <h1> <%= teaching.at_xpath('year').content %> </h1>
-      <h2 class="teaching-title"> <%= teaching.at_xpath('title').content %> </h2>
-      <% teaching.xpath('theme').each do |theme| %>
-        <% next if theme.at_xpath('title').nil? %>
-        <p class="teaching-link"> <%= theme_link(theme) %> </p>
+    <% archive_group_by_year(@doc).each do |year, year_teachings| %>
+      <% next if year.nil? %>
+      <h1> <%= year %> </h1>
+      <% year_teachings.each do |teaching| %>
+        <% next if not teaching_check(teaching) %>
+        <h2 class="teaching-title"> <%= teaching.at_xpath('title').content %> </h2>
+        <% teaching.xpath('theme').each do |theme| %>
+          <% next if theme.at_xpath('title').nil? %>
+          <p class="teaching-link"> <%= theme_link(theme) %> </p>
+        <% end %>
       <% end %>
       <hr/>
     <% end %>

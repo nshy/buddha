@@ -16,6 +16,14 @@ module TeachingsHelpers
     true
   end
 
+  def archive_group_by_year(doc)
+    doc.xpath('/archive/teachings').group_by do |teaching|
+      year = teaching.at_xpath('year')
+      next if year.nil?
+      year.content
+    end
+  end
+
   def theme_link(theme)
       href = ""
       page = theme.at_xpath('page')
