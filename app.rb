@@ -7,9 +7,6 @@ require_relative 'config'
 
 Bundler.require(:default, Config::ENV)
 
-require 'sinatra'
-require 'nokogiri'
-
 module TeachingsHelpers
   def teaching_check(teaching)
     return false if teaching.at_xpath('year').nil?
