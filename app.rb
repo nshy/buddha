@@ -7,6 +7,8 @@ require_relative 'config'
 
 Bundler.require(:default, Config::ENV)
 
+require 'tilt/erubis'
+
 module TeachingsHelpers
   def teaching_check(teaching)
     return false if teaching.at_xpath('year').nil?
