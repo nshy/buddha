@@ -3,10 +3,8 @@
   <% next if year.nil? %>
   <h1> <%= year %> </h1>
   <% year_teachings.each do |teaching| %>
-    <% next if not teaching_check(teaching) %>
     <h2 class="teaching-title"> <%= teaching.at_xpath('title').content %> </h2>
     <% teaching.xpath('theme').each do |theme| %>
-      <% next if theme.at_xpath('title').nil? %>
       <p class="teaching-link"> <%= theme_link(theme) %> </p>
     <% end %>
   <% end %>

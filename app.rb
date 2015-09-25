@@ -10,11 +10,6 @@ Bundler.require(:default, Config::ENV)
 require 'tilt/erubis'
 
 module TeachingsHelpers
-  def teaching_check(teaching)
-    return false if teaching.at_xpath('year').nil?
-    return false if teaching.at_xpath('title').nil?
-    true
-  end
 
   def archive_group_by_year(doc)
     doc.xpath('/archive/teachings').group_by do |teaching|
