@@ -1,6 +1,5 @@
 <h1 class="teaching-header"> Учения переданные в центре </h1>
 <% archive_group_by_year(@doc).each do |year, year_teachings| %>
-  <% next if year.nil? %>
   <h1> <%= year %> </h1>
   <% year_teachings.each do |teaching| %>
     <h2 class="teaching-title"> <%= teaching.at_xpath('title').content %> </h2>
