@@ -11,8 +11,8 @@ require 'tilt/erubis'
 
 module TeachingsHelpers
 
-  def archive_group_by_year(doc)
-    doc.xpath('/archive/teachings').group_by do |teaching|
+  def archive_group_by_year(archive)
+    archive.xpath('teachings').group_by do |teaching|
       teaching.at_xpath('year').content
     end
   end
@@ -29,7 +29,8 @@ helpers TeachingsHelpers
 
 get '/teachings' do
   File.open('data/teachings.xml') do |file|
-    @doc = Nokogiri::XML(file)
+    @archive = Nokogiri::XML(file).at_xpath('/archive')
+    puts @archive
   end
   erb :teachings
 end
