@@ -21,12 +21,30 @@ module TeachingsHelpers
   def theme_link(theme)
     page = theme.page.strip
     file = "data/themes/#{page}.xml"
-    href = File.exist?(file) ? "themes/#{page}" : ""
+    href = File.exist?(file) ? "theme/#{page}" : ""
     "<a href=\"#{href}\"> #{theme.title.strip} </a>"
   end
 end
 
-helpers TeachingsHelpers
+module ThemeHelpers
+  def format_date(record)
+    Date.parse(record.record_date).strftime('%d/%m/%y')
+  end
+
+  def youtube_link(record)
+    "https://www.youtube.com/embed/#{record.youtube_id}"
+  end
+
+  def download_link(record, media)
+    url = record.send("#{media}_url".to_sym)
+    return nil if url.nil? or url.empty?
+    title = { audio: 'аудио', video: 'видео' }[media]
+    "<a href=#{url} class=\"btn btn-primary btn-xs record-download\""\
+      " download>#{title}</a>"
+  end
+end
+
+helpers TeachingsHelpers, ThemeHelpers
 
 get '/teachings' do
   File.open('data/teachings.xml') do |file|
@@ -34,4 +52,11 @@ get '/teachings' do
     puts @archive
   end
   erb :teachings
+end
+
+get '/theme/:id' do |id|
+  File.open("data/themes/#{id}.xml") do |file|
+    @theme = ThemeDocument.new(Nokogiri::XML(file)).theme
+  end
+  erb :theme
 end

@@ -12,3 +12,17 @@ class ArchiveDocument < XDSL::Element
     end
   end
 end
+
+class ThemeDocument < XDSL::Element
+  element :theme do
+    element :title
+    element :year
+    elements :record do
+      element :tags
+      element :record_date
+      element :audio_url
+      element :video_url
+      element :youtube_id
+    end
+  end
+end

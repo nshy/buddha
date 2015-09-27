@@ -1,0 +1,40 @@
+div.theme-record {
+  margin-bottom: 60px;
+}
+
+div.theme-header {
+  margin-bottom: 60px;
+}
+
+div.record-metadata {
+  margin-top: 15px;
+}
+
+div.record-date {
+  display: inline-block;
+  float: left;
+}
+
+a.btn.record-download {
+  width: 150px;
+  float: right;
+  margin-left: 5px;
+}
+
+div.record-description {
+  margin-top: 20px;
+}
+
+.clearfix-end::after {
+  content: " "; /* Older browser do not support empty content */
+  clear: both;
+  display: block;
+}
+
+.secondary-data {
+  color: #777777;
+}
+
+div.theme-header {
+  text-align: center;
+}
