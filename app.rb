@@ -52,7 +52,6 @@ DB = Sequel.connect('sqlite://buddha.db')
 get '/teachings' do
   File.open('data/teachings.xml') do |file|
     @archive = ArchiveDocument.new(Nokogiri::XML(file)).archive
-    puts @archive
   end
   erb :teachings
 end
