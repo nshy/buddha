@@ -13,8 +13,8 @@ require 'tilt/erubis'
 module TeachingsHelpers
 
   def archive_group_by_year(archive)
-    archive.teachings.group_by do |teaching|
-      teaching.year.strip
+    archive.teachings.group_by do |teachings|
+      teachings.year.strip
     end
   end
 

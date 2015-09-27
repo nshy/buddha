@@ -1,9 +1,9 @@
 <h1 class="teaching-header"> Учения переданные в центре </h1>
 <% archive_group_by_year(@archive).each do |year, year_teachings| %>
   <h1> <%= year %> </h1>
-  <% year_teachings.each do |teaching| %>
-    <h2 class="teaching-title"> <%= teaching.title %> </h2>
-    <% teaching.theme.each do |theme| %>
+  <% year_teachings.each do |teachings| %>
+    <h2 class="teaching-title"> <%= teachings.title %> </h2>
+    <% teachings.theme.each do |theme| %>
       <p class="teaching-link"> <%= theme_link(theme) %> </p>
     <% end %>
   <% end %>
