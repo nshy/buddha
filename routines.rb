@@ -44,11 +44,26 @@ def delete_elements(xml, xpath)
   end
 end
 
+def rename_elements(xml, xpath, name)
+  xml.xpath(xpath).each do |e|
+    e.name = name
+  end
+end
+
 def themes_delete_sizes
   each_file('data/themes') do |path|
     parse_xml(path) do |xml|
       delete_elements(xml, '/theme/record/video_size')
       delete_elements(xml, '/theme/record/audio_size')
+      save_xml(path, xml)
+    end
+  end
+end
+
+def themes_rename_tags_to_descriptions
+  each_file('data/themes') do |path|
+    parse_xml(path) do |xml|
+      rename_elements(xml, '/theme/record/tags', 'description')
       save_xml(path, xml)
     end
   end
