@@ -19,10 +19,10 @@ module TeachingsHelpers
   end
 
   def theme_link(theme)
-      page = theme.page.strip
-      file = "data/themes/#{page}.xml"
-      href = File.exist?(file) ? "themes/#{page}" : ""
-      "<a href=\"#{href}\"> #{theme.title.strip} </a>"
+    page = theme.page.strip
+    file = "data/themes/#{page}.xml"
+    href = File.exist?(file) ? "themes/#{page}" : ""
+    "<a href=\"#{href}\"> #{theme.title.strip} </a>"
   end
 end
 
