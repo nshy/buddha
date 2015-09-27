@@ -39,12 +39,15 @@ module ThemeHelpers
     url = record.send("#{media}_url".to_sym)
     return nil if url.nil? or url.empty?
     title = { audio: 'аудио', video: 'видео' }[media]
+    r = DB[:media_size].where(url: url).first
+    size = (not r.nil?) ? r[:size] >> 20 : 0
     "<a href=#{url} class=\"btn btn-primary btn-xs record-download\""\
-      " download>#{title}</a>"
+      " download>#{title}, #{size} M6</a>"
   end
 end
 
 helpers TeachingsHelpers, ThemeHelpers
+DB = Sequel.connect('sqlite://buddha.db')
 
 get '/teachings' do
   File.open('data/teachings.xml') do |file|
