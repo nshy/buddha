@@ -2,6 +2,7 @@ require 'nokogiri'
 require_relative 'models'
 require 'sequel'
 require 'httpclient'
+require 'uri'
 
 def theme_file(name)
   "data/themes/#{name}.xml"
@@ -75,7 +76,7 @@ def check_url_size(url)
   r = DB[:media_size].where(url: url)
   return if r.count > 0
   puts "checking #{url}"
-  size = HClient.head(url).header['Content-Length'][0].to_i
+  size = HClient.head(URI.escape(url)).header['Content-Length'][0].to_i
   if size == 0
     puts 'FAILED'
     return
