@@ -1,5 +1,7 @@
 require 'nokogiri'
 require_relative 'models'
+require 'sequel'
+require 'httpclient'
 
 def theme_file(name)
   "data/themes/#{name}.xml"
@@ -65,6 +67,34 @@ def themes_rename_tags_to_descriptions
     parse_xml(path) do |xml|
       rename_elements(xml, '/theme/record/tags', 'description')
       save_xml(path, xml)
+    end
+  end
+end
+
+def check_url_size(url)
+  r = DB[:media_size].where(url: url)
+  return if r.count > 0
+  puts "checking #{url}"
+  size = HClient.head(url).header['Content-Length'][0].to_i
+  if size == 0
+    puts 'FAILED'
+    return
+  end
+  DB[:media_size].insert(url: url, size: size)
+end
+
+DB = Sequel.connect('sqlite://buddha.db')
+HClient = HTTPClient.new
+
+def calc_sizes
+  each_file('data/themes') do |path|
+    parse_xml(path) do |xml|
+      xml.xpath('/theme/record/audio_url').each do |e|
+        check_url_size(e.text)
+      end
+      xml.xpath('/theme/record/video_url').each do |e|
+        check_url_size(e.text)
+      end
     end
   end
 end
