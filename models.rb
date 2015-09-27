@@ -18,7 +18,7 @@ class ThemeDocument < XDSL::Element
     element :title
     element :year
     elements :record do
-      element :tags
+      element :description
       element :record_date
       element :audio_url
       element :video_url
