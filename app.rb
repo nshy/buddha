@@ -27,10 +27,6 @@ module TeachingsHelpers
 end
 
 module ThemeHelpers
-  def format_date(record)
-    Date.parse(record.record_date).strftime('%d/%m/%y')
-  end
-
   def youtube_link(record)
     "https://www.youtube.com/embed/#{record.youtube_id}"
   end
@@ -46,7 +42,21 @@ module ThemeHelpers
   end
 end
 
-helpers TeachingsHelpers, ThemeHelpers
+module CommonHelpers
+  def each_file(dir)
+    Dir.entries(dir).each do |p|
+      next if p == '.' or p == '..'
+      next if (/.un~$/ =~ p) != nil
+      yield dir + '/' +  p
+    end
+  end
+
+  def format_date(date)
+    Date.parse(date).strftime('%d/%m/%y')
+  end
+end
+
+helpers TeachingsHelpers, ThemeHelpers, CommonHelpers
 DB = Sequel.connect('sqlite://buddha.db')
 
 get '/teachings' do

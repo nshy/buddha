@@ -19,7 +19,7 @@
     </iframe>
     <div class="record-metadata clearfix-end">
       <div class="record-date secondary-data">
-        Записано: <%= format_date(record) %>
+        Записано: <%= format_date(record.record_date) %>
       </div>
       <%= download_link record, :audio %>
       <%= download_link record, :video %>
