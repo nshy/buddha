@@ -1,0 +1,28 @@
+<div class="row">
+<div class="col-lg-10">
+  <% @year_news.each do |year, news| %>
+    <h1> <%= year %> </h1>
+    <% news.each do |n| %>
+      <div class='news-item clearfix'>
+        <hr/>
+        <h1> <%= n.title %> </h1>
+        <div class='creation_time'>
+          <p> <strong> <%= format_date n.publish_date %> </strong> </p>
+        </div>
+        <%= render_news n.body %>
+      </div>
+    <% end %>
+  <% end %>
+</div>
+<div class="col-lg-1">
+  <% title = capture do %>
+    <h1> <%= current_year(@years) %> </h1>
+  <% end %>
+  <%= link_if(!@year.nil?, "/news", title) %>
+  <% @years.each do |year| %>
+    <% title = capture do %>
+      <h1> <%= year %> </h1>
+    <% end %>
+    <%= link_if(@year != year, "/news/#{year}", title) %>
+  <% end %>
+</div>

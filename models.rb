@@ -26,3 +26,12 @@ class ThemeDocument < XDSL::Element
     end
   end
 end
+
+class NewsDocument < XDSL::Element
+  element :news do
+    element :title
+    element :publish_date
+    element :buddha_node
+    element :body
+  end
+end
