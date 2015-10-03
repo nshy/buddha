@@ -28,7 +28,7 @@ module ElementClass
       end
     else
       define_method(name) do
-        @element.xpath("#{name.to_s}/text()")
+        @element.xpath("#{name.to_s}").map { |e| e.text }
       end
     end
   end
