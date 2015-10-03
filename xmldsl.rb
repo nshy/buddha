@@ -6,7 +6,9 @@ module ElementClass
       klass = Class.new(Element)
       klass.instance_eval(&block)
       define_method(name) do
-        klass.new(@element.at_xpath(name.to_s))
+        child = @element.at_xpath(name.to_s)
+        return nil if child.nil?
+        klass.new(child)
       end
     else
       define_method(name) do
