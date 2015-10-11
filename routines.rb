@@ -42,6 +42,7 @@ end
 
 def delete_elements(xml, xpath)
   xml.xpath(xpath).each do |e|
+    raise 'format error' if not e.previous.text? or not e.previous.text.strip.empty?
     e.previous.remove
     e.remove
   end
