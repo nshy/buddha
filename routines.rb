@@ -100,3 +100,14 @@ def calc_sizes
     end
   end
 end
+
+def check_themes_for_download_urls
+  each_file('data/themes') do |path|
+    theme = nil
+    File.open(path) do |file|
+      theme = ThemeDocument.new(Nokogiri::XML(file)).theme
+    end
+    bad = theme.record.detect { |r| r.audio_url.nil? and r.video_url.nil? }
+    puts path if not bad.nil?
+  end
+end
