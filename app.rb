@@ -5,6 +5,7 @@ require 'bundler'
 
 require_relative 'config'
 require_relative 'models'
+require_relative 'toc'
 
 Bundler.require(:default, Config::ENV)
 
@@ -107,8 +108,33 @@ module NewsHelpers
   end
 end
 
+module BookHelpers
+  def variable_row(name, value)
+    return if value.nil? or value.empty?
+    erb :'partials/variable_row', locals: { name: name, value: value }
+  end
+
+  def comma_present(values)
+    values.join(', ')
+  end
+
+  def parse_annotation(text)
+    return [] if text.nil?
+    text.split "\n\n"
+  end
+
+  def parse_toc(text)
+    TOC::Heading::parse(text.nil? ? '' : text)
+  end
+
+  def headings_div(heading)
+    return if heading.children.empty?
+    erb :'partials/headings', locals: { headings: heading.children }
+  end
+end
+
 helpers TeachingsHelpers, ThemeHelpers, CommonHelpers
-helpers NewsHelpers
+helpers NewsHelpers, BookHelpers
 DB = Sequel.connect('sqlite://buddha.db')
 
 get '/teachings' do
@@ -137,4 +163,17 @@ get '/news/?:year?' do |year|
     @year = year
   end
   erb :news
+end
+
+get '/book/:id' do |id|
+  File.open("data/books/#{id}/info.xml") do |file|
+    @book = BookDocument.new(Nokogiri::XML(file)).book
+  end
+  @book_slug = id
+  erb :book
+end
+
+get '/book/:id/:file.jpg' do |id, file|
+  puts 'hi'
+  send_file "data/books/#{id}/#{file}.jpg"
 end

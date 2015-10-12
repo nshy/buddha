@@ -1,0 +1,16 @@
+.book.prop-name {
+  font-weight: bold;
+}
+
+div.book.headings.header {
+  font-weight: bold;
+}
+
+div.book.heading {
+  padding-left: 1em;
+  text-indent: -2em;
+}
+
+div#next_page {
+  text-align: center
+}

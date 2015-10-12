@@ -35,3 +35,18 @@ class NewsDocument < XDSL::Element
     element :body
   end
 end
+
+class BookDocument < XDSL::Element
+  element :book do
+    element :title
+    elements :author
+    elements :translator
+    element :year
+    element :isbn
+    element :publisher
+    element :amount
+    element :annotation
+    element :contents
+    element :outer_id
+  end
+end

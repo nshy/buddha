@@ -1,0 +1,40 @@
+<div class="row">
+  <div class="col-lg-12">
+    <h1> <%= @book.title %> </h1>
+    <hr/>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-3">
+    <img src="<%= "#{@book_slug}/cover-medium.jpg" %>"/>
+  </div>
+  <div class="col-lg-9">
+    <table>
+      <tr><th/><th/></tr>
+    <%= variable_row 'Название', @book.title %>
+    <%= variable_row 'Автор', comma_present(@book.author) %>
+    <%= variable_row 'Переводчик', comma_present(@book.translator) %>
+    <%= variable_row 'Год', @book.year %>
+    <%= variable_row 'ISBN', @book.isbn %>
+    <%= variable_row 'Издательство', @book.publisher %>
+    <%= variable_row 'Количество', @book.amount %>
+    </table>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="book prop-name">Описание</div>
+      <% parse_annotation(@book.annotation).each do |paragraph| %>
+        <p><%= paragraph%></p>
+      <% end %>
+    </div>
+  </div>
+  <div class="col-lg-8 col-lg-offset-2">
+    <div class="book headings header">Cодержание</div>
+    <div class="book headings table">
+      <%= headings_div(parse_toc(@book.contents)) %>
+    <div>
+  </div>
+</div>
