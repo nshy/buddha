@@ -82,6 +82,15 @@ module NewsHelpers
     end
   end
 
+  def load_last_news(years)
+    news = []
+    years.each do |year|
+      news += load_news(year)
+      break if news.size > 10
+    end
+    news.take(10)
+  end
+
   def load_years
     years = []
     Dir.entries("data/news").each do |p|
@@ -90,12 +99,6 @@ module NewsHelpers
       years.push(p)
     end
     years.sort { |a, b| b <=> a }
-  end
-
-  def current_year(years)
-    cur = years[0]
-    prev = years[1]
-    "#{cur}/#{prev}"
   end
 
   def render_news(news)
@@ -153,15 +156,8 @@ end
 
 get '/news/?:year?' do |year|
   @years = load_years
-  @year_news = {}
-  if year.nil?
-    @year_news[@years[0]] = load_news(@years[0])
-    @year_news[@years[1]] = load_news(@years[1])
-    @year = nil
-  else
-    @year_news[year] = load_news(year)
-    @year = year
-  end
+  @news = year.nil? ? load_last_news(@years) : load_news(year)
+  @year = year
   erb :news
 end
 
