@@ -50,3 +50,14 @@ class BookDocument < XDSL::Element
     element :outer_id
   end
 end
+
+class BookCategoryDocument < XDSL::Element
+  element :category do
+    elements :parent
+    elements :child
+    elements :group do
+      element :name
+      elements :book
+    end
+  end
+end

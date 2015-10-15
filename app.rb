@@ -134,6 +134,17 @@ module BookHelpers
     return if heading.children.empty?
     erb :'partials/headings', locals: { headings: heading.children }
   end
+
+  def each_book
+    Dir.entries('data/books').each do |book|
+      next if not File.exist?("data/books/#{book}/info.xml")
+      yield book
+    end
+  end
+
+  def book_cover_url(id, size)
+    "/book/#{id}/cover-#{size}.jpg"
+  end
 end
 
 helpers TeachingsHelpers, ThemeHelpers, CommonHelpers
@@ -172,4 +183,19 @@ end
 get '/book/:id/:file.jpg' do |id, file|
   puts 'hi'
   send_file "data/books/#{id}/#{file}.jpg"
+end
+
+get '/book-category/:id' do |id|
+  File.open("data/book-category/#{id}.xml") do |file|
+    @category = BookCategoryDocument.new(Nokogiri::XML(file)).category
+  end
+  @books = {}
+  @category.group.each do |group|
+    group.book.each do |book|
+      File.open("data/books/#{book}/info.xml") do |file|
+        @books[book] = BookDocument.new(Nokogiri::XML(file)).book
+      end
+    end
+  end
+  erb :'book-category'
 end

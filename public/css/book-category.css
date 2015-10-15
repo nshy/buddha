@@ -1,0 +1,40 @@
+div.category div.book.title {
+  padding-top: 10px;
+  font-weight: bold;
+}
+
+div.category div.book.title > a {
+  color: black;
+}
+
+div.category div.book.title > a:hover {
+  color: blue;
+}
+
+div.category img.book.cover {
+  border-style: solid;
+  border-width: 1px;
+  border-color: black;
+  height: 300px;
+}
+
+div.category div.book.cell {
+  display: inline-block;
+  width: 250px;
+  vertical-align: top;
+  padding-right: 10px;
+  margin-top: 30px;
+}
+
+div.category div.menu {
+  display: inline-block;
+  float: right;
+  width: 250px;
+  vertical-align: top;
+}
+
+div.category div.menu::after {
+  content: " ";
+  clear: both;
+  display: block;
+}

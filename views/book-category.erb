@@ -1,0 +1,36 @@
+<div class="category">
+  <div class="menu">
+    <% @category.group.each do |group| %>
+      <div>
+        <a href="<%= "##{group.name}" %>">
+          <%= group.name %>
+        </a>
+      </div>
+    <% end %>
+  </div>
+  <div class="books">
+    <% @category.group.each do |group| %>
+      <h1 id="<%= group.name %>" > <%= group.name %> </h1>
+      <% group.book.each do |book_id| %>
+        <% book = @books[book_id] %>
+        <div class="book cell">
+          <a href="<%= "/book/#{book_id}" %>">
+            <img class="book cover"
+                 src="<%= book_cover_url(book_id, :medium) %>"/>
+          </a>
+          <div class="book title">
+            <a href="<%= "/book/#{book_id}" %>">
+              <%= @books[book_id].title %>
+            </a>
+          </div>
+          <% if not book.author.empty? %>
+            <div class="book author">
+              <%= book.author.join(', ') %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    <% end %>
+    </hr>
+  </div>
+</div>
