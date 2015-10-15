@@ -38,3 +38,8 @@ div.category div.menu::after {
   clear: both;
   display: block;
 }
+
+div.category h1.name {
+  text-align: center;
+  padding-bottom: 30px;
+}
