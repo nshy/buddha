@@ -39,7 +39,7 @@ div.category div.menu::after {
   display: block;
 }
 
-div.category h1.name {
+div.category div.header {
   text-align: center;
   padding-bottom: 30px;
 }

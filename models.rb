@@ -62,3 +62,12 @@ class BookCategoryDocument < XDSL::Element
     end
   end
 end
+
+class LibraryDocument < XDSL::Element
+  element :library do
+    elements :section do
+      element :name
+      elements :category
+    end
+  end
+end

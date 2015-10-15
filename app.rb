@@ -64,6 +64,10 @@ module CommonHelpers
     end
   end
 
+  def path_to_id(path)
+    File.basename(path).gsub(/.xml$/, '')
+  end
+
 end
 
 module NewsHelpers
@@ -198,4 +202,19 @@ get '/book-category/:id' do |id|
     end
   end
   erb :'book-category'
+end
+
+get '/library' do
+  @categories = {}
+  each_file('data/book-category') do |path|
+    File.open(path) do |file|
+      puts path_to_id(path)
+      @categories[path_to_id(path)] =
+        BookCategoryDocument.new(Nokogiri::XML(file)).category
+    end
+  end
+  File.open('data/library.xml') do |file|
+    @library = LibraryDocument.new(Nokogiri::XML(file)).library
+  end
+  erb :library
 end

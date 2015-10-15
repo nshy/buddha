@@ -8,10 +8,13 @@
       </div>
     <% end %>
   </div>
-  <h1 class="name"> <%= @category.name %> </h1>
+  <div class='header'>
+    <h1> <%= @category.name %> </h1>
+    <h2> <a href="/library"> &larr;В библиотеку </a> </h2>
+  </div>
   <div class="books">
     <% @category.group.each do |group| %>
-      <h1 id="<%= group.name %>" > <%= group.name %> </h1>
+      <h2 id="<%= group.name %>" > <%= group.name %> </h2>
       <% group.book.each do |book_id| %>
         <% book = @books[book_id] %>
         <div class="book cell">

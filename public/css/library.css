@@ -1,0 +1,10 @@
+div.library h1.title {
+  text-align: center;
+  bottom-margin: 30px;
+}
+
+div.library div.section {
+  display: inline-block;
+  width: 500px;
+  vertical-align: top;
+}
