@@ -16,10 +16,10 @@
     <% end %>
     <% if not @category.subcategory.empty? %>
       <h3> Подкатегории: </h3>
-      <% @category.subcategory.each do |category| %>
+      <% @category.subcategory.each do |id| %>
         <div>
-          <a href="<%= "/book-category/#{category}" %>">
-            <h4><%= @categories[category].name %></h4>
+          <a href="<%= "/book-category/#{id}" %>">
+            <h4><%= @categories[id].name %></h4>
           </a>
         </div>
       <% end %>
