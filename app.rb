@@ -208,7 +208,6 @@ get '/library' do
   @categories = {}
   each_file('data/book-category') do |path|
     File.open(path) do |file|
-      puts path_to_id(path)
       @categories[path_to_id(path)] =
         BookCategoryDocument.new(Nokogiri::XML(file)).category
     end
