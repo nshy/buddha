@@ -20,6 +20,14 @@
     <%= variable_row 'Издательство', @book.publisher %>
     <%= variable_row 'Количество', @book.amount %>
     </table>
+    <div>В категориях:</div>
+    <div>
+      <% book_categories(@categories, @book_slug).each do |id| %>
+          <a href="<%= "/book-category/#{id}" %>">
+            <%= @categories[id].name %>
+          </a>
+      <% end %>
+    </div>
   </div>
 </div>
 

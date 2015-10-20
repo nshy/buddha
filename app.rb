@@ -149,6 +149,15 @@ module BookHelpers
   def book_cover_url(id, size)
     "/book/#{id}/cover-#{size}.jpg"
   end
+
+  def book_categories(categories, id)
+    r = categories.select do |cid, c|
+      c.group.any? do |g|
+        g.book.include?(id)
+      end
+    end
+    r.keys
+  end
 end
 
 module CategoryHelpers
@@ -199,6 +208,7 @@ get '/book/:id' do |id|
     @book = BookDocument.new(Nokogiri::XML(file)).book
   end
   @book_slug = id
+  @categories = load_categories
   erb :book
 end
 
