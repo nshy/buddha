@@ -156,6 +156,17 @@ module CategoryHelpers
     r = categories.select { |cid, c| c.subcategory.include?(id) }
     r.keys
   end
+
+  def load_categories
+    categories = {}
+    each_file('data/book-category') do |path|
+      File.open(path) do |file|
+        categories[path_to_id(path)] =
+          BookCategoryDocument.new(Nokogiri::XML(file)).category
+      end
+    end
+    categories
+  end
 end
 
 helpers TeachingsHelpers, ThemeHelpers, CommonHelpers
@@ -208,25 +219,13 @@ get '/book-category/:id' do |id|
       end
     end
   end
-  @categories = {}
+  @categories = load_categories
   @id = id
-  each_file('data/book-category') do |path|
-    File.open(path) do |file|
-      @categories[path_to_id(path)] =
-        BookCategoryDocument.new(Nokogiri::XML(file)).category
-    end
-  end
   erb :'book-category'
 end
 
 get '/library' do
-  @categories = {}
-  each_file('data/book-category') do |path|
-    File.open(path) do |file|
-      @categories[path_to_id(path)] =
-        BookCategoryDocument.new(Nokogiri::XML(file)).category
-    end
-  end
+  @categories = load_categories
   File.open('data/library.xml') do |file|
     @library = LibraryDocument.new(Nokogiri::XML(file)).library
   end
