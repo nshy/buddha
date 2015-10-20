@@ -54,6 +54,8 @@ end
 class BookCategoryDocument < XDSL::Element
   element :category do
     element :name
+    elements :category
+    elements :subcategory
     elements :parent
     elements :child
     elements :group do

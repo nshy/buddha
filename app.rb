@@ -151,8 +151,15 @@ module BookHelpers
   end
 end
 
+module CategoryHelpers
+  def category_categories(categories, id)
+    r = categories.select { |cid, c| c.subcategory.include?(id) }
+    r.keys
+  end
+end
+
 helpers TeachingsHelpers, ThemeHelpers, CommonHelpers
-helpers NewsHelpers, BookHelpers
+helpers NewsHelpers, BookHelpers, CategoryHelpers
 DB = Sequel.connect('sqlite://buddha.db')
 
 get '/teachings' do
@@ -199,6 +206,14 @@ get '/book-category/:id' do |id|
       File.open("data/books/#{book}/info.xml") do |file|
         @books[book] = BookDocument.new(Nokogiri::XML(file)).book
       end
+    end
+  end
+  @categories = {}
+  @id = id
+  each_file('data/book-category') do |path|
+    File.open(path) do |file|
+      @categories[path_to_id(path)] =
+        BookCategoryDocument.new(Nokogiri::XML(file)).category
     end
   end
   erb :'book-category'

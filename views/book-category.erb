@@ -4,6 +4,26 @@
     <h3> <a href="/library"> &larr; В библиотеку </a> </h3>
   </div>
   <div class="menu">
+    <% if not category_categories(@categories, @id).empty? %>
+      <h3> В категориях: </h3>
+      <% category_categories(@categories, @id).each do |id| %>
+        <div>
+          <a href="<%= "/book-category/#{id}" %>">
+            <h4><%= @categories[id].name %></h4>
+          </a>
+        </div>
+      <% end %>
+    <% end %>
+    <% if not @category.subcategory.empty? %>
+      <h3> Подкатегории: </h3>
+      <% @category.subcategory.each do |category| %>
+        <div>
+          <a href="<%= "/book-category/#{category}" %>">
+            <h4><%= @categories[category].name %></h4>
+          </a>
+        </div>
+      <% end %>
+    <% end %>
     <h3> На странице: </h3>
     <% @category.group.each do |group| %>
       <div>
