@@ -1,10 +1,15 @@
-div.library h1.title {
+div.library div.title {
   text-align: center;
-  bottom-margin: 30px;
+  margin-bottom: 50px;
 }
 
 div.library div.section {
   display: inline-block;
-  width: 500px;
   vertical-align: top;
+  text-align: left;
+  margin: 0px 50px;
+}
+
+div.library {
+  text-align: center;
 }

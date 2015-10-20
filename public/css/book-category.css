@@ -41,5 +41,13 @@ div.category div.menu::after {
 
 div.category div.header {
   text-align: center;
-  padding-bottom: 30px;
+  padding-bottom: 50px;
+}
+
+div.category div.header h1 {
+  margin-bottom: 0px;
+}
+
+div.category div.header h3 {
+  margin-top: 5px;
 }

@@ -1,16 +1,17 @@
 <div class="category">
+  <div class='header'>
+    <h1> <%= @category.name %> </h1>
+    <h3> <a href="/library"> &larr; В библиотеку </a> </h3>
+  </div>
   <div class="menu">
+    <h3> На странице: </h3>
     <% @category.group.each do |group| %>
       <div>
         <a href="<%= "##{group.name}" %>">
-          <%= group.name %>
+          <h4><%= group.name %></h4>
         </a>
       </div>
     <% end %>
-  </div>
-  <div class='header'>
-    <h1> <%= @category.name %> </h1>
-    <h2> <a href="/library"> &larr;В библиотеку </a> </h2>
   </div>
   <div class="books">
     <% @category.group.each do |group| %>

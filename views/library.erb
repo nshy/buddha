@@ -1,13 +1,14 @@
 <div class="library">
-  <h1 class="title"> Библиотека </h1>
+  <div class="title">
+    <h1> Библиотека </h1>
+  </div>
   <% @library.section.each do |section| %>
     <div class="section">
-      <h2 class="section"> <%= section.name %> </h2>
+      <h2> <%= section.name %> </h2>
         <% section.category.each do |category| %>
-          <div class="category">
+          <div>
             <a href="<%= "/book-category/#{category}" %>">
-              <% puts category %>
-              <%= @categories[category].name %>
+              <h3> <%= @categories[category].name %> </h3>
             </a>
           </div>
         <% end %>
