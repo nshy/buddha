@@ -21,7 +21,9 @@ class ThemeDocument < XDSL::Element
       element :description
       element :record_date
       element :audio_url
+      element :audio_size
       element :video_url
+      element :video_size
       element :youtube_id
     end
   end

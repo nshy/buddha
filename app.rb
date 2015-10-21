@@ -37,8 +37,8 @@ module ThemeHelpers
     url = record.send("#{media}_url".to_sym)
     return nil if url.nil? or url.empty?
     title = { audio: 'аудио', video: 'видео' }[media]
-    r = DB[:media_size].where(url: url).first
-    size = (not r.nil?) ? r[:size] >> 20 : 0
+    size = { audio: record.audio_size, video: record.video_size }[media]
+    size = 0 if size.nil?
     "<a href=#{url} class=\"btn btn-primary btn-xs record-download\""\
       " download>#{title}, #{size} M6</a>"
   end
