@@ -10,6 +10,7 @@ require_relative 'toc'
 Bundler.require(:default, Config::ENV)
 
 require 'tilt/erubis'
+require 'set'
 
 module TeachingsHelpers
 
@@ -175,6 +176,26 @@ module CategoryHelpers
       end
     end
     categories
+  end
+
+  def count_category(categories, cid, subcategories = nil, books = nil)
+    books = Set.new if books.nil?
+    subcategories = Set.new if subcategories.nil?
+    categories[cid].group.each do |g|
+      g.book.each do |bid|
+        books.add(bid)
+      end
+    end
+    categories[cid].subcategory.each do |sid|
+      next if subcategories.include?(sid)
+      count_category(categories, sid, subcategories, books)
+    end
+    books.size
+  end
+
+  def category_link(categories, category)
+    locals = { categories: categories, category: category }
+    erb :'partials/category_link', locals: locals
   end
 end
 

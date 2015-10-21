@@ -7,21 +7,13 @@
     <% if not category_categories(@categories, @id).empty? %>
       <h3> В категориях: </h3>
       <% category_categories(@categories, @id).each do |id| %>
-        <div>
-          <a href="<%= "/book-category/#{id}" %>">
-            <h4><%= @categories[id].name %></h4>
-          </a>
-        </div>
+          <div> <h4> <%= category_link(@categories, id) %> </h4> </div>
       <% end %>
     <% end %>
     <% if not @category.subcategory.empty? %>
       <h3> Подкатегории: </h3>
       <% @category.subcategory.each do |id| %>
-        <div>
-          <a href="<%= "/book-category/#{id}" %>">
-            <h4><%= @categories[id].name %></h4>
-          </a>
-        </div>
+        <div> <h4> <%= category_link(@categories, id) %> </h4> </div>
       <% end %>
     <% end %>
     <h3> На странице: </h3>
