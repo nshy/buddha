@@ -5,7 +5,6 @@ gem 'sinatra'
 gem 'nokogiri'
 gem 'erubis'
 gem 'sqlite3'
-gem 'sequel'
 gem 'asciidoctor'
 gem 'sinatra-contrib', require: 'sinatra/capture'
 

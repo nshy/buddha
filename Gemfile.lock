@@ -13,7 +13,6 @@ GEM
       rack
     rack-test (0.6.3)
       rack (>= 1.0)
-    sequel (4.26.0)
     sinatra (1.4.6)
       rack (~> 1.4)
       rack-protection (~> 1.4)
@@ -35,7 +34,6 @@ DEPENDENCIES
   asciidoctor
   erubis
   nokogiri
-  sequel
   sinatra
   sinatra-contrib
   sqlite3

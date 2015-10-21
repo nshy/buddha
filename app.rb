@@ -201,7 +201,6 @@ end
 
 helpers TeachingsHelpers, ThemeHelpers, CommonHelpers
 helpers NewsHelpers, BookHelpers, CategoryHelpers
-DB = Sequel.connect('sqlite://buddha.db')
 
 get '/teachings' do
   File.open('data/teachings.xml') do |file|
