@@ -1,15 +1,16 @@
 <div class="book">
+
 <div>
     <h1> <%= @book.title %> </h1>
 </div>
 <hr/>
+
 <div class="row">
   <div class="cover">
     <img src="<%= "#{@book_slug}/cover-medium.jpg" %>"/>
   </div>
   <div class="info">
-    <table>
-      <tr><th/><th/></tr>
+    <div class="table">
     <%= variable_row 'Название', @book.title %>
     <%= variable_row 'Автор', comma_present(@book.author) %>
     <%= variable_row 'Переводчик', comma_present(@book.translator) %>
@@ -17,29 +18,27 @@
     <%= variable_row 'ISBN', @book.isbn %>
     <%= variable_row 'Издательство', @book.publisher %>
     <%= variable_row 'Количество', @book.amount %>
-    </table>
-    <div>В категориях:</div>
-    <div>
-      <% book_categories(@categories, @book_slug).each do |id| %>
-        <%= category_link(@categories, id) %>
-      <% end %>
     </div>
+  </div>
+  <div class="categories">
+    <h3>В категориях:</h3>
+    <% book_categories(@categories, @book_slug).each do |id| %>
+      <div> <%= category_link(@categories, id) %> </div>
+    <% end %>
   </div>
 </div>
 
 <div class="row">
+  <div> <h3> Описание </h3> </div>
   <div>
-    <div> <h3> Описание </h3> </div>
-      <% parse_annotation(@book.annotation).each do |paragraph| %>
-        <p><%= paragraph%></p>
-      <% end %>
-    </div>
+    <% parse_annotation(@book.annotation).each do |paragraph| %>
+      <p><%= paragraph%></p>
+    <% end %>
   </div>
+  <div> <h3> Cодержание </h3> </div>
+  <div class="headings">
+    <%= headings_div(parse_toc(@book.contents)) %>
   <div>
-    <div> <h3> Cодержание </h3> </div>
-    <div class="book headings table">
-      <%= headings_div(parse_toc(@book.contents)) %>
-    <div>
-  </div>
 </div>
+
 </div>
