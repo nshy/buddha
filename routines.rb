@@ -50,3 +50,17 @@ def check_themes_for_download_urls
     puts path if not bad.nil?
   end
 end
+
+def check_themes_for_undefined_sizes
+  each_file('data/themes') do |path|
+    theme = nil
+    File.open(path) do |file|
+      theme = ThemeDocument.new(Nokogiri::XML(file)).theme
+    end
+    bad = theme.record.detect do |r|
+      (not r.audio_url.nil? and r.audio_size.nil?) or
+      (not r.video_url.nil? and r.video_size.nil?)
+    end
+    puts path if not bad.nil?
+  end
+end
