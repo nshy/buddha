@@ -1,15 +1,13 @@
-<div class="row">
-  <div class="col-lg-12">
+<div class="book">
+<div>
     <h1> <%= @book.title %> </h1>
-    <hr/>
-  </div>
 </div>
-
+<hr/>
 <div class="row">
-  <div class="col-lg-3">
+  <div class="cover">
     <img src="<%= "#{@book_slug}/cover-medium.jpg" %>"/>
   </div>
-  <div class="col-lg-9">
+  <div class="info">
     <table>
       <tr><th/><th/></tr>
     <%= variable_row 'Название', @book.title %>
@@ -23,26 +21,25 @@
     <div>В категориях:</div>
     <div>
       <% book_categories(@categories, @book_slug).each do |id| %>
-          <a href="<%= "/book-category/#{id}" %>">
-            <%= @categories[id].name %>
-          </a>
+        <%= category_link(@categories, id) %>
       <% end %>
     </div>
   </div>
 </div>
 
 <div class="row">
-  <div class="col-lg-12">
-    <div class="book prop-name">Описание</div>
+  <div>
+    <div> <h3> Описание </h3> </div>
       <% parse_annotation(@book.annotation).each do |paragraph| %>
         <p><%= paragraph%></p>
       <% end %>
     </div>
   </div>
-  <div class="col-lg-8 col-lg-offset-2">
-    <div class="book headings header">Cодержание</div>
+  <div>
+    <div> <h3> Cодержание </h3> </div>
     <div class="book headings table">
       <%= headings_div(parse_toc(@book.contents)) %>
     <div>
   </div>
+</div>
 </div>

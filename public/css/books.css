@@ -2,15 +2,18 @@
   font-weight: bold;
 }
 
-div.book.headings.header {
-  font-weight: bold;
-}
-
 div.book.heading {
   padding-left: 1em;
   text-indent: -2em;
 }
 
-div#next_page {
-  text-align: center
+div.book div.cover {
+  display: inline-block;
+  vertical-align: top;
+  margin: 0px 30px;
+}
+
+div.book div.info {
+  display: inline-block;
+  vertical-align: top;
 }
