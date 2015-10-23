@@ -2,12 +2,11 @@ require_relative 'xmldsl'
 
 class ArchiveDocument < XDSL::Element
   element :archive do
-    elements :teachings do
-      element :title
+    elements :year do
       element :year
-      elements :theme do
+      elements :teachings do
         element :title
-        element :page
+        elements :theme
       end
     end
   end

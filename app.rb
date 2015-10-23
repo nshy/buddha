@@ -12,23 +12,18 @@ Bundler.require(:default, Config::ENV)
 require 'tilt/erubis'
 require 'set'
 
-module TeachingsHelpers
-
-  def archive_group_by_year(archive)
-    archive.teachings.group_by do |teachings|
-      teachings.year.strip
-    end
-  end
-
-  def theme_link(theme)
-    page = theme.page.strip
-    file = "data/themes/#{page}.xml"
-    href = File.exist?(file) ? "theme/#{page}" : ""
-    "<a href=\"#{href}\"> #{theme.title.strip} </a>"
-  end
-end
-
 module ThemeHelpers
+  def load_themes
+    themes = {}
+    each_file('data/themes') do |path|
+      File.open(path) do |file|
+        themes[path_to_id(path)] =
+          ThemeDocument.new(Nokogiri::XML(file)).theme
+      end
+    end
+    themes
+  end
+
   def youtube_link(record)
     "https://www.youtube.com/embed/#{record.youtube_id}"
   end
@@ -199,13 +194,14 @@ module CategoryHelpers
   end
 end
 
-helpers TeachingsHelpers, ThemeHelpers, CommonHelpers
+helpers ThemeHelpers, CommonHelpers
 helpers NewsHelpers, BookHelpers, CategoryHelpers
 
 get '/teachings' do
   File.open('data/teachings.xml') do |file|
     @archive = ArchiveDocument.new(Nokogiri::XML(file)).archive
   end
+  @themes = load_themes
   erb :teachings
 end
 
