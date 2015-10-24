@@ -40,6 +40,20 @@ def rename_elements(xml, xpath, name)
   end
 end
 
+def reinsert_elements(xml, parent, child)
+  e = xml.create_element child.name
+  parent.add_child(e)
+
+  if child.children.size > 1
+    child.children.each do |c|
+      next if c.text?
+      reinsert_elements(xml, e, c)
+    end
+  elsif child.children.size == 1 and child.children.first.text?
+    e.content = child.children.first.text
+  end
+end
+
 def check_themes_for_download_urls
   each_file('data/themes') do |path|
     theme = nil
