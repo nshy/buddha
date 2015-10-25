@@ -1,43 +1,21 @@
-div.teachings div.header {
-  margin-bottom: 60px;
-  text-align: center;
-}
+div.teachings {
+  div.header {
+    margin-bottom: 60px;
+    text-align: center;
 
-div.teachings div.header h1 {
-  margin-bottom: 0px;
-}
+    h1 { margin-bottom: 0px; }
+    h3 { margin-top: 5px; }
+  }
 
-div.teachings div.header h3 {
-  margin-top: 5px;
-}
+  div.record {
+    padding: 2px 40px;
 
-div.teachings div.record {
-  padding: 2px 40px;
-}
+    .index, .description, .date, .audio, .video { display: inline-block; }
 
-div.teachings div.record div.index {
-  display: inline-block;
-  width: 30px;
-}
+    div.index { width: 30px; }
+    div.description { width: 500px; }
+    div.date { width: 100px; }
 
-div.teachings div.record div.description {
-  display: inline-block;
-  width: 500px;
-}
-
-div.teachings div.record div.date {
-  display: inline-block;
-  width: 100px;
-}
-
-div.teachings div.record div.audio {
-  display: inline-block;
-}
-
-div.teachings div.record div.video {
-  display: inline-block;
-}
-
-div.teachings div.record a.button {
-  width: 150px;
+    a.button { width: 150px; }
+  }
 }
