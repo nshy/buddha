@@ -1,15 +1,18 @@
-<h1 class="teaching-header"> Учения переданные в центре </h1>
-<% @archive.year.each do |year| %>
-  <h1> <%= year.year %> </h1>
-  <% year.teachings.each do |teachings| %>
-    <h2 class="teaching-title"> <%= teachings.title %> </h2>
-    <% teachings.theme.each do |id| %>
-      <p class="teaching-link">
-        <a href="<%= "theme/#{id}" %>">
-          <%= "#{@themes[id].title}" %>
-        </a>
-      </p>
+<div class="teachings">
+  <div class="header">
+    <h1> <%= "#{@teachings.title}, #{@teachings.year}г" %> </h1>
+    <h3> <a href="/archive">&larr; Все учения</a> </h3>
+  </div>
+  <% @teachings.theme.each do |theme| %>
+    <h2> <%= theme.title %> </h2>
+    <% theme.record.each_with_index do |record, idx| %>
+      <div class="record">
+        <div class="index"> <%= idx + 1 %> </div>
+        <div class="description"> <%= record_description(record, idx + 1) %> </div>
+        <div class="date"> <%= record.record_date %> </div>
+        <div class="audio"> <%= download_link record, :audio %> </div>
+        <div class="video"> <%= download_link record, :video %> </div>
+      </div>
     <% end %>
   <% end %>
-  <hr/>
-<% end %>
+</div>

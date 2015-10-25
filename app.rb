@@ -12,16 +12,16 @@ Bundler.require(:default, Config::ENV)
 require 'tilt/erubis'
 require 'set'
 
-module ThemeHelpers
-  def load_themes
-    themes = {}
-    each_file('data/themes') do |path|
+module TeachingsHelper
+  def load_teachings
+    teachings = {}
+    each_file('data/teachings') do |path|
       File.open(path) do |file|
-        themes[path_to_id(path)] =
-          ThemeDocument.new(Nokogiri::XML(file)).theme
+        teachings[path_to_id(path)] =
+          TeachingsDocument.new(Nokogiri::XML(file)).teachings
       end
     end
-    themes
+    teachings
   end
 
   def youtube_link(record)
@@ -34,9 +34,16 @@ module ThemeHelpers
     title = { audio: 'аудио', video: 'видео' }[media]
     size = { audio: record.audio_size, video: record.video_size }[media]
     size = 0 if size.nil?
-    "<a href=#{url} class=\"btn btn-primary btn-xs record-download\""\
+    "<a href=#{url} class=\"btn btn-primary btn-xs button\""\
       " download>#{title}, #{size} M6</a>"
   end
+
+  def record_description(record, index)
+    d = record.description
+    return d if not d.nil?
+    "Лекция №#{index}"
+  end
+
 end
 
 module CommonHelpers
@@ -194,22 +201,23 @@ module CategoryHelpers
   end
 end
 
-helpers ThemeHelpers, CommonHelpers
+helpers TeachingsHelper, CommonHelpers
 helpers NewsHelpers, BookHelpers, CategoryHelpers
 
-get '/teachings' do
-  File.open('data/teachings.xml') do |file|
+get '/archive' do
+  File.open("data/archive.xml") do |file|
     @archive = ArchiveDocument.new(Nokogiri::XML(file)).archive
   end
-  @themes = load_themes
-  erb :teachings
+  @teachings = load_teachings
+  erb :'archive'
 end
 
-get '/theme/:id' do |id|
-  File.open("data/themes/#{id}.xml") do |file|
-    @theme = ThemeDocument.new(Nokogiri::XML(file)).theme
+get '/teachings/:id' do |id|
+  File.open("data/teachings/#{id}.xml") do |file|
+    @teachings = TeachingsDocument.new(Nokogiri::XML(file)).teachings
   end
-  erb :theme
+  @teachings_slug = id
+  erb :teachings
 end
 
 get '/news/?:year?' do |year|

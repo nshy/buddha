@@ -1,12 +1,43 @@
-.teaching-title {
-  margin-left: 150px;
-}
-
-.teaching-link {
-  margin-left: 200px;
-}
-
-.teaching-header {
-  margin-bottom: 100px;
+div.teachings div.header {
+  margin-bottom: 60px;
   text-align: center;
+}
+
+div.teachings div.header h1 {
+  margin-bottom: 0px;
+}
+
+div.teachings div.header h3 {
+  margin-top: 5px;
+}
+
+div.teachings div.record {
+  padding: 2px 40px;
+}
+
+div.teachings div.record div.index {
+  display: inline-block;
+  width: 30px;
+}
+
+div.teachings div.record div.description {
+  display: inline-block;
+  width: 500px;
+}
+
+div.teachings div.record div.date {
+  display: inline-block;
+  width: 100px;
+}
+
+div.teachings div.record div.audio {
+  display: inline-block;
+}
+
+div.teachings div.record div.video {
+  display: inline-block;
+}
+
+div.teachings div.record a.button {
+  width: 150px;
 }
