@@ -1,3 +1,10 @@
+<div class="modals">
+  <% @teachings.theme.each do |theme| %>
+    <% theme.record.each_with_index do |record, idx| %>
+      <%= erb :'partials/youtube_modal', locals: { record: record, idx: idx } %>
+    <% end %>
+  <% end %>
+</div>
 <div class="teachings">
   <div class="header">
     <h1> <%= "#{@teachings.title}, #{@teachings.year}г" %> </h1>
@@ -8,7 +15,12 @@
     <% theme.record.each_with_index do |record, idx| %>
       <div class="record">
         <div class="index"> <%= idx + 1 %> </div>
-        <div class="description"> <%= record_description(record, idx + 1) %> </div>
+        <div class="description">
+          <a href="#" data-toggle="modal"
+             data-target="#youtube-modal-<%= idx + 1 %>">
+            <%= record_description(record, idx + 1) %>
+          </a>
+        </div>
         <div class="date"> <%= record.record_date %> </div>
         <div class="audio"> <%= download_link record, :audio %> </div>
         <div class="video"> <%= download_link record, :video %> </div>

@@ -24,10 +24,6 @@ module TeachingsHelper
     teachings
   end
 
-  def youtube_link(record)
-    "https://www.youtube.com/embed/#{record.youtube_id}"
-  end
-
   def download_link(record, media)
     url = record.send("#{media}_url".to_sym)
     return nil if url.nil? or url.empty?
