@@ -15,7 +15,9 @@ div.teachings {
     div.index { width: 30px; }
     div.description { width: 500px; }
     div.date { width: 100px; }
+    div.audio { width: 150px; }
+    div.video { width: 150px; }
 
-    a.button { width: 150px; }
+    a.button { width: 100%; }
   }
 }
