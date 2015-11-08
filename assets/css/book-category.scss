@@ -1,53 +1,45 @@
-div.category div.book.title {
-  padding-top: 10px;
-  font-weight: bold;
-}
+div.category {
+  div.book {
+    div.title {
+      padding-top: 10px;
+      font-weight: bold;
+    }
 
-div.category div.book.title > a {
-  color: black;
-}
+    div.title > a { color: black; }
+    div.title > a:hover { color: blue; }
 
-div.category div.book.title > a:hover {
-  color: blue;
-}
+    img.cover {
+      border-style: solid;
+      border-width: 1px;
+      border-color: black;
+      height: 300px;
+    }
 
-div.category img.book.cover {
-  border-style: solid;
-  border-width: 1px;
-  border-color: black;
-  height: 300px;
-}
+    display: inline-block;
+    width: 250px;
+    vertical-align: top;
+    padding-right: 10px;
+    margin-top: 30px;
+  }
 
-div.category div.book.cell {
-  display: inline-block;
-  width: 250px;
-  vertical-align: top;
-  padding-right: 10px;
-  margin-top: 30px;
-}
+  div.menu {
+    display: inline-block;
+    float: right;
+    width: 250px;
+    vertical-align: top;
+  }
 
-div.category div.menu {
-  display: inline-block;
-  float: right;
-  width: 250px;
-  vertical-align: top;
-}
+  div.menu::after {
+    content: " ";
+    clear: both;
+    display: block;
+  }
 
-div.category div.menu::after {
-  content: " ";
-  clear: both;
-  display: block;
-}
+  div.header {
+    text-align: center;
+    padding-bottom: 50px;
 
-div.category div.header {
-  text-align: center;
-  padding-bottom: 50px;
-}
-
-div.category div.header h1 {
-  margin-bottom: 0px;
-}
-
-div.category div.header h3 {
-  margin-top: 5px;
+    h1 { margin-bottom: 0px; }
+    h3 { margin-top: 5px; }
+  }
 }

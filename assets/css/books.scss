@@ -1,50 +1,46 @@
-div.book div.headings {
-  padding-left: 2em;
-}
+div.book {
+  div.headings { padding-left: 2em; }
 
-div.book div.heading {
-  padding-left: 1em;
-  text-indent: -2em;
-}
+  div.heading {
+    padding-left: 1em;
+    text-indent: -2em;
+  }
 
-div.book div.cover {
-  display: inline-block;
-  vertical-align: top;
-  margin-right: 30px;
-}
+  div.cover {
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 30px;
+  }
 
-div.book div.info {
-  display: inline-block;
-  width: 600px;
-  vertical-align: top;
-}
+  div.info {
+    display: inline-block;
+    width: 600px;
+    vertical-align: top;
 
-div.book div.info div.table {
-  display: table;
-  padding: 0px 0px;
-}
+    div.table {
+      display: table;
+      padding: 0px 0px;
 
-div.book div.info div.table div.row {
-  display: table-row;
-}
+      div.row { display: table-row; }
 
-div.book div.info div.table div.cell {
-  display: table-cell;
-  padding-top: 2px;
-}
+      div.cell {
+        display: table-cell;
+        padding-top: 2px;
+      }
 
-div.book div.info div.table div.name {
-  font-weight: bold;
-  padding-right: 20px;
-  text-align: right;
-  width: 100px;
-}
+      div.name {
+        font-weight: bold;
+        padding-right: 20px;
+        text-align: right;
+        width: 100px;
+      }
+    }
+  }
 
-div.book div.categories {
-  display: inline-block;
-  margin-left: 20px;
-}
+  div.categories {
+    display: inline-block;
+    margin-left: 20px;
 
-div.book div.categories h3 {
-  margin-top: 0px;
+    h3 { margin-top: 0px; }
+  }
 }
