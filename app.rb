@@ -82,6 +82,9 @@ module NewsHelpers
   def load_news()
     news = []
     each_file_sorted("data/news") do |path|
+      if File.directory?(path)
+        path = "#{path}/body.xml"
+      end
       File.open(path) do |file|
         news << { slug: File.basename(file),
                   news: NewsDocument.new(Nokogiri::XML(file)).news }
