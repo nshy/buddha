@@ -51,6 +51,14 @@ module CommonHelpers
     end
   end
 
+  def each_file_sorted(dir)
+    entries = Dir.entries(dir).reject do |p|
+      p == '.' or p == '..' or (/.un~$/ =~ p) != nil
+    end
+    entries.sort_by! { |p| p }
+    entries.each { |p| yield dir + '/' +  p }
+  end
+
   def format_date(date)
     Date.parse(date).strftime('%d/%m/%y')
   end
@@ -70,38 +78,36 @@ module CommonHelpers
 end
 
 module NewsHelpers
-  def load_news(year)
+
+  def load_news()
     news = []
-    dir = "data/news/#{year}"
-    each_file(dir) do |path|
+    each_file_sorted("data/news") do |path|
       File.open(path) do |file|
-        news.push(NewsDocument.new(Nokogiri::XML(file)).news)
+        news << { slug: File.basename(file),
+                  news: NewsDocument.new(Nokogiri::XML(file)).news }
       end
     end
     news.sort do |a, b|
-      da = Date.parse(a.publish_date)
-      db = Date.parse(b.publish_date)
-      db <=> da
+      Date.parse(b[:news].publish_date) <=> Date.parse(a[:news].publish_date)
     end
   end
 
-  def load_last_news(years)
-    news = []
-    years.each do |year|
-      news += load_news(year)
-      break if news.size > 10
-    end
-    news.take(10)
+  def news_years(news)
+    years = news.collect { |news| Date.parse(news[:news].publish_date).year }.uniq
   end
 
-  def load_years
-    years = []
-    Dir.entries("data/news").each do |p|
-      next if p == '.' or p == '..'
-      next if (/.un~$/ =~ p) != nil
-      years.push(p)
+  def news_query_each(news, year)
+    result = nil
+    if year.nil?
+      result = news.first(10)
+    else
+      result = news.select do |n|
+        Date.parse(n[:news].publish_date).year == year
+      end
     end
-    years.sort { |a, b| b <=> a }
+    result.each do |n|
+      yield n[:slug], n[:news]
+    end
   end
 
   def render_news(news)
@@ -217,9 +223,8 @@ get '/teachings/:id' do |id|
 end
 
 get '/news/?:year?' do |year|
-  @years = load_years
-  @news = year.nil? ? load_last_news(@years) : load_news(year)
-  @year = year
+  @news = load_news
+  @year = year.nil? ? nil : year.to_i
   erb :news
 end
 
