@@ -269,3 +269,12 @@ get '/library' do
   end
   erb :library
 end
+
+get '/news/:news_id/:file' do |news_id, file|
+  path = "data/news/#{news_id}/#{file}"
+  if /.*\.(doc)/.match(file).nil?
+    send_file(path)
+  else
+    attachment(path)
+  end
+end
