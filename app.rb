@@ -53,7 +53,7 @@ module CommonHelpers
 
   def each_file_sorted(dir)
     entries = Dir.entries(dir).reject do |p|
-      p == '.' or p == '..' or (/.un~$/ =~ p) != nil
+      p == '.' or p == '..' or (/.un~$/ =~ p) != nil or not /^\./.match(p).nil?
     end
     entries.sort_by! { |p| p }
     entries.each { |p| yield dir + '/' +  p }
@@ -111,11 +111,11 @@ module NewsHelpers
     end
   end
 
-  def render_news(news)
+  def render_news(news, slug)
     attr = {
       'icons' => 'true',
       'iconsdir' => '/icons',
-      'imagesdir' => '/.'
+      'imagesdir' => "/news/#{slug}"
     }
     Asciidoctor.render(news, attributes: attr)
   end

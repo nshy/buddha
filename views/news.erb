@@ -8,7 +8,7 @@
           <div class='creation_time'>
             <p> <strong> <%= format_date n.publish_date %> </strong> </p>
           </div>
-          <%= render_news n.body %>
+          <%= render_news(n.body, slug) %>
         </div>
       <% end %>
     </div>
