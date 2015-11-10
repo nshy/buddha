@@ -1,7 +1,7 @@
 <div class="news">
   <div class="row">
     <div class="col-lg-10">
-      <% news_query_each(@news, @year) do |slug, n| %>
+      <% news_query_each(@news, @params) do |slug, n| %>
         <div class='news-item clearfix'>
           <hr/>
           <h1> <%= n.title %> </h1>
@@ -16,12 +16,12 @@
       <% title = capture do %>
         <h1> Последние </h1>
       <% end %>
-      <%= link_if(!@year.nil?, "/news", title) %>
+      <%= link_if(@params['top'].nil?, "/news?top=true", title) %>
       <% news_years(@news).each do |year| %>
         <% title = capture do %>
           <h1> <%= year %> </h1>
         <% end %>
-        <%= link_if(@year != year, "/news/#{year}", title) %>
+        <%= link_if(@params['year'] != year.to_s, "/news?year=#{year}", title) %>
       <% end %>
     </div>
   </div>

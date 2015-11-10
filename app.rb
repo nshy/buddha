@@ -97,13 +97,13 @@ module NewsHelpers
     years = news.collect { |news| Date.parse(news[:news].publish_date).year }.uniq
   end
 
-  def news_query_each(news, year)
+  def news_query_each(news, params)
     result = nil
-    if year.nil?
+    if params['top'] == 'true'
       result = news.first(10)
     else
       result = news.select do |n|
-        Date.parse(n[:news].publish_date).year == year
+        Date.parse(n[:news].publish_date).year == params['year'].to_i
       end
     end
     result.each do |n|
@@ -118,6 +118,11 @@ module NewsHelpers
       'imagesdir' => "/news/#{slug}"
     }
     Asciidoctor.render(news, attributes: attr)
+  end
+
+  def news_is_year(params)
+    puts params
+    not params['year'].nil?
   end
 end
 
@@ -223,9 +228,9 @@ get '/teachings/:id' do |id|
   erb :teachings
 end
 
-get '/news/?:year?' do |year|
+get '/news' do
+  @params = params
   @news = load_news
-  @year = year.nil? ? nil : year.to_i
   erb :news
 end
 
