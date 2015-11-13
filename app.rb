@@ -124,7 +124,6 @@ module NewsHelpers
   end
 
   def news_is_year(params)
-    puts params
     not params['year'].nil?
   end
 end
@@ -255,7 +254,6 @@ get '/book/:id' do |id|
 end
 
 get '/book/:id/:file.jpg' do |id, file|
-  puts 'hi'
   send_file "data/books/#{id}/#{file}.jpg"
 end
 
