@@ -1,28 +1,9 @@
-<div class="news">
+<div class="news-page">
   <div class="row">
-    <div class="col-lg-10">
-      <% news_query_each(@news, @params) do |slug, n| %>
-        <div class='news-item clearfix'>
-          <hr/>
-          <h1> <%= n.title %> </h1>
-          <div class='creation_time'>
-            <p> <strong> <%= format_date n.publish_date %> </strong> </p>
-          </div>
-          <%= render_news(n.body, slug) %>
-        </div>
-      <% end %>
-    </div>
-    <div class="col-lg-1">
-      <% title = capture do %>
-        <h1> Последние </h1>
-      <% end %>
-      <%= link_if(@params['top'].nil?, "/news?top=true", title) %>
-      <% news_years(@news).each do |year| %>
-        <% title = capture do %>
-          <h1> <%= year %> </h1>
-        <% end %>
-        <%= link_if(@params['year'] != year.to_s, "/news?year=#{year}", title) %>
-      <% end %>
+    <div class="col-lg-12">
+      <%= erb :'partials/news', locals: { slug: @slug,
+                                          news: @news,
+                                          index: false } %>
     </div>
   </div>
 </div>

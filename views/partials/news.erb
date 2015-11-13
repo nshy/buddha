@@ -1,0 +1,11 @@
+<div class='news clearfix'>
+  <% if (index) %>
+    <a href="<%= "/news/#{slug}" %>"> <h1> <%= news.title %> </h1> </a>
+  <% else %>
+    <h1> <%= news.title %> </h1>
+  <% end %>
+  <div class='creation_time'>
+    <p> <strong> <%= format_date news.publish_date %> </strong> </p>
+  </div>
+  <%= render_news(news.body, slug) %>
+</div>
