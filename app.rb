@@ -126,6 +126,10 @@ module NewsHelpers
   def news_is_year(params)
     not params['year'].nil?
   end
+
+  def news_year(news)
+    Date.parse(news.publish_date).year
+  end
 end
 
 module BookHelpers

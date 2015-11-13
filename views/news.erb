@@ -1,6 +1,11 @@
 <div class="news-page">
   <div class="row">
     <div class="col-lg-12">
+      <div class="header">
+      <a href="/news?year=<%= news_year(@news) %>">
+        <h1> &larr; Другие новости <%= news_year(@news) %> года </h1>
+      </a>
+      </div>
       <%= erb :'partials/news', locals: { slug: @slug,
                                           news: @news,
                                           index: false } %>
