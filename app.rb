@@ -294,3 +294,7 @@ get '/news/:news_id/:file' do |news_id, file|
     attachment(path)
   end
 end
+
+get '/' do
+  erb :index
+end
