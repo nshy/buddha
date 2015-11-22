@@ -1,0 +1,66 @@
+div.timetable {
+  div.header {
+    text-align: center;
+    margin-bottom: 50px;
+  }
+
+  div.navigation {
+    text-align: center;
+  }
+
+  .calendar-line {
+    display: inline-block;
+    margin: 2px;
+    padding: 3px;
+  }
+
+  div.day {
+    margin-top: 10px;
+
+    .name {
+      margin-top: 0px;
+      margin-bottom: 10px;
+    }
+
+    .event-name {
+      @extend .calendar-line;
+      width: 300px;
+    }
+
+    div.event-time {
+      width: 300px;
+      display: inline-block;
+
+      .time, .cancel {
+        @extend .calendar-line;
+        border-radius: 0.25em;
+      }
+      .time.conflict { background-color: #66ff66; }
+      .cancel { background-color: #ffff80; }
+    }
+  }
+
+  div.plan {
+    .title, .dates {
+      margin: 0px;
+      padding: 0px;
+    }
+
+    .dates {
+      margin-bottom: 10px;
+      .date-value {
+        background-color: #66ff66;
+        border-radius: 0.25em;
+        padding: 2px;
+      }
+    }
+
+    .day, .time {
+      @extend .calendar-line;
+    }
+
+    .day {
+      width: 300px;
+    }
+  }
+}

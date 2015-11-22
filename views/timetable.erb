@@ -1,0 +1,43 @@
+<div class="timetable">
+  <div class="header"> <h1> Расписание на неделю </h1> </div>
+  <div class="navigation">
+    <div>
+      <h2>
+        <a href="timetable?offset=<%= @offset - 1 %>">&larr;</a>
+        <%= print_week_symbolic(@offset) %>
+        <a href="timetable?offset=<%= @offset + 1 %>">&rarr;</a>
+      </h2>
+    </div>
+    <div>
+      <h3> <%= print_week_days(@offset) %> </h3>
+    </div>
+  </div>
+  <% (0..6).each do |day| %>
+    <div class="row day">
+      <div class="col-lg-3">
+        <h2 class="name"> <%= day_names(day) %> </h2>
+      </div>
+      <div class="col-lg-9">
+        <% @events[day].each do |event| %>
+            <h3 class="event-name"> <%= "#{event[:title]}" %> </h3>
+            <div class="event-time">
+              <h3 class="time <%= event[:conflict] ? "conflict" : "normal"%>">
+                <%= "#{event_interval(event)}" %>
+              </h3>
+              <% if event[:cancel] %>
+                <h3 class="cancel"> Отмена </h3>
+              <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+  <div class="header"> <h1> Текущие занятия </h1> </div>
+  <%= erb :'partials/classes', locals:
+    { classes: @classes.select { |c| actual_classes(c) }  }
+  %>
+  <div class="header"> <h1> Будущие занятия </h1> </div>
+  <%= erb :'partials/classes', locals:
+    { classes: @classes.select { |c| future_classes(c) }  }
+  %>
+</div>

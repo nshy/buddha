@@ -74,3 +74,26 @@ class LibraryDocument < XDSL::Element
     end
   end
 end
+
+class TimetableDocument < XDSL::Element
+  element :timetable do
+    elements :event do
+      element :title
+      element :date
+      element :begin
+      element :end
+      element :cancel
+    end
+    elements :classes do
+      element :title
+      elements :timetable do
+        element :day
+        element :begin
+        element :end
+      end
+      element :begin
+      element :end
+      elements :cancel
+    end
+  end
+end

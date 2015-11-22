@@ -6,6 +6,7 @@ require 'bundler'
 require_relative 'config'
 require_relative 'models'
 require_relative 'toc'
+require_relative 'timetable'
 
 Bundler.require(:default, Config::ENV)
 
@@ -60,7 +61,7 @@ module CommonHelpers
   end
 
   def format_date(date)
-    Date.parse(date).strftime('%d/%m/%y')
+    date.strftime('%d/%m/%y')
   end
 
   def link_if(show, link, title)
@@ -215,8 +216,87 @@ module CategoryHelpers
   end
 end
 
+module TimetableHelper
+  def day_names(day)
+    [
+      'Понедельник',
+      'Вторник',
+      'Среда',
+      'Четверг',
+      'Пятница',
+      'Суббота',
+      'Воскресенье'
+    ][day]
+  end
+
+  def translate_day(day)
+    eng = Date.parse(day).cwday
+    ru = (eng - 1) % 7
+    day_names(ru)
+  end
+
+  def event_interval(event)
+    time_interval(event[:begin], event[:end])
+  end
+
+  def time_interval(b, e)
+     "#{b.strftime('%H:%M')}-#{e.strftime('%H:%M')}"
+  end
+
+  def print_week_days(offset)
+      b, e = week_borders(offset)
+      "#{format_date(b)} - #{format_date(e)}"
+  end
+
+  def print_week_symbolic(offset)
+    if offset < -1
+      "Далекое прошлое"
+    elsif offset > 1
+      "Далекое будущее"
+    else
+      [
+        "Предыдущая неделя",
+        "Текущая неделя",
+        "Cледующая неделя"
+      ][offset + 1]
+    end
+  end
+
+  def week_borders(offset)
+    today = Date.today
+    [ week_begin(today) + 7 * offset,
+      week_end(today) + 7 * offset ]
+  end
+
+  def past_classes(classes)
+    return false if classes.end.nil?
+    Date.parse(classes.end) < week_begin(Date.today)
+  end
+
+  def future_classes(classes)
+    return false if classes.begin.nil?
+    Date.parse(classes.begin) > week_end(Date.today)
+  end
+
+  def actual_classes(classes)
+    not (past_classes(classes) or future_classes(classes))
+  end
+
+  def classes_dates(classes)
+    b = e = ""
+    if not classes.begin.nil?
+      b = "с #{format_date(Date.parse(classes.begin))}"
+    end
+    if not classes.end.nil?
+      e = " по #{format_date(Date.parse(classes.end))}"
+    end
+    b + e
+  end
+end
+
 helpers TeachingsHelper, CommonHelpers
 helpers NewsHelpers, BookHelpers, CategoryHelpers
+helpers TimetableHelper
 
 get '/archive' do
   File.open("data/archive.xml") do |file|
@@ -293,6 +373,20 @@ get '/news/:news_id/:file' do |news_id, file|
   else
     attachment(path)
   end
+end
+
+get '/timetable' do
+  @offset = params[:offset].to_i
+  week_begin, week_end = week_borders(@offset)
+  timetable = nil
+  File.open('data/timetable.xml') do |file|
+    timetable = TimetableDocument.new(Nokogiri::XML(file)).timetable
+  end
+  events = timetable_events(timetable, week_begin, week_end)
+  mark_event_conflicts(events)
+  @events = events_week_partition(events)
+  @classes = timetable.classes
+  erb :timetable
 end
 
 get '/' do
