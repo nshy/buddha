@@ -1,0 +1,16 @@
+#!/bin/bash
+
+set -e
+
+file=$1
+tmp=`mktemp`
+
+if [ -z "$file" ]; then
+  echo "Usage md5sum-id3-strip <mp3-file>"
+fi
+
+cp "$file" "$tmp" >/dev/null
+id3v2 -D "$tmp" >/dev/null
+
+md5sum -b "$tmp" | cut -f1 -d ' '
+rm $tmp

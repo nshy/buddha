@@ -25,8 +25,9 @@ def scan_dir(dir = '')
         puts "-#{file_path}"
         next
       end
-      sum = `md5sum -b "#{file_path}"`.split(' ')[0]
       puts "+#{file_path}"
+      sum = `./md5sum-id3-strip "#{file_path}"`
+      exit if not $?.success?
       File.open(hash_path, "w") do |file|
         file.write(sum)
       end
