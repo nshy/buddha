@@ -9,25 +9,28 @@ but modified version that strip all id3 metadata before digesting.
 
 =end
 
-if ARGV.size < 2
-  puts "Usage ./digest.rb <files dir> <hashes_dir>"
+def usage
+end
+
+if ARGV.size < 3 or ["md5", "chromaprint"].index(ARGV[0]).nil?
+  puts "Usage #{$0} <mode> <files dir> <hashes_dir>"
+  puts "  where mode is md5 or chromaprint"
   exit 1
 end
 
-FILES_DIR = ARGV[0]
-HASHES_DIR = ARGV[1]
-
-def scan_dir(dir = '')
-  Dir.entries(File.join(FILES_DIR, dir)).each do |entry|
+def process_dir(files_dir, hashes_dir, dir = '', &block)
+  Dir.entries(File.join(files_dir, dir)).each do |entry|
     next if entry == '.' or entry == '..'
     local_path = File.join(dir, entry)
-    file_path = File.join(FILES_DIR, local_path)
-    hash_path = File.join(HASHES_DIR, local_path)
+    file_path = File.join(files_dir, local_path)
+    hash_path = File.join(hashes_dir, local_path)
     if File.directory?(file_path) 
       if not File.exist?(hash_path)
         Dir.mkdir(hash_path) 
       end
-      scan_dir(local_path)
+      process_dir(files_dir, hashes_dir, local_path) do |path|
+        block.call(path)
+      end
     else
       next if /\.mp3$/.match(entry).nil?
       if File.exist?(hash_path)
@@ -35,8 +38,8 @@ def scan_dir(dir = '')
         next
       end
       puts "+#{file_path}"
-      sum = `./md5sum-id3-strip "#{file_path}"`
-      exit if not $?.success?
+      sum = block.call(file_path)
+      exit(1) if not $?.success?
       File.open(hash_path, "w") do |file|
         file.write(sum)
       end
@@ -44,4 +47,11 @@ def scan_dir(dir = '')
   end
 end
 
-scan_dir()
+mode = ARGV[0]
+process_dir(ARGV[1], ARGV[2]) do |path|
+  if mode == 'md5'
+    `./md5sum-id3-strip "#{path}"`
+  else
+    `fpcalc -raw "#{path}"`
+  end
+end
