@@ -9,12 +9,14 @@ but modified version that strip all id3 metadata before digesting.
 
 =end
 
-def usage
+def is_good_mode(mode)
+  ["md5", "meta", "chromaprint"].index(mode).nil?
 end
 
-if ARGV.size < 3 or ["md5", "chromaprint"].index(ARGV[0]).nil?
+
+if ARGV.size < 3 or is_good_mode(ARGV[0])
   puts "Usage #{$0} <mode> <files dir> <hashes_dir>"
-  puts "  where mode is md5 or chromaprint"
+  puts "  where mode is md5 | chromaprint | meta"
   exit 1
 end
 
@@ -51,7 +53,10 @@ mode = ARGV[0]
 process_dir(ARGV[1], ARGV[2]) do |path|
   if mode == 'md5'
     `./md5sum-id3-strip "#{path}"`
-  else
+  elsif mode == 'chromaprint'
     `fpcalc -raw "#{path}"`
+  else
+    duration = `mp3info -p '%S\n' "#{path}"`
+    "duration: #{duration}"
   end
 end
