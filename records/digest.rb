@@ -1,5 +1,14 @@
 #!/bin/ruby
 
+=begin
+
+Calc recursively md5sum digest in <files dir>. Result is placed in <hashes_dir>
+and directory structure of <files dir> is saved. Digest is placed in the file
+with the same name as original file. Digesting program is not original md5sum
+but modified version that strip all id3 metadata before digesting.
+
+=end
+
 if ARGV.size < 2
   puts "Usage ./digest.rb <files dir> <hashes_dir>"
   exit 1
