@@ -17,7 +17,7 @@ end
 
 hashes_dir = ARGV[0]
 
-files = scan_dir(hashes_dir)
+files = scan_dir_hash(hashes_dir)
 paths = files.collect { |file| file[:path] }
 
 paths.each do |path|

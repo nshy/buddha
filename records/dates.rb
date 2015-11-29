@@ -19,7 +19,7 @@ end
 hashes_dir_a = ARGV[0]
 hashes_dir_b = ARGV[1]
 
-files = scan_dir(hashes_dir_a) + scan_dir(hashes_dir_b)
+files = scan_dir_hash(hashes_dir_a) + scan_dir_hash(hashes_dir_b)
 grouped_paths = group_paths(files)
 dups = grouped_paths.select { |paths| paths.size > 1 }
 

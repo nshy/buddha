@@ -17,7 +17,7 @@ end
 
 hashes_dir = ARGV[0]
 
-grouped_paths = group_paths(scan_dir(hashes_dir))
+grouped_paths = group_paths(scan_dir_hash(hashes_dir))
 dups = grouped_paths.select { |paths| paths.size > 1 }
 
 dups.each do |paths|
