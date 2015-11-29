@@ -23,14 +23,21 @@ def group_paths(files)
   grouped_paths
 end
 
+def print_index(match)
+end
+
+def format_index(year, month, day, number)
+  y = year.to_i
+  y = y + 2000 if y < 20
+  y = y + 1900 if y > 90 and y < 100
+  return "#{y}-#{month}-#{day}-N#{number.to_i}"
+end
+
 def parse_index(path)
   name = File.basename(path)
   m = /(\d{4})[_-](\d{2})[_-](\d{2})[_-]N(\d{1,2})/.match(name)
-  return "#{m[1]}-#{m[2]}-#{m[3]}-N#{m[4]}" if not m.nil?
+  return format_index(m[1], m[2], m[3], m[4]) if not m.nil?
   m = /(\d{1,2}).*\((\d{1,2})\.(\d{1,2})\.(\d{1,4})\).*/.match(name)
-  if not m.nil?
-    num = m[1].to_i
-    return "#{m[4]}-#{m[3]}-#{m[2]}-N#{num}"
-  end
+  return format_index(m[4], m[3], m[2], m[1]) if not m.nil?
   nil
 end
