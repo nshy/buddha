@@ -41,6 +41,10 @@ def chroma_compare(info1, info2)
   c2 = get_cromaprint(info2[:chroma])
   sec2 = record_len(info2[:meta])
 
+  if sec1 < 120 or sec2 < 120
+    return { min: Float::INFINITY,  diff: 0 }
+  end
+
   if (sec1 > sec2)
     diff = sec1 - sec2
     outer = c1
