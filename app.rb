@@ -4,14 +4,19 @@ require 'rubygems'
 require 'bundler'
 
 require_relative 'config'
-require_relative 'models'
-require_relative 'toc'
-require_relative 'timetable'
-
 Bundler.require(:default, Config::ENV)
 
 require 'tilt/erubis'
 require 'set'
+
+require_relative 'models'
+require_relative 'toc'
+require_relative 'timetable'
+require_relative 'mail'
+
+DB = Sequel.connect('sqlite://site.db')
+
+set :show_exceptions, false
 
 module TeachingsHelper
   def load_teachings
@@ -391,4 +396,36 @@ end
 
 get '/' do
   erb :index
+end
+
+error Subscription::Exception do
+  @message = env['sinatra.error']
+  erb :message
+end
+
+post '/subscribe' do
+  Subscription::subscribe(params[:email])
+  @message = 'Вам отправлено письмо со ссылкой для активации подписки.'
+  erb :message
+end
+
+get '/activate' do
+  @subscription = Subscription::activate(params[:key])
+  @message = <<-END
+    Подписка успешна активирована.
+    Уточните параметры подписки, если желаете.
+  END
+  erb :subscription
+end
+
+get '/check' do
+  @subscription = Subscription::check(params[:key])
+  @message = 'Параметры подписки'
+  erb :subscription
+end
+
+post '/manage' do
+  @subscription = Subscription::manage(params)
+  @message = 'Параметры подписки изменены'
+  erb :subscription
 end

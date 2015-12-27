@@ -1,0 +1,35 @@
+<div class="subscription">
+  <div class='header'>
+    <h3> <a href="/"> &larr; На главную страницу </a> </h3>
+  </div>
+  <div class="message">
+    <h4> <%= @message %> </h4>
+  </div>
+  <form class="optins" action="manage" method="post">
+    <div class="elements">
+      <label>
+        <input type="checkbox" name="on_news"
+          <%= "checked" if @subscription[:on_news] %>
+        >
+        Новости цента
+      </label>
+      <label>
+        <input type="checkbox" name="on_books"
+          <%= "checked" if @subscription[:on_books] %>
+        >
+        Новости библиотеки
+      </label>
+      <label>
+        <input type="checkbox" name="on_timetable"
+          <%= "checked" if @subscription[:on_timetable] %>
+        >
+        Изменения в расписании
+      </label>
+      <input type="hidden" name="key"
+        value="<%= @subscription[:key]%>">
+    </div>
+    <div class="button">
+      <button type="submit" class="btn btn-default">Сохранить</button>
+    </div>
+  </form>
+</div>

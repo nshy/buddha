@@ -1,0 +1,16 @@
+div.subscription {
+  text-align: center;
+
+  div.header {
+    padding-top: 100px;
+    text-align: center;
+  }
+  form {
+    padding-top: 20px;
+    div.elements {
+      display: inline-block;
+      text-align: left;
+      label { display: block; }
+    }
+  }
+}

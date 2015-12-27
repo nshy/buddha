@@ -6,4 +6,13 @@ div.main {
     text-align: left;
     display: inline-block;
   }
+
+  form.subscription {
+    padding-top: 50px;
+    display: inline-block;
+    input {
+      width: 300px;
+      display: inline;
+    }
+  }
 }
