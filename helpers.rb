@@ -31,15 +31,16 @@ end
 module CommonHelpers
   def each_file(dir)
     Dir.entries(dir).each do |p|
-      next if p == '.' or p == '..'
-      next if (/.un~$/ =~ p) != nil
+      # skip any dot files
+      next if not /^\./.match(p).nil?
       yield dir + '/' +  p
     end
   end
 
   def each_file_sorted(dir)
     entries = Dir.entries(dir).reject do |p|
-      p == '.' or p == '..' or (/.un~$/ =~ p) != nil or not /^\./.match(p).nil?
+      # skip any dot files
+      not /^\./.match(p).nil?
     end
     entries.sort_by! { |p| p }
     entries.each { |p| yield dir + '/' +  p }
