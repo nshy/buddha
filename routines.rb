@@ -1,6 +1,9 @@
 require 'nokogiri'
 require_relative 'models'
+require_relative 'helpers'
 require 'uri'
+
+include CommonHelpers
 
 def theme_file(name)
   "data/themes/#{name}.xml"
@@ -15,14 +18,6 @@ end
 def save_xml(path, xml)
   File.open(path, "w") do |file|
     file << xml.to_xml(:encoding => 'utf-8')
-  end
-end
-
-def each_file(dir)
-  Dir.entries(dir).each do |p|
-    next if p == '.' or p == '..'
-    next if (/.un~$/ =~ p) != nil
-    yield dir + '/' +  p
   end
 end
 
