@@ -97,3 +97,10 @@ class TimetableDocument < XDSL::Element
     end
   end
 end
+
+class TimeUpdateDocument < XDSL::Element
+  element :update do
+    element :publish_date
+    element :message
+  end
+end

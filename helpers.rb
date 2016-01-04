@@ -279,3 +279,9 @@ module TimetableHelper
     b + e
   end
 end
+
+module TimeUpdateHelpers
+  def render_changes(message)
+    Asciidoctor.render(message)
+  end
+end

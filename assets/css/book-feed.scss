@@ -1,0 +1,18 @@
+div.book-feed {
+  table {
+    td {
+      vertical-align: top;
+    }
+    td.text {
+      padding-left: 10px;
+      .title {
+        font-weight: bold;
+        font-size: 20px;
+      }
+      .author {
+        font-weight: bold;
+        font-size: 18px;
+      }
+    }
+  }
+}

@@ -40,6 +40,19 @@ def Subscription.mailgun_api(address)
     "https://#{Config::MAILGUN_AUTH_PRIV}@api.mailgun.net/v3/" + address
 end
 
+def Subscription.send_html(email, subject, html)
+  r = RestClient.post(Subscription::mailgun_api("#{DOMAIN}/messages"),
+    {
+      from: "#{DOMAIN} <system@#{DOMAIN}>",
+      to: email,
+      subject: subject,
+      html: html
+    }
+  )
+
+  raise StandardError if r.code != 200
+end
+
 def Subscription.send_activation(email, key)
 
   r = RestClient.post(mailgun_api("#{DOMAIN}/messages"),

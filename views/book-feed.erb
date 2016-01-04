@@ -1,0 +1,28 @@
+<div class='book-feed'>
+  <table align="center" width="800px">
+    <tbody>
+      <% books.each do |slug, book| %>
+        <tr>
+          <td class="image">
+            <a href="/book/<%= slug %>">
+              <img src="/book/<%= slug %>/cover-mail.jpg" width="120px">
+            </a>
+          </td>
+          <td class="text">
+            <div class="title">
+              <a href="/book/<%= slug %>">
+                <%= book.title %>
+              </a>
+            </div>
+            <div class="author"> <%= comma_present(book.author) %> </div>
+            <div>
+              <% parse_annotation(book.annotation).each do |paragraph| %>
+                <p><%= paragraph%></p>
+              <% end %>
+            </div>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

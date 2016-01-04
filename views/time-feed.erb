@@ -1,0 +1,20 @@
+<div class='news-feed'>
+  <table align="center" width="800px">
+    <tbody>
+      <% changes.each do |slug, change| %>
+        <tr>
+          <td>
+          <div class='time-changes clearfix'>
+            <div class='creation_time'>
+              <strong>
+                <%= format_date(Date.parse(change.publish_date)) %>
+              </strong>
+            </div>
+            <%= render_changes(change.message) %>
+          </div>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
