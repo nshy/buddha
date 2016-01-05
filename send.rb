@@ -85,8 +85,10 @@ premailer = Premailer.new(html,
   css: [ "public/css/#{options[:css]}", "public/css/email.css" ]
 )
 
-File.open("dump/feed/#{options[:dir]}.html", 'w') do |file|
-  file.write premailer.to_inline_css
+if Dir.exist?('dump/feed')
+  File.open("dump/feed/#{options[:dir]}.html", 'w') do |file|
+    file.write premailer.to_inline_css
+  end
 end
 
 send = options[:send]
