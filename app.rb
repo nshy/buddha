@@ -129,7 +129,7 @@ post '/subscribe' do
   erb :message
 end
 
-get '/activate' do
+get '/subscription/activate' do
   @subscription = Subscription::activate(params[:key])
   @message = <<-END
     Подписка успешна активирована.
@@ -138,13 +138,13 @@ get '/activate' do
   erb :subscription
 end
 
-get '/check' do
+get '/subscription/manage' do
   @subscription = Subscription::check(params[:key])
   @message = 'Параметры подписки'
   erb :subscription
 end
 
-post '/manage' do
+post '/subscription/update' do
   @subscription = Subscription::manage(params)
   @message = 'Параметры подписки изменены'
   erb :subscription

@@ -60,7 +60,10 @@ def Subscription.send_activation(email, key)
       from: "#{DOMAIN} <system@#{DOMAIN}>",
       to: email,
       subject: "Активизируйте свою подписку на сайт buddha.ru",
-      text: "Для активации перейдите по ссылке http://#{DOMAIN}/activate?key=#{key}"
+      text: <<-END
+Для активации перейдите по ссылке
+ http://#{DOMAIN}/subscription/activate?key=#{key}
+      END
     }
   )
 
