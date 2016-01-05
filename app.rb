@@ -149,3 +149,9 @@ post '/manage' do
   @message = 'Параметры подписки изменены'
   erb :subscription
 end
+
+get '/unsubscribe' do
+  Subscription::unsubscribe(params[:key])
+  @message = 'Ваша подписка полностью прекращена.'
+  erb :message
+end

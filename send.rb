@@ -82,7 +82,7 @@ premailer = Premailer.new(html,
   warn_level: Premailer::Warnings::SAFE,
   base_url: "http://#{Config::DOMAIN}",
   with_html_string: true,
-  css: [ "public/css/#{options[:css]}" ]
+  css: [ "public/css/#{options[:css]}", "public/css/email.css" ]
 )
 
 File.open("dump/feed/#{options[:dir]}.html", 'w') do |file|

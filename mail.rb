@@ -77,11 +77,12 @@ def Subscription.subscribe(email)
   DB[:subscriptions].insert(email: email, key: key)
 end
 
-def Subscription.subscribe_list(list, email)
+def Subscription.subscribe_list(list, subscription)
   r = RestClient.post(mailgun_api("lists/#{list}@#{DOMAIN}/members"),
     {
       subscribed: true,
-      address: email
+      address: subscription[:email],
+      vars: JSON.dump({ 'key' => subscription[:key] })
     }
   )
   raise StandardError if r.code != 200
@@ -91,9 +92,9 @@ def Subscription.already_exist(e)
   not /already exists/.match(JSON.parse(e.response)['message']).nil?
 end
 
-def Subscription.subscribe_list_safe(list, email)
+def Subscription.subscribe_list_safe(list, subscription)
   begin
-    subscribe_list(list, email)
+    subscribe_list(list, subscription)
   rescue RestClient::BadRequest => e
     raise e if not already_exist(e)
   end
@@ -123,10 +124,9 @@ end
 def Subscription.activate(key)
   sub = DB[:subscriptions][key: key]
   raise Exception.new(Messages::INVALID_KEY) if sub.nil?
-  email = sub[:email]
-  subscribe_list_safe('news', email)
-  subscribe_list_safe('library', email)
-  subscribe_list_safe('timetable', email)
+  subscribe_list_safe('news', sub)
+  subscribe_list_safe('library', sub)
+  subscribe_list_safe('timetable', sub)
   {
     key: key,
     on_news: true,
@@ -147,27 +147,36 @@ def Subscription.check(key)
   }
 end
 
-def Subscription.sync_subscription(list, email, state)
+def Subscription.sync_subscription(list, subscription, state)
   if (state)
-    subscribe_list_safe(list, email)
+    subscribe_list_safe(list, subscription)
   else
-    unsubscribe_list_safe(list, email)
+    unsubscribe_list_safe(list, subscription[:email])
   end
 end
 
 def Subscription.manage(params)
   sub = DB[:subscriptions][key: params['key']]
   raise Exception.new(Messages::INVALID_KEY) if sub.nil?
-  email = sub[:email]
-  sync_subscription('news', email, params['on_news'])
-  sync_subscription('library', email, params['on_books'])
-  sync_subscription('timetable', email, params['on_timetable'])
+  sync_subscription('news', sub, params['on_news'])
+  sync_subscription('library', sub, params['on_books'])
+  sync_subscription('timetable', sub, params['on_timetable'])
   {
     key: params['key'],
     on_news: params['on_news'],
     on_books: params['on_books'],
     on_timetable: params['on_timetable']
   }
+end
+
+def Subscription.unsubscribe(key)
+  sub = DB[:subscriptions][key: key]
+  raise Exception.new(Messages::INVALID_KEY) if sub.nil?
+  email = sub[:email]
+  unsubscribe_list_safe('news', email)
+  unsubscribe_list_safe('library', email)
+  unsubscribe_list_safe('timetable', email)
+  DB[:subscriptions].where(key: key).delete
 end
 
 end
