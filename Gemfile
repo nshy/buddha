@@ -8,6 +8,7 @@ gem 'sqlite3'
 gem 'asciidoctor'
 gem 'sequel'
 gem 'rest-client'
+gem 'preamble'
 gem 'sinatra-contrib', require: 'sinatra/capture'
 
 group :development do

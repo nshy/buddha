@@ -1,16 +1,6 @@
 div.news {
   div.creation_time p { color: #999999; }
 
-  .imageblock.left .content {
-    float: left;
-    margin-right: 8px;
-  }
-
-  .imageblock.right .content {
-    float: right;
-    margin-left: 8px;
-  }
-
   .clearfix::before {
     content: " "; /* Older browser do not support empty content */
     clear: both;

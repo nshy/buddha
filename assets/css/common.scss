@@ -1,0 +1,13 @@
+.imageblock .content {
+  margin-bottom: 16px;
+}
+
+.imageblock.left .content {
+  float: left;
+  margin-right: 16px;
+}
+
+.imageblock.right .content {
+  float: right;
+  margin-left: 16px;
+}

@@ -62,6 +62,15 @@ module CommonHelpers
     File.basename(path).gsub(/.xml$/, '')
   end
 
+  def render_adoc(adoc, imagesdir)
+    attr = {
+      'icons' => 'true',
+      'iconsdir' => '/icons',
+      'imagesdir' => imagesdir
+    }
+    Asciidoctor.render(adoc, attributes: attr)
+  end
+
 end
 
 module NewsHelpers
@@ -102,12 +111,7 @@ module NewsHelpers
   end
 
   def render_news(news, slug)
-    attr = {
-      'icons' => 'true',
-      'iconsdir' => '/icons',
-      'imagesdir' => "/news/#{slug}"
-    }
-    Asciidoctor.render(news, attributes: attr)
+    render_adoc(news, "/news/#{slug}")
   end
 
   def news_is_year(params)

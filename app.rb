@@ -125,6 +125,18 @@ get '/teachers/:file.jpg' do |file|
   send_file "data/teachers/#{file}.jpg"
 end
 
+get '/teacher/:id' do |id|
+  @id = id
+  file = Preamble.load("data/teacher/#{id}/page.adoc")
+  @doc = file.content
+  @metadata = file.metadata
+  erb :teacher
+end
+
+get '/teacher/:id/:file.jpg' do |id, file|
+  send_file "data/teacher/#{id}/#{file}.jpg"
+end
+
 get '/' do
   erb :index
 end
