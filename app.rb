@@ -114,6 +114,17 @@ get '/timetable' do
   erb :timetable
 end
 
+get '/teachers' do
+  File.open('data/teachers/page.xml') do |file|
+    @teachers = TeachersDocument.new(Nokogiri::XML(file)).teachers
+  end
+  erb :teachers
+end
+
+get '/teachers/:file.jpg' do |file|
+  send_file "data/teachers/#{file}.jpg"
+end
+
 get '/' do
   erb :index
 end

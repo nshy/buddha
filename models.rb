@@ -104,3 +104,12 @@ class TimeUpdateDocument < XDSL::Element
     element :message
   end
 end
+
+class TeachersDocument < XDSL::Element
+  element :teachers do
+    elements :teacher do
+      element :name
+      element :page
+    end
+  end
+end
