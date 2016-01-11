@@ -3,4 +3,15 @@ div.teachers {
     text-align: center;
     margin-bottom: 50px;
   }
+  .line {
+    display: table;
+    .line-row {
+      display: table-row;
+      .cell {
+        display: table-cell;
+        padding-left: 15px;
+        padding-right: 15px;
+      }
+    }
+  }
 }

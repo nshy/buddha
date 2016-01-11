@@ -3,22 +3,24 @@
     <h1> Учителя </h1>
   </div>
   </hr>
-  <div class="row">
-    <% @teachers.teacher.each do |teacher|%>
-      <div class="col-lg-4">
-        <a href="teacher/<%= teacher.page %>">
-          <img src="teachers/<%= teacher.page %>.jpg"/>
-        </a>
-      </div>
-    <% end %>
-  </div>
-  <div class="row">
-    <% @teachers.teacher.each do |teacher|%>
-      <div class="col-lg-4">
-        <a href="teacher/<%= teacher.page %>">
-          <h3><%= teacher.name %></h3>
-        </a>
-      </div>
-    <% end %>
+  <div class="line">
+    <div class="line-row">
+      <% @teachers.teacher.each do |teacher|%>
+        <div class="cell">
+          <a href="teacher/<%= teacher.page %>">
+            <img src="teachers/<%= teacher.page %>.jpg"/>
+          </a>
+        </div>
+      <% end %>
+    </div>
+    <div class="line-row">
+      <% @teachers.teacher.each do |teacher|%>
+        <div class="cell">
+          <a href="teacher/<%= teacher.page %>">
+            <h3><%= teacher.name %></h3>
+          </a>
+        </div>
+      <% end %>
+    </div>
   </div>
 </div>
