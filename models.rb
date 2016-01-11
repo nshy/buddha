@@ -110,6 +110,7 @@ class TeachersDocument < XDSL::Element
     elements :teacher do
       element :name
       element :page
+      element :image
     end
   end
 end

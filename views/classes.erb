@@ -22,7 +22,7 @@
         <% slice.each do |classes| %>
           <div class="cell">
             <% if not classes.page.nil? %>
-              <a href="/class/<%= classes.page %>">
+              <a href="<%= classes.page %>">
             <% end %>
             <h3><%= classes.title %></h3>
             <% if not classes.page.nil? %>
