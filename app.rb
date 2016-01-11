@@ -137,6 +137,17 @@ get '/teacher/:id/:file.jpg' do |id, file|
   send_file "data/teacher/#{id}/#{file}.jpg"
 end
 
+get '/classes' do
+  File.open('data/classes/page.xml') do |file|
+    @classes = ClassesDocument.new(Nokogiri::XML(file)).classes
+  end
+  erb :classes
+end
+
+get '/classes/:file.jpg' do |file|
+  send_file "data/classes/#{file}.jpg"
+end
+
 get '/' do
   erb :index
 end

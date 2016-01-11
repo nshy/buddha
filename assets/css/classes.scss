@@ -1,0 +1,22 @@
+div.classes {
+  div.title {
+    text-align: center;
+    margin-bottom: 50px;
+  }
+  .line {
+    display: table;
+    .line-row {
+      display: table-row;
+      .cell {
+        display: table-cell;
+        padding-left: 15px;
+        padding-right: 15px;
+      }
+    }
+    .timetable {
+      .cell {
+        padding-top: 15px;
+      }
+    }
+  }
+}

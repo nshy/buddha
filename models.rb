@@ -113,3 +113,15 @@ class TeachersDocument < XDSL::Element
     end
   end
 end
+
+class ClassesDocument < XDSL::Element
+  element :classes do
+    elements :classes do
+      element :title
+      element :description
+      element :timetable
+      element :page
+      element :image
+    end
+  end
+end
