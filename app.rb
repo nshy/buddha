@@ -23,7 +23,7 @@ helpers TeachingsHelper, CommonHelpers
 helpers NewsHelpers, BookHelpers, CategoryHelpers
 helpers TimetableHelper
 
-get '/archive' do
+get '/archive/' do
   File.open("data/archive.xml") do |file|
     @archive = ArchiveDocument.new(Nokogiri::XML(file)).archive
   end
@@ -31,7 +31,7 @@ get '/archive' do
   erb :'archive'
 end
 
-get '/teachings/:id' do |id|
+get '/teachings/:id/' do |id|
   File.open("data/teachings/#{id}.xml") do |file|
     @teachings = TeachingsDocument.new(Nokogiri::XML(file)).teachings
   end
@@ -45,7 +45,7 @@ get '/news' do
   erb :'news-index'
 end
 
-get '/news/:id' do |id|
+get '/news/:id/' do |id|
   File.open(body_path("data/news/#{id}")) do |file|
     @news = NewsDocument.new(Nokogiri::XML(file)).news
   end
@@ -53,7 +53,7 @@ get '/news/:id' do |id|
   erb :news
 end
 
-get '/book/:id' do |id|
+get '/book/:id/' do |id|
   File.open("data/books/#{id}/info.xml") do |file|
     @book = BookDocument.new(Nokogiri::XML(file)).book
   end
@@ -66,7 +66,7 @@ get '/book/:id/:file.jpg' do |id, file|
   send_file "data/books/#{id}/#{file}.jpg"
 end
 
-get '/book-category/:id' do |id|
+get '/book-category/:id/' do |id|
   File.open("data/book-category/#{id}.xml") do |file|
     @category = BookCategoryDocument.new(Nokogiri::XML(file)).category
   end
@@ -83,7 +83,7 @@ get '/book-category/:id' do |id|
   erb :'book-category'
 end
 
-get '/library' do
+get '/library/' do
   @categories = load_categories
   File.open('data/library.xml') do |file|
     @library = LibraryDocument.new(Nokogiri::XML(file)).library
@@ -114,7 +114,7 @@ get '/timetable' do
   erb :timetable
 end
 
-get '/teachers' do
+get '/teachers/' do
   File.open('data/teachers/page.xml') do |file|
     @teachers = TeachersDocument.new(Nokogiri::XML(file)).teachers
   end
@@ -125,9 +125,8 @@ get '/teachers/:file.jpg' do |file|
   send_file "data/teachers/#{file}.jpg"
 end
 
-get '/text/:id' do |id|
+get '/text/:id/' do |id|
   @file = Preamble.load("data/text/#{id}/page.adoc")
-  @path = "/text/#{id}"
   erb :text
 end
 
@@ -135,7 +134,7 @@ get '/text/:id/:file.jpg' do |id, file|
   send_file "data/text/#{id}/#{file}.jpg"
 end
 
-get '/classes' do
+get '/classes/' do
   File.open('data/classes/page.xml') do |file|
     @classes = ClassesDocument.new(Nokogiri::XML(file)).classes
   end

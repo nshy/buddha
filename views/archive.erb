@@ -4,7 +4,7 @@
     <h1> <%= year.year %> </h1>
     <% year.teachings.each do |id| %>
       <h2 class="teachings">
-        <a href="<%= "teachings/#{id}" %>">
+        <a href="<%= "/teachings/#{id}/" %>">
           <%= @teachings[id].title %>
         </a>
       </h2>

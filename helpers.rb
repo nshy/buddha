@@ -62,7 +62,7 @@ module CommonHelpers
     File.basename(path).gsub(/.xml$/, '')
   end
 
-  def render_adoc(adoc, imagesdir)
+  def render_adoc(adoc, imagesdir = nil)
     attr = {
       'icons' => 'true',
       'iconsdir' => '/icons',

@@ -8,7 +8,7 @@
 <div class="teachings">
   <div class="header">
     <h1> <%= "#{@teachings.title}, #{@teachings.year}г" %> </h1>
-    <h3> <a href="/archive">&larr; Все учения</a> </h3>
+    <h3> <a href="/archive/">&larr; Все учения</a> </h3>
   </div>
   <% @teachings.theme.each do |theme| %>
     <h2> <%= theme.title %> </h2>

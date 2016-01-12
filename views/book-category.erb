@@ -1,7 +1,7 @@
 <div class="category">
   <div class='header'>
     <h1> <%= @category.name %> </h1>
-    <h3> <a href="/library"> &larr; В библиотеку </a> </h3>
+    <h3> <a href="/library/"> &larr; В библиотеку </a> </h3>
   </div>
   <div class="menu">
     <% if not category_categories(@categories, @id).empty? %>
@@ -31,12 +31,12 @@
       <% group.book.each do |book_id| %>
         <% book = @books[book_id] %>
         <div class="book">
-          <a href="<%= "/book/#{book_id}" %>">
+          <a href="<%= "/book/#{book_id}/" %>">
             <img class="cover"
                  src="<%= book_cover_url(book_id, :medium) %>"/>
           </a>
           <div class="title">
-            <a href="<%= "/book/#{book_id}" %>">
+            <a href="<%= "/book/#{book_id}/" %>">
               <%= @books[book_id].title %>
             </a>
           </div>
