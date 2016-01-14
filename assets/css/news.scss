@@ -7,6 +7,12 @@ div.news {
     display: block;
   }
 
+  .clearfix-after::after {
+    content: " "; /* Older browser do not support empty content */
+    clear: both;
+    display: block;
+  }
+
   .objectblock { margin: 0px 8px; }
   .objectblock.left { float: left; }
   .objectblock.right { float: right; }

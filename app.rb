@@ -14,6 +14,7 @@ require_relative 'toc'
 require_relative 'timetable'
 require_relative 'mail'
 require_relative 'helpers'
+require_relative 'asciiext'
 
 DB = Sequel.connect('sqlite://site.db')
 
