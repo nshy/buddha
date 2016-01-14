@@ -92,12 +92,7 @@ get '/library/' do
 end
 
 get '/news/:news_id/:file' do |news_id, file|
-  path = "data/news/#{news_id}/#{file}"
-  if /.*\.(doc)/.match(file).nil?
-    send_file(path)
-  else
-    attachment(path)
-  end
+  send_file_media "data/news/#{news_id}/#{file}"
 end
 
 get '/timetable' do
@@ -130,8 +125,8 @@ get '/text/:id/' do |id|
   erb :text
 end
 
-get '/text/:id/:file.jpg' do |id, file|
-  send_file "data/text/#{id}/#{file}.jpg"
+get '/text/:id/:file' do |id, file|
+  send_file_media "data/text/#{id}/#{file}"
 end
 
 get '/classes/' do
