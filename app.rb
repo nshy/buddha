@@ -47,9 +47,7 @@ get '/news' do
 end
 
 get '/news/:id/' do |id|
-  File.open(body_path("data/news/#{id}")) do |file|
-    @news = NewsDocument.new(Nokogiri::XML(file)).news
-  end
+  @news = NewsDocument.new(body_path("data/news/#{id}"))
   @slug = id
   erb :news
 end

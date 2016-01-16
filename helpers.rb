@@ -86,19 +86,35 @@ module CommonHelpers
 
 end
 
+class NewsDocument
+  def initialize(path)
+    @doc = Preamble.load(path)
+  end
+
+  def publish_date
+    @doc.metadata['publish_date']
+  end
+
+  def title
+    @doc.metadata['title']
+  end
+
+  def body
+    @doc.content
+  end
+end
+
 module NewsHelpers
 
   def body_path(path)
-      File.directory?(path) ? "#{path}/body.xml" : path
+      File.directory?(path) ? "#{path}/page.adoc" : path
   end
 
   def load_news()
     news = []
     each_file_sorted("data/news") do |news_path|
-      File.open(body_path(news_path)) do |file|
-        news << { slug: File.basename(news_path),
-                  news: NewsDocument.new(Nokogiri::XML(file)).news }
-      end
+      news << { slug: File.basename(news_path),
+                news: NewsDocument.new(body_path(news_path)) }
     end
     news.sort do |a, b|
       Date.parse(b[:news].publish_date) <=> Date.parse(a[:news].publish_date)

@@ -28,15 +28,6 @@ class TeachingsDocument < XDSL::Element
   end
 end
 
-class NewsDocument < XDSL::Element
-  element :news do
-    element :title
-    element :publish_date
-    element :buddha_node
-    element :body
-  end
-end
-
 class BookDocument < XDSL::Element
   element :book do
     element :title
