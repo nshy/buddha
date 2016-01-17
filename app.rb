@@ -139,6 +139,10 @@ get '/classes/:file.jpg' do |file|
   send_file "data/classes/#{file}.jpg"
 end
 
+get '/donations/' do
+  erb :donations
+end
+
 get '/' do
   erb :index
 end

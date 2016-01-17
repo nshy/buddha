@@ -84,6 +84,17 @@ module CommonHelpers
     send_file(path, disposition: disposition)
   end
 
+  def yandex_money_url(target, title, sum, redirect)
+    r = /[^a-zA-Z0-9*-._]/
+    link = "#{Config::DOMAIN}#{redirect}"
+    "https://money.yandex.ru/embed/shop.xml?"\
+      "account=#{target}"\
+      "&quickpay=shop&writer=seller"\
+      "&targets=#{URI.escape(title, r)}"\
+      "&default-sum=#{sum}&button-text=03"\
+      "&successURL=#{URI.escape(link, r)}"
+  end
+
 end
 
 class NewsDocument
