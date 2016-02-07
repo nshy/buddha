@@ -155,6 +155,10 @@ get '/contacts/' do
   render_text('contacts')
 end
 
+get '/activities/' do
+  render_text('activities')
+end
+
 get '/' do
   erb :index
 end

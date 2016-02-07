@@ -6,4 +6,10 @@ div.text {
     h1 { margin-bottom: 0px; }
     h3 { margin-top: 5px; }
   }
+
+  td { padding: 0px 10px; }
+  .tableblock.halign-right { text-align: right; }
+  .tableblock.halign-left { text-align: left; }
+  .tableblock.halign-center { text-align: center; }
+  .tableblock.valign-top { vertical-align: top; }
 }
