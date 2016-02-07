@@ -143,6 +143,18 @@ get '/donations/' do
   erb :donations
 end
 
+get '/links/' do
+  render_text('links')
+end
+
+get '/about/' do
+  render_text('about')
+end
+
+get '/contacts/' do
+  render_text('contacts')
+end
+
 get '/' do
   erb :index
 end

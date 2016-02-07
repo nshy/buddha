@@ -95,6 +95,11 @@ module CommonHelpers
       "&successURL=#{URI.escape(link, r)}"
   end
 
+  def render_text(text)
+    @file = Preamble.load("data/#{text}/page.adoc")
+    erb :text
+  end
+
 end
 
 class NewsDocument
