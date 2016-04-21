@@ -1,0 +1,3 @@
+[submodule "3d-party/bootstrap"]
+	path = 3d-party/bootstrap
+	url = git@github.com:nshy/bootstrap.git

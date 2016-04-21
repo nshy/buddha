@@ -5,9 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="/3d-party/js/bootstrap3-custom.min.js"></script>
+    <link rel="stylesheet" href="/3d-party/css/bootstrap3-custom.min.css">
+    <link rel="stylesheet" href="/3d-party/css/bootstrap3-theme-custom.min.css">
     <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/layout.css">
     <link rel="stylesheet" href="/css/archive.css">
     <link rel="stylesheet" href="/css/teachings.css">
     <link rel="stylesheet" href="/css/news.css">
@@ -24,8 +26,77 @@
     <link rel="stylesheet" href="/css/donations.css">
   </head>
   <body>
-    <div class="container">
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+	<div class="navbar-header">
+	  <a class="navbar-brand" href="/">
+	    <img alt="Московский Буддийский Центр Ламы Цонкапы" src="/logo.svg">
+	  </a>
+	</div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="/about/">О ЦЕНТРЕ</a></li>
+            <li><a href="/archive/">УЧЕНИЯ</a></li>
+            <li><a href="/news?top=true">НОВОСТИ</a></li>
+            <li><a href="/timetable?offset=0">РАСПИСАНИЕ</a></li>
+            <li><a href="/library/">БИБЛИОТЕКА</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="container body">
       <%= yield %>
+      <div class="footer row">
+        <div class="contacts">
+          <div class="copyright">
+            <img src="/copyright.svg"/>
+            1998-2016
+          </div>
+          <div class="name">
+            Московский Буддийский Центр Ламы Цонкапы
+          </div>
+          <div class="address">
+            <img src="/pin.svg"/>
+            Москва, ул. Мытная 23, корп.1
+          </div>
+          <div class="phone">
+            <img src="/phone.svg"/>
+            +7(497)237-65-79
+          </div>
+        </div>
+        <div class="links">
+          <div class="column">
+            <div class="menu">
+              <a href="/about/">О ЦЕНТРЕ</a>
+            </div>
+            <div class="submenu">
+              <a href="/teachers/">Учителя</a>
+              <a href="/contacts/">Контакты</a>
+            </div>
+          </div>
+          <div class="column">
+            <div class="menu">
+              <a href="/archive/">УЧЕНИЯ</a>
+            </div>
+          </div>
+          <div class="column">
+            <div class="menu">
+              <a href="/news/">НОВОСТИ</a>
+              <a href="/timetable?offset=0">РАСПИСАНИЕ</a>
+            </div>
+          </div>
+          <div class="column">
+            <div class="menu">
+              <a href="/library/">БИБЛИОТЕКА</a>
+            </div>
+          </div>
+          <div class="column">
+            <div class="menu">
+              <a href="/links/">ССЫЛКИ</a>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </body>
 </html>
