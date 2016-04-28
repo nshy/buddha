@@ -19,6 +19,7 @@ require_relative 'asciiext'
 DB = Sequel.connect('sqlite://site.db')
 
 set :show_exceptions, false
+set :bind, '0.0.0.0'
 
 helpers TeachingsHelper, CommonHelpers
 helpers NewsHelpers, BookHelpers, CategoryHelpers
