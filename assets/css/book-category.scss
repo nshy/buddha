@@ -18,6 +18,11 @@ div.category {
     }
     a:hover {
       color: #6088d6;
+      img.cover {
+        opacity: 1;
+        -webkit-filter: brightness(50%);
+        filter: brightness(50%);
+      }
     }
     div.author {
       margin-top: 7px;
@@ -34,12 +39,6 @@ div.category {
       height: 300px;
       -webkit-filter: brightness(100%);
       filter: brightness(100%);
-    }
-
-    img.cover:hover {
-      opacity: 1;
-      -webkit-filter: brightness(50%);
-      filter: brightness(50%);
     }
 
     display: inline-block;
