@@ -60,6 +60,7 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.2)
+    unicode (0.4.4.2)
 
 PLATFORMS
   ruby
@@ -74,6 +75,7 @@ DEPENDENCIES
   sinatra
   sinatra-contrib
   sqlite3
+  unicode
 
 BUNDLED WITH
    1.11.2

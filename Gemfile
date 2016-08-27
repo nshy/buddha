@@ -9,6 +9,7 @@ gem 'asciidoctor'
 gem 'sequel'
 gem 'rest-client'
 gem 'preamble'
+gem 'unicode'
 
 group :development do
   gem 'sinatra-contrib', require: 'sinatra/reloader'

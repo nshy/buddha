@@ -5,48 +5,61 @@
   </div>
   <div class="menu">
     <% if not category_categories(@categories, @id).empty? %>
-      <h3> В категориях: </h3>
-      <% category_categories(@categories, @id).each do |id| %>
-          <div> <h4> <%= category_link(@categories, id) %> </h4> </div>
-      <% end %>
+      <div class="section">
+        <div class="title">В категориях</div>
+          <% category_categories(@categories, @id).each do |id| %>
+            <div class="item">
+              <%= category_link(@categories, id) %>
+            </div>
+          <% end %>
+      </div>
+      <hr/>
     <% end %>
     <% if not @category.subcategory.empty? %>
-      <h3> Подкатегории: </h3>
-      <% @category.subcategory.each do |id| %>
-        <div> <h4> <%= category_link(@categories, id) %> </h4> </div>
-      <% end %>
-    <% end %>
-    <h3> На странице: </h3>
-    <% @category.group.each do |group| %>
-      <div>
-        <a href="<%= "##{group.name}" %>">
-          <h4><%= group.name %></h4>
-        </a>
+      <div class="section">
+        <div class="title">Подкатегории</div>
+        <% @category.subcategory.each do |id| %>
+          <div class="item">
+            <%= category_link(@categories, id) %>
+          </div>
+        <% end %>
       </div>
+      <hr/>
     <% end %>
+    <div class="section">
+      <div class="title">На этой странице</div>
+      <% @category.group.each do |group| %>
+        <div class="item">
+          <a href="<%= "##{group.name}" %>">
+            <%= Unicode::upcase(group.name) %>
+          </a>
+        </div>
+      <% end %>
+    </div>
   </div>
   <div class="books">
     <% @category.group.each do |group| %>
-      <h2 id="<%= group.name %>" > <%= group.name %> </h2>
-      <% group.book.each do |book_id| %>
-        <% book = @books[book_id] %>
-        <div class="book">
-          <a href="<%= "/book/#{book_id}/" %>">
-            <img class="cover"
-                 src="<%= book_cover_url(book_id, :medium) %>"/>
-          </a>
-          <div class="title">
+      <div id="<%= group.name %>" class="group">
+        <div class="name"> <%= group.name %> </div>
+        <% group.book.each do |book_id| %>
+          <% book = @books[book_id] %>
+          <div class="book">
             <a href="<%= "/book/#{book_id}/" %>">
-              <%= @books[book_id].title %>
+              <img class="cover"
+                   src="<%= book_cover_url(book_id, :medium) %>"/>
+              <div class="title">
+                <%= @books[book_id].title %>
+              </div>
             </a>
+            <% if not book.author.empty? %>
+              <div class="author">
+                <%= book.author.join(', ') %>
+              </div>
+            <% end %>
           </div>
-          <% if not book.author.empty? %>
-            <div class="author">
-              <%= book.author.join(', ') %>
-            </div>
-          <% end %>
-        </div>
-      <% end %>
+        <% end %>
+      </div>
+      <hr/>
     <% end %>
     </hr>
   </div>
