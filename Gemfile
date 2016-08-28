@@ -12,5 +12,5 @@ gem 'preamble'
 gem 'unicode'
 
 group :development do
-  gem 'sinatra-contrib', require: 'sinatra/reloader'
+  gem 'sinatra-contrib'
 end

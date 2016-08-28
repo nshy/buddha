@@ -7,6 +7,7 @@ require_relative 'config'
 Bundler.require(:default, Config::ENV)
 
 require 'tilt/erubis'
+require 'sinatra/reloader' if Config::ENV == :development
 require 'set'
 
 require_relative 'models'
