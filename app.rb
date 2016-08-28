@@ -11,6 +11,8 @@ require 'sinatra/reloader' if Config::ENV == :development
 require 'sinatra/capture'
 require 'set'
 
+# privet leonid
+
 require_relative 'models'
 require_relative 'toc'
 require_relative 'timetable'
