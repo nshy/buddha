@@ -11,7 +11,8 @@ body {
   .navbar .navbar-nav > li > a {
     color: #5f646e;
     font-size: 12px;
-    font-weight: 600; }
+    font-weight: 600;
+    color: #666666;}
 
 .footer {
   background: #414957;
