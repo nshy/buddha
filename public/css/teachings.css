@@ -1,0 +1,24 @@
+div.teachings div.header {
+  margin-bottom: 60px;
+  text-align: center; }
+  div.teachings div.header h1 {
+    margin-bottom: 0px; }
+  div.teachings div.header h3 {
+    margin-top: 5px; }
+
+div.teachings div.record {
+  padding: 2px 40px; }
+  div.teachings div.record .index, div.teachings div.record .description, div.teachings div.record .date, div.teachings div.record .audio, div.teachings div.record .video {
+    display: inline-block; }
+  div.teachings div.record div.index {
+    width: 30px; }
+  div.teachings div.record div.description {
+    width: 500px; }
+  div.teachings div.record div.date {
+    width: 100px; }
+  div.teachings div.record div.audio {
+    width: 150px; }
+  div.teachings div.record div.video {
+    width: 150px; }
+  div.teachings div.record a.button {
+    width: 100%; }

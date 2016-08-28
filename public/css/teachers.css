@@ -1,0 +1,12 @@
+div.teachers div.title {
+  text-align: center;
+  margin-bottom: 50px; }
+
+div.teachers .line {
+  display: table; }
+  div.teachers .line .line-row {
+    display: table-row; }
+    div.teachers .line .line-row .cell {
+      display: table-cell;
+      padding-left: 15px;
+      padding-right: 15px; }

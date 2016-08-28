@@ -1,0 +1,52 @@
+body {
+  background-color: #a35555; }
+  body .container.body {
+    padding-top: 44px;
+    background-color: #ffffff; }
+
+.navbar {
+  background: rgba(235, 238, 242, 0.9); }
+  .navbar .navbar-brand {
+    padding: 6px 15px; }
+  .navbar .navbar-nav > li > a {
+    color: #5f646e;
+    font-size: 12px;
+    font-weight: 600; }
+
+.footer {
+  background: #414957;
+  padding: 20px 0px; }
+  .footer .links {
+    margin-right: 300px; }
+  .footer .links .column {
+    display: inline-block;
+    vertical-align: top;
+    margin: 0px 30px; }
+    .footer .links .column .menu {
+      line-height: 25px; }
+      .footer .links .column .menu a {
+        color: #d8e0e8;
+        font-size: 13px;
+        font-weight: 400;
+        display: block; }
+    .footer .links .column .submenu {
+      line-height: 20px; }
+      .footer .links .column .submenu a {
+        color: #99a5b2;
+        font-size: 11px;
+        font-weight: 400;
+        display: block; }
+  .footer .contacts {
+    float: right;
+    width: 300px;
+    padding-right: 30px;
+    color: #cbd6e2;
+    font-size: 11px;
+    font-weight: 400; }
+    .footer .contacts .copyright {
+      float: left;
+      width: 90px; }
+    .footer .contacts .name {
+      margin-left: 90px; }
+    .footer .contacts .address {
+      margin: 10px 0px; }
