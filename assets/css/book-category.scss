@@ -1,6 +1,6 @@
 div.category {
   hr {
-    border-top: 2px solid #eeeeee;
+    border-top: 1px solid #eeeeee;
   }
   .books {
     .name {
@@ -8,6 +8,7 @@ div.category {
     }
   }
   div.book {
+
     div.title {
       margin-top: 15px;
       font-size: 13px;
@@ -36,16 +37,25 @@ div.category {
       border-style: solid;
       border-width: 1px;
       border-color: black;
-      height: 300px;
+      height: 210px;
       -webkit-filter: brightness(100%);
       filter: brightness(100%);
     }
 
     display: inline-block;
-    width: 250px;
+    width: 160px;
     vertical-align: top;
-    padding-right: 10px;
+    margin-right: 20px;
     margin-top: 20px;
+  }
+
+  div.book:hover div.title a {
+    color: #6088d6;
+    img.cover {
+      opacity: 1;
+      -webkit-filter: brightness(50%);
+      filter: brightness(50%);
+    }
   }
 
   div.menu {
@@ -53,45 +63,52 @@ div.category {
     float: right;
     width: 350px;
     vertical-align: top;
-    border-left: 2px solid #eeeeee;
+    border-left: 1px solid #eeeeee;
     margin-left: 20px;
     padding-left: 20px;
+
     div.section {
       .title {
-        font-size: 18px;
+        font-weight: 800;
+        font-size: 16px;
+        padding-bottom: 10px;
       }
-      .item {
-        margin: 8px 0px;
-        a {
-          color:  #717783;
-        }
-        a:hover {
-          color: #6088d6;
-        }
+    }
+    .item {
+      margin: 8px 0px;
+      color:  #717783;
+      font-size: 13px;
+      font-weight: bold;
+
+      a {
         color:  #717783;
-        font-size: 13px;
+      }
+      a:hover {
+        color: #6088d6;
+      }
+
+      .size {
+        color:  #a0a0a0;
+        font-size: 10px;
+        vertical-align: middle;
         font-weight: bold;
-        .size {
-          color:  #a0a0a0;
-          font-size: 10px;
-          vertical-align: middle;
-          font-weight: bold;
-        }
       }
     }
   }
+}
 
-  div.menu::after {
-    content: " ";
-    clear: both;
-    display: block;
-  }
+div.menu::after {
+  content: " ";
+  clear: both;
+  display: block;
+}
 
-  div.header {
-    text-align: center;
-    padding-bottom: 50px;
+div.header {
+  text-align: left;
+  padding-bottom: 20px;
 
-    h1 { margin-bottom: 0px; }
-    h3 { margin-top: 5px; }
-  }
+  h1 { margin-bottom: 0px; }
+  h3 { margin-top: 20px;
+    font-size: 14px;}
+}
 }

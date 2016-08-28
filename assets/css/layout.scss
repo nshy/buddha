@@ -4,9 +4,12 @@ $nav-link-padding-x: 15px;
 
 body {
   background-color: #a35555;
+  margin-bottom: 50px;
+  background-image: url(/background_red.png);
   .container.body {
     padding-top: $navbar-height;
     background-color: #ffffff;
+    border-radius: 0 0 6px 6px;
   }
 }
 
@@ -26,9 +29,9 @@ body {
 
 .footer {
   $contacts-width: 300px;
-
-  background: #414957;
+  background: #424956;
   padding: 20px 0px;
+  border-radius: 0 0 5px 5px;
 
   .links {
     margin-right: $contacts-width;

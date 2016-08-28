@@ -1,3 +1,7 @@
+body {
+  font-family: 'Open Sans', sans-serif;
+}
+
 div.text {
   div.header {
     text-align: center;
@@ -12,4 +16,17 @@ div.text {
   .tableblock.halign-left { text-align: left; }
   .tableblock.halign-center { text-align: center; }
   .tableblock.valign-top { vertical-align: top; }
+}
+}
+
+h1 {
+  font-weight: 300;
+}
+
+h2 {
+  font-weight: 300;
+}
+
+.title {
+  font-weight: 500;
 }
