@@ -6,11 +6,24 @@ body {
   background-color: #a35555;
   margin-bottom: 50px;
   background-image: url(/background_red.png);
+  font-family: 'Open Sans', sans-serif;
   .container.body {
     padding-top: $navbar-height;
     background-color: #ffffff;
     border-radius: 0 0 6px 6px;
   }
+}
+
+h1 {
+  font-weight: 300;
+}
+
+h2 {
+  font-weight: 300;
+}
+
+.title {
+  font-weight: 500;
 }
 
 .navbar {
