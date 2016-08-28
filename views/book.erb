@@ -29,12 +29,14 @@
 </div>
 
 <div class="row">
-  <div> <h3> Описание </h3> </div>
-  <div>
-    <% parse_annotation(@book.annotation).each do |paragraph| %>
-      <p><%= paragraph%></p>
-    <% end %>
-  </div>
+  <% if not(@book.annotation.nil? or @book.annotation.empty?) %>
+    <div> <h3> Описание </h3> </div>
+    <div>
+      <% parse_annotation(@book.annotation).each do |paragraph| %>
+        <p><%= paragraph%></p>
+      <% end %>
+    </div>
+  <% end %>
   <div> <h3> Cодержание </h3> </div>
   <div class="headings">
     <%= headings_div(parse_toc(@book.contents)) %>
