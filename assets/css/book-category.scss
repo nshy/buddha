@@ -118,9 +118,14 @@ div.header {
   h3 {
     margin-top: 20px;
     font-size: 13px;
+    font-weight: 700;
+
+  a {
+    color: #4789d9;
+  }
 
   a:hover {
-    color:#5185ea;
+    color:#6d9fff;
   }
   }
 }
