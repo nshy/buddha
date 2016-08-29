@@ -1,8 +1,13 @@
 div.category {
   hr {
-    border-top: 2px solid #eeeeee;
+    border-top: 1px solid #eeeeee;
   }
+  hr:last-child {
+    display:none;
+  }
+
   .books {
+    margin-bottom: 50px;
     .name {
       font-size: 18px;
     }
@@ -17,11 +22,13 @@ div.category {
       color: black;
     }
     a:hover {
-      color: #6088d6;
+      color: #5185ea;
       img.cover {
         opacity: 1;
-        -webkit-filter: brightness(50%);
-        filter: brightness(50%);
+        -webkit-filter: saturate(150%);
+        filter: saturate(150%);
+        -webkit-filter: brightness(1.2);
+        filter: brightness(1.2);
       }
     }
     div.author {
@@ -35,16 +42,16 @@ div.category {
     img.cover {
       border-style: solid;
       border-width: 1px;
-      border-color: black;
-      height: 300px;
-      -webkit-filter: brightness(100%);
-      filter: brightness(100%);
+      border-color: #777777;
+      height: 210px;
+      -webkit-filter: saturate(100%);
+      filter: saturate(100%);
     }
 
     display: inline-block;
     width: 250px;
     vertical-align: top;
-    padding-right: 10px;
+    margin-right: 20px;
     margin-top: 20px;
   }
 
@@ -53,12 +60,15 @@ div.category {
     float: right;
     width: 350px;
     vertical-align: top;
-    border-left: 2px solid #eeeeee;
+    border-left: 1px solid #eeeeee;
     margin-left: 20px;
     padding-left: 20px;
+
     div.section {
       .title {
+        font-weight: 500;
         font-size: 18px;
+        padding-bottom: 10px;
       }
       .item {
         margin: 8px 0px;
@@ -66,7 +76,7 @@ div.category {
           color:  #717783;
         }
         a:hover {
-          color: #6088d6;
+          color: #5185ea;
         }
         color:  #717783;
         font-size: 13px;
@@ -74,7 +84,6 @@ div.category {
         .size {
           color:  #a0a0a0;
           font-size: 10px;
-          vertical-align: middle;
           font-weight: bold;
         }
       }
@@ -88,10 +97,21 @@ div.category {
   }
 
   div.header {
-    text-align: center;
-    padding-bottom: 50px;
+    text-align: left;
+    padding-bottom: 20px;
 
     h1 { margin-bottom: 0px; }
-    h3 { margin-top: 5px; }
+    h3 {
+      margin-top: 20px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    a {
+      color: #4789d9;
+    }
+    a:hover {
+      color:#6d9fff;
+    }
   }
 }

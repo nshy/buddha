@@ -1,14 +1,19 @@
 div.category hr {
-  border-top: 2px solid #eeeeee; }
+  border-top: 1px solid #eeeeee; }
 
-div.category .books .name {
-  font-size: 18px; }
+div.category hr:last-child {
+  display: none; }
+
+div.category .books {
+  margin-bottom: 50px; }
+  div.category .books .name {
+    font-size: 18px; }
 
 div.category div.book {
   display: inline-block;
   width: 250px;
   vertical-align: top;
-  padding-right: 10px;
+  margin-right: 20px;
   margin-top: 20px; }
   div.category div.book div.title {
     margin-top: 15px;
@@ -17,11 +22,13 @@ div.category div.book {
   div.category div.book a {
     color: black; }
   div.category div.book a:hover {
-    color: #6088d6; }
+    color: #5185ea; }
     div.category div.book a:hover img.cover {
       opacity: 1;
-      -webkit-filter: brightness(50%);
-      filter: brightness(50%); }
+      -webkit-filter: saturate(150%);
+      filter: saturate(150%);
+      -webkit-filter: brightness(1.2);
+      filter: brightness(1.2); }
   div.category div.book div.author {
     margin-top: 7px;
     font-size: 11px;
@@ -30,21 +37,23 @@ div.category div.book {
   div.category div.book img.cover {
     border-style: solid;
     border-width: 1px;
-    border-color: black;
-    height: 300px;
-    -webkit-filter: brightness(100%);
-    filter: brightness(100%); }
+    border-color: #777777;
+    height: 210px;
+    -webkit-filter: saturate(100%);
+    filter: saturate(100%); }
 
 div.category div.menu {
   display: inline-block;
   float: right;
   width: 350px;
   vertical-align: top;
-  border-left: 2px solid #eeeeee;
+  border-left: 1px solid #eeeeee;
   margin-left: 20px;
   padding-left: 20px; }
   div.category div.menu div.section .title {
-    font-size: 18px; }
+    font-weight: 500;
+    font-size: 18px;
+    padding-bottom: 10px; }
   div.category div.menu div.section .item {
     margin: 8px 0px;
     color: #717783;
@@ -53,11 +62,10 @@ div.category div.menu {
     div.category div.menu div.section .item a {
       color: #717783; }
     div.category div.menu div.section .item a:hover {
-      color: #6088d6; }
+      color: #5185ea; }
     div.category div.menu div.section .item .size {
       color: #a0a0a0;
       font-size: 10px;
-      vertical-align: middle;
       font-weight: bold; }
 
 div.category div.menu::after {
@@ -66,9 +74,15 @@ div.category div.menu::after {
   display: block; }
 
 div.category div.header {
-  text-align: center;
-  padding-bottom: 50px; }
+  text-align: left;
+  padding-bottom: 20px; }
   div.category div.header h1 {
     margin-bottom: 0px; }
   div.category div.header h3 {
-    margin-top: 5px; }
+    margin-top: 20px;
+    font-size: 13px;
+    font-weight: 700; }
+  div.category div.header a {
+    color: #4789d9; }
+  div.category div.header a:hover {
+    color: #6d9fff; }
