@@ -1,21 +1,39 @@
 body {
-  background-color: #a35555; }
+  background-color: #a35555;
+  margin-bottom: 50px;
+  background-image: url(/background_red.png);
+  font-family: 'Open Sans', sans-serif; }
   body .container.body {
     padding-top: 44px;
-    background-color: #ffffff; }
+    background-color: #ffffff;
+    border-radius: 0 0 6px 6px;
+    padding-left: 20px;
+    padding-right: 20px; }
+
+h1 {
+  font-weight: 300; }
+
+h2 {
+  font-weight: 300; }
+
+.title {
+  font-weight: 500; }
 
 .navbar {
   background: rgba(235, 238, 242, 0.9); }
   .navbar .navbar-brand {
-    padding: 6px 15px; }
+    padding: 6px 5px 6px 20px; }
   .navbar .navbar-nav > li > a {
     color: #5f646e;
     font-size: 12px;
     font-weight: 600; }
 
 .footer {
-  background: #414957;
-  padding: 20px 0px; }
+  background: #34465a;
+  padding: 20px 0px;
+  border-radius: 0 0 5px 5px;
+  margin-left: -20px;
+  margin-right: -20px; }
   .footer .links {
     margin-right: 300px; }
   .footer .links .column {
@@ -29,6 +47,8 @@ body {
         font-size: 13px;
         font-weight: 400;
         display: block; }
+      .footer .links .column .menu a:hover {
+        color: #5185ea; }
     .footer .links .column .submenu {
       line-height: 20px; }
       .footer .links .column .submenu a {
@@ -46,7 +66,19 @@ body {
     .footer .contacts .copyright {
       float: left;
       width: 90px; }
+      .footer .contacts .copyright img {
+        padding: 0 3px 3px 0; }
     .footer .contacts .name {
       margin-left: 90px; }
+      .footer .contacts .name img {
+        padding: 0 4px 3px 0; }
     .footer .contacts .address {
-      margin: 10px 0px; }
+      margin: 5px 0px 14px; }
+      .footer .contacts .address img {
+        padding: 0 6px 3px 0; }
+    .footer .contacts .phone a {
+      color: #cbd6e2; }
+    .footer .contacts .phone a:hover {
+      color: #5185ea; }
+    .footer .contacts .phone img {
+      padding: 0 4px 3px 0; }
