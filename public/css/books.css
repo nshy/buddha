@@ -1,35 +1,69 @@
-div.book div.headings {
-  padding-left: 2em; }
+.book .header .title {
+  font-size: 32px;
+  font-weight: 300; }
 
-div.book div.heading {
-  padding-left: 1em;
-  text-indent: -2em; }
+.book .header .backlink {
+  margin-top: 5px;
+  font-size: 11px;
+  font-weight: 600; }
 
-div.book div.cover {
+.book .annotation {
+  margin-top: 15px; }
+  .book .annotation .title {
+    font-size: 18px;
+    font-weight: 400;
+    margin-bottom: 5px; }
+
+.book .headings {
+  margin-bottom: 40px; }
+  .book .headings .title {
+    font-size: 18px;
+    font-weight: 400;
+    margin-bottom: 5px; }
+  .book .headings .items {
+    padding-left: 1em; }
+    .book .headings .items .heading {
+      padding-left: 1em;
+      text-indent: -2em; }
+
+.book .cover {
   display: inline-block;
   vertical-align: top;
-  margin-right: 30px; }
+  margin-right: 15px; }
 
-div.book div.info {
+.book .info-column {
   display: inline-block;
-  width: 600px;
   vertical-align: top; }
-  div.book div.info div.table {
-    display: table;
-    padding: 0px 0px; }
-    div.book div.info div.table div.row {
+  .book .info-column .info .info-table {
+    display: table; }
+    .book .info-column .info .info-table .row {
       display: table-row; }
-    div.book div.info div.table div.cell {
+    .book .info-column .info .info-table .cell {
       display: table-cell;
-      padding-top: 2px; }
-    div.book div.info div.table div.name {
-      font-weight: bold;
+      font-size: 13px;
+      padding-bottom: 8px; }
+    .book .info-column .info .info-table .name {
+      font-weight: 600;
       padding-right: 20px;
-      text-align: right;
       width: 100px; }
-
-div.book div.categories {
-  display: inline-block;
-  margin-left: 20px; }
-  div.book div.categories h3 {
-    margin-top: 0px; }
+    .book .info-column .info .info-table .value {
+      font-weight: 400; }
+  .book .info-column hr {
+    margin-top: 10px;
+    margin-bottom: 25px; }
+  .book .info-column .categories .title {
+    font-size: 18px;
+    font-weight: 400; }
+  .book .info-column .categories .item {
+    color: #717783;
+    font-size: 13px;
+    font-weight: 400;
+    margin: 10px 0px; }
+    .book .info-column .categories .item a {
+      color: #717783; }
+    .book .info-column .categories .item a:hover {
+      color: #5185ea; }
+    .book .info-column .categories .item .size {
+      color: #a0a0a0;
+      font-size: 10px;
+      font-weight: bold; }
