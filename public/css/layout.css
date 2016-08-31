@@ -6,9 +6,7 @@ body {
   body .container.body {
     padding-top: 44px;
     background-color: #ffffff;
-    border-radius: 0 0 6px 6px;
-    padding-left: 20px;
-    padding-right: 20px; }
+    border-radius: 0 0 6px 6px; }
 
 h1 {
   font-weight: 300; }
@@ -30,10 +28,9 @@ h2 {
 
 .footer {
   background: #34465a;
-  padding: 20px 0px;
-  border-radius: 0 0 5px 5px;
-  margin-left: -20px;
-  margin-right: -20px; }
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-radius: 0 0 5px 5px; }
   .footer .links {
     margin-right: 300px; }
   .footer .links .column {
