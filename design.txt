@@ -1,0 +1,2 @@
+medium image size:
+height = 300, max(width) = 240
