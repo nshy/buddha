@@ -11,4 +11,6 @@ gem 'rest-client'
 gem 'preamble'
 gem 'unicode'
 
-gem 'sinatra-contrib'
+group :development do
+  gem 'sinatra-contrib'
+end

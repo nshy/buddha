@@ -2,6 +2,8 @@
 $navbar-height: 44px;
 $nav-link-padding-x: 15px;
 
+$color_gray_separator: #eeeeee;
+
 body {
   background-color: #a35555;
   margin-bottom: 50px;
@@ -16,6 +18,16 @@ body {
   }
 }
 
+#scrollUp {
+  background-image: url(/to_top.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  height: 44px;
+  width: 44px;
+  bottom: 20px;
+  right: 20px;
+}
+
 .panel {
     position: fixed;
     right: -15.625em; /*left or right and the width of your navigation panel*/
@@ -28,19 +40,73 @@ body {
       /*border-top: 2px solid #34495D;*/
       padding-left: 0px;
 
-      li {
-        list-style: none;
+        li {
+          list-style: none;
+        }
+
+        a {
+          display: block;
+          border-bottom: 1px solid #34495D;
+          padding: 12px;
+        }
+
+        a:link, a:visited {
+          color: #fff;
+        }
+    }
+
+    .side_cont {
+
+      .contacts {
+        float: left;
+        padding-left: 20px;
+        color: #cbd6e2;
+        font-size: 11px;
+        position: absolute;
+        font-weight: 400;
+        bottom: 20px;
+
+        .copyright {
+          float: left;
+
+          img {
+            padding: 0 3px 3px 0;
+          }
+        }
+
+        .name {
+          margin: 4px 0px 14px;
+          clear: both;
+          padding: 0 21px 0 21px;
+
+          img {
+            padding: 0 4px 3px 0;
+          }
+        }
+
+        .address {
+          margin: 5px 0px 14px;
+
+          img {
+            padding: 0 6px 3px 0;
+          }
+        }
+
+        .phone {
+          a {
+            color:#cbd6e2;
+          }
+
+          a:hover {
+            color: #5185ea;
+          }
+
+          img {
+            padding: 0 4px 3px 0;
+          }
+        }
       }
 
-      a {
-        display: block;
-        border-bottom: 1px solid #34495D;
-        padding: 12px;
-      }
-
-      a:link, a:visited {
-        color: #fff;
-      }
     }
 }
 
@@ -187,13 +253,11 @@ h2 {
     display: none;
   }
 
-  header {
-    .panel {
+
+  .panel {
       position: fixed;
       left: -15.625em; /*left or right and the width of your navigation panel*/
       width: 15.625em; /*should match the above value*/
-    }
-
   }
 
   .menu-button-on {
@@ -255,6 +319,12 @@ h2 {
         width: 100px;
       }
     }
+  }
+}
+
+@media (min-width: 769px) {
+  #scrollUp {
+    display: none !important;
   }
 }
 

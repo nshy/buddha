@@ -99,6 +99,11 @@ div.category {
         color:  #a0a0a0;
         font-size: 10px;
         font-weight: bold;
+        .size {
+          color:  #a0a0a0;
+          font-size: 10px;
+          font-weight: bold;
+        }
       }
     }
   }
@@ -148,5 +153,30 @@ div.category {
         font-size: 15px;
       }
     }
+    div.book {
+        display: inline-block;
+
+
+      div.title {
+        font-size: 15px;
+      }
+    }
   }
 }
+
+
+@media (max-width: 480px) {
+
+  div.category {
+    div.book {
+      width: 100%;
+      text-align: center;
+    }
+    div.title {
+      width: 80%;
+      margin: auto;
+      margin-top: 10px;
+    }
+  }
+}
+

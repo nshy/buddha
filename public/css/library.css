@@ -1,10 +1,13 @@
 div.library {
   text-align: center; }
   div.library div.title {
-    text-align: center;
-    margin-bottom: 50px; }
+    text-align: left;
+    margin-bottom: 10px; }
   div.library div.section {
     display: inline-block;
     vertical-align: top;
     text-align: left;
     margin: 0px 50px; }
+
+div.header h3 {
+  font-size: 14px; }
