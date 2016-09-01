@@ -13,8 +13,6 @@ body {
     padding-top: $navbar-height;
     background-color: #ffffff;
     border-radius: 0 0 6px 6px;
-    padding-left: 20px;
-    padding-right: 20px;
   }
 }
 
@@ -139,10 +137,9 @@ h2 {
 .footer {
   $contacts-width: 300px;
   background: #34465a;
-  padding: 20px 0px;
+  padding-top: 20px;
+  padding-bottom: 20px;
   border-radius: 0 0 5px 5px;
-  margin-left: -20px;
-  margin-right: -20px;
 
 
   .links {

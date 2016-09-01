@@ -1,46 +1,104 @@
-div.book {
-  div.headings { padding-left: 2em; }
-
-  div.heading {
-    padding-left: 1em;
-    text-indent: -2em;
-  }
-
-  div.cover {
-    display: inline-block;
-    vertical-align: top;
-    margin-right: 30px;
-  }
-
-  div.info {
-    display: inline-block;
-    width: 600px;
-    vertical-align: top;
-
-    div.table {
-      display: table;
-      padding: 0px 0px;
-
-      div.row { display: table-row; }
-
-      div.cell {
-        display: table-cell;
-        padding-top: 2px;
-      }
-
-      div.name {
-        font-weight: bold;
-        padding-right: 20px;
-        text-align: right;
-        width: 100px;
-      }
+.book {
+  .header {
+    .title {
+      font-size: 32px;
+      font-weight: 300;
+    }
+    .backlink {
+      margin-top: 5px;
+      font-size: 11px;
+      font-weight: 600;
     }
   }
 
-  div.categories {
-    display: inline-block;
-    margin-left: 20px;
+  .annotation {
+    margin-top: 15px;
+    .title {
+      font-size: 18px;
+      font-weight: 400;
+      margin-bottom: 5px;
+    }
+  }
 
-    h3 { margin-top: 0px; }
+  .headings {
+    .title {
+      font-size: 18px;
+      font-weight: 400;
+      margin-bottom: 5px;
+    }
+    .items {
+      padding-left: 1em;
+      .heading {
+        padding-left: 1em;
+        text-indent: -2em;
+      }
+    }
+    margin-bottom: 40px;
+  }
+
+  .cover {
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 15px;
+  }
+
+  .info-column {
+    display: inline-block;
+    vertical-align: top;
+
+    .info {
+      .info-table {
+        display: table;
+
+        .row { display: table-row; }
+
+        .cell {
+          display: table-cell;
+          font-size: 13px;
+          padding-bottom: 8px;
+        }
+
+        .name {
+          font-weight: 600;
+          padding-right: 20px;
+          width: 100px;
+        }
+
+        .value {
+          font-weight: 400;
+        }
+      }
+    }
+
+    hr {
+      margin-top: 10px;
+      margin-bottom: 25px;
+    }
+
+    .categories {
+      .title {
+        font-size: 18px;
+        font-weight: 400;
+      }
+      .item {
+        color:  #717783;
+        font-size: 13px;
+        font-weight: 400;
+        margin: 10px 0px;
+
+        a {
+          color:  #717783;
+        }
+        a:hover {
+          color: #5185ea;
+        }
+
+        .size {
+          color:  #a0a0a0;
+          font-size: 10px;
+          font-weight: bold;
+        }
+      }
+    }
   }
 }
