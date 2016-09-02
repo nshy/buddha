@@ -57,7 +57,7 @@
     display: inline-block;
     vertical-align: top;
     margin-right: 15px;
-    padding-top: 5px;
+    margin-top: 5px;
   }
 
   .info-column {
@@ -102,11 +102,11 @@
       .item {
         color:  #717783;
         font-size: 13px;
-        font-weight: 400;
+        font-weight: bold;
         margin: 10px 0px;
 
         a {
-          color:  #717783;
+          color:  #4789d9;
         }
         a:hover {
           color: #5185ea;
@@ -132,7 +132,7 @@
     }
 
     .cover {
-      padding-top: 5px;
+      margin-top: 5px;
     }
   }
 
