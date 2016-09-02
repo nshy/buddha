@@ -1,6 +1,6 @@
 div.category {
   hr {
-    border-top: 1px solid #eeeeee;
+    border-top: 1px solid #dedede;
   }
   hr:last-child {
     display:none;
@@ -71,7 +71,7 @@ div.category {
     float: right;
     width: 350px;
     vertical-align: top;
-    border-left: 1px solid #eeeeee;
+    border-left: 1px solid #dedede;
     margin-left: 20px;
     padding-left: 20px;
 
@@ -146,7 +146,7 @@ div.category {
       width: 100%;
       padding-bottom: 20px;
       margin-bottom: 30px;
-      border-bottom: 1px solid #eeeeee;
+      border-bottom: 1px solid #dedede;
 
       .item {
         margin: 10px 0px;
@@ -168,14 +168,20 @@ div.category {
 @media (max-width: 480px) {
 
   div.category {
+
     div.book {
-      width: 100%;
+      width: 98%;
       text-align: center;
-    }
-    div.title {
-      width: 80%;
-      margin: auto;
-      margin-top: 10px;
+
+      img.cover {
+        margin: 0 auto;
+      }
+
+      div.title {
+        width: 80%;
+        margin: auto;
+        margin-top: 10px;
+      }
     }
   }
 }

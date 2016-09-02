@@ -1,13 +1,30 @@
 .book {
+
+  hr {
+    margin-top: 20px;
+    margin-bottom: 22px;
+  }
+
   .header {
     .title {
-      font-size: 32px;
+      font-size: 36px;
       font-weight: 300;
+      text-align: left;
+      padding-top:18px;
+
     }
     .backlink {
-      margin-top: 5px;
-      font-size: 11px;
-      font-weight: 600;
+      margin-top: 8px;
+      font-size: 13px;
+      font-weight: 700;
+
+      a {
+        color: #4789d9;
+      }
+
+      a:hover {
+        color:#6d9fff;
+      }
     }
   }
 
@@ -40,6 +57,7 @@
     display: inline-block;
     vertical-align: top;
     margin-right: 15px;
+    padding-top: 5px;
   }
 
   .info-column {
@@ -66,6 +84,7 @@
 
         .value {
           font-weight: 400;
+          color: #585c62;
         }
       }
     }
@@ -100,5 +119,24 @@
         }
       }
     }
+  }
+}
+
+@media (max-width: 480px) {
+
+  .book {
+    .header {
+      .title {
+          font-size: 24px;
+      }
+    }
+
+    .cover {
+      padding-top: 5px;
+    }
+  }
+
+  .info-column {
+    padding-top: 20px;
   }
 }
