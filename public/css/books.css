@@ -79,3 +79,11 @@
       color: #a0a0a0;
       font-size: 10px;
       font-weight: bold; }
+
+@media (max-width: 480px) {
+  .book .header .title {
+    font-size: 24px; }
+  .book .cover {
+    margin-top: 5px; }
+  .info-column {
+    padding-top: 20px; } }

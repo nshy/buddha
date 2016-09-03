@@ -121,3 +121,22 @@
     }
   }
 }
+
+@media (max-width: 480px) {
+
+  .book {
+    .header {
+      .title {
+          font-size: 24px;
+      }
+    }
+
+    .cover {
+      margin-top: 5px;
+    }
+  }
+
+  .info-column {
+    padding-top: 20px;
+  }
+}
