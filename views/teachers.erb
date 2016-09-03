@@ -9,15 +9,7 @@
         <div class="cell">
           <a href="<%= teacher.page %>">
             <img src="/teachers/<%= teacher.image %>"/>
-          </a>
-        </div>
-      <% end %>
-    </div>
-    <div class="line-row">
-      <% @teachers.teacher.each do |teacher|%>
-        <div class="cell">
-          <a href="<%= teacher.page %>">
-            <h3><%= teacher.name %></h3>
+            <div> <h3><%= teacher.name %></h3> </div>
           </a>
         </div>
       <% end %>
