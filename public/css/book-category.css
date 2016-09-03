@@ -100,3 +100,14 @@ div.category div.header {
     div.category div.menu div.section .item {
       margin: 10px 0px;
       font-size: 15px; } }
+
+@media (max-width: 480px) {
+  div.category div.book {
+    width: 98%;
+    text-align: center; }
+    div.category div.book div.title {
+      width: 80%;
+      margin: auto;
+      margin-top: 10px; }
+    div.category div.book img.cover {
+      margin: 0 auto; } }

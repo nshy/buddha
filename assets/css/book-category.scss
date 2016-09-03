@@ -142,3 +142,23 @@ div.category {
 }
 
 }
+
+@media (max-width: 480px) {
+
+div.category {
+  div.book {
+    width: 98%;
+    text-align: center;
+
+    div.title {
+      width: 80%;
+      margin: auto;
+      margin-top: 10px;
+    }
+    img.cover {
+      margin: 0 auto;
+    }
+  }
+}
+
+}
