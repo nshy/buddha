@@ -86,3 +86,17 @@ div.category div.header {
     color: #4789d9; }
   div.category div.header a:hover {
     color: #6d9fff; }
+
+@media (max-width: 768px) {
+  div.category div.book div.title {
+    font-size: 15px; }
+  div.category div.menu {
+    border-left: 0px;
+    padding-left: 0px;
+    width: 100%;
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+    border-bottom: 1px solid #dedede; }
+    div.category div.menu div.section .item {
+      margin: 10px 0px;
+      font-size: 15px; } }
