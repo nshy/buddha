@@ -19,7 +19,6 @@
     <div class="info">
       <% # instead of just 'info' to escape bootstrap globals %>
       <div class="info-table">
-        <%= variable_row 'Название', @book.title %>
         <%= variable_row 'Автор', comma_present(@book.author) %>
         <%= variable_row 'Переводчик', comma_present(@book.translator) %>
         <%= variable_row 'Год', @book.year %>
