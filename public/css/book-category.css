@@ -1,5 +1,5 @@
 div.category hr {
-  border-top: 1px solid #eeeeee; }
+  border-top: 1px solid #dedede; }
 
 div.category hr:last-child {
   display: none; }
@@ -11,7 +11,7 @@ div.category .books {
 
 div.category div.book {
   display: inline-block;
-  width: 170px;
+  width: 160px;
   vertical-align: top;
   margin-right: 20px;
   margin-top: 20px; }
@@ -47,7 +47,7 @@ div.category div.menu {
   float: right;
   width: 350px;
   vertical-align: top;
-  border-left: 1px solid #eeeeee;
+  border-left: 1px solid #dedede;
   margin-left: 20px;
   padding-left: 20px; }
   div.category div.menu div.section .title {
@@ -60,7 +60,7 @@ div.category div.menu {
     font-size: 13px;
     font-weight: bold; }
     div.category div.menu div.section .item a {
-      color: #717783; }
+      color: #4789d9; }
     div.category div.menu div.section .item a:hover {
       color: #5185ea; }
     div.category div.menu div.section .item .size {
