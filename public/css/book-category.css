@@ -15,7 +15,8 @@ div.category div.book {
   div.category div.book div.title {
     margin-top: 15px;
     font-size: 13px;
-    font-weight: bold; }
+    font-weight: bold;
+    line-height: 1.3; }
   div.category div.book a {
     color: black; }
   div.category div.book a:hover {
