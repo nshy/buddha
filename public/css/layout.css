@@ -28,9 +28,6 @@ body {
     background-color: #ffffff;
     border-radius: 0 0 6px 6px; }
 
-.title {
-  font-weight: 500; }
-
 .navbar {
   background: rgba(235, 238, 242, 0.9); }
   .navbar .navbar-brand {
