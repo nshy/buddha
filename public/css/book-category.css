@@ -73,10 +73,12 @@ div.category div.menu::after {
 div.category div.header {
   text-align: left;
   padding-bottom: 20px; }
-  div.category div.header h1 {
-    margin-bottom: 0px; }
-  div.category div.header h3 {
-    margin-top: 20px;
+  div.category div.header .title {
+    margin-bottom: 0px;
+    font-weight: 300;
+    font-size: 36px; }
+  div.category div.header .backlink {
+    margin-top: 8px;
     font-size: 13px;
     font-weight: 700; }
   div.category div.header a {
