@@ -1,9 +1,6 @@
 @import 'config';
 
 div.category {
-  hr {
-    border-top: $separator-style;
-  }
   hr:last-child {
     display:none;
   }
