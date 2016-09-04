@@ -1,6 +1,8 @@
+@import 'config';
+
 div.category {
   hr {
-    border-top: 1px solid #dedede;
+    border-top: $separator-style;
   }
   hr:last-child {
     display:none;
@@ -60,7 +62,7 @@ div.category {
     float: right;
     width: 350px;
     vertical-align: top;
-    border-left: 1px solid #dedede;
+    border-left: $separator-style;
     margin-left: 20px;
     padding-left: 20px;
 
@@ -130,7 +132,7 @@ div.category {
     width: 100%;
     padding-bottom: 20px;
     margin-bottom: 30px;
-    border-bottom: 1px solid #dedede;
+    border-bottom: $separator-style;
 
     div.section {
       .item {
