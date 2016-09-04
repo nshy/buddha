@@ -15,6 +15,9 @@
 .page-header-buddha a:hover {
   color: #6d9fff; }
 
+hr {
+  border-top: 1px solid #dedede; }
+
 body {
   background-color: #a35555;
   margin-bottom: 50px;
@@ -24,9 +27,6 @@ body {
     padding-top: 44px;
     background-color: #ffffff;
     border-radius: 0 0 6px 6px; }
-
-hr {
-  border-top: 1px solid #dedede; }
 
 .title {
   font-weight: 500; }
