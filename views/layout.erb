@@ -52,23 +52,7 @@
     <div class="container body push">
       <%= yield %>
       <div class="footer row">
-        <div class="contacts">
-          <div class="copyright">
-            <img src="/copyright.svg"/>
-            1998-2016
-          </div>
-          <div class="name">
-            Московский Буддийский<br>Центр Ламы Цонкапы
-          </div>
-          <div class="address">
-            <img src="/pin.svg"/>
-            Москва, ул. Мытная 23, корп.1
-          </div>
-          <div class="phone">
-            <img src="/phone.svg"/>
-            <a href="tel:+74972376579">+7&nbsp;(497)&nbsp;237-65-79</a>
-          </div>
-        </div> <%# contacts %>
+        <%= erb :'partials/contacts' %>
         <div class="links">
           <div class="column">
             <div class="menu">
@@ -112,23 +96,7 @@
         <a href="/timetable?offset=0">РАСПИСАНИЕ</a>
         <a href="/library/">БИБЛИОТЕКА</a>
       </div>
-      <div class="contacts">
-        <div class="copyright">
-          <img src="/copyright.svg"/>
-          1998-2016
-        </div>
-        <div class="name">
-          Московский Буддийский Центр Ламы Цонкапы
-        </div>
-        <div class="address">
-          <img src="/pin.svg"/>
-          Москва, ул. Мытная 23, корп.1
-        </div>
-        <div class="phone">
-          <img src="/phone.svg"/>
-          <a href="tel:+74972376579">+7&nbsp;(497)&nbsp;237-65-79</a>
-        </div>
-      </div> <%# contacts %>
+      <%= erb :'partials/contacts' %>
     </div> <%# menu %>
   </body>
 </html>
