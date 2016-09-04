@@ -90,4 +90,16 @@ h2 {
   .navbar .nav.navbar-nav {
     display: none; }
   .footer {
-    display: none; } }
+    display: none; }
+  #scrollUp {
+    background-image: url(/to_top.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: 44px;
+    width: 44px;
+    bottom: 20px;
+    right: 20px; } }
+
+@media (min-width: 769px) {
+  #scrollUp {
+    display: none !important; } }
