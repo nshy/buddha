@@ -7,6 +7,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="/3d-party/js/bootstrap3-custom.js"></script>
     <script src="/3d-party/js/scrollUp.js"></script>
+    <script src="/3d-party/js/bigSlide.js"></script>
     <script src="/main.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700i&subset=cyrillic" rel="stylesheet">
     <link rel="stylesheet" href="/3d-party/css/bootstrap3-custom.css">
@@ -29,10 +30,10 @@
     <link rel="stylesheet" href="/css/donations.css">
   </head>
   <body>
-    <nav class="navbar navbar-default navbar-fixed-top">
+    <nav class="navbar navbar-default navbar-fixed-top push">
       <div class="container">
         <div class="navbar-header">
-          <a class="navbar-brand" href="/">
+          <a class="navbar-brand push" href="/">
             <img alt="Московский Буддийский Центр Ламы Цонкапы" src="/logo.svg">
           </a>
         </div>
@@ -45,9 +46,10 @@
             <li><a href="/library/">БИБЛИОТЕКА</a></li>
           </ul>
         </div>
+        <a href="#menu" class="menu-link">&#9776;</a>
       </div>
     </nav>
-    <div class="container body">
+    <div class="container body push">
       <%= yield %>
       <div class="footer row">
         <div class="contacts">
@@ -98,6 +100,33 @@
               <a href="/links/">ССЫЛКИ</a>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="menu" class="panel" role="navigation">
+      <div class="links">
+        <a href="/about/">О ЦЕНТРЕ</a>
+        <a href="/archive/">УЧЕНИЯ</a>
+        <a href="/news?top=true">НОВОСТИ</a>
+        <a href="/timetable?offset=0">РАСПИСАНИЕ</a>
+        <a href="/library/">БИБЛИОТЕКА</a>
+      </div>
+      <div class="contacts">
+        <div class="copyright">
+          <img src="/copyright.svg"/>
+          1998-2016
+        </div>
+        <div class="name">
+          Московский Буддийский Центр Ламы Цонкапы
+        </div>
+        <div class="address">
+          <img src="/pin.svg"/>
+          Москва, ул. Мытная 23, корп.1
+        </div>
+        <div class="phone">
+          <img src="/phone.svg"/>
+          <a href="tel:+74972376579">+7&nbsp;(497)&nbsp;237-65-79</a>
         </div>
       </div>
     </div>

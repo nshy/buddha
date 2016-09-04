@@ -25,6 +25,8 @@ h2 {
     color: #5f646e;
     font-size: 12px;
     font-weight: 600; }
+  .navbar .menu-link {
+    display: none; }
 
 .footer {
   background: #34465a;
@@ -89,6 +91,13 @@ h2 {
     padding: 6px 5px 6px 10px; }
   .navbar .nav.navbar-nav {
     display: none; }
+  .navbar .menu-link {
+    position: absolute;
+    vertical-align: middle;
+    right: 14px;
+    top: 5px;
+    display: table-cell;
+    font-size: 25px; }
   .footer {
     display: none; }
   #scrollUp {
@@ -98,7 +107,47 @@ h2 {
     height: 44px;
     width: 44px;
     bottom: 20px;
-    right: 20px; } }
+    right: 20px; }
+  .panel {
+    position: fixed;
+    right: -15.625em;
+    /*left or right and the width of your navigation panel*/
+    width: 15.625em;
+    /*should match the above value*/
+    background: #2C3E50;
+    z-index: 9999;
+    border-radius: 0px; }
+    .panel .links a {
+      display: block;
+      border-bottom: 1px solid #34495D;
+      padding: 13px;
+      font-size: 12px;
+      letter-spacing: 1px;
+      color: #fff; }
+    .panel .contacts {
+      padding-left: 15px;
+      color: #cbd6e2;
+      font-size: 11px;
+      position: absolute;
+      font-weight: 400;
+      bottom: 15px; }
+      .panel .contacts .copyright img {
+        padding: 0 3px 3px 0; }
+      .panel .contacts .name {
+        margin: 4px 0px 14px;
+        padding: 0 21px 0 21px; }
+        .panel .contacts .name img {
+          padding: 0 4px 3px 0; }
+      .panel .contacts .address {
+        margin: 5px 0px 14px; }
+        .panel .contacts .address img {
+          padding: 0 6px 3px 0; }
+      .panel .contacts .phone a {
+        color: #cbd6e2; }
+      .panel .contacts .phone a:hover {
+        color: #5185ea; }
+      .panel .contacts .phone img {
+        padding: 0 4px 3px 0; } }
 
 @media (min-width: 769px) {
   #scrollUp {

@@ -38,6 +38,9 @@ h2 {
     font-size: 12px;
     font-weight: 600;
   }
+  .menu-link {
+    display: none;
+  }
 }
 
 .footer {
@@ -151,6 +154,15 @@ body {
   .nav.navbar-nav {
     display: none;
   }
+  .menu-link {
+    position: absolute;
+    vertical-align: middle;
+    right: 14px;
+    top: 5px;
+    display: table-cell;
+    font-size: 25px;
+  }
+
 }
 
 .footer {
@@ -167,8 +179,73 @@ body {
   right: 20px;
 }
 
+.panel {
+  position: fixed;
+  right: -15.625em; /*left or right and the width of your navigation panel*/
+  width: 15.625em; /*should match the above value*/
+  background: #2C3E50;
+  z-index: 9999;
+  border-radius: 0px;
+
+  .links {
+    a {
+      display: block;
+      border-bottom: 1px solid #34495D;
+      padding: 13px;
+      font-size: 12px;
+      letter-spacing: 1px;
+      color: #fff;
+    }
+  }
+
+  .contacts {
+    padding-left: 15px;
+    color: #cbd6e2;
+    font-size: 11px;
+    position: absolute;
+    font-weight: 400;
+    bottom: 15px;
+
+    .copyright {
+      img {
+        padding: 0 3px 3px 0;
+      }
+    }
+
+    .name {
+      margin: 4px 0px 14px;
+      padding: 0 21px 0 21px;
+
+      img {
+        padding: 0 4px 3px 0;
+      }
+    }
+
+    .address {
+      margin: 5px 0px 14px;
+
+      img {
+        padding: 0 6px 3px 0;
+      }
+    }
+
+    .phone {
+      a {
+        color:#cbd6e2;
+      }
+
+      a:hover {
+        color: #5185ea;
+      }
+
+      img {
+        padding: 0 4px 3px 0;
+      }
+    }
+  }
 }
 
+}
 
 @media (min-width: 769px) {
 
