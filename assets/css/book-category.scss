@@ -95,28 +95,6 @@ div.category {
     display: block;
   }
 
-  div.header {
-    text-align: left;
-    padding-bottom: 20px;
-
-    .title {
-      margin-bottom: 0px;
-      font-weight: 300;
-      font-size: 36px;
-    }
-    .backlink {
-      margin-top: 8px;
-      font-size: 13px;
-      font-weight: 700;
-    }
-
-    a {
-      color: #4789d9;
-    }
-    a:hover {
-      color:#6d9fff;
-    }
-  }
 }
 
 @media (max-width: 768px) {

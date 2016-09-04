@@ -2,21 +2,6 @@
   margin-top: 20px;
   margin-bottom: 22px; }
 
-.book .header .title {
-  font-size: 36px;
-  font-weight: 300;
-  text-align: left;
-  padding-top: 18px; }
-
-.book .header .backlink {
-  margin-top: 8px;
-  font-size: 13px;
-  font-weight: 700; }
-  .book .header .backlink a {
-    color: #4789d9; }
-  .book .header .backlink a:hover {
-    color: #6d9fff; }
-
 .book .annotation {
   margin-top: 15px; }
   .book .annotation .title {

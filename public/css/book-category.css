@@ -70,22 +70,6 @@ div.category div.menu::after {
   clear: both;
   display: block; }
 
-div.category div.header {
-  text-align: left;
-  padding-bottom: 20px; }
-  div.category div.header .title {
-    margin-bottom: 0px;
-    font-weight: 300;
-    font-size: 36px; }
-  div.category div.header .backlink {
-    margin-top: 8px;
-    font-size: 13px;
-    font-weight: 700; }
-  div.category div.header a {
-    color: #4789d9; }
-  div.category div.header a:hover {
-    color: #6d9fff; }
-
 @media (max-width: 768px) {
   div.category div.book div.title {
     font-size: 15px; }
