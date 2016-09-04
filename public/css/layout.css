@@ -79,3 +79,15 @@ h2 {
       color: #5185ea; }
     .footer .contacts .phone img {
       padding: 0 4px 3px 0; }
+
+@media (max-width: 768px) {
+  body .container.body {
+    position: absolute;
+    width: 100%;
+    border-radius: 0px; }
+  .navbar .navbar-brand {
+    padding: 6px 5px 6px 10px; }
+  .navbar .nav.navbar-nav {
+    display: none; }
+  .footer {
+    display: none; } }
