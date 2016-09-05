@@ -68,7 +68,7 @@ div.category div.menu::after {
   clear: both;
   display: block; }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   div.category .books {
     margin: 0px 0px; }
   div.category div.book div.title {

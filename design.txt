@@ -1,2 +1,8 @@
 medium image size:
 height = 300, max(width) = 240
+
+
+==GRID
+bootstrap uses min-width: 768, 992, 1200
+we use max-width, thus we should have 767, 991, 1199
+480 is unknown to bootstrap so the our value could be anyone

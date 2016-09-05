@@ -100,7 +100,7 @@ body {
     .footer .contacts .phone img {
       padding: 0 4px 3px 0; }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   body .container.body {
     position: absolute;
     width: 100%;
@@ -167,6 +167,6 @@ body {
       .panel .contacts .phone img {
         padding: 0 4px 3px 0; } }
 
-@media (min-width: 769px) {
+@media (min-width: 768px) {
   #scrollUp {
     display: none !important; } }
