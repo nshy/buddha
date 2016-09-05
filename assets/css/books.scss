@@ -99,6 +99,18 @@
   }
 }
 
+
+@media (min-width: 481px) and (max-width: 991px) {
+
+.book {
+  .info-column {
+    margin-top: 20px;
+  }
+}
+
+}
+
+
 @media (max-width: 480px) {
 
   .book {
