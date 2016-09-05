@@ -1,7 +1,11 @@
 <div class="category">
-  <div class='header'>
-    <h1> <%= @category.name %> </h1>
-    <h3> <a href="/library/"> &larr; БИБЛИОТЕКА </a> </h3>
+  <div class="page-header-buddha">
+    <h1 class="title">
+      <%= @category.name %>
+    </h1>
+    <div class="backlink">
+      <a href="/library/"> &larr; БИБЛИОТЕКА </a>
+    </div>
   </div>
   <div class="menu">
     <% if not category_categories(@categories, @id).empty? %>

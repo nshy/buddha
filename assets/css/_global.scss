@@ -1,0 +1,29 @@
+// .page-header is occupied by bootstrap
+.page-header-buddha {
+  .title {
+    font-weight: 300;
+    font-size: 36px;
+    padding-top: 18px;
+    line-height: 1.3;
+  }
+  .backlink {
+    margin-top: 8px;
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  a {
+    color: #4789d9;
+  }
+  a:hover {
+    color:#6d9fff;
+  }
+}
+
+hr {
+  border-top: $separator-style;
+}
+
+p {
+  color: #585c62;
+}

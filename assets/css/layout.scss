@@ -1,8 +1,9 @@
+@import 'config';
+@import 'global';
+
 // this is from less variables of bootstrap
 $navbar-height: 44px;
 $nav-link-padding-x: 15px;
-
-$color_gray_separator: #dedede;
 
 body {
   background-color: #a35555;
@@ -16,120 +17,6 @@ body {
   }
 }
 
-#scrollUp {
-  background-image: url(/to_top.png);
-  background-size: contain;
-  background-repeat: no-repeat;
-  height: 44px;
-  width: 44px;
-  bottom: 20px;
-  right: 20px;
-}
-
-.panel {
-    position: fixed;
-    right: -15.625em; /*left or right and the width of your navigation panel*/
-    width: 15.625em; /*should match the above value*/
-    background: #2C3E50;
-    z-index: 9999;
-    border-radius: 0px;
-
-    ul {
-      /*border-top: 2px solid #34495D;*/
-      padding-left: 0px;
-
-        li {
-          list-style: none;
-        }
-
-        a {
-          display: block;
-          border-bottom: 1px solid #34495D;
-          padding: 13px;
-          font-size: 12px;
-          letter-spacing: 1px;
-        }
-
-        a:link, a:visited {
-          color: #fff;
-        }
-    }
-
-    .side_cont {
-
-      .contacts {
-        float: left;
-        padding-left: 15px;
-        color: #cbd6e2;
-        font-size: 11px;
-        position: absolute;
-        font-weight: 400;
-        bottom: 15px;
-
-        .copyright {
-          float: left;
-
-          img {
-            padding: 0 3px 3px 0;
-          }
-        }
-
-        .name {
-          margin: 4px 0px 14px;
-          clear: both;
-          padding: 0 21px 0 21px;
-
-          img {
-            padding: 0 4px 3px 0;
-          }
-        }
-
-        .address {
-          margin: 5px 0px 14px;
-
-          img {
-            padding: 0 6px 3px 0;
-          }
-        }
-
-        .phone {
-          a {
-            color:#cbd6e2;
-          }
-
-          a:hover {
-            color: #5185ea;
-          }
-
-          img {
-            padding: 0 4px 3px 0;
-          }
-        }
-      }
-
-    }
-}
-
-hr {
-  border-top: 1px solid #dedede;
-}
-
-p {
-  color: #585c62;
-}
-
-h1 {
-  font-weight: 300;
-}
-
-h2 {
-  font-weight: 300;
-}
-
-.title {
-  font-weight: 500;
-  line-height: 1.3;
-}
 
 .navbar {
   background: rgba(235, 238, 242, .90);
@@ -142,6 +29,9 @@ h2 {
     color: #5f646e;
     font-size: 12px;
     font-weight: 600;
+  }
+  .menu-link {
+    display: none;
   }
 }
 
@@ -198,8 +88,6 @@ h2 {
     font-weight: 400;
 
     $copyright-width: 90px;
-
-
     .copyright {
       float: left;
       width: $copyright-width;
@@ -211,6 +99,114 @@ h2 {
 
     .name {
       margin-left: $copyright-width;
+
+      img {
+        padding: 0 4px 3px 0;
+      }
+    }
+
+    .address {
+      margin: 5px 0px 14px;
+
+      img {
+        padding: 0 6px 3px 0;
+      }
+    }
+
+    .phone {
+      a {
+        color:#cbd6e2;
+      }
+      a:hover {
+        color: #5185ea;
+      }
+
+      img {
+        padding: 0 4px 3px 0;
+      }
+    }
+  }
+}
+
+
+@media (max-width: 768px) {
+
+body {
+  .container.body {
+    position: absolute;
+    width: 100%;
+    border-radius: 0px;
+  }
+}
+
+.navbar {
+  .navbar-brand {
+    padding: 6px 5px 6px 10px;
+  }
+  .nav.navbar-nav {
+    display: none;
+  }
+  .menu-link {
+    position: absolute;
+    vertical-align: middle;
+    right: 14px;
+    top: 5px;
+    display: table-cell;
+    font-size: 25px;
+  }
+
+}
+
+.footer {
+  display: none;
+}
+
+#scrollUp {
+  background-image: url(/to_top.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  height: 44px;
+  width: 44px;
+  bottom: 20px;
+  right: 20px;
+}
+
+.panel {
+  position: fixed;
+  right: -15.625em; /*left or right and the width of your navigation panel*/
+  width: 15.625em; /*should match the above value*/
+  background: #2C3E50;
+  z-index: 9999;
+  border-radius: 0px;
+
+  .links {
+    a {
+      display: block;
+      border-bottom: 1px solid #34495D;
+      padding: 13px;
+      font-size: 12px;
+      letter-spacing: 1px;
+      color: #fff;
+    }
+  }
+
+  .contacts {
+    padding-left: 15px;
+    color: #cbd6e2;
+    font-size: 11px;
+    position: absolute;
+    font-weight: 400;
+    bottom: 15px;
+
+    .copyright {
+      img {
+        padding: 0 3px 3px 0;
+      }
+    }
+
+    .name {
+      margin: 4px 0px 14px;
+      padding: 0 21px 0 21px;
 
       img {
         padding: 0 4px 3px 0;
@@ -241,104 +237,12 @@ h2 {
   }
 }
 
-
-@media (max-width: 768px) {
-
-  body {
-    .container.body {
-      position: absolute;
-      width: 100%;
-      border-radius: 0px;
-    }
-
-    .nav.navbar-nav {
-      display: none;
-    }
-  }
-
-  .navbar {
-
-    .navbar-brand {
-      padding: 6px 5px 6px 10px;
-    }
-  }
-
-  .footer {
-    display: none;
-  }
-
-
-  .panel {
-      position: fixed;
-      right: -15.625em; /*left or right and the width of your navigation panel*/
-      width: 15.625em; /*should match the above value*/
-  }
-
-  .menu-button-on {
-    position: absolute;
-    vertical-align: middle;
-    right: 14px;
-    top: 21px;
-    display: table-cell;
-  }
-  .menu-button {
-    position: relative;
-    float: left;
-    display: block;
-    width: 22px;
-    height: 30px;
-    cursor: pointer;
-
-    span {
-      position: absolute;
-      width: 100%;
-      height: 1px;
-      display: block;
-      border-radius: 1px;
-      left: 0;
-      background: #000;
-    }
-
-    span:nth-child(1) {
-      top: -7px;
-    }
-
-    span:nth-child(2) {
-      top: 7px;
-    }
-  }
-}
-
-@media (max-width: 400px) {
-
-  body {
-    margin-bottom: 0px;
-  }
-  .footer {
-    padding: 30px 0px;
-    border-radius: 0;
-
-    .contacts {
-      width: 100%;
-      padding-bottom: 30px;
-      padding-left: 30px;
-    }
-
-    .links {
-      margin-right: 0px;
-
-      .column {
-        display: inline-block;
-        vertical-align: top;
-        width: 100px;
-      }
-    }
-  }
 }
 
 @media (min-width: 769px) {
-  #scrollUp {
-    display: none !important;
-  }
+
+#scrollUp {
+  display: none !important;
 }
 
+}

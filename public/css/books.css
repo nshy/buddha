@@ -1,11 +1,6 @@
-.book .header .title {
-  font-size: 32px;
-  font-weight: 300; }
-
-.book .header .backlink {
-  margin-top: 5px;
-  font-size: 11px;
-  font-weight: 600; }
+.book hr {
+  margin-top: 20px;
+  margin-bottom: 22px; }
 
 .book .annotation {
   margin-top: 15px; }
@@ -29,7 +24,8 @@
 .book .cover {
   display: inline-block;
   vertical-align: top;
-  margin-right: 15px; }
+  margin-right: 15px;
+  margin-top: 5px; }
 
 .book .info-column {
   display: inline-block;
@@ -47,7 +43,8 @@
       padding-right: 20px;
       width: 100px; }
     .book .info-column .info .info-table .value {
-      font-weight: 400; }
+      font-weight: 400;
+      color: #585c62; }
   .book .info-column hr {
     margin-top: 10px;
     margin-bottom: 25px; }
@@ -57,13 +54,21 @@
   .book .info-column .categories .item {
     color: #717783;
     font-size: 13px;
-    font-weight: 400;
+    font-weight: bold;
     margin: 10px 0px; }
     .book .info-column .categories .item a {
-      color: #717783; }
+      color: #4789d9; }
     .book .info-column .categories .item a:hover {
       color: #5185ea; }
     .book .info-column .categories .item .size {
       color: #a0a0a0;
       font-size: 10px;
       font-weight: bold; }
+
+@media (max-width: 480px) {
+  .book .header .title {
+    font-size: 24px; }
+  .book .cover {
+    margin-top: 5px; }
+  .info-column {
+    padding-top: 20px; } }
