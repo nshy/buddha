@@ -21,6 +21,10 @@ hr {
 p {
   color: #585c62; }
 
+@media (max-width: 480px) {
+  .page-header-buddha .title {
+    font-size: 24px; } }
+
 body {
   background-color: #a35555;
   margin-bottom: 50px;
