@@ -86,7 +86,7 @@
           color:  #4789d9;
         }
         a:hover {
-          color: #5185ea;
+          color: #6d9fff;
         }
 
         .size {
@@ -98,6 +98,16 @@
     }
   }
 }
+
+@media (min-width: 480px) and (max-width:1024px) {
+
+  .book {
+    .info-column {
+      margin-top: 20px;
+    }
+  }
+}
+
 
 @media (max-width: 480px) {
 
