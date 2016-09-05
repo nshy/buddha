@@ -1,38 +1,38 @@
-div.category hr:last-child {
+.category hr:last-child {
   display: none; }
 
-div.category .books {
+.category .books {
   margin: -6px 0px 50px 0px; }
-  div.category .books .name {
+  .category .books .name {
     font-size: 18px; }
 
-div.category div.book {
+.category .book {
   display: inline-block;
   width: 160px;
   vertical-align: top;
   margin-right: 20px;
   margin-top: 20px; }
-  div.category div.book div.title {
+  .category .book .title {
     margin-top: 15px;
     font-size: 13px;
     font-weight: bold;
     line-height: 1.3; }
-  div.category div.book a {
+  .category .book a {
     color: black; }
-  div.category div.book a:hover {
+  .category .book a:hover {
     color: #6d9fff; }
-    div.category div.book a:hover img.cover {
+    .category .book a:hover img.cover {
       opacity: 1;
       -webkit-filter: saturate(150%);
       filter: saturate(150%);
       -webkit-filter: brightness(1.2);
       filter: brightness(1.2); }
-  div.category div.book div.author {
+  .category .book .author {
     margin-top: 7px;
     font-size: 11px;
     font-weight: bold;
     color: #717783; }
-  div.category div.book img.cover {
+  .category .book img.cover {
     border-style: solid;
     border-width: 1px;
     border-color: #777777;
@@ -40,7 +40,7 @@ div.category div.book {
     -webkit-filter: saturate(100%);
     filter: saturate(100%); }
 
-div.category div.menu {
+.category .menu {
   display: inline-block;
   float: right;
   width: 350px;
@@ -48,49 +48,49 @@ div.category div.menu {
   border-left: 1px solid #dedede;
   margin-left: 20px;
   padding-left: 20px; }
-  div.category div.menu div.section .title {
+  .category .menu .section .title {
     font-weight: 500;
     font-size: 18px;
     padding-bottom: 10px;
     margin-top: -6px; }
-  div.category div.menu div.section .item {
+  .category .menu .section .item {
     margin: 8px 0px;
     color: #717783;
     font-size: 13px;
     font-weight: bold; }
-    div.category div.menu div.section .item .size {
+    .category .menu .section .item .size {
       color: #a0a0a0;
       font-size: 10px;
       font-weight: bold; }
 
-div.category div.menu::after {
+.category .menu::after {
   content: " ";
   clear: both;
   display: block; }
 
 @media (max-width: 767px) {
-  div.category .books {
+  .category .books {
     margin: 0px 0px; }
-  div.category div.book div.title {
+  .category .book .title {
     font-size: 15px; }
-  div.category div.menu {
+  .category .menu {
     border-left: 0px;
     padding-left: 0px;
     width: 100%;
     padding-bottom: 20px;
     margin-bottom: 30px;
     border-bottom: 1px solid #dedede; }
-    div.category div.menu div.section .item {
+    .category .menu .section .item {
       margin: 10px 0px;
       font-size: 15px; } }
 
 @media (max-width: 480px) {
-  div.category div.book {
+  .category .book {
     width: 98%;
     text-align: center; }
-    div.category div.book div.title {
+    .category .book .title {
       width: 80%;
       margin: auto;
       margin-top: 10px; }
-    div.category div.book img.cover {
+    .category .book img.cover {
       margin: 0 auto; } }
