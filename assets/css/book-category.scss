@@ -6,10 +6,10 @@ div.category {
   }
 
   .books {
-    margin-bottom: 50px;
     .name {
       font-size: 18px;
     }
+    margin: -6px 0px 50px 0px;
   }
   div.book {
     div.title {
@@ -69,6 +69,7 @@ div.category {
         font-weight: 500;
         font-size: 18px;
         padding-bottom: 10px;
+        margin-top: -6px;
       }
       .item {
         margin: 8px 0px;
@@ -101,6 +102,9 @@ div.category {
 @media (max-width: 768px) {
 
 div.category {
+  .books {
+    margin: 0px 0px;
+  }
   div.book {
     div.title {
       font-size: 15px;
