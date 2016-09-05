@@ -20,7 +20,7 @@ div.category div.book {
   div.category div.book a {
     color: black; }
   div.category div.book a:hover {
-    color: #5185ea; }
+    color: #6d9fff; }
     div.category div.book a:hover img.cover {
       opacity: 1;
       -webkit-filter: saturate(150%);
@@ -58,10 +58,6 @@ div.category div.menu {
     color: #717783;
     font-size: 13px;
     font-weight: bold; }
-    div.category div.menu div.section .item a {
-      color: #4789d9; }
-    div.category div.menu div.section .item a:hover {
-      color: #5185ea; }
     div.category div.menu div.section .item .size {
       color: #a0a0a0;
       font-size: 10px;

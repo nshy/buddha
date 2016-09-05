@@ -1,3 +1,5 @@
+@import 'config';
+
 // .page-header is occupied by bootstrap
 .page-header-buddha {
   .title {
@@ -19,6 +21,13 @@ hr {
 
 p {
   color: #585c62;
+}
+
+a {
+  color: #4789d9;
+}
+a:hover {
+  color: $link-color-hover;
 }
 
 

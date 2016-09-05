@@ -22,7 +22,7 @@ div.category {
       color: black;
     }
     a:hover {
-      color: #5185ea;
+      color: $link-color-hover;
       img.cover {
         opacity: 1;
         -webkit-filter: saturate(150%);
@@ -73,12 +73,6 @@ div.category {
       }
       .item {
         margin: 8px 0px;
-        a {
-          color:  #4789d9;
-        }
-        a:hover {
-          color: #5185ea;
-        }
         color:  #717783;
         font-size: 13px;
         font-weight: bold;

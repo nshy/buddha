@@ -56,10 +56,6 @@
     font-size: 13px;
     font-weight: bold;
     margin: 10px 0px; }
-    .book .info-column .categories .item a {
-      color: #4789d9; }
-    .book .info-column .categories .item a:hover {
-      color: #6d9fff; }
     .book .info-column .categories .item .size {
       color: #a0a0a0;
       font-size: 10px;
