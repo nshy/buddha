@@ -81,28 +81,29 @@ div.category {
         font-size: 18px;
         padding-bottom: 10px;
       }
-    }
-    .item {
-      margin: 8px 0px;
-      color:  #717783;
-      font-size: 13px;
-      font-weight: bold;
 
-      a {
-        color:  #4789d9;
-      }
-      a:hover {
-        color: #5185ea;
-      }
-
-      .size {
-        color:  #a0a0a0;
-        font-size: 10px;
+      .item {
+        margin: 8px 0px;
+        color:  #717783;
+        font-size: 13px;
         font-weight: bold;
+
+        a {
+          color:  #4789d9;
+        }
+        a:hover {
+          color: #5185ea;
+        }
+
         .size {
           color:  #a0a0a0;
           font-size: 10px;
           font-weight: bold;
+          .size {
+            color:  #a0a0a0;
+            font-size: 10px;
+            font-weight: bold;
+          }
         }
       }
     }
