@@ -47,20 +47,7 @@
         <div class="name"> <%= group.name %> </div>
         <% group.book.each do |book_id| %>
           <% book = @books[book_id] %>
-          <div class="book">
-            <a href="<%= "/book/#{book_id}/" %>">
-              <img class="cover"
-                   src="<%= book_cover_url(book_id, :medium) %>"/>
-              <div class="title">
-                <%= @books[book_id].title %>
-              </div>
-            </a>
-            <% if not book.author.empty? %>
-              <div class="author">
-                <%= book.author.join(', ') %>
-              </div>
-            <% end %>
-          </div>
+          <%= book_thumb(book_id, book) %>
         <% end %>
       </div>
       <hr/>

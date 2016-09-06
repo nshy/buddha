@@ -211,6 +211,10 @@ module BookHelpers
     end
     r.keys
   end
+
+  def book_thumb(id, book)
+    erb :'partials/book_thumb', locals: { id: id, book: book }
+  end
 end
 
 module CategoryHelpers

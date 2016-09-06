@@ -1,0 +1,14 @@
+<div class="book">
+  <a href="<%= "/book/#{id}/" %>">
+    <img class="cover"
+         src="<%= book_cover_url(id, :medium) %>"/>
+    <div class="title">
+      <%= book.title %>
+    </div>
+  </a>
+  <% if not book.author.empty? %>
+    <div class="author">
+      <%= book.author.join(', ') %>
+    </div>
+  <% end %>
+</div>
