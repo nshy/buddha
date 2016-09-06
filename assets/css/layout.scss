@@ -23,6 +23,12 @@ body {
 
   .navbar-brand {
     padding: 6px 5px 6px 20px;
+
+    img {
+      width: 34px;
+      height: 34px;
+      margin-top: -2px;
+    }
   }
 
   .navbar-nav > li > a {
