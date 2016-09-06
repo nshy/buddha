@@ -47,17 +47,17 @@
     .book-thumb img.cover {
       margin: 0 auto; } }
 
-div.library {
+.library {
   overflow: auto; }
-  div.library .recent {
+  .library .recent {
     display: inline-block;
     width: 600px;
     float: right; }
-  div.library .recent::after {
+  .library .recent::after {
     content: " ";
     clear: both;
     display: block; }
-  div.library div.section {
+  .library .section {
     display: inline-block;
     vertical-align: top;
     text-align: left; }
