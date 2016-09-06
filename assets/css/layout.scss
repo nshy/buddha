@@ -22,7 +22,12 @@ body {
   background: rgba(235, 238, 242, .90);
 
   .navbar-brand {
-    padding: 6px 5px 6px 20px;
+    padding: 4px 5px 6px 20px;
+
+    img {
+      width: 34px;
+      height: 34px;
+    }
   }
 
   .navbar-nav > li > a {
