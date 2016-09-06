@@ -49,6 +49,10 @@ body {
     font-weight: 600; }
   .navbar .menu-link {
     display: none; }
+    .navbar .menu-link img {
+      width: 34px;
+      height: 34px;
+      margin: -7px -4px 0 0; }
 
 .footer {
   background: #34465a;
