@@ -1,6 +1,6 @@
 @import 'config';
 
-.book {
+.book-thumb {
   .title {
     margin-top: 15px;
     font-size: 13px;
@@ -47,7 +47,7 @@
 
 @media (max-width: 767px) {
 
-.book {
+.book-thumb {
   .title {
     font-size: 15px;
   }
@@ -58,7 +58,7 @@
 
 @media (max-width: 480px) {
 
-.book {
+.book-thumb {
   width: 98%;
   text-align: center;
 
