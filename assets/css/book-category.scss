@@ -1,4 +1,5 @@
 @import 'config';
+@import '_library';
 
 .category {
   hr:last-child {
@@ -10,49 +11,6 @@
       font-size: 18px;
     }
     margin: -6px 0px 50px 0px;
-  }
-  .book {
-    .title {
-      margin-top: 15px;
-      font-size: 13px;
-      font-weight: bold;
-      line-height: 1.3;
-    }
-    a {
-      color: black;
-    }
-    a:hover {
-      color: $link-color-hover;
-      img.cover {
-        opacity: 1;
-        -webkit-filter: saturate(150%);
-        filter: saturate(150%);
-        -webkit-filter: brightness(1.2);
-        filter: brightness(1.2);
-      }
-    }
-    .author {
-      margin-top: 7px;
-      font-size: 11px;
-      font-weight: bold;
-      color: #717783;
-    }
-
-
-    img.cover {
-      border-style: solid;
-      border-width: 1px;
-      border-color: #777777;
-      height: 210px;
-      -webkit-filter: saturate(100%);
-      filter: saturate(100%);
-    }
-
-    display: inline-block;
-    width: 160px;
-    vertical-align: top;
-    margin-right: 20px;
-    margin-top: 20px;
   }
 
   .menu {
@@ -100,11 +58,6 @@
   .books {
     margin: 0px 0px;
   }
-  .book {
-    .title {
-      font-size: 15px;
-    }
-  }
   .menu {
     border-left: 0px;
     padding-left: 0px;
@@ -118,27 +71,6 @@
         margin: 10px 0px;
         font-size: 15px;
       }
-    }
-  }
-}
-
-}
-
-
-@media (max-width: 480px) {
-
-.category {
-  .book {
-    width: 98%;
-    text-align: center;
-
-    .title {
-      width: 80%;
-      margin: auto;
-      margin-top: 10px;
-    }
-    img.cover {
-      margin: 0 auto;
     }
   }
 }
