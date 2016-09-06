@@ -2,9 +2,18 @@
 
 .library {
   .recent {
+    .header {
+      .title {
+        font-size: 18px;
+        font-weight: 400;
+        margin-bottom: 10px;
+      }
+    }
+
     display: inline-block;
     width: 600px;
     float: right;
+    margin-left: 100px;
   }
   .recent::after {
     content: " ";
@@ -16,6 +25,24 @@
     display: inline-block;
     vertical-align: top;
     text-align: left;
+    margin-bottom: 30px;
+
+    .title {
+      font-size: 18px;
+      font-weight: 400;
+      margin-bottom: 10px;
+    }
+    .item {
+      font-size: 18px;
+      font-weight: 400;
+      .size {
+        color:  #a0a0a0;
+        font-size: 12px;
+        font-weight: 400;
+      }
+      margin-bottom: 7px;
+    }
   }
+
   overflow: auto;
 }

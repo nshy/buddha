@@ -52,7 +52,12 @@
   .library .recent {
     display: inline-block;
     width: 600px;
-    float: right; }
+    float: right;
+    margin-left: 100px; }
+    .library .recent .header .title {
+      font-size: 18px;
+      font-weight: 400;
+      margin-bottom: 10px; }
   .library .recent::after {
     content: " ";
     clear: both;
@@ -60,4 +65,17 @@
   .library .section {
     display: inline-block;
     vertical-align: top;
-    text-align: left; }
+    text-align: left;
+    margin-bottom: 30px; }
+    .library .section .title {
+      font-size: 18px;
+      font-weight: 400;
+      margin-bottom: 10px; }
+    .library .section .item {
+      font-size: 18px;
+      font-weight: 400;
+      margin-bottom: 7px; }
+      .library .section .item .size {
+        color: #a0a0a0;
+        font-size: 12px;
+        font-weight: 400; }

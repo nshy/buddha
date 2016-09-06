@@ -4,6 +4,9 @@
   </div>
 
   <div class="recent">
+    <div class="header">
+      <div class="title"> Последние добавленные </div>
+    </div>
     <% @books.each do |id, book| %>
       <%= book_thumb(id, book) %>
     <% end %>
@@ -11,9 +14,11 @@
 
   <% @library.section.each do |section| %>
     <div class="section">
-      <h2> <%= section.name %> </h2>
+      <div class="title"> <%= section.name %> </div>
         <% section.category.each do |category| %>
-          <div> <h3> <%= category_link(@categories, category) %> </h3> </div>
+          <div class="item">
+            <%= category_link(@categories, category) %>
+          </div>
         <% end %>
     </div>
   <% end %>
