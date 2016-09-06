@@ -87,8 +87,14 @@ end
 
 get '/library/' do
   @categories = load_categories
+  @books = {}
   File.open('data/library.xml') do |file|
     @library = LibraryDocument.new(Nokogiri::XML(file)).library
+  end
+  @library.recent.book.each do |book_id|
+    File.open("data/books/#{book_id}/info.xml") do |file|
+      @books[book_id] = BookDocument.new(Nokogiri::XML(file)).book
+    end
   end
   erb :library
 end

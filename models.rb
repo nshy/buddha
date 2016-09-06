@@ -63,6 +63,9 @@ class LibraryDocument < XDSL::Element
       element :name
       elements :category
     end
+    element :recent do
+      elements :book
+    end
   end
 end
 

@@ -2,6 +2,26 @@
   <div class="title">
     <h1> Библиотека </h1>
   </div>
+
+  <div class="recent">
+    <% @books.each do |id, book| %>
+      <div class="book">
+        <a href="<%= "/book/#{id}/" %>">
+          <img class="cover"
+               src="<%= book_cover_url(id, :medium) %>"/>
+          <div class="title">
+            <%= book.title %>
+          </div>
+        </a>
+        <% if not book.author.empty? %>
+          <div class="author">
+            <%= book.author.join(', ') %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
   <% @library.section.each do |section| %>
     <div class="section">
       <h2> <%= section.name %> </h2>
