@@ -3,7 +3,7 @@
   width: 160px;
   vertical-align: top;
   margin-right: 20px;
-  margin-top: 20px; }
+  margin-bottom: 20px; }
   .book-thumb .title {
     margin-top: 15px;
     font-size: 13px;
@@ -53,7 +53,8 @@
 .category .books {
   margin: -6px 0px 50px 0px; }
   .category .books .name {
-    font-size: 18px; }
+    font-size: 18px;
+    margin-bottom: 20px; }
 
 .category .menu {
   display: inline-block;
