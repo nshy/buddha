@@ -1,10 +1,21 @@
 @import '_library';
 
 div.library {
+  .recent {
+    display: inline-block;
+    width: 600px;
+    float: right;
+  }
+  .recent::after {
+    content: " ";
+    clear: both;
+    display: block;
+  }
+
   div.section {
     display: inline-block;
     vertical-align: top;
     text-align: left;
-    margin: 0px 50px;
   }
+  overflow: auto;
 }
