@@ -1,6 +1,11 @@
 @import '_library';
 
 .library {
+  background-image: url(/time.jpg);
+  background-position: 6% 90%;
+  background-size: 30%;
+  background-repeat: no-repeat;
+
   margin-bottom: 20px;
   .recent.tabletscreen {
     display: none;

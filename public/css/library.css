@@ -75,6 +75,10 @@ a:hover {
       margin: 0 auto; } }
 
 .library {
+  background-image: url(/time.jpg);
+  background-position: 6% 90%;
+  background-size: 30%;
+  background-repeat: no-repeat;
   margin-bottom: 20px;
   overflow: auto; }
   .library .recent.tabletscreen {
