@@ -131,8 +131,8 @@ body {
     background-repeat: no-repeat;
     height: 44px;
     width: 44px;
-    bottom: 20px;
-    right: 20px; }
+    bottom: 15px;
+    right: 15px !important; }
   .panel {
     position: fixed;
     right: -15.625em;
