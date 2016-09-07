@@ -1,12 +1,19 @@
 @import '_library';
 
 .library {
+  margin-bottom: 20px;
   .recent {
     .header {
       .title {
         font-size: 18px;
         font-weight: 400;
-        margin-bottom: 10px;
+        margin-bottom: 20px;
+      }
+    }
+
+    .section {
+      .title {
+        margin-bottom: 20px;
       }
     }
 
