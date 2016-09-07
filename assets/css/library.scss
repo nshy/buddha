@@ -7,7 +7,7 @@
       .title {
         font-size: 18px;
         font-weight: 400;
-        margin-bottom: 20px;
+        margin-bottom: 15px;
       }
     }
 
@@ -52,4 +52,50 @@
   }
 
   overflow: auto;
+}
+
+@media (max-width: 1200px) {
+
+.library {
+  .recent {
+    display: inline-block;
+    width: 530px;
+    float: right;
+    margin-left: 0px;
+
+    .book-thumb:nth-child(4),.book-thumb:nth-child(7),.book-thumb:nth-child(10) {
+      margin-right: 0px;
+    }
+  }
+}
+
+}
+
+@media (max-width: 1024px) {
+
+.library {
+  .recent {
+    display: inline-block;
+    width: 100%;
+    float: left;
+    margin-left: 0px;
+  }
+}
+
+.tabletscreen {
+  display: block !important;
+}
+.widescreen {
+  display: none !important;
+}
+}
+
+@media (min-width: 1024px) {
+
+.tabletscreen {
+  display: none !important;
+}
+.widescreen {
+  display: block !important;
+}
 }
