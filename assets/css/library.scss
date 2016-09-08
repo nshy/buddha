@@ -79,6 +79,7 @@
 @media (max-width: 1024px) {
 
 .library {
+  background-position: 96% 50px;
   .recent {
     display: inline-block;
     width: 100%;
@@ -102,5 +103,11 @@
 }
 .widescreen {
   display: block !important;
+}
+}
+
+@media (max-width: 480px) {
+.library {
+    background-image: none;
 }
 }
