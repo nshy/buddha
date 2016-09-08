@@ -78,6 +78,7 @@
 @media (max-width: 991px) {
 
 .library {
+  background-position: 96% 50px;
   .recent {
     width: 100%;
     float: none;
@@ -112,6 +113,15 @@
       margin-right: 20px;
     }
   }
+}
+
+}
+
+
+@media (max-width: 480px) {
+
+.library {
+    background-image: none;
 }
 
 }

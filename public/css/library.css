@@ -122,18 +122,24 @@ a:hover {
       margin-right: 0px; } }
 
 @media (max-width: 991px) {
-  .library .recent {
-    width: 100%;
-    float: none; }
-    .library .recent .book-thumb:nth-child(3n) {
-      margin-right: 20px; }
-    .library .recent .book-thumb:nth-child(4n) {
-      margin-right: 0px; }
-  .library .recent.widescreen {
-    display: none; }
-  .library .recent.tabletscreen {
-    display: block; } }
+  .library {
+    background-position: 96% 50px; }
+    .library .recent {
+      width: 100%;
+      float: none; }
+      .library .recent .book-thumb:nth-child(3n) {
+        margin-right: 20px; }
+      .library .recent .book-thumb:nth-child(4n) {
+        margin-right: 0px; }
+    .library .recent.widescreen {
+      display: none; }
+    .library .recent.tabletscreen {
+      display: block; } }
 
 @media (max-width: 767px) {
   .library .recent .book-thumb:nth-child(4n) {
     margin-right: 20px; } }
+
+@media (max-width: 480px) {
+  .library {
+    background-image: none; } }
