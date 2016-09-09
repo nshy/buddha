@@ -2,14 +2,111 @@
 
 div.teachers {
 
-  .line {
-    display: table;
-    .line-row {
-      display: table-row;
-      .cell {
-        display: table-cell;
-        padding-left: 15px;
-        padding-right: 15px;
+  .container {
+    overflow: auto;
+    padding: 0 0 30px 0;
+    .wrapper {
+      .card {
+        display: block;
+        padding: 0;
+        margin: 0;
+        img {
+          width:360px;
+        }
+        .name {
+          font-size: 18px;
+          font-weight: 400;
+          margin: 10px 0 10px 0;
+          display: block;
+        }
+      }
+
+      a:hover {
+        color: $link-color-hover;
+        img.teacher_img {
+          opacity: 1;
+          -webkit-filter: saturate(150%);
+          filter: saturate(150%);
+          -webkit-filter: brightness(1.2);
+          filter: brightness(1.2);
+        }
+      }
+
+      .card:nth-child(3) {
+        margin-right: 0px;
+        padding-right: 0px;
+      }
+    }
+  }
+}
+
+@media (min-width: 1200px) {
+
+div.teachers {
+  .container {
+    .wrapper {
+      .card {
+        width: 360px;
+        float: left;
+        margin-right: 30px;
+        img {
+          width:360px;
+        }
+      }
+    }
+  }
+}
+}
+
+@media (max-width: 1200px) {
+
+div.teachers {
+  .container {
+    .wrapper {
+      .card {
+        width: 300px;
+        float: left;
+        margin-right: 20px;
+        img {
+          width:300px;
+        }
+      }
+    }
+  }
+}
+}
+
+@media (max-width: 1024px) {
+
+div.teachers {
+  .container {
+    .wrapper {
+      .card {
+        width: 230px;
+        float: left;
+        margin-right: 15px;
+        img {
+          width:230px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+
+div.teachers {
+  .container {
+    .wrapper {
+      .card {
+        width: 100%;
+        float: left;
+        margin-right: 15px;
+        img {
+          width:100%;
+          }
+        }
       }
     }
   }

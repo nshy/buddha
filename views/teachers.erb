@@ -7,14 +7,16 @@
             <a href="/about/"> &larr; О ЦЕНТРЕ</a>
         </div>
     </div>
-  </hr>
-  <div class="line">
-    <div class="line-row">
+  <hr/>
+  <div class="container">
+    <div class="wrapper">
       <% @teachers.teacher.each do |teacher|%>
-        <div class="cell">
+        <div class="card">
           <a href="<%= teacher.page %>">
-            <img src="/teachers/<%= teacher.image %>"/>
-            <div> <h3><%= teacher.name %></h3> </div>
+               <img src="/teachers/<%= teacher.image %>" class="teacher_img"/>
+               <div class="name"><%= teacher.name %></div>
+               <p class="about">Далай-лама XIV, Тэнцзин Гьямцхо, является духовным лидером тибетского народа. Тиб
+                   етские буддисты верят, что Далай-ламы являются воплощениями на земле Авалокитешвары (Ченрези), Бодхисаттвы Сострадания; они рождаются здесь, чтобы служить людям. Признанный Далай-ламой Лхамо Дхондруб получил новое имя — Чжецун Чжампел Нгагванг Ешэ Тэнцзин Гьямцхо.</p>
           </a>
         </div>
       <% end %>
