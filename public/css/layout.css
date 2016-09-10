@@ -56,8 +56,6 @@ body {
   font-weight: 400; }
   .contacts .copyright img {
     padding: 0 3px 3px 0; }
-  .contacts .name img {
-    padding: 0 4px 3px 0; }
   .contacts .address {
     margin: 5px 0px 14px; }
     .contacts .address img {
@@ -155,9 +153,7 @@ body {
       bottom: 15px; }
       .panel .contacts .name {
         margin: 4px 0px 14px;
-        padding: 0 21px 0 21px; }
-        .panel .contacts .name img {
-          padding: 0 4px 3px 0; } }
+        padding: 0 21px 0 21px; } }
 
 @media (min-width: 768px) {
   #scrollUp {
