@@ -50,6 +50,25 @@ body {
   .navbar .menu-link {
     display: none; }
 
+.contacts {
+  color: #cbd6e2;
+  font-size: 11px;
+  font-weight: 400; }
+  .contacts .copyright img {
+    padding: 0 3px 3px 0; }
+  .contacts .name img {
+    padding: 0 4px 3px 0; }
+  .contacts .address {
+    margin: 5px 0px 14px; }
+    .contacts .address img {
+      padding: 0 6px 3px 0; }
+  .contacts .phone a {
+    color: #cbd6e2; }
+  .contacts .phone a:hover {
+    color: #5185ea; }
+  .contacts .phone img {
+    padding: 0 4px 3px 0; }
+
 .footer {
   background: #34465a;
   padding-top: 20px;
@@ -80,29 +99,12 @@ body {
   .footer .contacts {
     float: right;
     width: 300px;
-    padding-right: 30px;
-    color: #cbd6e2;
-    font-size: 11px;
-    font-weight: 400; }
+    padding-right: 30px; }
     .footer .contacts .copyright {
       float: left;
       width: 90px; }
-      .footer .contacts .copyright img {
-        padding: 0 3px 3px 0; }
     .footer .contacts .name {
       margin-left: 90px; }
-      .footer .contacts .name img {
-        padding: 0 4px 3px 0; }
-    .footer .contacts .address {
-      margin: 5px 0px 14px; }
-      .footer .contacts .address img {
-        padding: 0 6px 3px 0; }
-    .footer .contacts .phone a {
-      color: #cbd6e2; }
-    .footer .contacts .phone a:hover {
-      color: #5185ea; }
-    .footer .contacts .phone img {
-      padding: 0 4px 3px 0; }
 
 @media (max-width: 767px) {
   body .container.body {
@@ -149,28 +151,13 @@ body {
       color: #fff; }
     .panel .contacts {
       padding-left: 15px;
-      color: #cbd6e2;
-      font-size: 11px;
       position: absolute;
-      font-weight: 400;
       bottom: 15px; }
-      .panel .contacts .copyright img {
-        padding: 0 3px 3px 0; }
       .panel .contacts .name {
         margin: 4px 0px 14px;
         padding: 0 21px 0 21px; }
         .panel .contacts .name img {
-          padding: 0 4px 3px 0; }
-      .panel .contacts .address {
-        margin: 5px 0px 14px; }
-        .panel .contacts .address img {
-          padding: 0 6px 3px 0; }
-      .panel .contacts .phone a {
-        color: #cbd6e2; }
-      .panel .contacts .phone a:hover {
-        color: #5185ea; }
-      .panel .contacts .phone img {
-        padding: 0 4px 3px 0; } }
+          padding: 0 4px 3px 0; } }
 
 @media (min-width: 768px) {
   #scrollUp {

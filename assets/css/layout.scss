@@ -40,6 +40,45 @@ body {
   }
 }
 
+.contacts {
+  color: #cbd6e2;
+  font-size: 11px;
+  font-weight: 400;
+
+  .copyright {
+    img {
+      padding: 0 3px 3px 0;
+    }
+  }
+
+  .name {
+    img {
+      padding: 0 4px 3px 0;
+    }
+  }
+
+  .address {
+    margin: 5px 0px 14px;
+
+    img {
+      padding: 0 6px 3px 0;
+    }
+  }
+
+  .phone {
+    a {
+      color:#cbd6e2;
+    }
+    a:hover {
+      color: #5185ea;
+    }
+
+    img {
+      padding: 0 4px 3px 0;
+    }
+  }
+}
+
 .footer {
   $contacts-width: 300px;
   background: #34465a;
@@ -88,51 +127,18 @@ body {
     width: $contacts-width;
     padding-right: 30px;
 
-    color: #cbd6e2;
-    font-size: 11px;
-    font-weight: 400;
-
     $copyright-width: 90px;
     .copyright {
       float: left;
       width: $copyright-width;
-
-      img {
-        padding: 0 3px 3px 0;
-      }
     }
 
     .name {
       margin-left: $copyright-width;
-
-      img {
-        padding: 0 4px 3px 0;
-      }
-    }
-
-    .address {
-      margin: 5px 0px 14px;
-
-      img {
-        padding: 0 6px 3px 0;
-      }
-    }
-
-    .phone {
-      a {
-        color:#cbd6e2;
-      }
-      a:hover {
-        color: #5185ea;
-      }
-
-      img {
-        padding: 0 4px 3px 0;
-      }
     }
   }
-}
 
+}
 
 @media (max-width: 767px) {
 
@@ -200,17 +206,8 @@ body {
 
   .contacts {
     padding-left: 15px;
-    color: #cbd6e2;
-    font-size: 11px;
     position: absolute;
-    font-weight: 400;
     bottom: 15px;
-
-    .copyright {
-      img {
-        padding: 0 3px 3px 0;
-      }
-    }
 
     .name {
       margin: 4px 0px 14px;
@@ -221,27 +218,6 @@ body {
       }
     }
 
-    .address {
-      margin: 5px 0px 14px;
-
-      img {
-        padding: 0 6px 3px 0;
-      }
-    }
-
-    .phone {
-      a {
-        color:#cbd6e2;
-      }
-
-      a:hover {
-        color: #5185ea;
-      }
-
-      img {
-        padding: 0 4px 3px 0;
-      }
-    }
   }
 }
 
