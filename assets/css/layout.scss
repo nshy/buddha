@@ -45,9 +45,17 @@ body {
   font-size: 11px;
   font-weight: 400;
 
+  // image size with padding is 18x17 px (original is *x14),
+  // vertical padding is for alignment with text
+  // horizontal is to make text after images to be aligned
+  // in different rows
+  img {
+    padding-bottom: 3px;
+  }
+
   .copyright {
     img {
-      padding: 0 3px 3px 0;
+      padding-right: 4px;
     }
   }
 
@@ -55,7 +63,7 @@ body {
     margin: 5px 0px 14px;
 
     img {
-      padding: 0 6px 3px 0;
+      padding-right: 6px;
     }
   }
 
@@ -68,7 +76,7 @@ body {
     }
 
     img {
-      padding: 0 4px 3px 0;
+      padding-right: 4px;
     }
   }
 }
