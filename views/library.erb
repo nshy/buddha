@@ -3,13 +3,15 @@
     <div class="title"> Библиотека </div>
   </div>
 
-  <div class="recent">
+  <div class="recent widescreen">
     <div class="header">
       <div class="title"> Последние добавленные </div>
     </div>
-    <% @books.each do |id, book| %>
-      <%= book_thumb(id, book) %>
-    <% end %>
+    <div class="items">
+      <% @books.each do |id, book| %>
+        <%= book_thumb(id, book) %>
+      <% end %>
+    </div>
   </div>
 
   <% @library.section.each do |section| %>
@@ -22,4 +24,15 @@
         <% end %>
     </div>
   <% end %>
+
+  <div class="recent tabletscreen">
+    <div class="header">
+      <div class="title"> Последние добавленные </div>
+    </div>
+    <div class="items">
+      <% @books.each do |id, book| %>
+        <%= book_thumb(id, book) %>
+      <% end %>
+    </div>
+  </div>
 </div>

@@ -2,6 +2,10 @@
 
 .library {
   margin-bottom: 20px;
+  .recent.tabletscreen {
+    display: none;
+  }
+
   .recent {
     .header {
       .title {
@@ -46,4 +50,63 @@
   }
 
   overflow: auto;
+}
+
+
+@media (max-width: 1199px) {
+
+.library {
+  .recent {
+    width: 530px;
+    margin-left: 0px;
+
+    // so that 3 book columns can fit
+    .book-thumb:nth-child(3n) {
+      margin-right: 0px;
+    }
+  }
+}
+
+}
+
+
+@media (max-width: 991px) {
+
+.library {
+  .recent {
+    width: 100%;
+    float: none;
+
+    // undo above
+    .book-thumb:nth-child(3n) {
+      margin-right: 20px;
+    }
+    // so that 4 book columns can fit
+    .book-thumb:nth-child(4n) {
+      margin-right: 0px;
+    }
+  }
+
+  .recent.widescreen {
+    display: none;
+  }
+  .recent.tabletscreen {
+    display: block;
+  }
+}
+
+}
+
+
+@media (max-width: 767px) {
+
+.library {
+  .recent {
+    // undo above
+    .book-thumb:nth-child(4n) {
+      margin-right: 20px;
+    }
+  }
+}
+
 }

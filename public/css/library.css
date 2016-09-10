@@ -50,6 +50,8 @@
 .library {
   margin-bottom: 20px;
   overflow: auto; }
+  .library .recent.tabletscreen {
+    display: none; }
   .library .recent {
     display: inline-block;
     width: 600px;
@@ -80,3 +82,27 @@
         color: #a0a0a0;
         font-size: 12px;
         font-weight: 400; }
+
+@media (max-width: 1199px) {
+  .library .recent {
+    width: 530px;
+    margin-left: 0px; }
+    .library .recent .book-thumb:nth-child(3n) {
+      margin-right: 0px; } }
+
+@media (max-width: 991px) {
+  .library .recent {
+    width: 100%;
+    float: none; }
+    .library .recent .book-thumb:nth-child(3n) {
+      margin-right: 20px; }
+    .library .recent .book-thumb:nth-child(4n) {
+      margin-right: 0px; }
+  .library .recent.widescreen {
+    display: none; }
+  .library .recent.tabletscreen {
+    display: block; } }
+
+@media (max-width: 767px) {
+  .library .recent .book-thumb:nth-child(4n) {
+    margin-right: 20px; } }
