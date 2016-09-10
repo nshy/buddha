@@ -49,10 +49,6 @@ body {
     font-weight: 600; }
   .navbar .menu-link {
     display: none; }
-    .navbar .menu-link img {
-      width: 34px;
-      height: 34px;
-      margin: -7px -4px 0 0; }
 
 .footer {
   background: #34465a;
@@ -119,11 +115,12 @@ body {
     display: none; }
   .navbar .menu-link {
     position: absolute;
-    vertical-align: middle;
-    right: 14px;
+    right: 10px;
     top: 5px;
-    display: table-cell;
-    font-size: 25px; }
+    display: block; }
+    .navbar .menu-link img {
+      width: 34px;
+      height: 34px; }
   .footer {
     display: none; }
   #scrollUp {
