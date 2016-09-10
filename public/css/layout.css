@@ -154,7 +154,6 @@ body {
       position: absolute;
       bottom: 15px; }
       .panel .contacts .name {
-        margin: 4px 0px 14px;
         padding: 0 21px 0 21px; } }
 
 @media (min-width: 768px) {
