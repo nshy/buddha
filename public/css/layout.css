@@ -37,6 +37,7 @@ body {
     border-radius: 0 0 6px 6px; }
 
 nav {
+  z-index: 1000;
   position: fixed;
   left: 0px;
   right: 0px;
@@ -128,20 +129,18 @@ nav {
     position: absolute;
     width: 100%;
     border-radius: 0px; }
-  nav {
-    z-index: 1000; }
-    nav .container .logo {
-      margin-left: -5px; }
-    nav .container .links {
-      display: none; }
-    nav .container .menu-link {
-      position: absolute;
-      margin-right: 10px;
-      top: 5px;
-      display: block; }
-      nav .container .menu-link img {
-        width: 34px;
-        height: 34px; }
+  nav .container .logo {
+    margin-left: -5px; }
+  nav .container .links {
+    display: none; }
+  nav .container .menu-link {
+    position: absolute;
+    margin-right: 10px;
+    top: 5px;
+    display: block; }
+    nav .container .menu-link img {
+      width: 34px;
+      height: 34px; }
   .footer {
     display: none; }
   #scrollUp {
