@@ -1,3 +1,31 @@
+.page-header-buddha {
+  margin-bottom: 20px; }
+  .page-header-buddha .title {
+    font-weight: 300;
+    font-size: 36px;
+    padding-top: 20px;
+    line-height: 1.3; }
+  .page-header-buddha .backlink {
+    margin-top: 10px;
+    font-size: 13px;
+    font-weight: 700; }
+
+hr {
+  border-top: 1px solid #dedede; }
+
+p {
+  color: #585c62; }
+
+a {
+  color: #4789d9; }
+
+a:hover {
+  color: #6d9fff; }
+
+@media (max-width: 480px) {
+  .page-header-buddha .title {
+    font-size: 24px; } }
+
 .book-thumb {
   display: inline-block;
   width: 160px;
@@ -13,12 +41,12 @@
     color: black; }
   .book-thumb a:hover {
     color: #6d9fff; }
-    .book-thumb a:hover img.cover {
-      opacity: 1;
-      -webkit-filter: saturate(150%);
-      filter: saturate(150%);
-      -webkit-filter: brightness(1.2);
-      filter: brightness(1.2); }
+  .book-thumb a:hover img {
+    opacity: 1;
+    -webkit-filter: saturate(150%);
+    filter: saturate(150%);
+    -webkit-filter: brightness(1.2);
+    filter: brightness(1.2); }
   .book-thumb .author {
     margin-top: 7px;
     font-size: 11px;

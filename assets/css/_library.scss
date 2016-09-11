@@ -1,4 +1,5 @@
 @import 'config';
+@import 'global';
 
 .book-thumb {
   .title {
@@ -12,14 +13,10 @@
   }
   a:hover {
     color: $link-color-hover;
-    img.cover {
-      opacity: 1;
-      -webkit-filter: saturate(150%);
-      filter: saturate(150%);
-      -webkit-filter: brightness(1.2);
-      filter: brightness(1.2);
-    }
   }
+
+  @include hover-images;
+
   .author {
     margin-top: 7px;
     font-size: 11px;
