@@ -105,6 +105,7 @@ class TeachersDocument < XDSL::Element
       element :name
       element :page
       element :image
+      element :presentation
     end
   end
 end

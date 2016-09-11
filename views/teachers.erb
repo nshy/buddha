@@ -1,18 +1,19 @@
 <div class="teachers">
-  <div class="title">
-    <h1> Учителя </h1>
-  </div>
-  </hr>
-  <div class="line">
-    <div class="line-row">
-      <% @teachers.teacher.each do |teacher|%>
-        <div class="cell">
-          <a href="<%= teacher.page %>">
-            <img src="/teachers/<%= teacher.image %>"/>
-            <div> <h3><%= teacher.name %></h3> </div>
-          </a>
-        </div>
-      <% end %>
+  <div class="page-header-buddha">
+    <div class="title"> Учителя </div>
+    <div class="backlink">
+        <a href="/about/"> &larr; О ЦЕНТРЕ</a>
     </div>
+  <hr/>
+  <div class="board">
+    <% @teachers.teacher.each do |teacher|%>
+      <div class="card">
+        <a href="<%= teacher.page %>">
+           <img src="/teachers/<%= teacher.image %>" class="photo"/>
+           <div class="name"><%= teacher.name %></div>
+        </a>
+        <p class="about"><%= teacher.presentation %></p>
+      </div>
+    <% end %>
   </div>
 </div>
