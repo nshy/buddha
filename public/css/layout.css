@@ -36,19 +36,36 @@ body {
     background-color: #ffffff;
     border-radius: 0 0 6px 6px; }
 
-.navbar {
-  background: rgba(235, 238, 242, 0.9); }
-  .navbar .navbar-brand {
-    padding: 4px 5px 6px 20px; }
-    .navbar .navbar-brand img {
-      width: 34px;
-      height: 34px; }
-  .navbar .navbar-nav > li > a {
-    color: #5f646e;
-    font-size: 12px;
-    font-weight: 600; }
-  .navbar .menu-link {
-    display: none; }
+nav {
+  position: fixed;
+  left: 0px;
+  right: 0px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 5px rgba(0, 0, 0, 0.075);
+  background: rgba(235, 238, 242, 0.9);
+  border: 1px solid transparent;
+  border-color: #e7e7e7;
+  border-width: 0 0 1px; }
+  nav .container {
+    height: 44px;
+    vertical-align: middle; }
+    nav .container .logo {
+      margin-left: 5px;
+      padding-top: 5px;
+      display: inline-block; }
+      nav .container .logo img {
+        width: 34px;
+        height: 34px; }
+    nav .container .links {
+      display: inline-block;
+      vertical-align: middle; }
+      nav .container .links a {
+        display: inline-block;
+        color: #5f646e;
+        font-size: 12px;
+        font-weight: 600;
+        margin: 0px 15px; }
+    nav .container .menu-link {
+      display: none; }
 
 .contacts {
   color: #cbd6e2;
@@ -111,18 +128,20 @@ body {
     position: absolute;
     width: 100%;
     border-radius: 0px; }
-  .navbar .navbar-brand {
-    padding: 6px 5px 6px 10px; }
-  .navbar .nav.navbar-nav {
-    display: none; }
-  .navbar .menu-link {
-    position: absolute;
-    right: 10px;
-    top: 5px;
-    display: block; }
-    .navbar .menu-link img {
-      width: 34px;
-      height: 34px; }
+  nav {
+    z-index: 1000; }
+    nav .container .logo {
+      margin-left: -5px; }
+    nav .container .links {
+      display: none; }
+    nav .container .menu-link {
+      position: absolute;
+      margin-right: 10px;
+      top: 5px;
+      display: block; }
+      nav .container .menu-link img {
+        width: 34px;
+        height: 34px; }
   .footer {
     display: none; }
   #scrollUp {
