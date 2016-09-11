@@ -37,11 +37,9 @@
         </a>
 
         <div class="links">
-          <a href="/about/">О ЦЕНТРЕ</a>
-          <a href="/archive/">УЧЕНИЯ</a>
-          <a href="/news?top=true">НОВОСТИ</a>
-          <a href="/timetable?offset=0">РАСПИСАНИЕ</a>
-          <a href="/library/">БИБЛИОТЕКА</a>
+          <% @menu.item.each do |item| %>
+            <a href="<%= item.link %>"> <%= item.name %> </a>
+          <% end %>
         </div>
 
         <a href="#menu" class="menu-link push">
@@ -54,47 +52,27 @@
       <div class="footer row">
         <%= erb :'partials/contacts' %>
         <div class="links">
+          <% @menu.item.each do |item| %>
           <div class="column">
             <div class="menu">
-              <a href="/about/">О ЦЕНТРЕ</a>
+              <a href="<%= item.link %>"> <%= item.name %> </a>
             </div>
             <div class="submenu">
-              <a href="/teachers/">Учителя</a>
-              <a href="/contacts/">Контакты</a>
+            <% item.subitem.each do |subitem| %>
+              <a href="<%= subitem.link %>"> <%= subitem.name %> </a>
+            <% end %>
             </div>
           </div>
-          <div class="column">
-            <div class="menu">
-              <a href="/archive/">УЧЕНИЯ</a>
-            </div>
-          </div>
-          <div class="column">
-            <div class="menu">
-              <a href="/news/">НОВОСТИ</a>
-              <a href="/timetable?offset=0">РАСПИСАНИЕ</a>
-            </div>
-          </div>
-          <div class="column">
-            <div class="menu">
-              <a href="/library/">БИБЛИОТЕКА</a>
-            </div>
-          </div>
-          <div class="column">
-            <div class="menu">
-              <a href="/links/">ССЫЛКИ</a>
-            </div>
-          </div>
+          <% end %>
         </div> <%# links %>
       </div> <%# footer %>
     </div> <%# container %>
 
     <div id="menu" class="panel" role="navigation">
       <div class="links">
-        <a href="/about/">О ЦЕНТРЕ</a>
-        <a href="/archive/">УЧЕНИЯ</a>
-        <a href="/news?top=true">НОВОСТИ</a>
-        <a href="/timetable?offset=0">РАСПИСАНИЕ</a>
-        <a href="/library/">БИБЛИОТЕКА</a>
+        <% @menu.item.each do |item| %>
+          <a href="<%= item.link %>"> <%= item.name %> </a>
+        <% end %>
       </div>
       <%= erb :'partials/contacts' %>
     </div> <%# menu %>

@@ -121,3 +121,16 @@ class ClassesDocument < XDSL::Element
     end
   end
 end
+
+class MenuDocument < XDSL::Element
+  element :menu do
+    elements :item do
+      element :name
+      element :link
+      elements :subitem do
+        element :name
+        element :link
+      end
+    end
+  end
+end

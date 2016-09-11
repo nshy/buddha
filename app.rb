@@ -27,6 +27,12 @@ helpers TeachingsHelper, CommonHelpers
 helpers NewsHelpers, BookHelpers, CategoryHelpers
 helpers TimetableHelper
 
+before do
+  File.open("data/menu.xml") do |file|
+    @menu = MenuDocument.new(Nokogiri::XML(file)).menu
+  end
+end
+
 get '/archive/' do
   File.open("data/archive.xml") do |file|
     @archive = ArchiveDocument.new(Nokogiri::XML(file)).archive
