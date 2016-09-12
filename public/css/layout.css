@@ -65,6 +65,8 @@ nav {
         font-size: 12px;
         font-weight: 600;
         margin: 0px 15px; }
+      nav .container .links .active {
+        border-bottom: 1px solid #000000; }
     nav .container .menu-link {
       display: none; }
 

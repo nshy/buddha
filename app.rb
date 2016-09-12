@@ -38,6 +38,7 @@ get '/archive/' do
     @archive = ArchiveDocument.new(Nokogiri::XML(file)).archive
   end
   @teachings = load_teachings
+  @menu_active = :teachings
   erb :'archive'
 end
 
@@ -46,18 +47,21 @@ get '/teachings/:id/' do |id|
     @teachings = TeachingsDocument.new(Nokogiri::XML(file)).teachings
   end
   @teachings_slug = id
+  @menu_active = :teachings
   erb :teachings
 end
 
 get '/news' do
   @params = params
   @news = load_news
+  @menu_active = :news
   erb :'news-index'
 end
 
 get '/news/:id/' do |id|
   @news = NewsDocument.new(body_path("data/news/#{id}"))
   @slug = id
+  @menu_active = :news
   erb :news
 end
 
@@ -67,6 +71,7 @@ get '/book/:id/' do |id|
   end
   @book_slug = id
   @categories = load_categories
+  @menu_active = :library
   erb :book
 end
 
@@ -88,6 +93,7 @@ get '/book-category/:id/' do |id|
   end
   @categories = load_categories
   @id = id
+  @menu_active = :library
   erb :'book-category'
 end
 
@@ -102,6 +108,7 @@ get '/library/' do
       @books[book_id] = BookDocument.new(Nokogiri::XML(file)).book
     end
   end
+  @menu_active = :library
   erb :library
 end
 
@@ -120,6 +127,7 @@ get '/timetable' do
   mark_event_conflicts(events)
   @events = events_week_partition(events)
   @classes = timetable.classes
+  @menu_active = :timetable
   erb :timetable
 end
 
@@ -163,6 +171,7 @@ get '/links/' do
 end
 
 get '/about/' do
+  @menu_active = :about
   render_text('about')
 end
 

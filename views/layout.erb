@@ -38,7 +38,10 @@
 
         <div class="links">
           <% @menu.item.each do |item| %>
-            <a href="<%= item.link %>"> <%= item.title %> </a>
+            <a href="<%= item.link %>"
+               class="<%= "active" if item.name == @menu_active.to_s %>">
+              <%= item.title %>
+            </a>
           <% end %>
         </div>
 

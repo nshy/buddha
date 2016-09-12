@@ -125,6 +125,7 @@ end
 class MenuDocument < XDSL::Element
   element :menu do
     elements :item do
+      element :name
       element :title
       element :link
       elements :subitem do
