@@ -64,9 +64,10 @@ nav {
         color: #5f646e;
         font-size: 12px;
         font-weight: 600;
-        margin: 0px 15px; }
+        margin: 0px 15px;
+        padding: 12px 0 12px; }
       nav .container .links .active {
-        border-bottom: 1px solid #000000; }
+        border-bottom: 2px solid #000000; }
     nav .container .menu-link {
       display: none; }
 
