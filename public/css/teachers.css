@@ -20,7 +20,8 @@ a {
   color: #4789d9; }
 
 a:hover {
-  color: #6d9fff; }
+  color: #6d9fff;
+  text-decoration: none; }
 
 @media (max-width: 480px) {
   .page-header-buddha .title {

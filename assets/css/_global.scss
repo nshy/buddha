@@ -29,6 +29,7 @@ a {
 }
 a:hover {
   color: $link-color-hover;
+  text-decoration: none;
 }
 
 @mixin hover-images {
