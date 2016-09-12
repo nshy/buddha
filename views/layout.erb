@@ -38,7 +38,7 @@
 
         <div class="links">
           <% @menu.item.each do |item| %>
-            <a href="<%= item.link %>"> <%= item.name %> </a>
+            <a href="<%= item.link %>"> <%= item.title %> </a>
           <% end %>
         </div>
 
@@ -55,11 +55,11 @@
           <% @menu.item.each do |item| %>
           <div class="column">
             <div class="menu">
-              <a href="<%= item.link %>"> <%= item.name %> </a>
+              <a href="<%= item.link %>"> <%= item.title %> </a>
             </div>
             <div class="submenu">
             <% item.subitem.each do |subitem| %>
-              <a href="<%= subitem.link %>"> <%= subitem.name %> </a>
+              <a href="<%= subitem.link %>"> <%= subitem.title %> </a>
             <% end %>
             </div>
           </div>
@@ -71,7 +71,7 @@
     <div id="menu" class="panel" role="navigation">
       <div class="links">
         <% @menu.item.each do |item| %>
-          <a href="<%= item.link %>"> <%= item.name %> </a>
+          <a href="<%= item.link %>"> <%= item.title %> </a>
         <% end %>
       </div>
       <%= erb :'partials/contacts' %>
