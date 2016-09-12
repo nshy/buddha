@@ -89,6 +89,13 @@ class TimetableDocument < XDSL::Element
       element :end
       elements :cancel
     end
+    elements :event_plan do
+      element :title
+      element :begin
+      element :end
+      elements :date
+      elements :cancel
+    end
   end
 end
 

@@ -2,6 +2,24 @@ require 'date'
 require 'nokogiri'
 require_relative 'models'
 
+def timetable_event_plan_events(timetable, date_begin, date_end)
+  events = []
+  timetable.event_plan.each do |plan|
+    cancels = plan.cancel.collect { |cancel| Date.parse(cancel) }
+    plan.date.each do |event_date|
+      date = Date.parse(event_date)
+      next if date < date_begin or date > date_end
+      events << {
+        title: plan.title,
+        begin: DateTime.parse("#{event_date} #{plan.begin}"),
+        end: DateTime.parse("#{event_date} #{plan.end}"),
+        cancel: cancels.include?(date)
+      }
+    end
+  end
+  events
+end
+
 def timetable_event_events(timetable, date_begin, date_end)
   events = []
   timetable.event.each do |event|
@@ -51,7 +69,8 @@ end
 # both dates are included
 def timetable_events(timetable, date_begin, date_end)
   events = timetable_event_events(timetable, date_begin, date_end) +
-           timetable_classes_events(timetable, date_begin, date_end)
+           timetable_classes_events(timetable, date_begin, date_end) +
+           timetable_event_plan_events(timetable, date_begin, date_end)
   events.sort! do |a, b|
     a[:begin] <=> b[:begin]
   end
