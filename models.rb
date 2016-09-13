@@ -117,18 +117,6 @@ class TeachersDocument < XDSL::Element
   end
 end
 
-class ClassesDocument < XDSL::Element
-  element :classes do
-    elements :classes do
-      element :title
-      element :description
-      element :timetable
-      element :page
-      element :image
-    end
-  end
-end
-
 class MenuDocument < XDSL::Element
   element :menu do
     elements :item do

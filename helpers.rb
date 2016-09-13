@@ -287,20 +287,6 @@ module TimetableHelper
       "#{format_date(b)} - #{format_date(e)}"
   end
 
-  def print_week_symbolic(offset)
-    if offset < -1
-      "Далекое прошлое"
-    elsif offset > 1
-      "Далекое будущее"
-    else
-      [
-        "Предыдущая неделя",
-        "Текущая неделя",
-        "Cледующая неделя"
-      ][offset + 1]
-    end
-  end
-
   def week_borders(offset)
     today = Date.today
     [ week_begin(today) + 7 * offset,
