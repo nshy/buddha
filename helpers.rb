@@ -268,6 +268,18 @@ module TimetableHelper
     ][day]
   end
 
+  def day_name_short(day)
+    [
+      'Пн',
+      'Вт',
+      'Ср',
+      'Чт',
+      'Пт',
+      'Сб',
+      'Вс'
+    ][day]
+  end
+
   def translate_day(day)
     eng = Date.parse(day).cwday
     ru = (eng - 1) % 7
@@ -279,12 +291,16 @@ module TimetableHelper
   end
 
   def time_interval(b, e)
-     "#{b.strftime('%H:%M')}-#{e.strftime('%H:%M')}"
+     "#{b.strftime('%H:%M')} - #{e.strftime('%H:%M')}"
+  end
+
+  def format_date_classes(date)
+    date.strftime("%-d %B");
   end
 
   def print_week_days(offset)
       b, e = week_borders(offset)
-      "#{format_date(b)} - #{format_date(e)}"
+      "from #{format_date_classes(b)} till #{format_date_classes(e)}"
   end
 
   def week_borders(offset)
