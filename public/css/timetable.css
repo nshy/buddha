@@ -2,9 +2,6 @@ div.timetable div.header {
   text-align: center;
   margin-bottom: 50px; }
 
-div.timetable div.navigation {
-  text-align: center; }
-
 div.timetable .calendar-line, div.timetable div.day .event-name, div.timetable div.day div.event-time .time, div.timetable div.day div.event-time .cancel, div.timetable div.plan .day, div.timetable div.plan .time {
   display: inline-block;
   margin: 2px;

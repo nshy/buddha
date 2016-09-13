@@ -117,16 +117,9 @@ get '/news/:news_id/:file' do |news_id, file|
 end
 
 get '/timetable' do
-  @offset = params[:offset].to_i
-  week_begin, week_end = week_borders(@offset)
-  timetable = nil
   File.open('data/timetable.xml') do |file|
-    timetable = TimetableDocument.new(Nokogiri::XML(file)).timetable
+    @timetable = TimetableDocument.new(Nokogiri::XML(file)).timetable
   end
-  events = timetable_events(timetable, week_begin, week_end)
-  mark_event_conflicts(events)
-  @events = events_week_partition(events)
-  @classes = timetable.classes
   @menu_active = :timetable
   erb :timetable
 end

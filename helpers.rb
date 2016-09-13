@@ -317,6 +317,13 @@ module TimetableHelper
     end
     b + e
   end
+
+  def week_events(timetable, offset)
+    b, e = week_borders(offset)
+    week = timetable_events(timetable, b, e)
+    mark_event_conflicts(week)
+    events_week_partition(week)
+  end
 end
 
 module TimeUpdateHelpers

@@ -4,10 +4,10 @@
   <%= erb :'partials/week', locals: { offset: 1 } %>
   <div class="header"> <h1> Текущие занятия </h1> </div>
   <%= erb :'partials/classes', locals:
-    { classes: @classes.select { |c| actual_classes(c) }  }
+    { classes: @timetable.classes.select { |c| actual_classes(c) }  }
   %>
   <div class="header"> <h1> Будущие занятия </h1> </div>
   <%= erb :'partials/classes', locals:
-    { classes: @classes.select { |c| future_classes(c) }  }
+    { classes: @timetable.classes.select { |c| future_classes(c) }  }
   %>
 </div>
