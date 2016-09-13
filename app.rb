@@ -144,13 +144,6 @@ get '/text/:id/:file' do |id, file|
   send_file_media "data/text/#{id}/#{file}"
 end
 
-get '/classes/' do
-  File.open('data/classes/page.xml') do |file|
-    @classes = ClassesDocument.new(Nokogiri::XML(file)).classes
-  end
-  erb :classes
-end
-
 get '/classes/:file.jpg' do |file|
   send_file "data/classes/#{file}.jpg"
 end
