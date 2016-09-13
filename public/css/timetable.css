@@ -1,8 +1,4 @@
-div.timetable div.header {
-  text-align: center;
-  margin-bottom: 50px; }
-
-div.timetable .calendar-line, div.timetable div.day .event-name, div.timetable div.day div.event-time .time, div.timetable div.day div.event-time .cancel, div.timetable div.plan .day, div.timetable div.plan .time {
+div.timetable .calendar-line, div.timetable div.day .event-name, div.timetable div.day div.event-time .time, div.timetable div.day div.event-time .cancel {
   display: inline-block;
   margin: 2px;
   padding: 3px; }
@@ -23,17 +19,3 @@ div.timetable div.day {
       background-color: #66ff66; }
     div.timetable div.day div.event-time .cancel {
       background-color: #ffff80; }
-
-div.timetable div.plan .title, div.timetable div.plan .dates {
-  margin: 0px;
-  padding: 0px; }
-
-div.timetable div.plan .dates {
-  margin-bottom: 10px; }
-  div.timetable div.plan .dates .date-value {
-    background-color: #66ff66;
-    border-radius: 0.25em;
-    padding: 2px; }
-
-div.timetable div.plan .day {
-  width: 300px; }

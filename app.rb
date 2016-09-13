@@ -121,7 +121,11 @@ get '/timetable' do
     @timetable = TimetableDocument.new(Nokogiri::XML(file)).timetable
   end
   @menu_active = :timetable
-  erb :timetable
+  if params[:show] == 'week'
+    erb :timetable
+  elsif params[:show] == 'schedule'
+    erb :classes
+  end
 end
 
 get '/teachers/' do

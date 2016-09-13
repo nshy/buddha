@@ -1,0 +1,18 @@
+.classes .calendar-line, .classes .plan .day, .classes .plan .time {
+  display: inline-block;
+  margin: 2px;
+  padding: 3px; }
+
+.classes .plan .title, .classes .plan .dates {
+  margin: 0px;
+  padding: 0px; }
+
+.classes .plan .dates {
+  margin-bottom: 10px; }
+  .classes .plan .dates .date-value {
+    background-color: #66ff66;
+    border-radius: 0.25em;
+    padding: 2px; }
+
+.classes .plan .day {
+  width: 300px; }
