@@ -82,7 +82,8 @@ nav {
         margin: 0px 15px;
         padding: 12px 0 12px; }
       nav .container .links .active {
-        border-bottom: 2px solid #ff6333; }
+        border-bottom: 2px solid #ff6333;
+        color: black; }
     nav .container .menu-link {
       display: none; }
 
