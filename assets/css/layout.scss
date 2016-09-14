@@ -104,7 +104,7 @@ nav {
       color:#cbd6e2;
     }
     a:hover {
-      color: #5185ea;
+      color: $link-color-hover;
     }
 
     img {
@@ -139,7 +139,7 @@ nav {
       }
 
       a:hover {
-        color: #5185ea;
+        color: $link-color-hover;
       }
 
       line-height: 25px;
