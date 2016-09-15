@@ -26,15 +26,16 @@ a:hover {
 .tab-imitator {
   border-bottom: 1px solid #dedede; }
   .tab-imitator a {
-    color: #5d646f;
     display: inline-block;
+    color: #5f646e; }
+  .tab-imitator .active {
+    border-bottom: 2px solid #ff6333;
+    color: black; }
+  .tab-imitator a {
     font-size: 12px;
     font-weight: 600;
     margin-right: 20px;
     padding-bottom: 10px; }
-  .tab-imitator a.active {
-    color: black;
-    border-bottom: 2px solid #ff6333; }
 
 @media (max-width: 480px) {
   .page-header-buddha .title {
@@ -76,14 +77,15 @@ nav {
       vertical-align: middle; }
       nav .container .links a {
         display: inline-block;
-        color: #5f646e;
+        color: #5f646e; }
+      nav .container .links .active {
+        border-bottom: 2px solid #ff6333;
+        color: black; }
+      nav .container .links a {
         font-size: 12px;
         font-weight: 600;
         margin: 0px 15px;
         padding: 12px 0 12px; }
-      nav .container .links .active {
-        border-bottom: 2px solid #ff6333;
-        color: black; }
     nav .container .menu-link {
       display: none; }
 

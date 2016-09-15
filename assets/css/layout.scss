@@ -53,17 +53,12 @@ nav {
     .links {
       display: inline-block;
       vertical-align: middle;
+      @include menu-link
       a {
-        display: inline-block;
-        color: #5f646e;
         font-size: 12px;
         font-weight: 600;
         margin: 0px 15px;
         padding: 12px 0 12px;
-      }
-      .active {
-        border-bottom: 2px solid #ff6333;
-        color: black;
       }
     }
 
