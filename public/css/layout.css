@@ -44,6 +44,7 @@ body {
   background-color: #a35555;
   margin-bottom: 50px;
   background-image: url(/background_red.png);
+  background-size: 22px 32px;
   font-family: 'Open Sans', sans-serif; }
   body .container.body {
     padding-top: 44px;
