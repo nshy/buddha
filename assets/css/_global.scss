@@ -32,6 +32,22 @@ a:hover {
   text-decoration: none;
 }
 
+.tab-imitator {
+  border-bottom: $separator-style;
+  a {
+    color: #5d646f;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 600;
+    margin-right: 20px;
+    padding-bottom: 10px;
+  }
+  a.active {
+    color: black;
+    border-bottom: 2px solid #ff6333;
+  }
+}
+
 @mixin hover-images {
   a:hover {
     img {

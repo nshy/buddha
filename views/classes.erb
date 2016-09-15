@@ -1,5 +1,5 @@
 <div class="classes">
-  <%= erb :'partials/time_header' %>
+  <%= erb :'partials/time_header', locals: { selected: :schedule }  %>
 
   <div class="header"> <h1> Текущие занятия </h1> </div>
   <%= erb :'partials/classes', locals:

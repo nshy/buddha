@@ -1,7 +1,9 @@
 <div class="page-header-buddha">
   <div class="title"> Расписание занятий </div>
 </div>
-<div class="view-selecto;">
-  <a href="/timetable?show=week">На неделю</a>
-  <a href="/timetable?show=schedule">План</a>
-<div>
+<div class="tab-imitator">
+  <a class="<%= "active" if selected == :week %>"
+     href="/timetable?show=week">НА НЕДЕЛЮ</a>
+  <a class="<%= "active" if selected == :schedule %>"
+     href="/timetable?show=schedule">ПЛАН</a>
+</div>
