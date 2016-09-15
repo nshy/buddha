@@ -12,7 +12,7 @@
   .book-thumb a {
     color: black; }
   .book-thumb a:hover {
-    color: #6d9fff; }
+    color: #3fb5ff; }
   .book-thumb a:hover img {
     opacity: 1;
     -webkit-filter: saturate(110%);
