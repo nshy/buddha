@@ -101,7 +101,7 @@ nav {
   .contacts .phone a {
     color: #cbd6e2; }
   .contacts .phone a:hover {
-    color: #5185ea; }
+    color: #3fb5ff; }
   .contacts .phone img {
     padding-right: 4px; }
 
@@ -124,7 +124,7 @@ nav {
         font-weight: 400;
         display: block; }
       .footer .links .column .menu a:hover {
-        color: #5185ea; }
+        color: #3fb5ff; }
     .footer .links .column .submenu {
       line-height: 20px; }
       .footer .links .column .submenu a {
