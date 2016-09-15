@@ -15,10 +15,10 @@
       margin: 10px 0 10px 0; }
   .teachers .board a:hover img {
     opacity: 1;
-    -webkit-filter: saturate(150%);
-    filter: saturate(150%);
-    -webkit-filter: brightness(1.2);
-    filter: brightness(1.2); }
+    -webkit-filter: saturate(110%);
+    filter: saturate(110%);
+    -webkit-filter: brightness(1.1);
+    filter: brightness(1.1); }
   .teachers .board .card:nth-child(3n) {
     margin-right: 0px; }
 

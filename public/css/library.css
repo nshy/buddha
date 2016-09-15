@@ -15,10 +15,10 @@
     color: #6d9fff; }
   .book-thumb a:hover img {
     opacity: 1;
-    -webkit-filter: saturate(150%);
-    filter: saturate(150%);
-    -webkit-filter: brightness(1.2);
-    filter: brightness(1.2); }
+    -webkit-filter: saturate(110%);
+    filter: saturate(110%);
+    -webkit-filter: brightness(1.1);
+    filter: brightness(1.1); }
   .book-thumb .author {
     margin-top: 7px;
     font-size: 11px;
