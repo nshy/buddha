@@ -1,33 +1,86 @@
-div.timetable {
-  .calendar-line {
-    display: inline-block;
-    margin: 2px;
-    padding: 3px;
+.timetable {
+  .months {
+    font-size: 22px;
+    font-weight: 400;
+    margin: 20px 0px 10px;
   }
-
-  div.day {
-    margin-top: 10px;
-
-    .name {
-      margin-top: 0px;
-      margin-bottom: 10px;
-    }
-
-    .event-name {
-      @extend .calendar-line;
-      width: 300px;
-    }
-
-    div.event-time {
-      width: 300px;
-      display: inline-block;
-
-      .time, .cancel {
-        @extend .calendar-line;
-        border-radius: 0.25em;
+  .table {
+    display: table;
+    margin-bottom: 50px;
+    .day-line {
+      display: table-row;
+      .spacing {
+        display: table-cell;
+        width: 50px;
       }
-      .time.conflict { background-color: #66ff66; }
-      .cancel { background-color: #ffff80; }
+      .day {
+        display: table-cell;
+        padding: 12px 10px 12px;
+
+        $border-style: 1px solid #cccccc;
+        border-left: $border-style;
+        border-bottom: $border-style;
+
+        .date {
+          display: inline-block;
+          vertical-align: top;
+          width: 60px;
+
+          .month-day {
+            display: inline-block;
+            width: 20px;
+            text-align: right;
+            font-size: 15px;
+            font-weight: 400;
+            color: #5d646f;
+          }
+
+          .week-day {
+            display: inline-block;
+            font-size: 12px;
+            font-weight: 400;
+            color: #a0aab8;
+          }
+        }
+
+        .events {
+          display: inline-block;
+          vertical-align: top;
+          .event {
+            font-size: 15px;
+            font-weight: 400;
+
+            .time {
+              display: inline-block;
+              width: 120px;
+
+              color: #5d646f;
+            }
+            .name {
+              display: inline-block;
+              color: black;
+              &.empty {
+                color: #a0a9b8;
+              }
+            }
+          }
+          .event.conflict {
+            .time, .name{
+              color: red;
+            }
+          }
+          .event.cancel {
+            .time, .name{
+              color: red;
+              text-decoration: line-through;
+            }
+          }
+        }
+      }
+
+      .day.current {
+        background: #f9f4ed;
+      }
     }
   }
 }

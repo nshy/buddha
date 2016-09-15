@@ -268,16 +268,14 @@ module TimetableHelper
     ][day]
   end
 
-  def day_name_short(day)
-    [
-      'Пн',
-      'Вт',
-      'Ср',
-      'Чт',
-      'Пт',
-      'Сб',
-      'Вс'
-    ][day]
+  def timetable_months()
+    first = week_begin(Date.today)
+    last = first + 13
+    if first.month == last.month
+      Russian::strftime(first, "%B")
+    else
+      "#{Russian::strftime(first, '%B')} - #{Russian.strftime(last, '%B')}"
+    end
   end
 
   def translate_day(day)

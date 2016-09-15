@@ -1,5 +1,19 @@
 <div class="timetable">
   <%= erb :'partials/time_header' %>
-  <%= erb :'partials/week', locals: { offset: 0 } %>
-  <%= erb :'partials/week', locals: { offset: 1 } %>
+  <div class="months"> <%= timetable_months %></div>
+  <div class="table">
+    <% monday_cur = week_begin(Date.today) %>
+    <% monday_next = monday_cur + 7 %>
+    <% events_cur = week_events(@timetable, 0) %>
+    <% events_next = week_events(@timetable, 1) %>
+    <% (0..6).each do |day| %>
+      <div class="day-line">
+        <%= erb :'partials/week_day',
+            locals: { date: monday_cur + day, events: events_cur[day]} %>
+        <div class="spacing"></div>
+        <%= erb :'partials/week_day',
+            locals: { date: monday_next + day, events: events_next[day]} %>
+      </div>
+    <% end %>
+  </div>
 </div>

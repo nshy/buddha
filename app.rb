@@ -27,6 +27,8 @@ helpers TeachingsHelper, CommonHelpers
 helpers NewsHelpers, BookHelpers, CategoryHelpers
 helpers TimetableHelper
 
+I18n.default_locale = :ru
+
 before do
   File.open("data/menu.xml") do |file|
     @menu = MenuDocument.new(Nokogiri::XML(file)).menu

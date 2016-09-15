@@ -1,0 +1,25 @@
+<% clazz = "day" %>
+<% clazz += " current" if date == Date.today %>
+<div class="<%= clazz %>">
+  <div class="date">
+    <div class="month-day"> <%= date.day %> </div>
+    <div class="week-day"> <%= Russian::strftime(date, "%a") %> </div>
+  </div>
+  <div class="events">
+    <% events.each do |event| %>
+      <% clazz = "event" %>
+      <% clazz += " conflict" if event[:conflict] %>
+      <% clazz += " cancel" if event[:cancel] %>
+      <div class="<%= clazz %>">
+        <div class="time"> <%= event_interval(event) %> </div>
+        <div class="name"><%= "#{event[:title]}" %> </div>
+      </div> <%# event %>
+    <% end %>
+    <% if events.empty? %>
+      <div class="event">
+        <div class="time"> </div>
+        <div class="name empty"> Нет занятий </div>
+      </div>
+    <% end %>
+  </div> <%# events %>
+</div> <%# day %>

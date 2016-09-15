@@ -10,5 +10,6 @@ gem 'sequel'
 gem 'rest-client'
 gem 'preamble'
 gem 'unicode'
+gem 'russian'
 
 gem 'sinatra-contrib'

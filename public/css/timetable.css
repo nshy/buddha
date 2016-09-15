@@ -1,21 +1,56 @@
-div.timetable .calendar-line, div.timetable div.day .event-name, div.timetable div.day div.event-time .time, div.timetable div.day div.event-time .cancel {
-  display: inline-block;
-  margin: 2px;
-  padding: 3px; }
+.timetable .months {
+  font-size: 22px;
+  font-weight: 400;
+  margin: 20px 0px 10px; }
 
-div.timetable div.day {
-  margin-top: 10px; }
-  div.timetable div.day .name {
-    margin-top: 0px;
-    margin-bottom: 10px; }
-  div.timetable div.day .event-name {
-    width: 300px; }
-  div.timetable div.day div.event-time {
-    width: 300px;
-    display: inline-block; }
-    div.timetable div.day div.event-time .time, div.timetable div.day div.event-time .cancel {
-      border-radius: 0.25em; }
-    div.timetable div.day div.event-time .time.conflict {
-      background-color: #66ff66; }
-    div.timetable div.day div.event-time .cancel {
-      background-color: #ffff80; }
+.timetable .table {
+  display: table;
+  margin-bottom: 50px; }
+  .timetable .table .day-line {
+    display: table-row; }
+    .timetable .table .day-line .spacing {
+      display: table-cell;
+      width: 50px; }
+    .timetable .table .day-line .day {
+      display: table-cell;
+      padding: 12px 10px 12px;
+      border-left: 1px solid #cccccc;
+      border-bottom: 1px solid #cccccc; }
+      .timetable .table .day-line .day .date {
+        display: inline-block;
+        vertical-align: top;
+        width: 60px; }
+        .timetable .table .day-line .day .date .month-day {
+          display: inline-block;
+          width: 20px;
+          text-align: right;
+          font-size: 15px;
+          font-weight: 400;
+          color: #5d646f; }
+        .timetable .table .day-line .day .date .week-day {
+          display: inline-block;
+          font-size: 12px;
+          font-weight: 400;
+          color: #a0aab8; }
+      .timetable .table .day-line .day .events {
+        display: inline-block;
+        vertical-align: top; }
+        .timetable .table .day-line .day .events .event {
+          font-size: 15px;
+          font-weight: 400; }
+          .timetable .table .day-line .day .events .event .time {
+            display: inline-block;
+            width: 120px;
+            color: #5d646f; }
+          .timetable .table .day-line .day .events .event .name {
+            display: inline-block;
+            color: black; }
+            .timetable .table .day-line .day .events .event .name.empty {
+              color: #a0a9b8; }
+        .timetable .table .day-line .day .events .event.conflict .time, .timetable .table .day-line .day .events .event.conflict .name {
+          color: red; }
+        .timetable .table .day-line .day .events .event.cancel .time, .timetable .table .day-line .day .events .event.cancel .name {
+          color: red;
+          text-decoration: line-through; }
+    .timetable .table .day-line .day.current {
+      background: #f9f4ed; }
