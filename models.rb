@@ -80,6 +80,7 @@ class TimetableDocument < XDSL::Element
     end
     elements :classes do
       element :title
+      element :info
       elements :timetable do
         element :day
         element :begin
