@@ -1,12 +1,12 @@
 <div class="classes">
   <%= erb :'partials/time_header', locals: { selected: :schedule }  %>
 
-  <div class="header"> <h1> Текущие занятия </h1> </div>
   <%= erb :'partials/classes', locals:
-    { classes: @timetable.classes.select { |c| actual_classes(c) }  }
-  %>
-  <div class="header"> <h1> Будущие занятия </h1> </div>
+    { title: "Текущие",
+      classes: @timetable.classes.select { |c| actual_classes(c) }  } %>
+  <hr/>
+
   <%= erb :'partials/classes', locals:
-    { classes: @timetable.classes.select { |c| future_classes(c) }  }
-  %>
+    { title: "Будущие",
+      classes: @timetable.classes.select { |c| future_classes(c) }  } %>
 </div>

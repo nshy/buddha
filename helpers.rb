@@ -256,18 +256,6 @@ module CategoryHelpers
 end
 
 module TimetableHelper
-  def day_names(day)
-    [
-      'Понедельник',
-      'Вторник',
-      'Среда',
-      'Четверг',
-      'Пятница',
-      'Суббота',
-      'Воскресенье'
-    ][day]
-  end
-
   def timetable_months()
     first = week_begin(Date.today)
     last = first + 13
@@ -276,12 +264,6 @@ module TimetableHelper
     else
       "#{Russian::strftime(first, '%B')} - #{Russian.strftime(last, '%B')}"
     end
-  end
-
-  def translate_day(day)
-    eng = Date.parse(day).cwday
-    ru = (eng - 1) % 7
-    day_names(ru)
   end
 
   def event_interval(event)
@@ -324,12 +306,22 @@ module TimetableHelper
   def classes_dates(classes)
     b = e = ""
     if not classes.begin.nil?
-      b = "с #{format_date(Date.parse(classes.begin))}"
+      d = Date.parse(classes.begin)
+      b = "с #{Russian::strftime(d, "%e %B")}"
     end
     if not classes.end.nil?
-      e = " по #{format_date(Date.parse(classes.end))}"
+      d = Date.parse(classes.end)
+      e = " по #{Russian::strftime(d, "%e %B")}"
     end
     b + e
+  end
+
+  def classes_days(classes)
+    days = classes.timetable.collect do |item|
+      day = Date.parse(item.day)
+      "#{Russian::strftime(day, "%A")} #{item.begin}"
+    end
+    days.join(", ")
   end
 
   def week_events(timetable, offset)

@@ -1,16 +1,15 @@
-<div class="row">
+<div class="section">
+  <div class="title"> <%= title %> </div>
   <% classes.each do |c| %>
-    <div class="plan col-lg-6">
-      <h2 class="title"> <%= c.title %> </h2>
-      <div class="dates">
-        <% if not (c.begin.nil? and c.end.nil?)%>
-          <span class="date-value"> <%= classes_dates(c) %> </span>
-        <% end %>
-      </div>
-      <% c.timetable.each do |timetable| %>
-        <h3 class="day"> <%= translate_day(timetable.day) %> </h3>
-        <h3 class="time"> <%= "#{timetable.begin}-#{timetable.end}" %> </h3>
+  <div class="class">
+    <img src="/classes/stub.jpg"/>
+    <div class="description">
+      <div class="title"> <%= c.title %> </div>
+      <% if not (c.begin.nil? and c.end.nil?)%>
+        <div class="dates"> <%= classes_dates(c) %> </div>
       <% end %>
-    </div>
+      <div class="days"> <%= classes_days(c) %> </div>
+    </div> <%# description %>
+  </div> <%# class %>
   <% end %>
 </div>

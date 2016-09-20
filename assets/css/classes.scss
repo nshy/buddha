@@ -1,31 +1,43 @@
 .classes {
-  .calendar-line {
-    display: inline-block;
-    margin: 2px;
-    padding: 3px;
-  }
-
-  .plan {
-    .title, .dates {
-      margin: 0px;
-      padding: 0px;
+  .section {
+    > .title {
+      font-size: 22px;
+      font-weight: 400;
+      margin: 20px 0px 10px;
     }
+    .class {
+      margin-bottom: 20px;
+      img {
+        display: inline;
+        float: left;
+        width: 250px;
+        height: 150px;
+        border: 1px solid black;
+        margin-right: 20px;
+      }
+      .description {
+        .title {
+          font-size: 18px;
+          font-weight: 400;
+        }
 
-    .dates {
-      margin-bottom: 10px;
-      .date-value {
-        background-color: #66ff66;
-        border-radius: 0.25em;
-        padding: 2px;
+        .dates {
+          margin-top: 4px;
+          font-size: 15px;
+          font-weight: 400;
+        }
+
+        .days {
+          margin-top: 4px;
+          font-size: 15px;
+          font-weight: 400;
+        }
       }
     }
-
-    .day, .time {
-      @extend .calendar-line;
-    }
-
-    .day {
-      width: 300px;
+    .class::after {
+      content: " ";
+      clear: both;
+      display: block;
     }
   }
 }
