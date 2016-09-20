@@ -317,9 +317,10 @@ module TimetableHelper
   end
 
   def classes_days(classes)
-    days = classes.timetable.collect do |item|
-      day = Date.parse(item.day)
-      "#{Russian::strftime(day, "%A")} #{item.begin}"
+    days = classes.day.collect do |d|
+      i = timetable_parse_classes_day(d)
+      day = Date.parse(i[:day])
+      "#{Russian::strftime(day, "%A")} #{i[:begin]}"
     end
     days.join(", ")
   end

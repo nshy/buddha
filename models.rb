@@ -81,11 +81,7 @@ class TimetableDocument < XDSL::Element
     elements :classes do
       element :title
       element :info
-      elements :timetable do
-        element :day
-        element :begin
-        element :end
-      end
+      elements :day
       element :begin
       element :end
       elements :cancel

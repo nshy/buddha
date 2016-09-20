@@ -40,6 +40,11 @@ def classes_border(date, border)
   border = Date.parse(date)
 end
 
+def timetable_parse_classes_day(daytime)
+  r = /([[:alpha:]]+)\s*,\s*(\d{2}:\d{2})-(\d{2}:\d{2})/.match(daytime)
+  { day: r[1], begin: r[2], end: r[3] }
+end
+
 def timetable_classes_events(timetable, date_begin, date_end)
   events = []
   timetable.classes.each do |classes|
@@ -49,15 +54,16 @@ def timetable_classes_events(timetable, date_begin, date_end)
     classes_end = date_end < classes_end ? date_end : classes_end
     next if classes_end < classes_begin
     cancels = classes.cancel.collect { |cancel| Date.parse(cancel) }
-    classes.timetable.each do |timetable|
-      cwday = Date.parse(timetable.day).cwday
+    classes.day.each do |daytime|
+      d = timetable_parse_classes_day(daytime)
+      cwday = Date.parse(d[:day]).cwday
       classes_begin.step(classes_end).each do |date|
         next if date.cwday != cwday
         strdate = date.strftime('%Y-%m-%d')
         events << {
           title: classes.title,
-          begin: DateTime.parse("#{strdate} #{timetable.begin}"),
-          end: DateTime.parse("#{strdate} #{timetable.end}"),
+          begin: DateTime.parse("#{strdate} #{d[:begin]}"),
+          end: DateTime.parse("#{strdate} #{d[:end]}"),
           cancel: cancels.include?(date)
         }
       end
