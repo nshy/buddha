@@ -1,7 +1,7 @@
 <div class="section">
   <div class="title"> <%= title %> </div>
   <% plans.each do |p| %>
-  <div class="class">
+  <div class="class" id="<%= slug(Russian::transliterate(p.title)) %>">
     <img src="/classes/stub.jpg"/>
     <div class="description">
       <div class="title"> <%= p.title %> </div>
@@ -11,7 +11,7 @@
   </div> <%# class %>
   <% end %>
   <% classes.each do |c| %>
-  <div class="class">
+  <div class="class" id="<%= slug(Russian::transliterate(c.title)) %>">
     <img src="/classes/stub.jpg"/>
     <div class="description">
       <div class="title"> <%= c.title %> </div>

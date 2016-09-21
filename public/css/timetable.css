@@ -42,14 +42,13 @@
             display: inline-block;
             width: 120px;
             color: #5d646f; }
-          .timetable .table .day-line .day .events .event .name {
-            display: inline-block;
-            color: black; }
-            .timetable .table .day-line .day .events .event .name.empty {
+          .timetable .table .day-line .day .events .event a {
+            display: inline-block; }
+            .timetable .table .day-line .day .events .event a.empty {
               color: #a0a9b8; }
-        .timetable .table .day-line .day .events .event.conflict .time, .timetable .table .day-line .day .events .event.conflict .name {
+        .timetable .table .day-line .day .events .event.conflict .time, .timetable .table .day-line .day .events .event.conflict a {
           color: red; }
-        .timetable .table .day-line .day .events .event.cancel .time, .timetable .table .day-line .day .events .event.cancel .name {
+        .timetable .table .day-line .day .events .event.cancel .time, .timetable .table .day-line .day .events .event.cancel a {
           color: red;
           text-decoration: line-through; }
     .timetable .table .day-line .day.current {

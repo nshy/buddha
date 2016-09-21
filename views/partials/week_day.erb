@@ -12,13 +12,15 @@
       <% clazz += " cancel" if event[:cancel] %>
       <div class="<%= clazz %>">
         <div class="time"> <%= event_interval(event) %> </div>
-        <div class="name"><%= "#{event[:title]}" %> </div>
+        <a href="/timetable?show=schedule#<%= slug(Russian::transliterate(event[:title])) %>">
+          <%= "#{event[:title]}" %>
+        </a>
       </div> <%# event %>
     <% end %>
     <% if events.empty? %>
       <div class="event">
         <div class="time"> </div>
-        <div class="name empty"> Нет занятий </div>
+        <a class="name empty"> Нет занятий </a>
       </div>
     <% end %>
   </div> <%# events %>

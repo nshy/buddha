@@ -100,6 +100,10 @@ module CommonHelpers
     erb :text
   end
 
+  def slug(title)
+    title.downcase.strip.gsub(' ', '-').gsub(/[^\w-]/, '')
+  end
+
 end
 
 class NewsDocument

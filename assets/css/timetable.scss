@@ -56,21 +56,20 @@
 
               color: #5d646f;
             }
-            .name {
+            a {
               display: inline-block;
-              color: black;
               &.empty {
                 color: #a0a9b8;
               }
             }
           }
           .event.conflict {
-            .time, .name{
+            .time, a {
               color: red;
             }
           }
           .event.cancel {
-            .time, .name{
+            .time, a {
               color: red;
               text-decoration: line-through;
             }
