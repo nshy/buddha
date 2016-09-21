@@ -1,6 +1,8 @@
 <div class="classes">
   <%= erb :'partials/time_header', locals: { selected: :schedule }  %>
 
+  <div class="annual"> <%= @timetable.annual %> </div>
+
   <%= erb :'partials/classes', locals:
     { title: "Текущие",
       classes: @timetable.classes.select { |c| actual_classes(c) },

@@ -71,6 +71,7 @@ end
 
 class TimetableDocument < XDSL::Element
   element :timetable do
+    element :annual
     elements :event do
       element :title
       element :date
