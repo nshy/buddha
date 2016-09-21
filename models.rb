@@ -88,6 +88,8 @@ class TimetableDocument < XDSL::Element
     end
     elements :event_plan do
       element :title
+      element :info
+      element :days
       element :begin
       element :end
       elements :date
