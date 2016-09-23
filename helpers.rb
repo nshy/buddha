@@ -127,14 +127,16 @@ end
 module NewsHelpers
 
   def body_path(path)
-      File.directory?(path) ? "#{path}/page.adoc" : path
+    File.directory?(path) ? "#{path}/page.adoc" : "#{path}.adoc"
   end
 
   def load_news()
     news = []
     each_file_sorted("data/news") do |news_path|
-      news << { slug: File.basename(news_path),
-                news: NewsDocument.new(body_path(news_path)) }
+      slug = File.basename(news_path).gsub(/.adoc$/, '')
+      puts slug
+      news << { slug: slug,
+                news: NewsDocument.new(body_path("data/news/#{slug}")) }
     end
     news.sort do |a, b|
       Date.parse(b[:news].publish_date) <=> Date.parse(a[:news].publish_date)
