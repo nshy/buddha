@@ -16,3 +16,5 @@ this will print all nodes that need manual check:
 see difference
   >vimdiff tmp/text/adoc/395.txt tmp/text/html/395.txt
 fix tmp/html/395.html and rerun 3 & 4 steps.
+5. add premable to adocs and copy them into the site data directory
+  >./add.rb
