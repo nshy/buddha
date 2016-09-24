@@ -80,6 +80,7 @@ class TimetableDocument < XDSL::Element
       element :cancel
     end
     elements :classes do
+      element :image
       element :title
       element :info
       elements :day
@@ -88,6 +89,7 @@ class TimetableDocument < XDSL::Element
       elements :cancel
     end
     elements :event_plan do
+      element :image
       element :title
       element :info
       element :days

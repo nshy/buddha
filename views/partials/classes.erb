@@ -2,7 +2,7 @@
   <div class="title"> <%= title %> </div>
   <% plans.each do |p| %>
   <div class="class" id="<%= slug(Russian::transliterate(p.title)) %>">
-    <img src="/classes/stub.jpg"/>
+    <img src="/timetable/<%= p.image %>"/>
     <div class="description">
       <div class="title"> <%= p.title %> </div>
       <div class="days"> <%= p.days %> </div>
@@ -12,7 +12,7 @@
   <% end %>
   <% classes.each do |c| %>
   <div class="class" id="<%= slug(Russian::transliterate(c.title)) %>">
-    <img src="/classes/stub.jpg"/>
+    <img src="/timetable/<%= c.image %>"/>
     <div class="description">
       <div class="title"> <%= c.title %> </div>
       <% if not (c.begin.nil? and c.end.nil?)%>

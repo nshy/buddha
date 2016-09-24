@@ -119,7 +119,7 @@ get '/news/:news_id/:file' do |news_id, file|
 end
 
 get '/timetable' do
-  File.open('data/timetable.xml') do |file|
+  File.open('data/timetable/timetable.xml') do |file|
     @timetable = TimetableDocument.new(Nokogiri::XML(file)).timetable
   end
   @menu_active = :timetable
@@ -128,6 +128,10 @@ get '/timetable' do
   elsif params[:show] == 'schedule'
     erb :classes
   end
+end
+
+get '/timetable/:file.jpg' do |file|
+  send_file "data/timetable/#{file}.jpg"
 end
 
 get '/teachers/' do
