@@ -13,7 +13,7 @@
     display: table-row; }
     .timetable .table .day-line .day {
       display: table-cell;
-      padding: 12px 10px 12px;
+      padding: 16px 10px 12px;
       border-bottom: 1px solid #cccccc; }
       .timetable .table .day-line .day .date {
         display: inline-block;
