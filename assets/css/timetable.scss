@@ -5,7 +5,8 @@
     margin: 20px 0px 10px;
   }
   .table {
-    display: table;
+    &.two-weeks { display: table; }
+    &.one-week { display: none; }
     margin-bottom: 50px;
     .day-line {
       display: table-row;
@@ -90,4 +91,44 @@
       }
     }
   }
+}
+
+
+@media (max-width: 991px) {
+
+.timetable {
+  .table {
+    &.two-weeks { display: none; }
+    &.one-week { display: table; }
+    .day-line {
+      .day:nth-child(2n + 1) {
+        border-right: none;
+      }
+    }
+  }
+}
+
+}
+
+@media (max-width: 480px) {
+
+.timetable {
+  .table {
+    .day-line {
+      .day {
+        .date {
+          margin-right: 3px;
+        }
+        .events {
+          .event {
+            .time {
+              width: 98px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
 }

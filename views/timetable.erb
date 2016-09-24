@@ -1,11 +1,11 @@
 <div class="timetable">
   <%= erb :'partials/time_header', locals: { selected: :week }  %>
   <div class="months"> <%= timetable_months %></div>
-  <div class="table">
-    <% monday_cur = week_begin(Date.today) %>
-    <% monday_next = monday_cur + 7 %>
-    <% events_cur = week_events(@timetable, 0) %>
-    <% events_next = week_events(@timetable, 1) %>
+  <% monday_cur = week_begin(Date.today) %>
+  <% monday_next = monday_cur + 7 %>
+  <% events_cur = week_events(@timetable, 0) %>
+  <% events_next = week_events(@timetable, 1) %>
+  <div class="table two-weeks">
     <% (0..6).each do |day| %>
       <div class="day-line">
         <%= erb :'partials/week_day',
@@ -14,5 +14,21 @@
             locals: { date: monday_next + day, events: events_next[day]} %>
       </div>
     <% end %>
+  </div>
+  <div class="table one-week">
+     <% (0..6).each do |day| %>
+       <div class="day-line">
+         <%= erb :'partials/week_day',
+             locals: { date: monday_cur + day, events: events_cur[day]} %>
+       </div>
+     <% end %>
+  </div>
+  <div class="table one-week">
+     <% (0..6).each do |day| %>
+       <div class="day-line">
+         <%= erb :'partials/week_day',
+             locals: { date: monday_next + day, events: events_next[day]} %>
+       </div>
+     <% end %>
   </div>
 </div>

@@ -4,8 +4,11 @@
   margin: 20px 0px 10px; }
 
 .timetable .table {
-  display: table;
   margin-bottom: 50px; }
+  .timetable .table.two-weeks {
+    display: table; }
+  .timetable .table.one-week {
+    display: none; }
   .timetable .table .day-line {
     display: table-row; }
     .timetable .table .day-line .day {
@@ -59,3 +62,17 @@
         border-radius: 2px; }
         .timetable .table .day-line .day.current .date .month-day, .timetable .table .day-line .day.current .date .week-day {
           color: #ffffff; }
+
+@media (max-width: 991px) {
+  .timetable .table.two-weeks {
+    display: none; }
+  .timetable .table.one-week {
+    display: table; }
+  .timetable .table .day-line .day:nth-child(2n + 1) {
+    border-right: none; } }
+
+@media (max-width: 480px) {
+  .timetable .table .day-line .day .date {
+    margin-right: 3px; }
+  .timetable .table .day-line .day .events .event .time {
+    width: 98px; } }
