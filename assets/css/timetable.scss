@@ -19,7 +19,10 @@
         .date {
           display: inline-block;
           vertical-align: top;
-          width: 60px;
+          width: 49px;
+          margin-right: 18px;
+          padding: 4px;
+          margin-top: -4px;
 
           .month-day {
             display: inline-block;
@@ -76,7 +79,14 @@
       }
 
       .day.current {
-        background: #f9f4ed;
+        background: #f1f1f1;
+        .date {
+          background-color: #ff6333;
+          border-radius: 2px;
+          .month-day, .week-day {
+            color: #ffffff;
+          }
+        }
       }
     }
   }

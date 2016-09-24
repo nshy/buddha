@@ -15,7 +15,10 @@
       .timetable .table .day-line .day .date {
         display: inline-block;
         vertical-align: top;
-        width: 60px; }
+        width: 49px;
+        margin-right: 18px;
+        padding: 4px;
+        margin-top: -4px; }
         .timetable .table .day-line .day .date .month-day {
           display: inline-block;
           width: 20px;
@@ -50,4 +53,9 @@
     .timetable .table .day-line .day:nth-child(2n + 1) {
       border-right: 1px solid #cccccc; }
     .timetable .table .day-line .day.current {
-      background: #f9f4ed; }
+      background: #f1f1f1; }
+      .timetable .table .day-line .day.current .date {
+        background-color: #ff6333;
+        border-radius: 2px; }
+        .timetable .table .day-line .day.current .date .month-day, .timetable .table .day-line .day.current .date .week-day {
+          color: #ffffff; }
