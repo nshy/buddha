@@ -56,7 +56,7 @@ def parse_html(path)
 end
 
 def path_to_id path
-    File.basename(path).gsub(/\.html$/, '')
+  File.basename(path).gsub(/\..*$/, '')
 end
 
 def extract_text(from, to)
