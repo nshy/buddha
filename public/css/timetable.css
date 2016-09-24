@@ -8,13 +8,9 @@
   margin-bottom: 50px; }
   .timetable .table .day-line {
     display: table-row; }
-    .timetable .table .day-line .spacing {
-      display: table-cell;
-      width: 50px; }
     .timetable .table .day-line .day {
       display: table-cell;
       padding: 12px 10px 12px;
-      border-left: 1px solid #cccccc;
       border-bottom: 1px solid #cccccc; }
       .timetable .table .day-line .day .date {
         display: inline-block;
@@ -51,5 +47,7 @@
         .timetable .table .day-line .day .events .event.cancel .time, .timetable .table .day-line .day .events .event.cancel a {
           color: red;
           text-decoration: line-through; }
+    .timetable .table .day-line .day:nth-child(2n + 1) {
+      border-right: 1px solid #cccccc; }
     .timetable .table .day-line .day.current {
       background: #f9f4ed; }

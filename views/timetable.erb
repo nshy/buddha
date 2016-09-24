@@ -10,7 +10,6 @@
       <div class="day-line">
         <%= erb :'partials/week_day',
             locals: { date: monday_cur + day, events: events_cur[day]} %>
-        <div class="spacing"></div>
         <%= erb :'partials/week_day',
             locals: { date: monday_next + day, events: events_next[day]} %>
       </div>

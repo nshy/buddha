@@ -9,16 +9,11 @@
     margin-bottom: 50px;
     .day-line {
       display: table-row;
-      .spacing {
-        display: table-cell;
-        width: 50px;
-      }
+      $border-style: 1px solid #cccccc;
       .day {
         display: table-cell;
         padding: 12px 10px 12px;
 
-        $border-style: 1px solid #cccccc;
-        border-left: $border-style;
         border-bottom: $border-style;
 
         .date {
@@ -75,6 +70,9 @@
             }
           }
         }
+      }
+      .day:nth-child(2n + 1) {
+        border-right: $border-style;
       }
 
       .day.current {
