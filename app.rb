@@ -33,6 +33,7 @@ before do
   File.open("data/menu.xml") do |file|
     @menu = MenuDocument.new(Nokogiri::XML(file)).menu
   end
+  @environment = Config::ENV
 end
 
 get '/archive/' do

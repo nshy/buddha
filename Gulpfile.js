@@ -2,6 +2,7 @@
 
 var gulp = require('gulp');
 var sass = require('gulp-sass');
+var concat = require('gulp-concat');
 
 gulp.task('sass', function () {
   gulp.src('./assets/css/*.scss')
@@ -9,6 +10,12 @@ gulp.task('sass', function () {
     .pipe(gulp.dest('./public/css'));
 });
 
+gulp.task('concat', function () {
+  gulp.src('./public/css/*.css')
+    .pipe(concat('bundle.css'))
+    .pipe(gulp.dest('./public/css'));
+});
+
 gulp.task('default', function () {
-  gulp.watch('./assets/css/*.scss', ['sass']);
+  gulp.watch('./assets/css/*.scss', ['sass', 'concat']);
 });

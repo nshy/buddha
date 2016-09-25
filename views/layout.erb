@@ -11,22 +11,26 @@
     <script src="/main.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700i&subset=cyrillic" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/common.css">
-    <link rel="stylesheet" href="/css/layout.css">
-    <link rel="stylesheet" href="/css/archive.css">
-    <link rel="stylesheet" href="/css/teachings.css">
-    <link rel="stylesheet" href="/css/news.css">
-    <link rel="stylesheet" href="/css/books.css">
-    <link rel="stylesheet" href="/css/book-category.css">
-    <link rel="stylesheet" href="/css/library.css">
-    <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="/css/timetable.css">
-    <link rel="stylesheet" href="/css/classes.css">
-    <link rel="stylesheet" href="/css/message.css">
-    <link rel="stylesheet" href="/css/subscription.css">
-    <link rel="stylesheet" href="/css/teachers.css">
-    <link rel="stylesheet" href="/css/text.css">
-    <link rel="stylesheet" href="/css/donations.css">
+    <% if @environment == :delevopment %>
+      <link rel="stylesheet" href="/css/common.css">
+      <link rel="stylesheet" href="/css/layout.css">
+      <link rel="stylesheet" href="/css/archive.css">
+      <link rel="stylesheet" href="/css/teachings.css">
+      <link rel="stylesheet" href="/css/news.css">
+      <link rel="stylesheet" href="/css/books.css">
+      <link rel="stylesheet" href="/css/book-category.css">
+      <link rel="stylesheet" href="/css/library.css">
+      <link rel="stylesheet" href="/css/main.css">
+      <link rel="stylesheet" href="/css/timetable.css">
+      <link rel="stylesheet" href="/css/classes.css">
+      <link rel="stylesheet" href="/css/message.css">
+      <link rel="stylesheet" href="/css/subscription.css">
+      <link rel="stylesheet" href="/css/teachers.css">
+      <link rel="stylesheet" href="/css/text.css">
+      <link rel="stylesheet" href="/css/donations.css">
+    <% else %>
+      <link rel="stylesheet" href="/css/bundle.css">
+    <% end %>
   </head>
   <body>
     <nav>
