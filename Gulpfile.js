@@ -11,7 +11,7 @@ gulp.task('sass', function () {
 });
 
 gulp.task('concat', function () {
-  gulp.src('./public/css/*.css')
+  gulp.src(['public/css/*.css', '!public/css/bundle.css'])
     .pipe(concat('bundle.css'))
     .pipe(gulp.dest('./public/css'));
 });
