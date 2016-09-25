@@ -80,7 +80,7 @@ end
 
 premailer = Premailer.new(html,
   warn_level: Premailer::Warnings::SAFE,
-  base_url: "http://#{Config::DOMAIN}",
+  base_url: "http://#{SiteConfig::DOMAIN}",
   with_html_string: true,
   css: [ "public/css/#{options[:css]}", "public/css/email.css" ]
 )

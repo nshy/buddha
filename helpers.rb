@@ -86,7 +86,7 @@ module CommonHelpers
 
   def yandex_money_url(target, title, sum, redirect)
     r = /[^a-zA-Z0-9*-._]/
-    link = "#{Config::DOMAIN}#{redirect}"
+    link = "#{SiteConfig::DOMAIN}#{redirect}"
     "https://money.yandex.ru/embed/shop.xml?"\
       "account=#{target}"\
       "&quickpay=shop&writer=seller"\

@@ -21,7 +21,7 @@ end
 
 def Subscription.validate(email)
   r = RestClient.get(
-    "https://#{Config::MAILGUN_AUTH_PUB}@api.mailgun.net/v3/address/validate",
+    "https://#{SiteConfig::MAILGUN_AUTH_PUB}@api.mailgun.net/v3/address/validate",
     params: { address: email }
   )
   return if JSON.parse(r)['is_valid']
@@ -37,7 +37,7 @@ def Subscription.check_status(email)
 end
 
 def Subscription.mailgun_api(address)
-    "https://#{Config::MAILGUN_AUTH_PRIV}@api.mailgun.net/v3/" + address
+    "https://#{SiteConfig::MAILGUN_AUTH_PRIV}@api.mailgun.net/v3/" + address
 end
 
 def Subscription.send_html(email, subject, html)

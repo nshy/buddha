@@ -4,10 +4,10 @@ require 'rubygems'
 require 'bundler'
 
 require_relative 'config'
-Bundler.require(:default, Config::ENV)
+Bundler.require(:default, SiteConfig::ENV)
 
 require 'tilt/erubis'
-require 'sinatra/reloader' if Config::ENV == :development
+require 'sinatra/reloader' if SiteConfig::ENV == :development
 require 'sinatra/capture'
 require 'set'
 
@@ -33,7 +33,7 @@ before do
   File.open("data/menu.xml") do |file|
     @menu = MenuDocument.new(Nokogiri::XML(file)).menu
   end
-  @environment = Config::ENV
+  @environment = SiteConfig::ENV
 end
 
 get '/archive/' do
