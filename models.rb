@@ -15,6 +15,7 @@ class TeachingsDocument < XDSL::Element
     element :year
     elements :theme do
       element :title
+      element :buddha_node
       elements :record do
         element :description
         element :record_date

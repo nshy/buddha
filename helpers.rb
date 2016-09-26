@@ -119,6 +119,10 @@ class NewsDocument
     @doc.metadata['title']
   end
 
+  def buddha_node
+    @doc.metadata['buddha_node']
+  end
+
   def body
     @doc.content
   end
