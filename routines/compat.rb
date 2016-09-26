@@ -22,7 +22,7 @@ each_file("#{data_dir}/news") do |file|
   list << { node: news.buddha_node.to_i, id: id }
 end
 list.sort! { |a, b| a[:node] <=> b[:node] }
-list.each { |e| puts "content/?q=node/#{e[:node]} news/#{e[:id]}" }
+list.each { |e| puts "content/?q=node/#{e[:node]}: news/#{e[:id]}" }
 
 # teachings map
 list = []
@@ -35,4 +35,4 @@ each_file("#{data_dir}/teachings") do |file|
   end
 end
 list.sort! { |a, b| a[:node] <=> b[:node] }
-list.each { |e| puts "content/?q=node/#{e[:node]} teachings/#{e[:id]}" }
+list.each { |e| puts "content/?q=node/#{e[:node]}: teachings/#{e[:id]}" }
