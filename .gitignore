@@ -3,3 +3,4 @@ config.rb
 site.db
 dump
 /import/news/tmp
+/import/records/tmp
