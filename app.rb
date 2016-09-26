@@ -35,6 +35,7 @@ before do
     @menu = MenuDocument.new(Nokogiri::XML(file)).menu
   end
   @environment = SiteConfig::ENV
+  @ya_metrika = SiteConfig::YA_METRIKA
 end
 
 not_found do

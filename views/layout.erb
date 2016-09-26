@@ -80,7 +80,9 @@
           <a href="<%= item.link %>"> <%= item.title %> </a>
         <% end %>
       </div>
-      <%= erb :'partials/contacts' %>
     </div> <%# menu %>
+
+    <%= erb :'partials/ya_metrika' if @ya_metrika %>
+
   </body>
 </html>
