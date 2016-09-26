@@ -10,6 +10,7 @@ require 'tilt/erubis'
 require 'sinatra/reloader' if SiteConfig::ENV == :development
 require 'sinatra/capture'
 require 'set'
+require 'yaml'
 
 require_relative 'models'
 require_relative 'toc'
@@ -34,6 +35,16 @@ before do
     @menu = MenuDocument.new(Nokogiri::XML(file)).menu
   end
   @environment = SiteConfig::ENV
+end
+
+not_found do
+  map = {}
+  File.open("data/compat.yaml") do |file|
+    map = YAML.load(file.read)
+  end
+  goto = map["#{request.path}?#{request.query_string}"]
+  redirect to(goto) if not goto.nil?
+  "not found"
 end
 
 get '/archive/' do
