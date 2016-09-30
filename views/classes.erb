@@ -1,16 +1,18 @@
 <div class="classes">
   <%= erb :'partials/time_header', locals: { selected: :schedule }  %>
+  <div class="info_block">
+    <div class="banner_classes"></div>
+    <div class="annual"> <%= @timetable.annual %> </div>
+  </div>
 
-  <div class="annual"> <%= @timetable.annual %> </div>
-
-  <%= erb :'partials/classes', locals:
+    <%= erb :'partials/classes', locals:
     { title: "Текущие",
-      classes: @timetable.classes.select { |c| actual_classes(c) },
-      plans: @timetable.event_plan } %>
-  <hr/>
+    classes: @timetable.classes.select { |c| actual_classes(c) },
+    plans: @timetable.event_plan } %>
+    <hr/>
 
-  <%= erb :'partials/classes', locals:
+    <%= erb :'partials/classes', locals:
     { title: "Будущие",
-      classes: @timetable.classes.select { |c| future_classes(c) },
-      plans: [] } %>
+    classes: @timetable.classes.select { |c| future_classes(c) },
+    plans: [] } %>
 </div>
