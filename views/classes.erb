@@ -1,9 +1,13 @@
 <div class="classes">
   <%= erb :'partials/time_header', locals: { selected: :schedule }  %>
+  <!-- Если надо убрать баннер, просто добавь к классу info_block еще один класс: nobanner -->
   <div class="info_block">
-    <div class="banner_classes"></div>
+    <div class="banner_classes">
+        <img src="/banner.jpg">
+    </div>
     <div class="annual"> <%= @timetable.annual %> </div>
   </div>
+  <hr>
 
     <%= erb :'partials/classes', locals:
     { title: "Текущие",
