@@ -3,15 +3,14 @@
     <div class="title"> Новости </div>
   </div>
   <div class="menu">
-    <% title = capture do %>
-      <div class="item"> Последние </div>
-    <% end %>
-    <%= link_if(@params['top'].nil?, "/news?top=true", title) %>
+    <div class="item">
+      <%= link_if(@params['top'].nil?, "/news?top=true", 'Последние') %>
+    </div>
+
     <% news_years(@news).each do |year| %>
-      <% title = capture do %>
-        <div class="item"> <%= year %> </div>
-      <% end %>
-      <%= link_if(@params['year'] != year.to_s, "/news?year=#{year}", title) %>
+      <div class="item">
+        <%= link_if(@params['year'] != year.to_s, "/news?year=#{year}", year) %>
+      </div>
     <% end %>
   </div>
   <div class="feed">
