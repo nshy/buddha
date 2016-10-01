@@ -140,7 +140,6 @@ module NewsHelpers
     news = []
     each_file_sorted("data/news") do |news_path|
       slug = File.basename(news_path).gsub(/.adoc$/, '')
-      puts slug
       news << {
         slug: slug,
         news: NewsDocument.new(
