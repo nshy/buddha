@@ -705,10 +705,12 @@ div.message {
       border-bottom: 1px solid #000000; }
     .news-index .feed .body #content {
       padding: 0px 8px; }
+    .news-index .feed .body h1 {
+      text-align: center;
+      font-size: 22px; }
     .news-index .feed .body h2 {
-      text-align: center; }
-    .news-index .feed .body h3 {
-      text-align: center; }
+      text-align: center;
+      font-size: 18px; }
   .news-index .feed hr:last-child {
     display: none; }
 
@@ -765,10 +767,12 @@ div.message {
     border-bottom: 1px solid #000000; }
   .news-single .body #content {
     padding: 0px 8px; }
+  .news-single .body h1 {
+    text-align: center;
+    font-size: 22px; }
   .news-single .body h2 {
-    text-align: center; }
-  .news-single .body h3 {
-    text-align: center; }
+    text-align: center;
+    font-size: 18px; }
 
 div.subscription {
   text-align: center; }

@@ -58,9 +58,11 @@
     .news-index .feed .body #content {
       padding: 0px 8px; }
     .news-index .feed .body h2 {
-      text-align: center; }
+      text-align: center;
+      font-size: 22px; }
     .news-index .feed .body h3 {
-      text-align: center; }
+      text-align: center;
+      font-size: 18px; }
   .news-index .feed hr:last-child {
     display: none; }
 
@@ -118,6 +120,8 @@
   .news-single .body #content {
     padding: 0px 8px; }
   .news-single .body h2 {
-    text-align: center; }
+    text-align: center;
+    font-size: 22px; }
   .news-single .body h3 {
-    text-align: center; }
+    text-align: center;
+    font-size: 18px; }
