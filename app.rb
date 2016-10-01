@@ -74,7 +74,11 @@ get '/news' do
 end
 
 get '/news/:id/' do |id|
-  @news = NewsDocument.new(body_path("data/news/#{id}"))
+  @news = NewsDocument.new(
+    body_path("data/news/#{id}"), {
+      page_cut: false
+    }
+  )
   @slug = id
   @menu_active = :news
   erb :'news-single'

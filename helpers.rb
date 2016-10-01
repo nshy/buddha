@@ -107,8 +107,10 @@ module CommonHelpers
 end
 
 class NewsDocument
-  def initialize(path)
+  def initialize(path, options)
     @doc = Preamble.load(path)
+    @content = @doc.content
+    @content = @content.gsub(/^<<<$.*/m, '') if options[:page_cut]
   end
 
   def publish_date
@@ -124,7 +126,7 @@ class NewsDocument
   end
 
   def body
-    @doc.content
+    @content
   end
 end
 
@@ -139,8 +141,14 @@ module NewsHelpers
     each_file_sorted("data/news") do |news_path|
       slug = File.basename(news_path).gsub(/.adoc$/, '')
       puts slug
-      news << { slug: slug,
-                news: NewsDocument.new(body_path("data/news/#{slug}")) }
+      news << {
+        slug: slug,
+        news: NewsDocument.new(
+          body_path("data/news/#{slug}"), {
+            page_cut: true
+          }
+        )
+      }
     end
     news.sort do |a, b|
       Date.parse(b[:news].publish_date) <=> Date.parse(a[:news].publish_date)
