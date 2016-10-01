@@ -1,5 +1,6 @@
 .classes .annual {
-  margin-top: 20px; }
+  margin-top: 20px;
+  margin-bottom: 30px; }
 
 .classes .section > .title {
   font-size: 22px;
@@ -13,11 +14,11 @@
     float: left;
     width: 250px;
     height: 150px;
-    border: 1px solid black;
     margin-right: 20px; }
   .classes .section .class .description .title {
     font-size: 18px;
-    font-weight: 400; }
+    font-weight: 400;
+    line-height: 1; }
   .classes .section .class .description .dates {
     margin-top: 4px;
     font-size: 15px;
