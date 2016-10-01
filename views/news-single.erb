@@ -1,8 +1,11 @@
 <div class="news-single">
-  <div class="header">
-    <a href="/news?year=<%= news_year(@news) %>">
-      <h1> &larr; Другие новости <%= news_year(@news) %> года </h1>
-    </a>
+  <div class="page-header-buddha">
+    <div class="title"> Новости </div>
+    <div class="backlink">
+      <a href="/news?year=<%= news_year(@news) %>">
+        &larr; ДРУГИЕ НОВОСТИ <%= news_year(@news) %> ГОДА
+      </a>
+    </div>
   </div>
   <%= erb :'partials/news', locals: { slug: @slug,
                                       news: @news,
