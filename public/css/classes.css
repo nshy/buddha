@@ -35,3 +35,21 @@
   content: " ";
   clear: both;
   display: block; }
+
+@media (max-width: 767px) {
+  .classes .section .class img {
+    display: block;
+    float: none; }
+  .classes .section .class .description {
+    margin-top: 20px; } }
+
+@media (max-width: 480px) {
+  .classes .section .class img {
+    width: 100%;
+    height: auto; }
+  .classes .section .class .description {
+    margin-top: 20px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid #dedede; }
+  .classes .section .class:last-child .description {
+    border-bottom: none; } }
