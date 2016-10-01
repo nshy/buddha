@@ -1,4 +1,5 @@
 @mixin news-body {
+  overflow: auto;
   .clearfix::before {
     content: " "; /* Older browser do not support empty content */
     clear: both;
