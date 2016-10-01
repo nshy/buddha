@@ -1,6 +1,18 @@
 @import 'config';
 @import 'news-body';
 
+@mixin news {
+  .title {
+    font-size: 24px;
+  }
+  .date {
+    color: #999999;
+  }
+  .body {
+    @include news-body;
+  }
+}
+
 .news-index {
   .menu {
     float: right;
@@ -10,6 +22,7 @@
   }
   .feed {
     text-color: black;
+    @include news;
     .news {
       border-bottom: $separator-style;
       &:last-child {
@@ -20,4 +33,5 @@
 }
 
 .news-single {
+  @include news;
 }

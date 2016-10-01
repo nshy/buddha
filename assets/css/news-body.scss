@@ -1,6 +1,4 @@
-div.news {
-  div.creation_time p { color: #999999; }
-
+@mixin news-body {
   .clearfix::before {
     content: " "; /* Older browser do not support empty content */
     clear: both;
