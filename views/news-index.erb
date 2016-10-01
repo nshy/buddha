@@ -1,24 +1,22 @@
 <div class="news-index">
-  <div class="row">
-    <div class="col-lg-10">
-      <% news_query_each(@news, @params) do |slug, news| %>
-        <hr/>
-        <%= erb :'partials/news', locals: { slug: slug,
-                                            news: news,
-                                            index: true } %>
-      <% end %>
-    </div>
-    <div class="col-lg-1">
+  <div class="menu">
+    <% title = capture do %>
+      <div class="item"> Последние </div>
+    <% end %>
+    <%= link_if(@params['top'].nil?, "/news?top=true", title) %>
+    <% news_years(@news).each do |year| %>
       <% title = capture do %>
-        <h1> Последние </h1>
+        <div class="item"> <%= year %> </div>
       <% end %>
-      <%= link_if(@params['top'].nil?, "/news?top=true", title) %>
-      <% news_years(@news).each do |year| %>
-        <% title = capture do %>
-          <h1> <%= year %> </h1>
-        <% end %>
-        <%= link_if(@params['year'] != year.to_s, "/news?year=#{year}", title) %>
-      <% end %>
-    </div>
+      <%= link_if(@params['year'] != year.to_s, "/news?year=#{year}", title) %>
+    <% end %>
+  </div>
+  <div class="feed">
+    <% news_query_each(@news, @params) do |slug, news| %>
+      <hr/>
+      <%= erb :'partials/news', locals: { slug: slug,
+                                          news: news,
+                                          index: true } %>
+    <% end %>
   </div>
 </div>

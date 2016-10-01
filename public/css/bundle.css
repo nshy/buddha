@@ -645,6 +645,15 @@ div.message {
     padding-top: 100px;
     text-align: center; }
 
+.news-index .menu {
+  float: right;
+  width: 150px;
+  margin-left: 50px;
+  font-size: 24px; }
+
+.news-index .feed {
+  text-color: black; }
+
 div.news div.creation_time p {
   color: #999999; }
 
