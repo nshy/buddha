@@ -23,11 +23,8 @@
   .feed {
     text-color: black;
     @include news;
-    .news {
-      border-bottom: $separator-style;
-      &:last-child {
-        border-bottom: none;
-      }
+    hr:last-child {
+      display: none;
     }
   }
 }

@@ -61,10 +61,8 @@
       text-align: center; }
     .news-index .feed .body h3 {
       text-align: center; }
-  .news-index .feed .news {
-    border-bottom: 1px solid #dedede; }
-    .news-index .feed .news:last-child {
-      border-bottom: none; }
+  .news-index .feed hr:last-child {
+    display: none; }
 
 .news-single .title {
   font-size: 24px; }

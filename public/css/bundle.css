@@ -659,8 +659,7 @@ div.message {
   .news-index .feed .date {
     color: #999999; }
   .news-index .feed .body {
-    overflow: auto;
-    font-size: 12px; }
+    overflow: auto; }
     .news-index .feed .body .clearfix::before {
       content: " ";
       /* Older browser do not support empty content */
@@ -710,10 +709,8 @@ div.message {
       text-align: center; }
     .news-index .feed .body h3 {
       text-align: center; }
-  .news-index .feed .news {
-    border-bottom: 1px solid #dedede; }
-    .news-index .feed .news:last-child {
-      border-bottom: none; }
+  .news-index .feed hr:last-child {
+    display: none; }
 
 .news-single .title {
   font-size: 24px; }
@@ -722,8 +719,7 @@ div.message {
   color: #999999; }
 
 .news-single .body {
-  overflow: auto;
-  font-size: 12px; }
+  overflow: auto; }
   .news-single .body .clearfix::before {
     content: " ";
     /* Older browser do not support empty content */
