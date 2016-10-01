@@ -16,7 +16,6 @@
   </div>
   <div class="feed">
     <% news_query_each(@news, @params) do |slug, news| %>
-      <hr/>
       <%= erb :'partials/news', locals: { slug: slug,
                                           news: news,
                                           index: true } %>

@@ -1,3 +1,5 @@
+@import 'config';
+
 .news-index {
   .menu {
     float: right;
@@ -7,5 +9,11 @@
   }
   .feed {
     text-color: black;
+    .news {
+      border-bottom: $separator-style;
+      &:last-child {
+        border-bottom: none;
+      }
+    }
   }
 }

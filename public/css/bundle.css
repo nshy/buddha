@@ -653,6 +653,9 @@ div.message {
 
 .news-index .feed {
   text-color: black; }
+  .news-index .feed .news {
+    border-bottom: 1px solid #dedede; }
+
 
 div.news div.creation_time p {
   color: #999999; }
@@ -725,10 +728,6 @@ div.news h2 {
 
 div.news h3 {
   text-align: center; }
-
-div.news-page div.header {
-  text-align: center;
-  padding-bottom: 50px; }
 
 div.subscription {
   text-align: center; }

@@ -6,3 +6,7 @@
 
 .news-index .feed {
   text-color: black; }
+  .news-index .feed .news {
+    border-bottom: 1px solid #dedede; }
+    .news-index .feed .news:last-child {
+      border-bottom: none; }
