@@ -302,6 +302,12 @@ div.donations div.content div.properties {
 div.unsubscribe {
   text-align: center; }
 
+.clearfix::before {
+  content: " ";
+  /* Older browser do not support empty content */
+  clear: both;
+  display: block; }
+
 .page-header-buddha {
   margin-bottom: 20px; }
   .page-header-buddha .title {
@@ -660,11 +666,6 @@ div.message {
     color: #999999; }
   .news-index .feed .body {
     overflow: auto; }
-    .news-index .feed .body .clearfix::before {
-      content: " ";
-      /* Older browser do not support empty content */
-      clear: both;
-      display: block; }
     .news-index .feed .body .objectblock {
       margin: 0px 8px; }
     .news-index .feed .body .objectblock.left {
@@ -726,11 +727,6 @@ div.message {
 
 .news-single .body {
   overflow: auto; }
-  .news-single .body .clearfix::before {
-    content: " ";
-    /* Older browser do not support empty content */
-    clear: both;
-    display: block; }
   .news-single .body .objectblock {
     margin: 0px 8px; }
   .news-single .body .objectblock.left {

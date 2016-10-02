@@ -1,6 +1,12 @@
 @import 'config';
 @import 'mixins';
 
+.clearfix::before {
+  content: " "; /* Older browser do not support empty content */
+  clear: both;
+  display: block;
+}
+
 // .page-header is occupied by bootstrap
 .page-header-buddha {
   .title {
