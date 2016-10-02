@@ -8,4 +8,9 @@
   <div class="body">
     <%= render_news(news.body, slug) %>
   </div>
+  <% if news.has_more %>
+    <div class="more">
+      <a href="<%= "news/#{slug}/" %>"> Подробнее </a>
+    </div>
+  <% end %>
 </div>

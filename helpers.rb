@@ -110,7 +110,13 @@ class NewsDocument
   def initialize(path, options)
     @doc = Preamble.load(path)
     @content = @doc.content
-    @content = @content.gsub(/^<<<$.*/m, '') if options[:page_cut]
+    if options[:page_cut]
+      cut = @content.gsub(/^<<<$.*/m, '')
+      @has_more = cut != @content
+      @content = cut
+    else
+      @has_more = false
+    end
   end
 
   def publish_date
@@ -127,6 +133,10 @@ class NewsDocument
 
   def body
     @content
+  end
+
+  def has_more
+    @has_more
   end
 end
 
