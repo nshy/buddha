@@ -34,9 +34,10 @@
       &.halign-right { text-align: right; }
       &.halign-left { text-align: left; }
       &.halign-center { text-align: center; }
+      &.valign-top { vertical-align: top; }
     }
     td {
-      p { margin: 4px 10px; }
+      p { margin: 2px 5px; }
     }
   }
 
