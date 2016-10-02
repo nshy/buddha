@@ -17,11 +17,6 @@
       /* Older browser do not support empty content */
       clear: both;
       display: block; }
-    .news-index .feed .body .clearfix-after::after {
-      content: " ";
-      /* Older browser do not support empty content */
-      clear: both;
-      display: block; }
     .news-index .feed .body .objectblock {
       margin: 0px 8px; }
     .news-index .feed .body .objectblock.left {
@@ -84,11 +79,6 @@
 .news-single .body {
   overflow: auto; }
   .news-single .body .clearfix::before {
-    content: " ";
-    /* Older browser do not support empty content */
-    clear: both;
-    display: block; }
-  .news-single .body .clearfix-after::after {
     content: " ";
     /* Older browser do not support empty content */
     clear: both;
