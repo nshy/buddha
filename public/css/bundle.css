@@ -782,14 +782,6 @@ div.subscription {
   div.subscription div.unsubscribe {
     padding-top: 20px; }
 
-div.teacher div.header {
-  text-align: center;
-  padding-bottom: 50px; }
-  div.teacher div.header h1 {
-    margin-bottom: 0px; }
-  div.teacher div.header h3 {
-    margin-top: 5px; }
-
 .teachers .board {
   overflow: auto;
   padding: 0 0 30px 0; }
