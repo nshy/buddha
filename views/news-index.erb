@@ -2,19 +2,27 @@
   <div class="page-header-buddha">
     <div class="title"> Новости </div>
   </div>
-  <div class="menu">
-    <div class="item">
-      <%= link_if(@params['top'].nil?, "/news?top=true", 'Последние') %>
-    </div>
-
-    <% news_years(@news).each do |year| %>
+  <% result = news_query(@news, @params) %>
+  <% first = result.shift %>
+  <div class="top">
+    <div class="menu">
       <div class="item">
-        <%= link_if(@params['year'] != year.to_s, "/news?year=#{year}", year) %>
+        <%= link_if(@params['top'].nil?, "/news?top=true", 'Последние') %>
       </div>
-    <% end %>
+
+      <% news_years(@news).each do |year| %>
+        <div class="item">
+          <%= link_if(@params['year'] != year.to_s, "/news?year=#{year}", year) %>
+        </div>
+      <% end %>
+    </div>
+    <%= erb :'partials/news', locals: { slug: first[:slug],
+                                        news: first[:news],
+                                        index: true } %>
+    <hr/>
   </div>
   <div class="feed">
-    <% news_query(@news, @params).each do |row| %>
+    <% result.each do |row| %>
       <%= erb :'partials/news', locals: { slug: row[:slug],
                                           news: row[:news],
                                           index: true } %>

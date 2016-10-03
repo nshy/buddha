@@ -29,36 +29,36 @@
 }
 
 .news-index {
-  .menu {
-    float: right;
-    width: 200px;
-    padding-left: 20px;
-    margin-left: 20px;
-    font-size: 16px;
-    font-weight: 600;
-    line-height: 28px;
-    border-left: $separator-style;
+  .top {
+    .menu {
+      float: right;
+      width: 200px;
+      padding-left: 20px;
+      padding-bottom: 20px;
+      margin-left: 20px;
+      margin-bottom: 20px;
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 28px;
+      border-left: $separator-style;
+    }
+    hr {
+      clear: both;
+    }
+  }
+  .news {
+    font-size: 14px;
+    display: inline-block;
+    width: 50%;
+    padding-left: 10px;
+    padding-right: 10px;
+    vertical-align: top;
+    @include news;
   }
   .feed {
     font-size: 0px;
     text-color: black;
-    .news {
-      font-size: 14px;
-      display: inline-block;
-      width: 50%;
-      padding-left: 10px;
-      padding-right: 10px;
-      vertical-align: top;
-      @include news;
-    }
-    .news:nth-of-type(1) {
-      &:after {
-        content: " "; /* Older browser do not support empty content */
-        clear: both;
-        display: block;
-      }
-    }
-    hr:nth-of-type(even){
+    hr:nth-of-type(odd){
       display: none;
     }
     hr:last-child {

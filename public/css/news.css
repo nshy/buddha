@@ -1,84 +1,85 @@
-.news-index .menu {
+.news-index .top .menu {
   float: right;
   width: 200px;
   padding-left: 20px;
+  padding-bottom: 20px;
   margin-left: 20px;
+  margin-bottom: 20px;
   font-size: 16px;
   font-weight: 600;
   line-height: 28px;
   border-left: 1px solid #dedede; }
 
+.news-index .top hr {
+  clear: both; }
+
+.news-index .news {
+  font-size: 14px;
+  display: inline-block;
+  width: 50%;
+  padding-left: 10px;
+  padding-right: 10px;
+  vertical-align: top; }
+  .news-index .news .title {
+    font-size: 18px;
+    font-weight: 400;
+    margin-bottom: 15px; }
+  .news-index .news .date {
+    color: #94a1a8; }
+  .news-index .news .body {
+    overflow: auto; }
+    .news-index .news .body .objectblock {
+      margin: 0px 8px; }
+      .news-index .news .body .objectblock.left {
+        float: left; }
+      .news-index .news .body .objectblock.right {
+        float: right; }
+    .news-index .news .body .admonitionblock td.icon img {
+      width: 60px; }
+    .news-index .news .body .admonitionblock.warning {
+      background-color: #ffd0d0; }
+    .news-index .news .body .good-news {
+      background-color: #d0d0ff;
+      padding: 8px 24px; }
+      .news-index .news .body .good-news p {
+        text-align: center; }
+    .news-index .news .body table.tableblock {
+      border-collapse: collapse; }
+      .news-index .news .body table.tableblock th {
+        border-bottom: 1px solid #000000; }
+      .news-index .news .body table.tableblock td.halign-right, .news-index .news .body table.tableblock th.halign-right {
+        text-align: right; }
+      .news-index .news .body table.tableblock td.halign-left, .news-index .news .body table.tableblock th.halign-left {
+        text-align: left; }
+      .news-index .news .body table.tableblock td.halign-center, .news-index .news .body table.tableblock th.halign-center {
+        text-align: center; }
+      .news-index .news .body table.tableblock td.valign-top, .news-index .news .body table.tableblock th.valign-top {
+        vertical-align: top; }
+      .news-index .news .body table.tableblock td p {
+        margin: 2px 5px; }
+    .news-index .news .body #content {
+      padding: 0px 8px; }
+    .news-index .news .body h2 {
+      text-align: center;
+      font-size: 22px; }
+    .news-index .news .body h3 {
+      text-align: center;
+      font-size: 18px; }
+  .news-index .news .more a {
+    padding: 5px 15px;
+    display: inline-block;
+    border-radius: 3px;
+    background-color: #337ab7;
+    border-color: #2e6da4;
+    color: #fff; }
+    .news-index .news .more a:hover {
+      color: #fff;
+      background-color: #3fb5ff; }
+
 .news-index .feed {
   font-size: 0px;
   text-color: black; }
-  .news-index .feed .news {
-    font-size: 14px;
-    display: inline-block;
-    width: 50%;
-    padding-left: 10px;
-    padding-right: 10px;
-    vertical-align: top; }
-    .news-index .feed .news .title {
-      font-size: 18px;
-      font-weight: 400;
-      margin-bottom: 15px; }
-    .news-index .feed .news .date {
-      color: #94a1a8; }
-    .news-index .feed .news .body {
-      overflow: auto; }
-      .news-index .feed .news .body .objectblock {
-        margin: 0px 8px; }
-        .news-index .feed .news .body .objectblock.left {
-          float: left; }
-        .news-index .feed .news .body .objectblock.right {
-          float: right; }
-      .news-index .feed .news .body .admonitionblock td.icon img {
-        width: 60px; }
-      .news-index .feed .news .body .admonitionblock.warning {
-        background-color: #ffd0d0; }
-      .news-index .feed .news .body .good-news {
-        background-color: #d0d0ff;
-        padding: 8px 24px; }
-        .news-index .feed .news .body .good-news p {
-          text-align: center; }
-      .news-index .feed .news .body table.tableblock {
-        border-collapse: collapse; }
-        .news-index .feed .news .body table.tableblock th {
-          border-bottom: 1px solid #000000; }
-        .news-index .feed .news .body table.tableblock td.halign-right, .news-index .feed .news .body table.tableblock th.halign-right {
-          text-align: right; }
-        .news-index .feed .news .body table.tableblock td.halign-left, .news-index .feed .news .body table.tableblock th.halign-left {
-          text-align: left; }
-        .news-index .feed .news .body table.tableblock td.halign-center, .news-index .feed .news .body table.tableblock th.halign-center {
-          text-align: center; }
-        .news-index .feed .news .body table.tableblock td.valign-top, .news-index .feed .news .body table.tableblock th.valign-top {
-          vertical-align: top; }
-        .news-index .feed .news .body table.tableblock td p {
-          margin: 2px 5px; }
-      .news-index .feed .news .body #content {
-        padding: 0px 8px; }
-      .news-index .feed .news .body h2 {
-        text-align: center;
-        font-size: 22px; }
-      .news-index .feed .news .body h3 {
-        text-align: center;
-        font-size: 18px; }
-    .news-index .feed .news .more a {
-      padding: 5px 15px;
-      display: inline-block;
-      border-radius: 3px;
-      background-color: #337ab7;
-      border-color: #2e6da4;
-      color: #fff; }
-      .news-index .feed .news .more a:hover {
-        color: #fff;
-        background-color: #3fb5ff; }
-  .news-index .feed .news:nth-of-type(1):after {
-    content: " ";
-    /* Older browser do not support empty content */
-    clear: both;
-    display: block; }
-  .news-index .feed hr:nth-of-type(even) {
+  .news-index .feed hr:nth-of-type(odd) {
     display: none; }
   .news-index .feed hr:last-child {
     display: none; }
