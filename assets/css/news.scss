@@ -33,8 +33,27 @@
     font-size: 24px;
   }
   .feed {
+    font-size: 0px;
     text-color: black;
-    @include news;
+    .news {
+      font-size: 14px;
+      display: inline-block;
+      width: 50%;
+      padding-left: 10px;
+      padding-right: 10px;
+      vertical-align: top;
+      @include news;
+    }
+    .news:nth-of-type(1) {
+      &:after {
+        content: " "; /* Older browser do not support empty content */
+        clear: both;
+        display: block;
+      }
+    }
+    hr:nth-of-type(even){
+      display: none;
+    }
     hr:last-child {
       display: none;
     }
