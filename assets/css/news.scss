@@ -3,16 +3,19 @@
 
 @mixin news {
   .title {
-    font-size: 24px;
+    font-size: 18px;
+    font-weight: 400;
+    margin-bottom: 15px;
   }
   .date {
-    color: #999999;
+    color: #94a1a8;
   }
   .body {
     @include news-body;
   }
   .more a {
-    padding: 3px 10px;
+    padding: 5px 15px;
+    display: inline-block;
     border-radius: 3px;
 
     background-color: #337ab7;
@@ -28,9 +31,13 @@
 .news-index {
   .menu {
     float: right;
-    width: 150px;
-    margin-left: 50px;
-    font-size: 24px;
+    width: 200px;
+    padding-left: 20px;
+    margin-left: 20px;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 28px;
+    border-left: $separator-style;
   }
   .feed {
     font-size: 0px;

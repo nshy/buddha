@@ -193,6 +193,10 @@ module NewsHelpers
   def news_year(news)
     Date.parse(news.publish_date).year
   end
+
+  def format_date_news(date)
+    Russian::strftime(date, "%d %B")
+  end
 end
 
 module BookHelpers

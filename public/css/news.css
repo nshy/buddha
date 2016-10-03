@@ -1,8 +1,12 @@
 .news-index .menu {
   float: right;
-  width: 150px;
-  margin-left: 50px;
-  font-size: 24px; }
+  width: 200px;
+  padding-left: 20px;
+  margin-left: 20px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 28px;
+  border-left: 1px solid #dedede; }
 
 .news-index .feed {
   font-size: 0px;
@@ -15,9 +19,11 @@
     padding-right: 10px;
     vertical-align: top; }
     .news-index .feed .news .title {
-      font-size: 24px; }
+      font-size: 18px;
+      font-weight: 400;
+      margin-bottom: 15px; }
     .news-index .feed .news .date {
-      color: #999999; }
+      color: #94a1a8; }
     .news-index .feed .news .body {
       overflow: auto; }
       .news-index .feed .news .body .objectblock {
@@ -58,7 +64,8 @@
         text-align: center;
         font-size: 18px; }
     .news-index .feed .news .more a {
-      padding: 3px 10px;
+      padding: 5px 15px;
+      display: inline-block;
       border-radius: 3px;
       background-color: #337ab7;
       border-color: #2e6da4;
@@ -77,10 +84,12 @@
     display: none; }
 
 .news-single .title {
-  font-size: 24px; }
+  font-size: 18px;
+  font-weight: 400;
+  margin-bottom: 15px; }
 
 .news-single .date {
-  color: #999999; }
+  color: #94a1a8; }
 
 .news-single .body {
   overflow: auto; }
@@ -123,7 +132,8 @@
     font-size: 18px; }
 
 .news-single .more a {
-  padding: 3px 10px;
+  padding: 5px 15px;
+  display: inline-block;
   border-radius: 3px;
   background-color: #337ab7;
   border-color: #2e6da4;

@@ -1,9 +1,9 @@
 <div class="news">
+  <div class="date">
+    <%= format_date_news(Date.parse(news.publish_date)) %>
+  </div>
   <div class="title">
     <%= link_if(index, "/news/#{slug}/", news.title) %>
-  </div>
-  <div class="date">
-    <%= format_date(Date.parse(news.publish_date)) %>
   </div>
   <div class="body">
     <%= render_news(news.body, slug) %>
