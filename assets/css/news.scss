@@ -68,5 +68,7 @@
 }
 
 .news-single {
-  @include news;
+  .news {
+    @include news;
+  }
 }
