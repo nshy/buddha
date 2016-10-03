@@ -14,9 +14,9 @@
     <% end %>
   </div>
   <div class="feed">
-    <% news_query_each(@news, @params) do |slug, news| %>
-      <%= erb :'partials/news', locals: { slug: slug,
-                                          news: news,
+    <% news_query(@news, @params).each do |row| %>
+      <%= erb :'partials/news', locals: { slug: row[:slug],
+                                          news: row[:news],
                                           index: true } %>
       <hr/>
     <% end %>

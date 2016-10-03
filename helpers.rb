@@ -168,17 +168,14 @@ module NewsHelpers
     years = news.collect { |news| Date.parse(news[:news].publish_date).year }.uniq
   end
 
-  def news_query_each(news, params)
+  def news_query(news, params)
     result = nil
     if params['top'] == 'true'
-      result = news.first(10)
+      news.first(10)
     else
-      result = news.select do |n|
+      news.select do |n|
         Date.parse(n[:news].publish_date).year == params['year'].to_i
       end
-    end
-    result.each do |n|
-      yield n[:slug], n[:news]
     end
   end
 
