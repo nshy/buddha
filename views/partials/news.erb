@@ -3,7 +3,7 @@
     <%= format_date_news(Date.parse(news.publish_date)) %>
   </div>
   <div class="title">
-    <%= link_if(index, "/news/#{slug}/", news.title) %>
+    <%= news.title %>
   </div>
   <div class="body">
     <%= render_news(news.body, slug) %>
