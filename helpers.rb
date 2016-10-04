@@ -132,7 +132,7 @@ class News
       }
     end
     @news.sort! do |a, b|
-      Date.parse(b[:news].publish_date) <=> Date.parse(a[:news].publish_date)
+      b[:news].date <=> a[:news].date
     end
   end
 
@@ -142,12 +142,12 @@ class News
 
   def by_year(year)
     @news.select do |n|
-      Date.parse(n[:news].publish_date).year == year
+      n[:news].date.year == year
     end
   end
 
   def years()
-    @news.collect { |news| Date.parse(news[:news].publish_date).year }.uniq
+    @news.collect { |news| news[:news].date.year }.uniq
   end
 
 private
@@ -181,17 +181,14 @@ end
 
 
 class NewsDocument
-  attr_reader :has_more, :cut
+  attr_reader :has_more, :cut, :date
 
   def initialize(path)
     @doc = Preamble.load(path)
     @content = @doc.content
     @cut = @doc.content.gsub(/^<<<$.*/m, '')
     @has_more = @cut != @content
-  end
-
-  def publish_date
-    @doc.metadata['publish_date']
+    @date = Date.parse(@doc.metadata['publish_date'])
   end
 
   def title
@@ -210,14 +207,6 @@ end
 module NewsHelpers
   def render_news(news, slug)
     render_adoc(news, "/news/#{slug}")
-  end
-
-  def news_year(news)
-    Date.parse(news.publish_date).year
-  end
-
-  def format_date_news(date)
-    Russian::strftime(date, "%d %B")
   end
 end
 

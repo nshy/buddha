@@ -2,8 +2,8 @@
   <div class="page-header-buddha">
     <div class="title"> Новости </div>
     <div class="backlink">
-      <a href="/news?year=<%= news_year(@news) %>">
-        &larr; ДРУГИЕ НОВОСТИ <%= news_year(@news) %> ГОДА
+      <a href="/news?year=<%= @news.date.year %>">
+        &larr; ДРУГИЕ НОВОСТИ <%= @news.date.year %> ГОДА
       </a>
     </div>
   </div>

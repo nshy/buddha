@@ -1,6 +1,6 @@
 <div class="news">
   <div class="date">
-    <%= format_date_news(Date.parse(news.publish_date)) %>
+    <%= Russian::strftime(news.date, "%d %B") %>
   </div>
   <div class="title">
     <%= news.title %>
