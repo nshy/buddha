@@ -65,15 +65,23 @@ get '/teachings/:id/' do |id|
   erb :teachings
 end
 
+NewsStore = News.new("data/news")
+
 get '/news' do
   @params = params
-  @news = load_news
+  NewsStore.load
+  if params['top'] == 'true'
+    @news = NewsStore.top()
+  else
+    @news = NewsStore.by_year(params['year'].to_i)
+  end
+  @years = NewsStore.years
   @menu_active = :news
   erb :'news-index'
 end
 
 get '/news/:id/' do |id|
-  @news = NewsDocument.new(body_path("data/news/#{id}"))
+  @news = NewsStore.find(id)
   @slug = id
   @menu_active = :news
   erb :'news-single'

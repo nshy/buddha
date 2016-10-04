@@ -106,6 +106,80 @@ module CommonHelpers
 
 end
 
+class News
+  DIR_PAGE = 'page'
+
+  include CommonHelpers
+
+  def initialize(news_dir)
+    @news_dir = news_dir
+  end
+
+  def find(id)
+    path = find_path(id)
+    return nil if path.nil?
+    NewsDocument.new(path)
+  end
+
+  def load()
+    @news = []
+    each_file_sorted(@news_dir) do |item|
+      path_id, path = item_to_path(item)
+      next if path.nil?
+      @news << {
+        slug: File.basename(path_id),
+        news: NewsDocument.new(path)
+      }
+    end
+    @news.sort! do |a, b|
+      Date.parse(b[:news].publish_date) <=> Date.parse(a[:news].publish_date)
+    end
+  end
+
+  def top()
+    @news.first(10)
+  end
+
+  def by_year(year)
+    @news.select do |n|
+      Date.parse(n[:news].publish_date).year == year
+    end
+  end
+
+  def years()
+    @news.collect { |news| Date.parse(news[:news].publish_date).year }.uniq
+  end
+
+private
+  # returns [ id, path ]
+  def item_to_path(item)
+    if File.directory?(item)
+      return [ item, find_file(item, DIR_PAGE) ]
+    end
+    if item.end_with?('.adoc')
+      return [ item.gsub(/\.adoc$/,''), item ]
+    end
+    [ nil, nil ]
+  end
+
+  def find_file(dir, name)
+    path = "#{dir}/#{name}.adoc"
+    return path if File.exists?(path)
+    nil
+  end
+
+  def find_path(id)
+    id_dir = "#{@news_dir}/#{id}"
+    path = nil
+    if File.directory?(id_dir)
+      find_file(id_dir, DIR_PAGE)
+    else
+      find_file(@news_dir, id)
+    end
+  end
+end
+
+
 class NewsDocument
   attr_reader :has_more, :cut
 
@@ -134,46 +208,8 @@ class NewsDocument
 end
 
 module NewsHelpers
-
-  def body_path(path)
-    File.directory?(path) ? "#{path}/page.adoc" : "#{path}.adoc"
-  end
-
-  def load_news()
-    news = []
-    each_file_sorted("data/news") do |news_path|
-      slug = File.basename(news_path).gsub(/.adoc$/, '')
-      news << {
-        slug: slug,
-        news: NewsDocument.new(body_path("data/news/#{slug}"))
-      }
-    end
-    news.sort do |a, b|
-      Date.parse(b[:news].publish_date) <=> Date.parse(a[:news].publish_date)
-    end
-  end
-
-  def news_years(news)
-    years = news.collect { |news| Date.parse(news[:news].publish_date).year }.uniq
-  end
-
-  def news_query(news, params)
-    result = nil
-    if params['top'] == 'true'
-      news.first(10)
-    else
-      news.select do |n|
-        Date.parse(n[:news].publish_date).year == params['year'].to_i
-      end
-    end
-  end
-
   def render_news(news, slug)
     render_adoc(news, "/news/#{slug}")
-  end
-
-  def news_is_year(params)
-    not params['year'].nil?
   end
 
   def news_year(news)
