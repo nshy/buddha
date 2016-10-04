@@ -7,7 +7,6 @@ require_relative 'config'
 Bundler.require(:default, SiteConfig::ENV)
 
 require 'tilt/erubis'
-require 'sinatra/reloader' if SiteConfig::ENV == :development
 require 'sinatra/capture'
 require 'set'
 require 'yaml'
