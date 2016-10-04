@@ -107,16 +107,13 @@ module CommonHelpers
 end
 
 class NewsDocument
-  def initialize(path, options)
+  attr_reader :has_more, :cut
+
+  def initialize(path)
     @doc = Preamble.load(path)
     @content = @doc.content
-    if options[:page_cut]
-      cut = @content.gsub(/^<<<$.*/m, '')
-      @has_more = cut != @content
-      @content = cut
-    else
-      @has_more = false
-    end
+    @cut = @doc.content.gsub(/^<<<$.*/m, '')
+    @has_more = @cut != @content
   end
 
   def publish_date
@@ -134,10 +131,6 @@ class NewsDocument
   def body
     @content
   end
-
-  def has_more
-    @has_more
-  end
 end
 
 module NewsHelpers
@@ -152,11 +145,7 @@ module NewsHelpers
       slug = File.basename(news_path).gsub(/.adoc$/, '')
       news << {
         slug: slug,
-        news: NewsDocument.new(
-          body_path("data/news/#{slug}"), {
-            page_cut: true
-          }
-        )
+        news: NewsDocument.new(body_path("data/news/#{slug}"))
       }
     end
     news.sort do |a, b|
