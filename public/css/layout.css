@@ -43,6 +43,39 @@ a:hover {
     margin-right: 20px;
     padding-bottom: 10px; }
 
+.site-baner {
+  width: 100%;
+  height: 150px;
+  background-color: #ec6e6e;
+  border-radius: 5px;
+  border: 1px solid #d05e5e;
+  margin-top: 20px; }
+  .site-baner img {
+    height: 148px;
+    width: auto;
+    display: block;
+    float: right;
+    margin-right: 20px; }
+  .site-baner .message {
+    padding: 18px 20px 20px 30px;
+    font-weight: 400;
+    color: white;
+    display: table-cell;
+    height: 148px;
+    font-size: 22px;
+    vertical-align: middle;
+    line-height: 1.3; }
+
+@media (max-width: 1199px) {
+  .site-baner .message {
+    font-size: 20px; } }
+
+@media (max-width: 991px) {
+  .site-baner {
+    height: auto; }
+    .site-baner img {
+      display: none; } }
+
 @media (max-width: 480px) {
   .page-header-buddha .title {
     font-size: 24px; } }

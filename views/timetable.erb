@@ -1,5 +1,10 @@
 <div class="timetable">
-  <%= erb :'partials/time_header', locals: { selected: :week }  %>
+  <%= erb :'partials/time_header',
+      locals: {
+        selected: :week,
+        banner: @timetable.banner
+      }
+  %>
   <div class="months"> <%= timetable_months %></div>
   <% monday_cur = week_begin(Date.today) %>
   <% monday_next = monday_cur + 7 %>
