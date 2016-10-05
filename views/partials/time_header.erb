@@ -7,7 +7,9 @@
   <a class="<%= "active" if selected == :schedule %>"
      href="/timetable?show=schedule">ПЛАН</a>
 </div>
+<% if banner_active(banner) %>
 <div class="site-baner">
     <img src="/wheel.png">
-    <div class="message"> <%= banner %> </div>
+    <div class="message"> <%= banner.message %> </div>
 </div>
+<% end %>

@@ -373,6 +373,13 @@ module TimetableHelper
     mark_event_conflicts(week)
     events_week_partition(week)
   end
+
+  def banner_active(banner)
+    today = Date.today
+    b = Date.parse(banner.begin)
+    e = Date.parse(banner.end)
+    (b < today) and (today < e)
+  end
 end
 
 module TimeUpdateHelpers
