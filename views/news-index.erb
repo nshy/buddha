@@ -7,12 +7,16 @@
     <div class="menu">
       <div class="item">
           <div class="title">Новости по годам</div>
-        <%= link_if(@params['top'].nil?, "/news?top=true", '') %>
+            <span>
+               <%= link_if(@params['top'].nil?, "/news?top=true", 'Последние') %>
+            </span>
       </div>
 
       <% @years.each do |year| %>
         <div class="item">
-          <%= link_if(@params['year'] != year.to_s, "/news?year=#{year}", year) %>
+          <span>
+              <%= link_if(@params['year'] != year.to_s, "/news?year=#{year}", year) %>
+          </span>
         </div>
       <% end %>
     </div>
