@@ -1,3 +1,4 @@
+$border-style: 1px solid #cccccc;
 .timetable {
   .months {
     font-size: 22px;
@@ -8,9 +9,10 @@
     &.two-weeks { display: table; }
     &.one-week { display: none; }
     margin-bottom: 50px;
+    border-radius: 5px;
+    border: $border-style;
     .day-line {
       display: table-row;
-      $border-style: 1px solid #cccccc;
       .day {
         display: table-cell;
         padding: 16px 10px 12px;
@@ -88,6 +90,11 @@
             color: #ffffff;
           }
         }
+      }
+    }
+    .day-line:nth-of-type(7) {
+      .day {
+        border-bottom: none;
       }
     }
   }

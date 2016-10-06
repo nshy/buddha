@@ -4,7 +4,9 @@
   margin: 20px 0px 10px; }
 
 .timetable .table {
-  margin-bottom: 50px; }
+  margin-bottom: 50px;
+  border-radius: 5px;
+  border: 1px solid #cccccc; }
   .timetable .table.two-weeks {
     display: table; }
   .timetable .table.one-week {
@@ -62,6 +64,8 @@
         border-radius: 2px; }
         .timetable .table .day-line .day.current .date .month-day, .timetable .table .day-line .day.current .date .week-day {
           color: #ffffff; }
+  .timetable .table .day-line:nth-of-type(7) .day {
+    border-bottom: none; }
 
 @media (max-width: 991px) {
   .timetable .table.two-weeks {
