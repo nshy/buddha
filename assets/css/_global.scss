@@ -40,6 +40,16 @@ a:hover {
   text-decoration: none;
 }
 
+ul {
+  li {
+    list-style-position: outside;
+    margin-left: 17px;
+    p {
+      margin-left: -3px;
+    }
+  }
+}
+
 .tab-imitator {
   border-bottom: $separator-style;
   @include menu-link
