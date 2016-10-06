@@ -41,9 +41,23 @@
       font-weight: 600;
       line-height: 28px;
       border-left: $separator-style;
+      .item {
+        font-size: 13px;
+        font-weight: bold;
+        .title {
+          font-weight: 500;
+          font-size: 18px;
+          padding-bottom: 10px;
+          margin-top: -6px;
+        }
+      }
     }
     hr {
       clear: both;
+    }
+    .news {
+      width: 70%;
+      padding-left:0px;
     }
   }
   .news {
@@ -58,6 +72,24 @@
   .feed {
     font-size: 0px;
     text-color: black;
+    .news {
+      padding-left:0px;
+      padding-right:30px;
+      .body {
+        ul{
+          li{
+            margin-left: -22px;
+            p {
+              margin-left: -6px;
+            }
+          }
+        }
+      }
+    }
+    .news:nth-child(even) {
+      padding-right:0px;
+    }
+
     hr:nth-of-type(odd){
       display: none;
     }
