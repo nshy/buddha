@@ -6,7 +6,7 @@
     <%= news.title %>
   </div>
   <div class="body">
-    <%= render_news(index ? news.cut : news.body, slug) %>
+    <%= render_news(index ? news.cut : news.body, slug, news.ext) %>
   </div>
   <% if index and news.has_more %>
     <div class="more">

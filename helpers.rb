@@ -106,8 +106,27 @@ module CommonHelpers
 
 end
 
+NewsFormat = {
+  adoc: {
+    cutter: /^<<<$.*/m,
+    render: lambda { |doc, id|
+      attr = {
+        'icons' => 'true',
+        'iconsdir' => '/icons',
+        'imagesdir' => id
+      }
+      Asciidoctor.render(doc, attributes: attr)
+    }
+  },
+  html: {
+    cutter: /<!--[\t ]*page-cut[\t ]*-->.*/m,
+    render: lambda { |doc, id| doc }
+  }
+}
+
 class News
   DIR_PAGE = 'page'
+  FILE_REGEXP = /^([\w_-]+)\.([[:alnum:]]+)$/
 
   include CommonHelpers
 
@@ -155,9 +174,8 @@ class News
 private
 
   def find_file(dir, name)
-    path = "#{dir}/#{name}.adoc"
-    return path if File.exists?(path)
-    nil
+    paths = NewsFormat.keys.map { |ext| "#{dir}/#{name}.#{ext}" }
+    paths.find { |path| File.exists?(path) }
   end
 
   def find_path(id)
@@ -174,7 +192,7 @@ private
     if File.directory?(item)
       File.basename(item)
     else
-      m = /^([\w_-]+)\.[[:alnum:]]+$/.match(File.basename(item))
+      m = FILE_REGEXP.match(File.basename(item))
       return nil if m.nil?
       m[1]
     end
@@ -183,12 +201,13 @@ end
 
 
 class NewsDocument
-  attr_reader :has_more, :cut, :date
+  attr_reader :has_more, :cut, :date, :ext
 
   def initialize(path)
+    @ext = News::FILE_REGEXP.match(File.basename(path))[2].to_sym
     @doc = Preamble.load(path)
     @content = @doc.content
-    @cut = @doc.content.gsub(/^<<<$.*/m, '')
+    @cut = @doc.content.gsub(NewsFormat[@ext][:cutter], '')
     @has_more = @cut != @content
     @date = Date.parse(@doc.metadata['publish_date'])
   end
@@ -207,8 +226,8 @@ class NewsDocument
 end
 
 module NewsHelpers
-  def render_news(news, slug)
-    render_adoc(news, "/news/#{slug}")
+  def render_news(news, slug, ext)
+    NewsFormat[ext][:render].call(news, slug)
   end
 end
 
