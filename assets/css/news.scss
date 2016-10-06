@@ -15,9 +15,9 @@
   }
   .more a {
     padding: 5px 15px;
+    margin-top: 10px;
     display: inline-block;
     border-radius: 3px;
-
     background-color: #4789d9;
     border-color: #2e6da4;
     color: #fff;
@@ -55,8 +55,8 @@
         color: #ffffff;
           a {
             background-color: #ffffff;
-            padding: 6px 7px;
-            margin: -7px;
+            padding: 6px 8px;
+            margin: -8px;
           }
         }
 
@@ -87,7 +87,7 @@
   }
   .feed {
     font-size: 0px;
-    text-color: black;
+    margin-bottom: 30px;
     .news {
       padding-left:0px;
       padding-right:30px;
@@ -95,9 +95,15 @@
         ul{
           li{
             margin-left: -22px;
+            color: #585c62;
             p {
               margin-left: -6px;
             }
+          }
+        }
+        .paragraph {
+          p {
+            margin-bottom: 0px;
           }
         }
       }
@@ -119,4 +125,56 @@
   .news {
     @include news;
   }
+}
+
+@media (max-width: 992px) {
+.news-index {
+  .top {
+    .news {
+      width: 65%;
+    }
+  }
+}
+}
+
+@media (max-width: 768px) {
+  .news-index {
+    .top {
+      .news {
+        width: 100%;
+        padding-right: 0px;
+      }
+      .menu {
+        float: left;
+        width: 100%;
+        padding-left: 0px;
+        padding-bottom: 20px;
+        margin-left: 0px;
+        margin-bottom: 20px;
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 28px;
+        border-left: 0px;
+        border-bottom: 1px solid #dedede;
+      }
+    }
+  }
+
+
+  .feed {
+    .news {
+      width: 100%;
+    }
+    hr {
+      margin-bottom: 30px;
+    }
+
+    hr:nth-of-type(odd) {
+      display: block !important;
+    }
+    hr:last-child {
+      display: none !important;
+    }
+  }
+
 }
