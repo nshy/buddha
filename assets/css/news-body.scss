@@ -51,4 +51,12 @@
     text-align: center;
     font-size: 18px;
   }
+
+  .ulist {
+    ul {
+      padding-left: 0px;
+      list-style-position: inside;
+      color: #585c62;
+    }
+  }
 }

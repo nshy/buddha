@@ -760,6 +760,10 @@ div.message {
     .news-index .news .body h3 {
       text-align: center;
       font-size: 18px; }
+    .news-index .news .body .ulist ul {
+      padding-left: 0px;
+      list-style-position: inside;
+      color: #585c62; }
   .news-index .news .more a {
     padding: 5px 15px;
     margin-top: 10px;
@@ -831,6 +835,10 @@ div.message {
   .news-single .news .body h3 {
     text-align: center;
     font-size: 18px; }
+  .news-single .news .body .ulist ul {
+    padding-left: 0px;
+    list-style-position: inside;
+    color: #585c62; }
 
 .news-single .news .more a {
   padding: 5px 15px;
