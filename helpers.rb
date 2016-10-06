@@ -124,10 +124,12 @@ class News
   def load()
     @news = []
     each_file_sorted(@news_dir) do |item|
-      path_id, path = item_to_path(item)
+      id = item_to_id(item)
+      next if id.nil?
+      path = find_path(id)
       next if path.nil?
       @news << {
-        slug: File.basename(path_id),
+        slug: id,
         news: NewsDocument.new(path)
       }
     end
@@ -151,16 +153,6 @@ class News
   end
 
 private
-  # returns [ id, path ]
-  def item_to_path(item)
-    if File.directory?(item)
-      return [ item, find_file(item, DIR_PAGE) ]
-    end
-    if item.end_with?('.adoc')
-      return [ item.gsub(/\.adoc$/,''), item ]
-    end
-    [ nil, nil ]
-  end
 
   def find_file(dir, name)
     path = "#{dir}/#{name}.adoc"
@@ -175,6 +167,16 @@ private
       find_file(id_dir, DIR_PAGE)
     else
       find_file(@news_dir, id)
+    end
+  end
+
+  def item_to_id(item)
+    if File.directory?(item)
+      File.basename(item)
+    else
+      m = /^([\w_-]+)\.[[:alnum:]]+$/.match(File.basename(item))
+      return nil if m.nil?
+      m[1]
     end
   end
 end
