@@ -844,6 +844,33 @@ div.message {
     color: #fff;
     background-color: #349ee0; }
 
+@media (max-width: 991px) {
+  .news-index .top .news {
+    width: 65%; } }
+
+@media (max-width: 767px) {
+  .news-index .top .news {
+    width: 100%; }
+  .news-index .top .menu {
+    float: none;
+    padding-left: 0px;
+    margin-left: 0px;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 32px;
+    border-left: none;
+    border-bottom: 1px solid #dedede; }
+  .news-index .feed .news {
+    width: 100%; }
+  .news-index .feed .news:nth-of-type(odd) {
+    padding-right: 0px; }
+  .news-index .feed .news:nth-of-type(even) {
+    padding-left: 0px; }
+  .news-index .feed hr {
+    margin-bottom: 30px; }
+  .news-index .feed hr:nth-of-type(odd) {
+    display: block; } }
+
 div.subscription {
   text-align: center; }
   div.subscription div.header {
