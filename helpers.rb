@@ -54,7 +54,7 @@ module CommonHelpers
     if show
       "<a href=#{link}>#{title}</a>"
     else
-      title
+      "<span>#{title}</span>"
     end
   end
 

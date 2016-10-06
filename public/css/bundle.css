@@ -696,6 +696,13 @@ div.message {
   font-weight: bold;
   line-height: 28px;
   border-left: 1px solid #dedede; }
+  .news-index .top .menu span {
+    padding: 4px 7px;
+    border-radius: 2px;
+    background-color: #ff6333;
+    color: #ffffff; }
+  .news-index .top .menu a {
+    padding-left: 7px; }
 
 .news-index .top hr {
   clear: both; }
