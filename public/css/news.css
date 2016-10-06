@@ -17,8 +17,6 @@
   font-size: 14px;
   display: inline-block;
   width: 50%;
-  padding-left: 10px;
-  padding-right: 10px;
   vertical-align: top; }
   .news-index .news .title {
     font-size: 18px;
@@ -79,6 +77,10 @@
 .news-index .feed {
   font-size: 0px;
   text-color: black; }
+  .news-index .feed .news:nth-of-type(odd) {
+    padding-right: 15px; }
+  .news-index .feed .news:nth-of-type(even) {
+    padding-left: 15px; }
   .news-index .feed hr:nth-of-type(odd) {
     display: none; }
   .news-index .feed hr:last-child {

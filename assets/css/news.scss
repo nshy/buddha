@@ -50,14 +50,19 @@
     font-size: 14px;
     display: inline-block;
     width: 50%;
-    padding-left: 10px;
-    padding-right: 10px;
     vertical-align: top;
     @include news;
   }
   .feed {
     font-size: 0px;
     text-color: black;
+    .news:nth-of-type(odd) {
+      padding-right: 15px;
+    }
+    .news:nth-of-type(even) {
+      padding-left: 15px;
+    }
+
     hr:nth-of-type(odd){
       display: none;
     }
