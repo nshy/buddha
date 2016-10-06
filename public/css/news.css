@@ -5,13 +5,16 @@
   padding-bottom: 20px;
   margin-left: 20px;
   margin-bottom: 20px;
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 13px;
+  font-weight: bold;
   line-height: 28px;
   border-left: 1px solid #dedede; }
 
 .news-index .top hr {
   clear: both; }
+
+.news-index .top .news {
+  width: 70%; }
 
 .news-index .news {
   font-size: 14px;
@@ -65,18 +68,19 @@
       font-size: 18px; }
   .news-index .news .more a {
     padding: 5px 15px;
+    margin-top: 10px;
     display: inline-block;
     border-radius: 3px;
-    background-color: #337ab7;
+    background-color: #4789d9;
     border-color: #2e6da4;
     color: #fff; }
     .news-index .news .more a:hover {
       color: #fff;
-      background-color: #3fb5ff; }
+      background-color: #349ee0; }
 
 .news-index .feed {
-  font-size: 0px;
-  text-color: black; }
+  margin-bottom: 30px;
+  font-size: 0px; }
   .news-index .feed .news:nth-of-type(odd) {
     padding-right: 15px; }
   .news-index .feed .news:nth-of-type(even) {
@@ -136,11 +140,12 @@
 
 .news-single .news .more a {
   padding: 5px 15px;
+  margin-top: 10px;
   display: inline-block;
   border-radius: 3px;
-  background-color: #337ab7;
+  background-color: #4789d9;
   border-color: #2e6da4;
   color: #fff; }
   .news-single .news .more a:hover {
     color: #fff;
-    background-color: #3fb5ff; }
+    background-color: #349ee0; }
