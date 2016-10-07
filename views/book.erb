@@ -34,7 +34,13 @@
       <div class="title">В категориях:</div>
       <div class="content">
         <% book_categories(@categories, @book_slug).each do |id| %>
-          <div class="item"> <%= category_link(@categories, id) %> </div>
+          <div class="item">
+            <%= erb :'partials/category_link',
+                locals: {
+                  categories: @categories,
+                  category: id
+                } %>
+          </div>
         <% end %>
       </div>
     </div>

@@ -13,7 +13,11 @@
         <div class="title">В категориях</div>
           <% category_categories(@categories, @id).each do |id| %>
             <div class="item">
-              <%= category_link(@categories, id) %>
+              <%= erb :'partials/category_link',
+                  locals: {
+                    categories: @categories,
+                    category: id
+                  } %>
             </div>
           <% end %>
       </div>
@@ -24,7 +28,11 @@
         <div class="title">Подкатегории</div>
         <% @category.subcategory.each do |id| %>
           <div class="item">
-            <%= category_link(@categories, id) %>
+            <%= erb :'partials/category_link',
+                locals: {
+                  categories: @categories,
+                  category: id
+                } %>
           </div>
         <% end %>
       </div>

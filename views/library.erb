@@ -19,7 +19,11 @@
       <div class="title"> <%= section.name %> </div>
         <% section.category.each do |category| %>
           <div class="item">
-            <%= category_link(@categories, category) %>
+            <%= erb :'partials/category_link',
+                locals: {
+                  categories: @categories,
+                  category: category
+                } %>
           </div>
         <% end %>
     </div>

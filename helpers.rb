@@ -311,11 +311,6 @@ module CategoryHelpers
     end
     books.size
   end
-
-  def category_link(categories, category)
-    locals = { categories: categories, category: category }
-    erb :'partials/category_link', locals: locals
-  end
 end
 
 module TimetableHelper
