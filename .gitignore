@@ -4,3 +4,4 @@ site.db
 dump
 /import/news/tmp
 /import/records/tmp
+/public/css
