@@ -38,7 +38,8 @@
             <%= erb :'partials/category_link',
                 locals: {
                   categories: @categories,
-                  category: id
+                  category: id,
+                  upcase: true
                 } %>
           </div>
         <% end %>

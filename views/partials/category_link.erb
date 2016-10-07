@@ -1,3 +1,7 @@
 <a href="<%= "/book-category/#{category}/" %>">
-  <%= Unicode::upcase(@categories[category].name) %>
+  <% if upcase %>
+    <%= Unicode::upcase(@categories[category].name) %>
+  <% else %>
+    <%= @categories[category].name %>
+  <% end %>
 </a>&nbsp;<span class="size"><%= count_category(@categories, category) %></span>
