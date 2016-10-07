@@ -54,9 +54,12 @@
 
   .ulist {
     ul {
-      padding-left: 0px;
-      list-style-position: inside;
+      padding-left: 17px;
+      list-style-position: outside;
       color: #585c62;
+      p {
+        margin-left: -3px;
+      }
     }
   }
 }
