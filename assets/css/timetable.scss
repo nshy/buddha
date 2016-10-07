@@ -10,7 +10,7 @@ $border-style: 1px solid #cccccc;
     &.one-week { display: none; }
     margin-bottom: 50px;
     border-radius: 5px;
-    border: $border-style;
+    background-color: #f4f4f4;
     .day-line {
       display: table-row;
       .day {
@@ -82,7 +82,7 @@ $border-style: 1px solid #cccccc;
       }
 
       .day.current {
-        background: #f1f1f1;
+        background: #fafafa;
         .date {
           background-color: #ff6333;
           border-radius: 2px;
