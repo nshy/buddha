@@ -29,15 +29,28 @@
         }
 
         .dates {
-          margin-top: 4px;
-          font-size: 15px;
+          margin: 4px 2px 4px 0px;
+          font-size: 14px;
           font-weight: 400;
+          background-color: #eeeeee;
+          width: auto;
+          display: inline-block;
+          padding: 4px 9px;
+          border-radius: 5px;
+          color: black;
         }
 
         .days {
           margin-top: 4px;
-          font-size: 15px;
+          font-size: 14px;
           font-weight: 400;
+          background-color: #eeeeee;
+          width: auto;
+          display: inline-block;
+          clear: left;
+          padding: 4px 9px;
+          border-radius: 5px;
+          color: black;
         }
 
         .info {
