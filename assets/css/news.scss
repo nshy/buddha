@@ -1,10 +1,10 @@
 @import 'config';
 @import 'news-body';
+@import 'mixins';
 
 @mixin news {
   .title {
-    font-size: 26px;
-    font-weight: 300;
+    @include site-element-level-2;
     margin-bottom: 15px;
     line-height: 1.2;
   }

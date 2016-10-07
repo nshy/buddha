@@ -1,8 +1,9 @@
+@import 'mixins';
+
 $border-style: 1px solid #cccccc;
 .timetable {
   .months {
-    font-size: 26px;
-    font-weight: 300;
+    @include site-element-level-2;
     margin: 20px 0px 10px;
   }
   .table {
