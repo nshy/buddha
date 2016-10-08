@@ -113,7 +113,7 @@ NewsFormat = {
       attr = {
         'icons' => 'true',
         'iconsdir' => '/icons',
-        'imagesdir' => id
+        'imagesdir' => "news/#{id}"
       }
       Asciidoctor.render(doc, attributes: attr)
     }
