@@ -220,6 +220,10 @@ class NewsDocument
     @doc.metadata['buddha_node']
   end
 
+  def style
+    @doc.metadata['style']
+  end
+
   def body
     @content
   end

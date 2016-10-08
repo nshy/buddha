@@ -35,6 +35,7 @@ before do
   end
   @environment = SiteConfig::ENV
   @ya_metrika = SiteConfig::YA_METRIKA
+  @extra_style = nil
 end
 
 not_found do
@@ -82,6 +83,9 @@ end
 
 get '/news/:id/' do |id|
   @news = NewsStore.find(id)
+  if not @news.style.nil?
+    @extra_style = "/css/news/#{@news.style}.css"
+  end
   @slug = id
   @menu_active = :news
   erb :'news-single'

@@ -31,6 +31,9 @@
     <% else %>
       <link rel="stylesheet" href="/css/bundle.css">
     <% end %>
+    <% if not @extra_style.nil? %>
+      <link rel="stylesheet" href="<%= @extra_style %>">
+    <% end %>
   </head>
   <body>
     <nav>
