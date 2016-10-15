@@ -1,0 +1,9 @@
+<div class="fotorama">
+  <% options = {
+    full_path: false,
+    sorted: true
+  } %>
+  <% each_file("data/#{request.path}/#{directory}", options) do |name| %>
+    <img src="<%= "#{directory}/#{name}" %>">
+  <% end %>
+</div>
