@@ -71,19 +71,6 @@ module CommonHelpers
     Asciidoctor.render(adoc, attributes: attr)
   end
 
-  def send_file_media(path)
-    disposition = nil
-    if not /.*\.(doc|pdf)$/.match(path).nil?
-      disposition = :attachment
-    elsif not /.*\.(jpg|gif|swf)$/.match(path).nil?
-      # noop
-    else
-      halt 404
-      return
-    end
-    send_file(path, disposition: disposition)
-  end
-
   def yandex_money_url(target, title, sum, redirect)
     r = /[^a-zA-Z0-9*-._]/
     link = "#{SiteConfig::DOMAIN}#{redirect}"

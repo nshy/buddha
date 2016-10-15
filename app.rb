@@ -48,6 +48,14 @@ not_found do
   "not found"
 end
 
+get /.+\.(jpg|gif|swf)/ do
+  send_file "data/#{request.path}"
+end
+
+get /.+\.(doc|pdf)/ do
+  send_file "data/#{request.path}", disposition: :attachment
+end
+
 get '/archive/' do
   File.open("data/archive.xml") do |file|
     @archive = ArchiveDocument.new(Nokogiri::XML(file)).archive
@@ -101,10 +109,6 @@ get '/book/:id/' do |id|
   erb :book
 end
 
-get '/book/:id/:file.jpg' do |id, file|
-  send_file "data/books/#{id}/#{file}.jpg"
-end
-
 get '/book-category/:id/' do |id|
   File.open("data/book-category/#{id}.xml") do |file|
     @category = BookCategoryDocument.new(Nokogiri::XML(file)).category
@@ -138,10 +142,6 @@ get '/library/' do
   erb :library
 end
 
-get '/news/:news_id/:file' do |news_id, file|
-  send_file_media "data/news/#{news_id}/#{file}"
-end
-
 get '/timetable' do
   File.open('data/timetable/timetable.xml') do |file|
     @timetable = TimetableDocument.new(Nokogiri::XML(file)).timetable
@@ -154,34 +154,14 @@ get '/timetable' do
   end
 end
 
-get '/timetable/:file.jpg' do |file|
-  send_file "data/timetable/#{file}.jpg"
-end
-
-get '/teachers/:file.jpg' do |file|
-  send_file "data/teachers/#{file}.jpg"
-end
-
 get '/teachers/:teacher/' do |teacher|
   @file = Preamble.load("data/teachers/#{teacher}/page.adoc")
   erb :text
 end
 
-get '/teachers/:teacher/:file.jpg' do |teacher, file|
-  send_file "data/teachers/#{teacher}//#{file}.jpg"
-end
-
 get '/text/:id/' do |id|
   @file = Preamble.load("data/text/#{id}/page.adoc")
   erb :text
-end
-
-get '/text/:id/:file' do |id, file|
-  send_file_media "data/text/#{id}/#{file}"
-end
-
-get '/classes/:file.jpg' do |file|
-  send_file "data/classes/#{file}.jpg"
 end
 
 get '/donations/' do
