@@ -37,15 +37,6 @@ module CommonHelpers
     end
   end
 
-  def each_file_sorted(dir)
-    entries = Dir.entries(dir).reject do |p|
-      # skip any dot files
-      not /^\./.match(p).nil?
-    end
-    entries.sort_by! { |p| p }
-    entries.each { |p| yield dir + '/' +  p }
-  end
-
   def format_date(date)
     date.strftime('%d/%m/%y')
   end
@@ -134,7 +125,7 @@ class News
 
   def load()
     @news = []
-    each_file_sorted(@news_dir) do |item|
+    each_file(@news_dir) do |item|
       id = item_to_id(item)
       next if id.nil?
       path = find_path(id)
