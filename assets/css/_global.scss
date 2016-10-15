@@ -23,6 +23,21 @@
   margin-bottom: 20px;
 }
 
+a.site-button {
+  padding: 5px 15px;
+  margin: 10px 0px;
+  display: inline-block;
+  border-radius: 3px;
+
+  background-color: #ffffff;
+  border: 1px solid #4789d9;
+  color: #4789d9;
+  &:hover {
+    color: #fff;
+    background-color: #349ee0;
+  }
+}
+
 hr {
   border-top: $separator-style;
 }
