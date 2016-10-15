@@ -27,6 +27,15 @@ hr {
   border-top: $separator-style;
 }
 
+ul, ol {
+  padding-left: 17px;
+  list-style-position: outside;
+  color: #585c62;
+  p {
+    margin-left: -3px;
+  }
+}
+
 p {
   color: #585c62;
 }
