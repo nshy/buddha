@@ -1,0 +1,42 @@
+<div class="center">
+  <div class="page-header-buddha">
+    <div class="title"> Дхарма центр </div>
+  </div>
+  <%
+      menu = [
+        { url: '/about/',
+          title: 'Справка',
+          path: 'about/page.html'
+        },
+        { url: '/teachers/',
+          title: 'Учителя',
+          path: 'teachers/page.html'
+        },
+        { url: '/contacts/',
+          title: 'Контакты',
+          path: 'contacts.html'
+        },
+        { url: '/donations/',
+          title: 'Помощь центру',
+          path: 'donations.html'
+        }
+      ]
+  %>
+  <div class="tab-imitator">
+    <% path = nil %>
+    <% menu.each do |item| %>
+      <%
+        active = false
+        if request.path == item[:url]
+          active = true
+          path = item[:path]
+        end
+      %>
+      <a class="<%= "active" if active %>"
+         href="<%= item[:url] %>">
+         <%= Unicode::upcase(item[:title]) %>
+      </a>
+    <% end %>
+  </div>
+  <%= load_page(path) %>
+</div>

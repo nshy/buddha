@@ -104,6 +104,11 @@ module CommonHelpers
     title.downcase.strip.gsub(' ', '-').gsub(/[^\w-]/, '')
   end
 
+  def load_page(path)
+    File.open("data/#{path}") do |file|
+      file.read
+    end
+  end
 end
 
 NewsFormat = {

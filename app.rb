@@ -201,7 +201,7 @@ end
 
 get '/about/' do
   @menu_active = :about
-  render_text('about')
+  erb :center
 end
 
 get '/contacts/' do
