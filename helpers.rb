@@ -265,8 +265,8 @@ module BookHelpers
   end
 
   def each_book
-    Dir.entries('data/books').each do |book|
-      next if not File.exist?("data/books/#{book}/info.xml")
+    Dir.entries('data/book').each do |book|
+      next if not File.exist?("data/book/#{book}/info.xml")
       yield book
     end
   end

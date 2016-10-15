@@ -92,7 +92,7 @@ get '/news/:id/' do |id|
 end
 
 get '/book/:id/' do |id|
-  File.open("data/books/#{id}/info.xml") do |file|
+  File.open("data/book/#{id}/info.xml") do |file|
     @book = BookDocument.new(Nokogiri::XML(file)).book
   end
   @book_slug = id
@@ -112,7 +112,7 @@ get '/book-category/:id/' do |id|
   @books = {}
   @category.group.each do |group|
     group.book.each do |book|
-      File.open("data/books/#{book}/info.xml") do |file|
+      File.open("data/book/#{book}/info.xml") do |file|
         @books[book] = BookDocument.new(Nokogiri::XML(file)).book
       end
     end
@@ -130,7 +130,7 @@ get '/library/' do
     @library = LibraryDocument.new(Nokogiri::XML(file)).library
   end
   @library.recent.book.each do |book_id|
-    File.open("data/books/#{book_id}/info.xml") do |file|
+    File.open("data/book/#{book_id}/info.xml") do |file|
       @books[book_id] = BookDocument.new(Nokogiri::XML(file)).book
     end
   end
