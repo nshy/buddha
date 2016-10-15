@@ -114,17 +114,6 @@ class TimeUpdateDocument < XDSL::Element
   end
 end
 
-class TeachersDocument < XDSL::Element
-  element :teachers do
-    elements :teacher do
-      element :name
-      element :page
-      element :image
-      element :presentation
-    end
-  end
-end
-
 class MenuDocument < XDSL::Element
   element :menu do
     elements :item do

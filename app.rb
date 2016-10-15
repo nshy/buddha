@@ -158,13 +158,6 @@ get '/timetable/:file.jpg' do |file|
   send_file "data/timetable/#{file}.jpg"
 end
 
-get '/teachers/' do
-  File.open('data/teachers/page.xml') do |file|
-    @teachers = TeachersDocument.new(Nokogiri::XML(file)).teachers
-  end
-  erb :teachers
-end
-
 get '/teachers/:file.jpg' do |file|
   send_file "data/teachers/#{file}.jpg"
 end
@@ -199,7 +192,7 @@ get '/links/' do
   render_text('links')
 end
 
-get '/about/' do
+get /\/(about|teachers)\// do
   @menu_active = :about
   erb :center
 end
