@@ -91,9 +91,7 @@ module CommonHelpers
   end
 
   def load_page(path)
-    File.open("data/#{path}") do |file|
-      file.read
-    end
+    Tilt.new("data/#{path}").render(self)
   end
 end
 
