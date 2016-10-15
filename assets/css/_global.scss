@@ -65,6 +65,7 @@ a:hover {
 
 .tab-imitator {
   border-bottom: $separator-style;
+  margin-bottom: 20px;
   @include menu-link
   a {
     font-size: 12px;
@@ -80,7 +81,6 @@ a:hover {
   background-color: #ec6e6e;
   border-radius: 5px;
   border: 1px solid #d05e5e;
-  margin-top: 20px;
 
   img {
     height: 148px;
