@@ -54,7 +54,6 @@
     @include news;
   }
   .feed {
-    margin-bottom: 30px;
     font-size: 0px;
     .news:nth-of-type(odd) {
       padding-right: 15px;
@@ -76,7 +75,6 @@
   .news {
     @include news;
   }
-  margin-bottom: 30px;
 }
 
 

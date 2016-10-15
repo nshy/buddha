@@ -9,7 +9,6 @@ $border-style: 1px solid #cccccc;
   .table {
     &.two-weeks { display: table; }
     &.one-week { display: none; }
-    margin-bottom: 50px;
     border-radius: 5px;
     border: $border-style;
     .day-line {
