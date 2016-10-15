@@ -31,16 +31,21 @@ end
 module CommonHelpers
   def each_file(dir, options={})
     default_options = {
-      full_path: true
+      full_path: true,
+      sorted: false
     }
     options = default_options.merge(options)
-    Dir.entries(dir).each do |p|
-      # skip any dot files
-      next if not /^\./.match(p).nil?
+    names = Dir.entries(dir).select { |name| /^\./.match(name).nil? }
+
+    if options[:sorted]
+      names.sort_by! { |name| name }
+    end
+
+    names.each do |name|
       if options[:full_path]
-        yield dir + '/' +  p
+        yield dir + '/' +  name
       else
-        yield p
+        yield name
       end
     end
   end
