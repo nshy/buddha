@@ -29,11 +29,19 @@ module TeachingsHelper
 end
 
 module CommonHelpers
-  def each_file(dir)
+  def each_file(dir, options={})
+    default_options = {
+      full_path: true
+    }
+    options = default_options.merge(options)
     Dir.entries(dir).each do |p|
       # skip any dot files
       next if not /^\./.match(p).nil?
-      yield dir + '/' +  p
+      if options[:full_path]
+        yield dir + '/' +  p
+      else
+        yield p
+      end
     end
   end
 
