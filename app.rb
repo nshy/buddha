@@ -164,15 +164,11 @@ get '/text/:id/' do |id|
   erb :text
 end
 
-get '/donations/' do
-  erb :donations
-end
-
 get '/links/' do
   render_text('links')
 end
 
-get /\/(about|teachers|contacts)\// do
+get /\/(about|teachers|contacts|donations)\// do
   @menu_active = :about
   erb :center
 end
