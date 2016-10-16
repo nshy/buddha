@@ -172,13 +172,9 @@ get '/links/' do
   render_text('links')
 end
 
-get /\/(about|teachers)\// do
+get /\/(about|teachers|contacts)\// do
   @menu_active = :about
   erb :center
-end
-
-get '/contacts/' do
-  render_text('contacts')
 end
 
 get '/activities/' do
