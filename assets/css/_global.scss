@@ -115,6 +115,11 @@ a:hover {
     &:nth-of-type(even) {
       padding-left: 15px;
     }
+
+    > img {
+      width: 100%;
+      margin-bottom: 15px;
+    }
   }
   > .space {
     display: block;
