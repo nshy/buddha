@@ -8,7 +8,7 @@
 }
 
 // .page-header is occupied by bootstrap
-.page-header-buddha {
+.site-header {
   .title {
     font-weight: 300;
     font-size: 36px;
@@ -63,7 +63,7 @@ a:hover {
   text-decoration: none;
 }
 
-.tab-imitator {
+.site-tab {
   border-bottom: $separator-style;
   margin-bottom: 20px;
   @include menu-link
@@ -129,7 +129,7 @@ a:hover {
 
 @media (max-width: 480px) {
 
-.page-header-buddha {
+.site-header {
   .title {
     font-size: 24px;
   }
