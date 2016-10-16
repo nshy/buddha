@@ -102,6 +102,26 @@ a:hover {
   }
 }
 
+.site-2-columns {
+  font-size: 0px;
+  > .side {
+    display: inline-block;
+    vertical-align: top;
+    font-size: 14px;
+    width: 50%;
+    &:nth-of-type(odd) {
+      padding-right: 15px;
+    }
+    &:nth-of-type(even) {
+      padding-left: 15px;
+    }
+  }
+  > .space {
+    display: block;
+    padding-top: 100px;
+  }
+}
+
 
 @media (max-width: 1199px) {
 
@@ -121,6 +141,22 @@ a:hover {
 
   img {
     display: none;
+  }
+}
+
+.site-2-columns {
+  > .side {
+    display: block;
+    width: 100%;
+    &:nth-of-type(odd) {
+      padding-right: 0px;
+    }
+    &:nth-of-type(even) {
+      padding-left: 0px;
+    }
+  }
+  > .space {
+    padding-top: 0px;
   }
 }
 

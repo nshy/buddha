@@ -33,23 +33,6 @@ h1 {
   display: none;
 }
 
-// 'container' clashes with bootstrap
-> .page-container {
-  font-size: 0px;
-  .side {
-    display: inline-block;
-    vertical-align: top;
-    font-size: 14px;
-    width: 50%;
-    &:nth-of-type(odd) {
-      padding-right: 15px;
-    }
-    &:nth-of-type(even) {
-      padding-left: 15px;
-    }
-  }
-}
-
 img {
   width: 100%;
   margin-bottom: 15px;
@@ -105,28 +88,6 @@ table.timetable {
   col:nth-child(1) { width: 30%; }
   col:nth-child(2) { width: 30%; }
   col:nth-child(3) { width: 40%; }
-}
-
-}
-
-}
-
-
-@media (max-width: 991px) {
-
-.news-single .news .body {
-
-> .page-container {
-  .side {
-    display: block;
-    width: 100%;
-    &:nth-of-type(odd) {
-      padding-right: 0px;
-    }
-    &:nth-of-type(even) {
-      padding-left: 0px;
-    }
-  }
 }
 
 }
