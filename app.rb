@@ -155,8 +155,8 @@ get '/timetable' do
 end
 
 get '/teachers/:teacher/' do |teacher|
-  @file = Preamble.load("data/teachers/#{teacher}/page.adoc")
-  erb :text
+  @teacher = teacher
+  erb :teacher
 end
 
 get '/text/:id/' do |id|
