@@ -122,6 +122,28 @@ a:hover {
   }
 }
 
+table.site-data-table {
+  border-collapse: collapse;
+  tbody.header td {
+    font-weight: bold;
+  }
+  tbody tr td {
+    padding-bottom: 2px;
+    vertical-align: top;
+  }
+  tbody.space tr td {
+    padding-bottom: 5px;
+  }
+  // row spaces and border
+  tbody {
+    tr:first-of-type td { padding-top: 10px; }
+    tr:last-of-type td { padding-bottom: 10px; }
+    tr:last-of-type { border-bottom: $separator-style; }
+    &:last-of-type tr:last-of-type { border-bottom: none; }
+    &:first-of-type tr:first-of-type td { padding-top: 0px; }
+  }
+}
+
 
 @media (max-width: 1199px) {
 
