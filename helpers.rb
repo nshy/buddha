@@ -129,7 +129,12 @@ class News
   end
 
   def find(id)
-    path = find_path(id)
+    id_dir = "#{@news_dir}/#{id}"
+    if File.directory?(id_dir)
+      path = find_file(id_dir, DIR_PAGE)
+    else
+      path = find_file(@news_dir, id)
+    end
     return nil if path.nil?
     NewsDocument.new(path)
   end
@@ -137,10 +142,16 @@ class News
   def load()
     @news = []
     each_file(@news_dir) do |item|
-      id = item_to_id(item)
-      next if id.nil?
-      path = find_path(id)
-      next if path.nil?
+      if File.directory?(item)
+        id = File.basename(item)
+        path = find_file("#{@news_dir}/#{id}", DIR_PAGE)
+        next if path.nil?
+      else
+        m = FILE_REGEXP.match(File.basename(item))
+        next if m.nil?
+        id = m[1]
+        path = item
+      end
       @news << {
         slug: id,
         news: NewsDocument.new(path)
@@ -172,25 +183,6 @@ private
     paths.find { |path| File.exists?(path) }
   end
 
-  def find_path(id)
-    id_dir = "#{@news_dir}/#{id}"
-    path = nil
-    if File.directory?(id_dir)
-      find_file(id_dir, DIR_PAGE)
-    else
-      find_file(@news_dir, id)
-    end
-  end
-
-  def item_to_id(item)
-    if File.directory?(item)
-      File.basename(item)
-    else
-      m = FILE_REGEXP.match(File.basename(item))
-      return nil if m.nil?
-      m[1]
-    end
-  end
 end
 
 
