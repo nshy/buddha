@@ -124,25 +124,29 @@ class News
 
   include CommonHelpers
 
+  attr_reader :news_dir
+
   def initialize(news_dir)
     @news_dir = news_dir
   end
 
   def find(id)
     id_dir = "#{@news_dir}/#{id}"
-    if File.directory?(id_dir)
+    is_dir = File.directory?(id_dir)
+    if is_dir
       path = find_file(id_dir, DIR_PAGE)
     else
       path = find_file(@news_dir, id)
     end
     return nil if path.nil?
-    NewsDocument.new(path)
+    NewsDocument.new(id, path, is_dir)
   end
 
   def load()
     @news = []
     each_file(@news_dir) do |item|
-      if File.directory?(item)
+      is_dir = File.directory?(item)
+      if is_dir
         id = File.basename(item)
         path = find_file("#{@news_dir}/#{id}", DIR_PAGE)
         next if path.nil?
@@ -154,7 +158,7 @@ class News
       end
       @news << {
         slug: id,
-        news: NewsDocument.new(path)
+        news: NewsDocument.new(id, path, is_dir)
       }
     end
     @news.sort! do |a, b|
@@ -187,15 +191,17 @@ end
 
 
 class NewsDocument
-  attr_reader :has_more, :cut, :date, :ext
+  attr_reader :has_more, :cut, :date, :ext, :is_dir
 
-  def initialize(path)
+  def initialize(id, path, is_dir)
     @ext = News::FILE_REGEXP.match(File.basename(path))[2].to_sym
     @doc = Preamble.load(path)
     @content = @doc.content
     @cut = @doc.content.gsub(NewsFormat[@ext][:cutter], '')
     @has_more = @cut != @content
     @date = Date.parse(@doc.metadata['publish_date'])
+    @is_dir = is_dir
+    @id = id
   end
 
   def title
@@ -207,7 +213,10 @@ class NewsDocument
   end
 
   def style
-    @doc.metadata['style']
+    return nil if not @is_dir
+    path = "#{NewsStore.news_dir}/#{@id}/style.css"
+    return nil if not File.exists?(path)
+    "/news/#{@id}/style.css"
   end
 
   def body

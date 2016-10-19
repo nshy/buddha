@@ -48,7 +48,7 @@ not_found do
   "not found"
 end
 
-get /.+\.(jpg|gif|swf)/ do
+get /.+\.(jpg|gif|swf|css)/ do
   send_file "data/#{request.path}"
 end
 
@@ -91,9 +91,7 @@ end
 
 get '/news/:id/' do |id|
   @news = NewsStore.find(id)
-  if not @news.style.nil?
-    @extra_style = "/css/news/#{@news.style}.css"
-  end
+  @extra_style = @news.style
   @slug = id
   @menu_active = :news
   erb :'news-single'

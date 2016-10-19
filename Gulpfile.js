@@ -10,6 +10,12 @@ gulp.task('clean', function () {
           .pipe(clean({force: true}))
 });
 
+gulp.task('sass-data', function () {
+  return gulp.src('./data/**/*.scss')
+          .pipe(sass().on('error', sass.logError))
+          .pipe(gulp.dest('./data'));
+});
+
 gulp.task('sass', ['clean'], function () {
   return gulp.src('./assets/css/**/*.scss')
           .pipe(sass().on('error', sass.logError))
@@ -22,8 +28,9 @@ gulp.task('concat', ['sass'], function () {
           .pipe(gulp.dest('./public/css'));
 });
 
-gulp.task('css', ['concat'])
+gulp.task('css', ['concat', 'sass-data'])
 
 gulp.task('default', function () {
-  gulp.watch('./assets/css/**/*.scss', ['css']);
+  gulp.watch('./assets/css/**/*.scss', ['concat']);
+  gulp.watch('./data/**/*.scss', ['sass-data']);
 });
