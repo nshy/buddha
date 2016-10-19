@@ -77,6 +77,21 @@
   }
 }
 
+.news-single .news .body {
+> .index {
+  display: none;
+}
+
+h1 {
+  font-size: 20px;
+}
+
+table {
+  width: 100%;
+}
+
+}
+
 
 @media (max-width: 991px) {
 
