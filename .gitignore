@@ -3,5 +3,6 @@ config.rb
 site.db
 dump
 /import/news/tmp
+/import/news-site/tmp
 /import/records/tmp
 /public/css
