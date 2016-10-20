@@ -1,4 +1,8 @@
+<% if not news.has_more %>
+<div class="news short">
+<% else %>
 <div class="news">
+<% end %>
   <div class="date">
     <%= Russian::strftime(news.date, "%d %B") %>
   </div>

@@ -101,6 +101,10 @@ table {
 
 }
 
+.news-single .news.short {
+  display: inline-block;
+  width: 50%;
+}
 
 @media (max-width: 991px) {
 
@@ -150,6 +154,11 @@ table {
       display: block;
     }
   }
+}
+
+.news-single .news.short {
+  display: block;
+  width: 100%;
 }
 
 }
