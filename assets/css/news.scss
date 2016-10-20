@@ -84,6 +84,15 @@
 
 h1 {
   font-size: 20px;
+  &.top {
+    margin-top: 0px;
+  }
+}
+
+h2 {
+  margin-top: 10px;
+  font-size: 16px;
+  text-align: left;
 }
 
 table {
