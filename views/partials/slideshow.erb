@@ -3,7 +3,11 @@
     full_path: false,
     sorted: true
   } %>
-  <% each_file("data/#{request.path}/#{directory}", options) do |name| %>
-    <img src="<%= "#{directory}/#{name}" %>">
+  <% each_file("data/#{url}/#{directory}", options) do |name| %>
+    <% if root %>
+      <img src="<%= "#{url}/#{directory}/#{name}" %>">
+    <% else %>
+      <img src="<%= "#{directory}/#{name}" %>">
+    <% end %>
   <% end %>
 </div>
