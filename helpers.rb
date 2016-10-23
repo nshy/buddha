@@ -103,7 +103,7 @@ end
 NewsFormat = {
   adoc: {
     cutter: /^<<<$.*/m,
-    render: lambda { |doc, id|
+    render: lambda { |doc, id, context|
       attr = {
         'icons' => 'true',
         'iconsdir' => '/icons',
@@ -114,7 +114,13 @@ NewsFormat = {
   },
   html: {
     cutter: /<!--[\t ]*page-cut[\t ]*-->.*/m,
-    render: lambda { |doc, id| doc }
+    render: lambda { |doc, id, context| doc }
+  },
+  erb: {
+    cutter: /<!--[\t ]*page-cut[\t ]*-->.*/m,
+    render: lambda { |doc, id, context|
+      Tilt::ERBTemplate.new { doc }.render(context)
+    }
   }
 }
 
@@ -226,7 +232,7 @@ end
 
 module NewsHelpers
   def render_news(news, slug, ext)
-    NewsFormat[ext][:render].call(news, slug)
+    NewsFormat[ext][:render].call(news, slug, self)
   end
 end
 
