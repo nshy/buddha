@@ -1,30 +1,6 @@
 @mixin news-body {
   overflow: auto;
 
-  .objectblock {
-    margin: 0px 8px;
-
-    &.left { float: left; }
-    &.right { float: right; }
-  }
-
-  .admonitionblock {
-    td.icon img {
-      width: 60px;
-    }
-    &.warning {
-      background-color: #ffd0d0;
-    }
-  }
-
-  .good-news {
-    background-color: #d0d0ff;
-    padding: 8px 24px;
-    p {
-      text-align: center;
-    }
-  }
-
   table.tableblock {
     border-collapse: collapse;
     th {
