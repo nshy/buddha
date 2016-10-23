@@ -11,3 +11,6 @@ current forbidden nodes are stored in forbidden.txt
 Correct preamble is added, files are ready to be put on site data. However some
 grabbed html has no news publish date, thus they stored as ${id}.html and have
 unfilled 'publish_date' in metadata. These have to be fixed manually.
+
+BEWARE! extract.rb need to be fixed to handle titles
+with double quotes.
