@@ -4,5 +4,7 @@ site.db
 dump
 /import/news/tmp
 /import/news-site/tmp
+/import/old-news/tmp
+/import/old-news/buddhadb.dump
 /import/records/tmp
 /public/css
