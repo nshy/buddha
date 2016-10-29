@@ -64,7 +64,7 @@ a:hover {
 .site-tab {
   border-bottom: $separator-style;
   margin-bottom: 20px;
-  @include menu-link
+  @include menu-link;
   a {
     font-size: 12px;
     font-weight: 600;
