@@ -103,6 +103,13 @@ a:hover {
 }
 
 .site-2-columns {
+  > .wide {
+    display: inline-block;
+    vertical-align: top;
+    font-size: 14px;
+    width: 100%;
+    padding: 0;
+  }
   font-size: 0px;
   > .side {
     display: inline-block;
