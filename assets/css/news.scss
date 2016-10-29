@@ -2,6 +2,12 @@
 @import 'news-body';
 @import 'mixins';
 
+.site-header {
+  .backlink {
+    margin-top: 30px;
+  }
+}
+
 @mixin news {
   .title {
     @include site-element-level-2;
