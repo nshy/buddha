@@ -79,8 +79,22 @@
 }
 
 .news-single {
+  .backlink {
+    margin: 30px 0px 20px;
+    @include site-backlink;
+  }
   > .news {
-    @include news;
+    .title {
+      @include site-element-level-1;
+      margin-bottom: 15px;
+      line-height: 1.2;
+    }
+    .date {
+      color: #94a1a8;
+    }
+    .body {
+      @include news-body;
+    }
   }
 }
 
