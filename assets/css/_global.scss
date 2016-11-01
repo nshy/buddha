@@ -10,8 +10,7 @@
 // .page-header is occupied by bootstrap
 .site-header {
   .title {
-    font-weight: 300;
-    font-size: 36px;
+    @include site-element-level-1
     padding-top: 20px;
     line-height: 1.3;
   }
