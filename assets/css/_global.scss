@@ -16,8 +16,7 @@
   }
   .backlink {
     margin-top: 10px;
-    font-size: 13px;
-    font-weight: 700;
+    @include site-backlink;
   }
   margin-bottom: 20px;
 }
