@@ -58,7 +58,17 @@ nav {
         font-size: 12px;
         font-weight: 600;
         margin: 0px 15px;
-        padding: 12px 0 12px;
+        padding: 12px 0 13px;
+        text-decoration: none;
+        &:hover {
+          color: #000000;
+          transition: color .25s ease-in-out;
+          -moz-transition: color .25s ease-in-out;
+          -webkit-transition: color .25s ease-in-out;
+        }
+        &.active {
+          padding: 12px 0 12px;
+        }
       }
     }
 
