@@ -21,36 +21,40 @@
     >.news {
       font-size: 14px;
       display: inline-block;
-      width: 50%;
+      width: 100%;
       vertical-align: top;
       @include news;
     }
     .menu {
       float: right;
-      width: 200px;
-      padding-left: 20px;
+      width: 100%;
       padding-bottom: 20px;
-      margin-left: 20px;
       margin-bottom: 20px;
       font-size: 13px;
       font-weight: bold;
       line-height: 28px;
-      border-left: $separator-style;
+      border-bottom: $separator-style;
+
+      .item {
+        display: inline;
+        margin-right: 10px;
+      }
       span {
-        padding: 4px 7px;
+        padding: 4px 8px;
         border-radius: 2px;
         background-color: #ff6333;
         color: #ffffff;
       }
       a {
-        padding-left: 7px;
+        padding: 4px 8px;
+        color: #5f646e;
+      &:hover {
+          color: #ff6333;
+        }
       }
     }
     hr {
       clear: both;
-    }
-    >.news {
-      width: 70%;
     }
   }
   .feed {
