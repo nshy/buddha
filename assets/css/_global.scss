@@ -65,6 +65,7 @@ a:hover {
   border-bottom: $separator-style;
   margin-bottom: 20px;
   @include menu-link;
+
   a {
     font-size: 12px;
     font-weight: 600;
@@ -78,6 +79,14 @@ a:hover {
     }
     &.active {
       padding: 0 0 12px;
+    }
+  }
+  a:last-child {
+    margin-right: 0px;
+  }
+  @media (max-width: 480px) {
+    a {
+      margin-right: 10px;
     }
   }
 }
