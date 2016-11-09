@@ -1,2 +1,30 @@
 .about {
+  &.site-2-columns {
+    margin-top: 25px;
+  }
+
+.fotorama__nav__frame {
+    width: 22px;
+    height: 30px;
+  &.fotorama__active {
+    .fotorama__dot {
+      border-width: 4px;
+      background-color: #8c919c;
+    }
+  }
+  .fotorama__dot {
+    top: 20px;
+    display: block;
+    width: 8px;
+    height: 8px;
+    border-color: #8c919c;
+  }
+  &:hover .fotorama__dot {
+    background-color: #000000;
+    transition: backgronud-color .25s ease-in-out;
+    -moz-transition: backgronud-color .25s ease-in-out;
+    -webkit-transition: backgronud-color .25s ease-in-out;
+    border-color: #000000;
+  }
+}
 }
