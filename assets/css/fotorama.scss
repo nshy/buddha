@@ -28,3 +28,21 @@
     border-color: #000000;
   }
 }
+
+.fotorama__arr {
+  background: url(/fotorama.png) no-repeat;
+  &.fotorama__arr--prev {
+    background-position: 0 0;
+  }
+  &.fotorama__arr--next {
+    background-position: -32px 0;
+  }
+}
+
+@media (-webkit-min-device-pixel-ratio: 1.5), (min-resolution: 2dppx) {
+
+.fotorama__arr {
+  background: url(/fotorama-2x.png) 0 0/96px 160px no-repeat;
+}
+
+}
