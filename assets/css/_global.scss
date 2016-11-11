@@ -1,5 +1,6 @@
 @import 'config';
 @import 'mixins';
+@import 'fotorama';
 
 .clearfix::before {
   content: " "; /* Older browser do not support empty content */

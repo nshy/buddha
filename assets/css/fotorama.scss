@@ -1,0 +1,30 @@
+.fotorama__nav--dots .fotorama__nav__frame {
+  width: 22px;
+}
+
+.fotorama__nav__frame.fotorama__active {
+  .fotorama__dot {
+    width: 8px;
+    height: 8px;
+    background-color: #9aa1af;
+    border-width: 0px;
+  }
+}
+
+.fotorama__dot {
+  top: 20px;
+  width: 8px;
+  height: 8px;
+  border-color: #9aa1af;
+  border-radius: 4px;
+}
+
+.fotorama__nav__frame:hover {
+  .fotorama__dot {
+    background-color: #000000;
+    transition: backgronud-color .25s ease-in-out;
+    -moz-transition: backgronud-color .25s ease-in-out;
+    -webkit-transition: backgronud-color .25s ease-in-out;
+    border-color: #000000;
+  }
+}
