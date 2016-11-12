@@ -1,3 +1,5 @@
+@import 'mixins';
+
 .fotorama__nav--dots .fotorama__nav__frame {
   width: 22px;
 }
@@ -22,10 +24,8 @@
 .fotorama__nav__frame:hover {
   .fotorama__dot {
     background-color: #000000;
-    transition: backgronud-color .25s ease-in-out;
-    -moz-transition: backgronud-color .25s ease-in-out;
-    -webkit-transition: backgronud-color .25s ease-in-out;
     border-color: #000000;
+    @include hover-transition(background-color);
   }
 }
 

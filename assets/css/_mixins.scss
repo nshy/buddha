@@ -35,3 +35,17 @@
   font-size: 13px;
   font-weight: 700;
 }
+
+@mixin hover-transition($properties) {
+  $duration: .25s;
+  $function: ease-in-out;
+  -webkit-transition-property: $properties;
+     -moz-transition-property: $properties;
+          transition-property: $properties;
+  -webkit-transition-duration: $duration;
+     -moz-transition-duration: $duration;
+          transition-duration: $duration;
+  -webkit-transition-timing-function: $function;
+     -moz-transition-timing-function: $function;
+          transition-timing-function: $function;
+}
