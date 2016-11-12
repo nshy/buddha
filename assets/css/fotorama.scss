@@ -25,7 +25,7 @@
   .fotorama__dot {
     background-color: #000000;
     border-color: #000000;
-    @include hover-transition(background-color);
+    @include hover-transition(background-color border-color);
   }
 }
 
