@@ -55,6 +55,10 @@ class ElementSet
       yield @klass.new(e)
     end
   end
+
+  def size
+    @set.size
+  end
 end
 
 end # module XDSL
