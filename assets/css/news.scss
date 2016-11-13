@@ -152,6 +152,7 @@ table {
     }
     .menu {
       float: none;
+      width: 100%;
       padding-left: 0px;
       margin-left: 0px;
       font-size: 16px;
@@ -159,6 +160,10 @@ table {
       line-height: 32px;
       border-left: none;
       border-bottom: $separator-style;
+      .item {
+        display: inline;
+        margin-right: 10px;
+      }
     }
   }
   .feed {
