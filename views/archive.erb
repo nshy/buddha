@@ -1,19 +1,27 @@
 <div class='archive'>
-  <h1 class="header"> Учения переданные в центре </h1>
+  <div class="site-header">
+    <div class="title"> Учения переданные в центре </div>
+  </div>
+  <div class="site-2-columns">
   <% @archive.year.each do |year| %>
-    <h1> <%= year.year %> </h1>
-    <% year.teachings.each do |id| %>
-      <h2 class="teachings">
-        <a href="<%= "/teachings/#{id}/" %>">
-          <%= @teachings[id].title %>
-        </a>
-      </h2>
-      <% @teachings[id].theme.each do |theme| %>
-        <div class="theme">
-          <%= "#{theme.title}" %>
-        </div>
-      <% end %>
-    <% end %>
-    <hr/>
-  <% end %>
+    <div class="side">
+      <div class="year">
+        <div class="title"> <%= year.year %> </div>
+        <% year.teachings.each do |id| %>
+            <a class="teachings" href="<%= "/teachings/#{id}/" %>">
+              <%= @teachings[id].title %>
+            </a>
+          <% @teachings[id].theme.each do |theme| %>
+            <div class="theme">
+            <span class="title"><%=
+              theme.title %></span>&nbsp;<span class="size"><%=
+              theme.record.size %></span>
+            </div>
+          <% end %>
+          <hr/>
+        <% end %>
+      </div> <!-- year -->
+    </div> <!-- side -->
+  <% end %> <!-- by year -->
+  </div> <!-- site-2-columns -->
 </div>
