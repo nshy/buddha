@@ -28,6 +28,7 @@ helpers NewsHelpers, BookHelpers, CategoryHelpers
 helpers TimetableHelper
 
 I18n.default_locale = :ru
+SiteData = 'data'
 
 before do
   File.open("data/menu.xml") do |file|

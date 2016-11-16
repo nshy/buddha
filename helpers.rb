@@ -1,7 +1,7 @@
 module TeachingsHelper
   def load_teachings
     teachings = {}
-    each_file('data/teachings') do |path|
+    each_file("#{SiteData}/teachings") do |path|
       File.open(path) do |file|
         teachings[path_to_id(path)] =
           TeachingsDocument.new(Nokogiri::XML(file)).teachings
