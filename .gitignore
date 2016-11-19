@@ -10,3 +10,5 @@ dump
 /public/css
 /routines/records/download
 /routines/records/tmp
+/routines/records/secrets.json
+/routines/records/credentials.yaml

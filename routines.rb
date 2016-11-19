@@ -2,7 +2,6 @@ require 'nokogiri'
 require 'sequel'
 require_relative 'models'
 require_relative 'helpers'
-require_relative 'resource'
 require 'uri'
 require 'net/http'
 
