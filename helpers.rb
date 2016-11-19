@@ -32,13 +32,15 @@ module CommonHelpers
   def each_file(dir, options={})
     default_options = {
       full_path: true,
-      sorted: false
+      sorted: false,
+      reverse: false
     }
     options = default_options.merge(options)
     names = Dir.entries(dir).select { |name| /^\./.match(name).nil? }
 
     if options[:sorted]
       names.sort_by! { |name| name }
+      names.reverse! if options[:reverse]
     end
 
     names.each do |name|
