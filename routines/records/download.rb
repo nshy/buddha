@@ -15,7 +15,7 @@ def download_link(url)
   return if url.empty?
   file = "download/#{File.basename(url)}"
   tmp = "tmp/#{File.basename(url)}"
-  return File.exists?(file)
+  return if File.exist?(file)
 
   `wget -cP tmp #{url}`
   File.rename(tmp, file) if $?.success?
