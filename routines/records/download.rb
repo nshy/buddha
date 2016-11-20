@@ -10,7 +10,9 @@ include TeachingsHelper
 SiteData = '../../data'
 
 def download_link(url)
-  return if url.nil? or url.empty?
+  return if url.nil?
+  url = url.strip
+  return if url.empty?
   file = url.gsub(/^.*\//, '')
   return File.exists?("download/#{file}")
   `wget -cP tmp #{url}`
