@@ -43,9 +43,11 @@ each_file('../../data/teachings', options) do |path|
         yid = get_value(record, 'youtube_id')
         # already uploaded
         next if not yid.nil?
+        file = "download/#{File.basename(url)}"
+        # file is missing
+        next if not File.exists?(file)
 
         date = record.at_xpath('record_date').text
-        file = "download/#{File.basename(url)}"
         title = "#{date}-N#{idx} #{theme_title}"
         puts title
         id = upload_url(file, title).strip
