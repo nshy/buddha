@@ -9,7 +9,7 @@ require_relative '../../routines.rb'
 def get_value(element, xpath)
   e = element.at_xpath(xpath)
   return nil if e.nil?
-  value = e.text
+  value = e.text.strip
   return nil if value.empty?
   value
 end
