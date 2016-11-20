@@ -23,7 +23,9 @@ def upload_url(file, title)
     '#{file}'
 END
 
-  `bash -cl "#{cmd}"`.lines.last
+  output = `bash -cl "#{cmd}"`
+  return nil if not $?.success?
+  output.lines.last.strip
 end
 
 options = {
@@ -50,7 +52,10 @@ each_file('../../data/teachings', options) do |path|
         date = record.at_xpath('record_date').text
         title = "#{date}-N#{idx} #{theme_title}"
         puts title
-        id = upload_url(file, title).strip
+        id = upload_url(file, title)
+        # failed to upload
+        next if id.nil?
+
         record.add_child "  <youtube_id>#{id}</youtube_id}>\n    "
         save_xml(path, xml)
       end
