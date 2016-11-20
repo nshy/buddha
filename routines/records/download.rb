@@ -13,10 +13,12 @@ def download_link(url)
   return if url.nil?
   url = url.strip
   return if url.empty?
-  file = url.gsub(/^.*\//, '')
-  return File.exists?("download/#{file}")
+  file = "download/#{File.basename(url)}"
+  tmp = "tmp/#{File.basename(url)}"
+  return File.exists?(file)
+
   `wget -cP tmp #{url}`
-  File.rename("tmp/#{file}", "download/#{file}") if $?.success?
+  File.rename(tmp, file) if $?.success?
 end
 
 teachings = load_teachings
