@@ -13,8 +13,8 @@ module ElementClass
     else
       define_method(name) do
         e = @element.at_xpath("#{name.to_s}")
-        return e.text if not e.nil?
-        nil
+        return nil if e.nil? or e.text.empty?
+        e.text
       end
     end
   end
