@@ -1,7 +1,12 @@
 <div class="modals">
   <% @teachings.theme.each do |theme| %>
     <% theme.record.each_with_index do |record, idx| %>
-      <%= erb :'partials/youtube_modal', locals: { record: record, idx: idx } %>
+      <%= erb :'partials/youtube_modal',
+        locals: {
+          youtube_id: record.youtube_id,
+          title: record_description(record, idx + 1),
+          href: "youtube-modal-#{idx + 1}"
+        } %>
     <% end %>
   <% end %>
 </div>
