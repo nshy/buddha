@@ -47,7 +47,10 @@ each_file('../../data/teachings', options) do |path|
         next if not yid.nil?
         file = "download/#{File.basename(url)}"
         # file is missing
-        next if not File.exists?(file)
+        if not File.exists?(file)
+          puts "#{file} is missing"
+          next
+        end
 
         date = record.at_xpath('record_date').text
         title = "#{date}-N#{idx} #{theme_title}"
