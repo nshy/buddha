@@ -1,6 +1,7 @@
 <div class="modals">
   <% @teachings.theme.each do |theme| %>
     <% theme.record.each_with_index do |record, idx| %>
+      <% next if record.youtube_id.nil? %>
       <%= erb :'partials/youtube_modal',
         locals: {
           youtube_id: record.youtube_id,
@@ -21,10 +22,14 @@
       <div class="record">
         <div class="index"> <%= idx + 1 %> </div>
         <div class="description">
+          <% if not record.youtube_id.nil? %>
           <a href="#" data-toggle="modal"
              data-target="#<%= youtube_modal_href(theme, idx + 1)%>">
             <%= record_description(record, idx + 1) %>
           </a>
+          <% else %>
+            <%= record_description(record, idx + 1) %>
+          <% end %>
         </div>
         <div class="date"> <%= record.record_date %> </div>
         <div class="audio"> <%= download_link record, :audio %> </div>
