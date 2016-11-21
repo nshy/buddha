@@ -5,7 +5,7 @@
         locals: {
           youtube_id: record.youtube_id,
           title: record_description(record, idx + 1),
-          href: "youtube-modal-#{idx + 1}"
+          href: youtube_modal_href(theme, idx + 1)
         } %>
     <% end %>
   <% end %>
@@ -22,7 +22,7 @@
         <div class="index"> <%= idx + 1 %> </div>
         <div class="description">
           <a href="#" data-toggle="modal"
-             data-target="#youtube-modal-<%= idx + 1 %>">
+             data-target="#<%= youtube_modal_href(theme, idx + 1)%>">
             <%= record_description(record, idx + 1) %>
           </a>
         </div>
