@@ -14,7 +14,7 @@ module ElementClass
       define_method(name) do
         e = @element.at_xpath("#{name.to_s}")
         return nil if e.nil? or e.text.empty?
-        e.text
+        e.text.strip
       end
     end
   end
