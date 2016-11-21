@@ -25,6 +25,7 @@ teachings = load_teachings
 teachings.each do |id, season|
   season.theme.each do |theme|
     theme.record.each do |record|
+      next if not record.youtube_id.nil?
       download_link(record.video_url)
     end
   end
