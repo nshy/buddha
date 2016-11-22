@@ -16,9 +16,10 @@
             </a>
           <% @teachings[id].theme.each do |theme| %>
             <div class="theme">
+            <span class="folder_icon"></span>
             <span class="title"><%=
-              theme.title %></span>&nbsp;<span class="size"><%=
-              theme.record.size %></span>
+              theme.title %>&nbsp;&nbsp;<a class="size"><%=
+              theme.record.size %></a></span>
             </div>
           <% end %>
           <hr/>
