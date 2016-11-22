@@ -2,15 +2,16 @@
 @import 'mixins';
 
 .archive {
-  $padding: 20px;
+  $padding-x: 20px;
+  $padding-y: 10px;
 
   .year .backborder_1 {
     $height: 6px;
 
     position: relative;
     height: $height;
-    top: -$padding - $height;
-    margin: 0 (-$padding + 10px);
+    top: -$padding-y - $height;
+    margin: 0 (-$padding-x + 10px);
     border: $separator-style;
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
@@ -31,21 +32,23 @@
   .year {
     border: $separator-style;
     border-radius: 6px;
-    padding: $padding;
-    margin-bottom: 20px;
+    padding: $padding-y $padding-x 20px;
+    margin-bottom: 40px;
     .title {
       @include site-element-level-2;
     }
     a.teachings {
       font-size: 22px;
       font-weight: 300;
+      padding-bottom: 5px;
+      display: block;
     }
     .theme {
       padding-left: 15px;
       .title {
-        font-size: 18px;
+        font-size: 16px;
         font-weight: 400;
-        line-height: 1.5;
+        line-height: 1.2;
       }
       .size {
         color:  #a0a0a0;
