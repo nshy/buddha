@@ -43,8 +43,24 @@
       padding-bottom: 5px;
       display: block;
     }
+    $icon-right: 2px;
+    $icon-width: 14px;
+    $icon-left: 8px;
+    $icon-full: $icon-right + $icon-width + $icon-left;
+    .theme:before {
+      display: inline-block;
+      content: "";
+      background-image: url(/folder.svg);
+      background-repeat: no-repeat;
+      height: 12px;
+      width: $icon-width;
+      position: relative;
+      margin-left: -$icon-full + $icon-right;
+      margin-right: $icon-left;
+    }
     .theme {
-      padding-left: 15px;
+      padding-left: $icon-full;
+      margin: 8px 0px;
       .title {
         font-size: 16px;
         font-weight: 400;
