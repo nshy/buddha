@@ -6,6 +6,9 @@
   <% @archive.year.each do |year| %>
     <div class="side">
       <div class="year">
+        <div class="backborder_1">
+          <div class="backborder_2"></div>
+        </div>
         <div class="title"> <%= year.year %> </div>
         <% year.teachings.each do |id| %>
             <a class="teachings" href="<%= "/teachings/#{id}/" %>">

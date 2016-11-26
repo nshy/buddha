@@ -2,10 +2,36 @@
 @import 'mixins';
 
 .archive {
+  $padding: 20px;
+
+  .year .backborder_1 {
+    $height: 6px;
+
+    position: relative;
+    height: $height;
+    top: -$padding - $height;
+    margin: 0 (-$padding + 10px);
+    border: $separator-style;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+
+    .backborder_2 {
+      $height: 5px;
+
+      position: relative;
+      height: $height;
+      border: $separator-style;
+      top: -$height;
+      border-top-left-radius: 3px;
+      border-top-right-radius: 3px;
+      margin: 0 10px;
+    }
+  }
+
   .year {
     border: $separator-style;
     border-radius: 6px;
-    padding: 20px;
+    padding: $padding;
     margin-bottom: 20px;
     .title {
       @include site-element-level-2;
