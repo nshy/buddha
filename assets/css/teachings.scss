@@ -1,23 +1,73 @@
-div.teachings {
-  div.header {
-    margin-bottom: 60px;
-    text-align: center;
+@import 'config';
 
-    h1 { margin-bottom: 0px; }
-    h3 { margin-top: 5px; }
+.teachings {
+  .theme {
+    margin-bottom: 30px;
+    .title {
+      font-size: 26px;
+      font-weight: 300;
+    }
+    .records {
+      display: table;
+      width: 70%;
+      .record {
+        display: table-row;
+        border-bottom: $separator-style;
+
+        font-size: 14px;
+        color: #000;
+
+        .index, .description, .date, .download {
+          border-bottom: $separator-style;
+        }
+
+        &:last-child {
+          .index, .description, .date, .download {
+            border-bottom: none;
+          }
+        }
+
+        .index {
+          display: table-cell;
+          width: 40px;
+          font-weight: 300;
+          padding: 15px 0px;
+        }
+
+        .description {
+          display: table-cell;
+          font-weight: 400;
+        }
+
+        .date {
+          display: table-cell;
+          width: 130px;
+          font-weight: 300;
+        }
+
+        .download {
+          display: table-cell;
+          width: 150px;
+          a.site-button {
+            .type { font-weight: 600; }
+            .size { font-weight: 400; }
+          }
+        }
+      }
+    }
   }
+}
 
-  div.record {
-    padding: 2px 40px;
 
-    .index, .description, .date, .audio, .video { display: inline-block; }
+@media (max-width: 1199px) {
 
-    div.index { width: 30px; }
-    div.description { width: 500px; }
-    div.date { width: 100px; }
-    div.audio { width: 150px; }
-    div.video { width: 150px; }
-
-    a.button { width: 100%; }
+.teachings {
+  .theme {
+    .records {
+      display: table;
+      width: 100%;
+    }
   }
+}
+
 }

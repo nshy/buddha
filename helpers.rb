@@ -10,14 +10,8 @@ module TeachingsHelper
     teachings
   end
 
-  def download_link(record, media)
-    url = record.send("#{media}_url".to_sym)
-    return nil if url.nil? or url.empty?
-    title = { audio: 'аудио', video: 'видео' }[media]
-    size = { audio: record.audio_size, video: record.video_size }[media]
-    size = 0 if size.nil?
-    "<a href=#{url} class=\"btn btn-primary btn-xs button\""\
-      " download>#{title}, #{size} M6</a>"
+  def record_date(record)
+    Date.parse(record.record_date).strftime('%Y.%m.%d')
   end
 
   def record_description(record, index)

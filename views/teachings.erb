@@ -12,12 +12,18 @@
   <% end %>
 </div>
 <div class="teachings">
-  <div class="header">
-    <h1> <%= "#{@teachings.title}, #{@teachings.year}г" %> </h1>
-    <h3> <a href="/archive/">&larr; Все учения</a> </h3>
+  <div class="site-header">
+    <div class="title">
+      <%= "#{@teachings.title}, #{@teachings.year}" %>
+    </div>
+    <div class="backlink">
+      <a href="/archive/">&larr; ВСЕ УЧЕНИЯ</a>
+    </div>
   </div>
   <% @teachings.theme.each do |theme| %>
-    <h2> <%= theme.title %> </h2>
+  <div class="theme">
+    <div class="title"> <%= theme.title %> </div>
+    <div class="records">
     <% theme.record.each_with_index do |record, idx| %>
       <div class="record">
         <div class="index"> <%= idx + 1 %> </div>
@@ -31,10 +37,18 @@
             <%= record_description(record, idx + 1) %>
           <% end %>
         </div>
-        <div class="date"> <%= record.record_date %> </div>
-        <div class="audio"> <%= download_link record, :audio %> </div>
-        <div class="video"> <%= download_link record, :video %> </div>
+        <div class="date"> <%= record_date(record) %> </div>
+        <div class="download">
+          <% if not record.audio_url.nil? and not record.audio_size.nil? %>
+            <a class="site-button" href="<%= record.audio_url %>" download>
+                <span class="type">mp3</span>&nbsp;&nbsp;
+                <span class="size"><%= record.audio_size %>&nbsp;Mб</span>
+            </a>
+          <% end %>
+        </div>
       </div>
     <% end %>
+    </div> <%# records %>
+  </div> <%# theme %>
   <% end %>
 </div>
