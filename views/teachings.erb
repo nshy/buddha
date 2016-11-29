@@ -1,16 +1,3 @@
-<div class="modals">
-  <% @teachings.theme.each do |theme| %>
-    <% theme.record.each_with_index do |record, idx| %>
-      <% next if record.youtube_id.nil? %>
-      <%= erb :'partials/youtube_modal',
-        locals: {
-          youtube_id: record.youtube_id,
-          title: record_description(record, idx + 1),
-          href: youtube_modal_href(theme, idx + 1)
-        } %>
-    <% end %>
-  <% end %>
-</div>
 <div class="teachings">
   <div class="site-header">
     <div class="title">
@@ -29,8 +16,7 @@
         <div class="index"> <%= idx + 1 %> </div>
         <div class="description">
           <% if not record.youtube_id.nil? %>
-          <a href="#" data-toggle="modal"
-             data-target="#<%= youtube_modal_href(theme, idx + 1)%>">
+          <a href="http://www.youtube.com/watch?v=<%= record.youtube_id %>">
             <%= record_description(record, idx + 1) %>
           </a>
           <% else %>
@@ -52,3 +38,8 @@
   </div> <%# theme %>
   <% end %>
 </div>
+<script>
+$(document).ready(function() {
+  $('.description a').magnificPopup({type:'iframe'});
+});
+</script>

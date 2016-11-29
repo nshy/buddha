@@ -19,11 +19,6 @@ module TeachingsHelper
     return d if not d.nil?
     "Лекция №#{index}"
   end
-
-  def youtube_modal_href(theme, idx)
-    "modal-#{slug(Russian::transliterate(theme.title))}-#{idx}"
-  end
-
 end
 
 module CommonHelpers
