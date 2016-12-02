@@ -94,6 +94,15 @@
     .records {
       display: table;
       width: 100%;
+      .record {
+        .index {
+          padding-left: 0px;
+        }
+        .download {
+          padding-right: 0px;
+          text-align: right;
+        }
+      }
     }
   }
 }
