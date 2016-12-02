@@ -31,25 +31,27 @@
           display: table-cell;
           width: 40px;
           font-weight: 300;
-          padding: 15px 0px;
+          padding: 15px 0px 15px 10px;
         }
 
         .description {
           display: table-cell;
           font-weight: 400;
+          padding-right: 40px;
         }
 
         .date {
           display: table-cell;
-          width: 130px;
+          width: 115px;
           font-weight: 300;
         }
 
         .download {
           display: table-cell;
           width: 150px;
+          padding-right: 10px;
           a.site-button {
-            .type { font-weight: 600; }
+            .type { font-weight: 400; }
             .size { font-weight: 400; }
           }
         }
