@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.0" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 16 12" enable-background="new 0 0 16 12" xml:space="preserve">
+<g>
+	<path fill-rule="evenodd" clip-rule="evenodd" fill="#4E85C5" d="M15,12H1c-0.6,0-1-0.4-1-1V1c0-0.5,0.4-1,1-1h14c0.6,0,1,0.4,1,1
+		V11C16,11.6,15.6,12,15,12z M1.5,10.6h13V1.4h-13V10.6z"/>
+	<path fill="#4E85C5" d="M10.5,6L6,8.6V3.4L10.5,6z"/>
+</g>
+</svg>

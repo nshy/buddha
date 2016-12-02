@@ -38,6 +38,19 @@
           display: table-cell;
           font-weight: 400;
           padding-right: 40px;
+
+          a:before {
+            display: inline-block;
+            content: "";
+            background-image: url(/play_video.svg);
+            background-repeat: no-repeat;
+            height: 11px;
+            width: 14px;
+            margin: 0px 4px -1px 0px;
+          }
+          a:hover:before {
+            background-image: url(/play_video_cyan.svg);
+          }
         }
 
         .date {
@@ -50,6 +63,19 @@
           display: table-cell;
           width: 150px;
           padding-right: 10px;
+
+          a.site-button:before {
+            display: inline-block;
+            content: "";
+            background-image: url(/download.svg);
+            background-repeat: no-repeat;
+            height: 14px;
+            width: 12px;
+            margin: 0px 3px -1px 0px;
+          }
+          a:hover.site-button:before {
+            background-image: url(/download_white.svg);
+          }
           a.site-button {
             .type { font-weight: 400; }
             .size { font-weight: 400; }
