@@ -1,2 +1,25 @@
 .index {
+  display: table;
+  width: 100%;
+  .dynamic {
+    display: table-row;
+    .header {
+      .title {
+        font-size: 28px;
+        font-weight: 300;
+        margin-bottom: 4px;
+      }
+      a {
+        font-size: 13px;
+        font-weight: 600;
+      }
+    }
+    .news {
+      display: table-cell;
+    }
+    .right {
+      display: table-cell;
+      width: 400px;
+    }
+  }
 }
