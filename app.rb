@@ -177,6 +177,8 @@ get '/activities/' do
 end
 
 get '/' do
+  NewsStore.load
+  @news = NewsStore.top()
   erb :index
 end
 
