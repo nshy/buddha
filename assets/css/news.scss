@@ -1,5 +1,4 @@
 @import 'config';
-@import 'news-body';
 @import 'mixins';
 
 .news-index {
@@ -77,9 +76,6 @@
     }
     .date {
       color: #94a1a8;
-    }
-    .body {
-      @include news-body;
     }
   }
 }
