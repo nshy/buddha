@@ -53,3 +53,17 @@
      -moz-transition-timing-function: $function;
           transition-timing-function: $function;
 }
+
+@mixin site-news {
+  .title {
+    @include site-element-level-2;
+    margin-bottom: 15px;
+    line-height: 1.2;
+  }
+  .date {
+    color: #94a1a8;
+  }
+  .body {
+    @include news-body;
+  }
+}

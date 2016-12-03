@@ -2,20 +2,6 @@
 @import 'news-body';
 @import 'mixins';
 
-@mixin news {
-  .title {
-    @include site-element-level-2;
-    margin-bottom: 15px;
-    line-height: 1.2;
-  }
-  .date {
-    color: #94a1a8;
-  }
-  .body {
-    @include news-body;
-  }
-}
-
 .news-index {
   .top {
     >.news {
@@ -23,7 +9,7 @@
       display: inline-block;
       width: 50%;
       vertical-align: top;
-      @include news;
+      @include site-news;
     }
     .menu {
       float: right;
@@ -60,7 +46,7 @@
       display: inline-block;
       width: 50%;
       vertical-align: top;
-      @include news;
+      @include site-news;
     }
     > .news:nth-of-type(odd) {
       padding-right: 15px;
