@@ -7,17 +7,15 @@
   %>
   <div class="months"> <%= timetable_months %></div>
   <% week = Week.new; next_week = week.next %>
-  <% monday_cur = week_begin(Date.today) %>
-  <% monday_next = monday_cur + 7 %>
   <% events_cur = week_events(@timetable, week) %>
   <% events_next = week_events(@timetable, next_week) %>
   <div class="table two-weeks">
     <% (0..6).each do |day| %>
       <div class="day-line">
         <%= erb :'partials/week_day',
-            locals: { date: monday_cur + day, events: events_cur[day]} %>
+            locals: { date: week.monday + day, events: events_cur[day]} %>
         <%= erb :'partials/week_day',
-            locals: { date: monday_next + day, events: events_next[day]} %>
+            locals: { date: next_week.monday + day, events: events_next[day]} %>
       </div>
     <% end %>
   </div>
@@ -25,7 +23,7 @@
      <% (0..6).each do |day| %>
        <div class="day-line">
          <%= erb :'partials/week_day',
-             locals: { date: monday_cur + day, events: events_cur[day]} %>
+             locals: { date: week.monday + day, events: events_cur[day]} %>
        </div>
      <% end %>
   </div>
@@ -33,7 +31,7 @@
      <% (0..6).each do |day| %>
        <div class="day-line">
          <%= erb :'partials/week_day',
-             locals: { date: monday_next + day, events: events_next[day]} %>
+             locals: { date: next_week.monday + day, events: events_next[day]} %>
        </div>
      <% end %>
   </div>

@@ -122,15 +122,11 @@ class Week
     @monday
   end
 
+  def sunday
+    @monday + 6
+  end
+
   def next
     Week.new(@monday + 7)
   end
-end
-
-def week_begin(date)
-  date - ((date.wday - 1) % 7)
-end
-
-def week_end(date)
-  week_begin(date) + 6
 end

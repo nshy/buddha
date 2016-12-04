@@ -316,7 +316,7 @@ end
 
 module TimetableHelper
   def timetable_months()
-    first = week_begin(Date.today)
+    first = Week.new.monday
     last = first + 13
     if first.month == last.month
       Russian::strftime(first, "%B")
@@ -339,12 +339,12 @@ module TimetableHelper
 
   def past_classes(classes)
     return false if classes.end.nil?
-    Date.parse(classes.end) < week_begin(Date.today)
+    Date.parse(classes.end) < Week.new.monday
   end
 
   def future_classes(classes)
     return false if classes.begin.nil?
-    Date.parse(classes.begin) > week_end(Date.today)
+    Date.parse(classes.begin) > Week.new.sunday
   end
 
   def actual_classes(classes)
@@ -374,7 +374,7 @@ module TimetableHelper
   end
 
   def week_events(timetable, week)
-    week = timetable_events(timetable, week.monday, week.monday + 6)
+    week = timetable_events(timetable, week.monday, week.sunday)
     mark_event_conflicts(week)
     events_week_partition(week)
   end
