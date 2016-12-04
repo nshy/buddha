@@ -375,7 +375,6 @@ module TimetableHelper
 
   def week_events(timetable, week)
     week = timetable_events(timetable, week.monday, week.sunday)
-    mark_event_conflicts(week)
     events_week_partition(week)
   end
 
