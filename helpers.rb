@@ -337,11 +337,6 @@ module TimetableHelper
     date.strftime("%-d %B");
   end
 
-  def print_week_days(offset)
-      b, e = week_borders(offset)
-      "from #{format_date_classes(b)} till #{format_date_classes(e)}"
-  end
-
   def week_borders(offset)
     today = Date.today
     [ week_begin(today) + 7 * offset,
