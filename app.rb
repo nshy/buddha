@@ -58,9 +58,6 @@ get /.+\.(doc|pdf)/ do
 end
 
 get '/archive/' do
-  File.open("data/archive.xml") do |file|
-    @archive = ArchiveDocument.new(Nokogiri::XML(file)).archive
-  end
   @teachings = load_teachings
   @menu_active = :teachings
   erb :'archive'

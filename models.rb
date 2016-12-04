@@ -1,14 +1,5 @@
 require_relative 'xmldsl'
 
-class ArchiveDocument < XDSL::Element
-  element :archive do
-    elements :year do
-      element :year
-      elements :teachings
-    end
-  end
-end
-
 class TeachingsDocument < XDSL::Element
   element :teachings do
     element :title
@@ -24,6 +15,23 @@ class TeachingsDocument < XDSL::Element
         element :video_url
         element :video_size
         element :youtube_id
+      end
+    end
+  end
+
+  class Teachings
+
+    def begin_date
+      t = theme.min { |a, b| a.begin_date <=> a.begin_date }
+      t.begin_date
+    end
+
+    class Theme
+      def begin_date
+        r = record.min do |a, b|
+          Date.parse(a.record_date) <=> Date.parse(b.record_date)
+        end
+        Date.parse(r.record_date)
       end
     end
   end

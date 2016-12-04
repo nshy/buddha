@@ -3,18 +3,24 @@
     <div class="title"> Учения переданные в центре </div>
   </div>
   <div class="site-2-columns">
-  <% @archive.year.each do |year| %>
+  <% by_year = @teachings.group_by { |t| t[:document].begin_date.year } %>
+  <% by_year.keys.sort.reverse.each do |year| %>
     <div class="side">
       <div class="year">
         <div class="backborder_1">
           <div class="backborder_2"></div>
         </div>
-        <div class="title"> <%= year.year %> </div>
-        <% year.teachings.each do |id| %>
-            <a class="teachings" href="<%= "/teachings/#{id}/" %>">
-              <%= @teachings[id].title %>
+        <div class="title"> <%= year %> </div>
+        <%
+          year_teachings = by_year[year].sort do |a, b|
+            a[:document].begin_date <=> b[:document].begin_date
+          end
+        %>
+        <% year_teachings.each do |teachings| %>
+            <a class="teachings" href="<%= "/teachings/#{teachings[:id]}/" %>">
+              <%= teachings[:document].title %>
             </a>
-          <% @teachings[id].theme.each do |theme| %>
+          <% teachings[:document].theme.each do |theme| %>
             <div class="theme"><span class="title"><%=
               theme.title %></span>&nbsp;&nbsp;<span class="size"><%=
               theme.record.size %></span>
