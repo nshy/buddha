@@ -1,0 +1,19 @@
+<div class="events">
+  <% events.each do |event| %>
+    <% clazz = "event" %>
+    <% clazz += " conflict" if event[:conflict] %>
+    <% clazz += " cancel" if event[:cancel] %>
+    <div class="<%= clazz %>">
+      <div class="time"> <%= event_interval(event) %> </div>
+      <a href="/timetable?show=schedule#<%= slug(Russian::transliterate(event[:title])) %>">
+        <%= "#{event[:title]}" %>
+      </a>
+    </div> <%# event %>
+  <% end %>
+  <% if events.empty? %>
+    <div class="event">
+      <div class="time"> </div>
+      <a class="name empty"> Нет занятий </a>
+    </div>
+  <% end %>
+</div> <%# events %>
