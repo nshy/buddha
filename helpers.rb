@@ -337,12 +337,6 @@ module TimetableHelper
     date.strftime("%-d %B");
   end
 
-  def week_borders(offset)
-    today = Date.today
-    [ week_begin(today) + 7 * offset,
-      week_end(today) + 7 * offset ]
-  end
-
   def past_classes(classes)
     return false if classes.end.nil?
     Date.parse(classes.end) < week_begin(Date.today)
