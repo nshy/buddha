@@ -46,35 +46,12 @@ $border-style: 1px solid #cccccc;
           }
         }
 
+        @include site-events;
         .events {
           display: inline-block;
-          vertical-align: top;
           .event {
-            font-size: 15px;
-            font-weight: 400;
-
             .time {
-              display: inline-block;
               width: 120px;
-
-              color: #5d646f;
-            }
-            a {
-              display: inline-block;
-              &.empty {
-                color: #a0a9b8;
-              }
-            }
-          }
-          .event.conflict {
-            .time, a {
-              color: red;
-            }
-          }
-          .event.cancel {
-            .time, a {
-              color: red;
-              text-decoration: line-through;
             }
           }
         }
