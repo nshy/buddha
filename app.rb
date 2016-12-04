@@ -81,7 +81,7 @@ get '/news' do
   @params = params
   NewsStore.load
   if params['top'] == 'true'
-    @news = NewsStore.top()
+    @news = NewsStore.top(10)
   else
     @news = NewsStore.by_year(params['year'].to_i)
   end
@@ -178,7 +178,7 @@ end
 
 get '/' do
   NewsStore.load
-  @news = NewsStore.top()
+  @news = NewsStore.top(3)
   erb :index
 end
 

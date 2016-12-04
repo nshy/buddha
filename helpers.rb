@@ -167,8 +167,8 @@ class News
     end
   end
 
-  def top()
-    @news.first(10)
+  def top(n)
+    @news.first(n)
   end
 
   def by_year(year)
