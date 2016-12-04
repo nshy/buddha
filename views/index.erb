@@ -20,6 +20,10 @@
           <div class="title"> Сегодня в центре </div>
           <a href="/timetable?show=week">ВСЕ РАСПИСАНИЕ&nbsp;&rarr;</a>
         </div>
+        <hr/>
+        <% day = Date.today %>
+        <%= erb :'partials/week_day_short', locals: {
+          events: timetable_events(@timetable, day, day) } %>
       </div>
       <div class="records">
         <div class="header">

@@ -179,6 +179,9 @@ end
 get '/' do
   NewsStore.load
   @news = NewsStore.top(3)
+  File.open('data/timetable/timetable.xml') do |file|
+    @timetable = TimetableDocument.new(Nokogiri::XML(file)).timetable
+  end
   erb :index
 end
 

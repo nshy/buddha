@@ -27,6 +27,17 @@
     .right {
       display: table-cell;
       width: 400px;
+      .timetable {
+        @include site-events;
+        .events {
+          display: inline-block;
+          .event {
+            .time {
+              margin-right: 20px;
+            }
+          }
+        }
+      }
     }
   }
 }
