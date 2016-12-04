@@ -10,6 +10,7 @@ module ElementClass
         return nil if child.nil?
         klass.new(child)
       end
+      const_set(name.capitalize, klass)
     else
       define_method(name) do
         e = @element.at_xpath("#{name.to_s}")
@@ -26,6 +27,7 @@ module ElementClass
       define_method(name) do
         ElementSet.new(@element.xpath(name.to_s), klass)
       end
+      const_set(name.capitalize, klass)
     else
       define_method(name) do
         @element.xpath("#{name.to_s}").map { |e| e.text }
