@@ -179,6 +179,7 @@ get '/' do
   File.open('data/timetable/timetable.xml') do |file|
     @timetable = TimetableDocument.new(Nokogiri::XML(file)).timetable
   end
+  @teachings = load_teachings
   erb :index
 end
 

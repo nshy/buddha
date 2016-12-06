@@ -44,6 +44,9 @@
           }
         }
       }
+      .records {
+        @include site-records;
+      }
     }
   }
 }
