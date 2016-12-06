@@ -97,7 +97,7 @@
   }
 }
 
-@mixin site-records-layout {
+@mixin site-records-layout($first-width) {
   .records {
     display: block;
     .record {
@@ -113,8 +113,6 @@
       &:last-child {
         border-bottom: none;
       }
-
-      $first-width: 30px;
 
       .index {
         position: absolute;

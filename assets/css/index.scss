@@ -46,7 +46,8 @@
       }
       .records {
         @include site-records;
-        @include site-records-layout;
+        @include site-records-layout(0px);
+        .records .record .index { display: none; }
       }
     }
   }

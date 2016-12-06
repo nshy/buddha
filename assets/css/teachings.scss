@@ -86,7 +86,7 @@
       font-weight: 400;
       margin-bottom: 10px;
     }
-    @include site-records-layout;
+    @include site-records-layout(30px);
   }
 }
 
