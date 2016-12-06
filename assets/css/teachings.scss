@@ -1,4 +1,5 @@
 @import 'config';
+@import 'mixins';
 
 .teachings {
   .theme {
@@ -119,41 +120,7 @@
       font-weight: 400;
       margin-bottom: 10px;
     }
-    .records {
-      display: block;
-      .record {
-        display: block;
-        padding: 15px 0px;
-        position: relative;
-
-        .index, .description, .date, .download {
-          display: block;
-          border-bottom: none;
-        }
-        border-bottom: $separator-style;
-        &:last-child {
-          border-bottom: none;
-        }
-
-        $first-width: 30px;
-
-        .index {
-          position: absolute;
-          padding: 0px;
-          width: $first-width;
-        }
-
-        .description, .date, .download {
-          margin-left: $first-width;
-        }
-        .date {
-          margin-top: 5px;
-        }
-        .download {
-          text-align: left;
-        }
-      }
-    }
+    @include site-records;
   }
 }
 
