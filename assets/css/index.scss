@@ -45,7 +45,7 @@
         }
       }
       .records {
-        @include site-records;
+        @include site-records-layout;
       }
     }
   }
