@@ -29,11 +29,14 @@
     .right {
       display: table-cell;
       width: 400px;
-      .timetable {
+      @mixin index-block {
         margin: 30px 0 30px;
         border: $separator-style;
         border-radius: 5px;
         padding: 15px;
+      }
+      .timetable {
+        @include index-block;
         @include site-events;
         .events {
           display: inline-block;
