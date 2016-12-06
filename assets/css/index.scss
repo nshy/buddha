@@ -2,6 +2,43 @@
 @import 'config';
 
 .index {
+  .head {
+    overflow: auto;
+    margin-top: 20px;
+    $info-width: 500px;
+    .info {
+      float: left;
+      width: $info-width;
+      padding-right: 100px;
+      .top {
+        font-size: 0px;
+        img {
+          display: inline-block;
+          width: 138px;
+          vertical-align: middle;
+        }
+        .title {
+          display: inline-block;
+          width: 400px - 138px;
+          vertical-align: middle;
+          font-size: 22px;
+          font-weight: 400;
+        }
+      }
+      a {
+        font-size: 13px;
+        font-weight: 600;
+      }
+    }
+    .slides {
+      margin-left: $info-width;
+      padding-top: 20px;
+      .fotorama {
+        width: 600px;
+        margin: auto;
+      }
+    }
+  }
   .dynamic {
     display: table;
     width: 100%;
