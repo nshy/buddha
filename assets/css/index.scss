@@ -2,10 +2,10 @@
 @import 'config';
 
 .index {
-  display: table;
-  width: 100%;
   .dynamic {
-    display: table-row;
+    display: table;
+    width: 100%;
+    .table { display: table-row; }
     .header {
       .title {
         font-size: 28px;
