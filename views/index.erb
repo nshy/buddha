@@ -30,6 +30,7 @@
           <div class="title"> Новые записи </div>
           <a href="/archive/">ВСЕ ЗАПИСИ&nbsp;&rarr;</a>
         </div>
+        <hr/>
         <%= erb :'partials/records_list',
           locals: { records: last_records(@teachings) } %>
       </div>
