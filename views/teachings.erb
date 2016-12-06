@@ -10,31 +10,7 @@
   <% @teachings.theme.each do |theme| %>
   <div class="theme">
     <div class="title"> <%= theme.title %> </div>
-    <div class="records">
-    <% theme.record.each_with_index do |record, idx| %>
-      <div class="record">
-        <div class="index"> <%= idx + 1 %> </div>
-        <div class="description">
-          <% if not record.youtube_id.nil? %>
-          <a href="http://www.youtube.com/watch?v=<%= record.youtube_id %>">
-            <%= record_description(record, idx + 1) %>
-          </a>
-          <% else %>
-            <%= record_description(record, idx + 1) %>
-          <% end %>
-        </div>
-        <div class="date"> <%= record_date(record) %> </div>
-        <div class="download">
-          <% if not record.audio_url.nil? and not record.audio_size.nil? %>
-            <a class="site-button" href="<%= record.audio_url %>" download>
-                <span class="type">mp3</span>&nbsp;&nbsp;
-                <span class="size"><%= record.audio_size %>&nbsp;Mб</span>
-            </a>
-          <% end %>
-        </div>
-      </div>
-    <% end %>
-    </div> <%# records %>
+    <%= erb :'partials/records_list', locals: { records: theme.record } %>
   </div> <%# theme %>
   <% end %>
 </div>
