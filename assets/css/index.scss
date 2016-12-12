@@ -36,6 +36,10 @@
       .fotorama {
         width: 600px;
         margin: auto;
+        // reduces flickering on page open
+        .fotorama__stage {
+          height: 400px;
+        }
       }
     }
   }
