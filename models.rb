@@ -135,3 +135,9 @@ class MenuDocument < XDSL::Element
     end
   end
 end
+
+class QuotesDocument < XDSL::Element
+  element :quotes do
+    elements :quote
+  end
+end

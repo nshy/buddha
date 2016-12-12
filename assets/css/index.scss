@@ -39,6 +39,34 @@
       }
     }
   }
+  .middle {
+    $teachers-width: 500px;
+    overflow: auto;
+    a {
+      float: left;
+      display: block;
+      background-image: url(/teachers/geshela.jpg);
+      height: 250px;
+      width: $teachers-width;
+      .title {
+        color: #fff;
+        font-size: 30px;
+        font-weight: 300;
+        padding-top: 30px;
+        padding-left: 30px;
+      }
+      .geshela {
+        color: #fff;
+        font-size: 15px;
+        font-weight: 600;
+        padding-top: 80px;
+        padding-left: 30px;
+      }
+    }
+    .quotes {
+      margin-left: $teachers-width + 20px;
+    }
+  }
   .dynamic {
     .header {
       .title {
