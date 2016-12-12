@@ -5,9 +5,9 @@
   } %>
   <% each_file("data/#{url}/#{directory}", options) do |name| %>
     <% if root %>
-      <img src="<%= "#{url}/#{directory}/#{name}" %>">
+      <a href="<%= "#{url}/#{directory}/#{name}" %>"></a>
     <% else %>
-      <img src="<%= "#{directory}/#{name}" %>">
+      <a href="<%= "#{directory}/#{name}" %>"/></a>
     <% end %>
   <% end %>
 </div>
