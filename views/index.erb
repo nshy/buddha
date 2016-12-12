@@ -29,21 +29,6 @@
   </div> <!-- head -->
   <hr/>
   <div class="dynamic">
-    <div class="table">
-    <div class="news">
-      <div class="header">
-        <div class="title"> Новости </div>
-        <a href="/news?top=true">ВСЕ НОВОСТИ&nbsp;&rarr;</a>
-      </div>
-      <div class="feed">
-        <% @news.each do |row| %>
-          <%= erb :'partials/news', locals: { slug: row[:slug],
-                                              news: row[:news],
-                                              index: true } %>
-          <hr/>
-        <% end %>
-      </div>
-    </div>
     <div class="right">
       <div class="timetable">
         <div class="header">
@@ -65,6 +50,19 @@
           locals: { records: last_records(@teachings) } %>
       </div>
     </div>
+    <div class="news">
+      <div class="header">
+        <div class="title"> Новости </div>
+        <a href="/news?top=true">ВСЕ НОВОСТИ&nbsp;&rarr;</a>
+      </div>
+      <div class="feed">
+        <% @news.each do |row| %>
+          <%= erb :'partials/news', locals: { slug: row[:slug],
+                                              news: row[:news],
+                                              index: true } %>
+          <hr/>
+        <% end %>
+      </div>
     </div>
   </div>
 </div>
