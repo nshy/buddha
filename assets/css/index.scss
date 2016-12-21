@@ -44,31 +44,37 @@
     }
   }
   .middle {
-    $teachers-width: 500px;
+    $teachers-width: 40%;
     overflow: auto;
-    a {
+    .photo_container {
       float: left;
-      display: block;
-      background-image: url(/teachers/geshela.jpg);
-      height: 250px;
+      padding-right: 20px;
       width: $teachers-width;
+    }
+    a {
+      display: block;
+      background-image: url(/geshela_main.jpg);
+      background-size: 120%;
+      background-position: -50px top;
+      height: 170px;
+      border-radius: 2px;
       .title {
         color: #fff;
         font-size: 30px;
         font-weight: 300;
-        padding-top: 30px;
-        padding-left: 30px;
+        padding-top: 15px;
+        padding-left: 20px;
       }
       .geshela {
         color: #fff;
         font-size: 15px;
         font-weight: 600;
-        padding-top: 80px;
-        padding-left: 30px;
+        padding-top: 70px;
+        padding-left: 20px;
       }
     }
     .quotes {
-      margin-left: $teachers-width + 20px;
+      margin-left: $teachers-width;
       .fotorama__stage {
         height: 100px;
       }
