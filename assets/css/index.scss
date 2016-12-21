@@ -110,6 +110,9 @@
         .date {
           color: #94a1a8;
         }
+        hr:last-child {
+          display: none;
+        }
       }
     }
     .right {
