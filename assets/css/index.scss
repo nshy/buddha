@@ -101,7 +101,15 @@
       .feed {
         margin-top: 15px;
         margin-right: 100px;
-        @include site-news;
+        .title {
+          font-size: 20px;
+          font-weight: 400;
+          line-height: 1.2;
+          margin-bottom: 10px;
+        }
+        .date {
+          color: #94a1a8;
+        }
       }
     }
     .right {
