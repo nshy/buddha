@@ -39,6 +39,10 @@
   }
 }
 
+.fotorama__img,  .fotorama__stage {
+  border-radius: 2px !important;
+}
+
 @media (-webkit-min-device-pixel-ratio: 1.5), (min-resolution: 2dppx) {
 
 .fotorama__arr {
