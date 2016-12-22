@@ -107,7 +107,7 @@
 
       .feed {
         margin-top: 15px;
-        margin-right: 100px;
+        margin-right: 20px;
         .title {
           font-size: 20px;
           font-weight: 400;
@@ -133,6 +133,7 @@
       .timetable {
         @include index-block;
         @include site-events;
+        margin-top: 10px;
         .events {
           display: inline-block;
           .event {
