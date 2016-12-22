@@ -168,3 +168,43 @@
 }
 
 }
+
+
+@media (max-width: 991px) {
+
+.index {
+  .head {
+    .info {
+      float: none;
+      width: 100%;
+      padding-bottom: 20px;
+      border-bottom: $separator-style;
+      .top {
+        width: 386px;
+        margin: 0 auto;
+      }
+    }
+    .slides {
+      width: 100%;
+      margin-left: 0;
+    }
+  }
+  .middle {
+    $teachers-width: 50%;
+    .photo_container {
+      width: $teachers-width;
+      a {
+        background-size: 125%;
+        background-position: -60px;
+      }
+    }
+    .quotes {
+      margin-left: $teachers-width;
+      .fotorama__html {
+        text-align: center;
+      }
+    }
+  }
+}
+
+}
