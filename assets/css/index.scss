@@ -249,3 +249,25 @@
 }
 
 }
+
+
+@media (max-width: 480px) {
+
+.index {
+  .head {
+    .info {
+      .top {
+        width: 264px;
+        .title {
+          font-size: 18px;
+          width: 140px;
+          br:nth-child(2) {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+}
+
+}
