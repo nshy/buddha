@@ -5,24 +5,25 @@
   .head {
     overflow: auto;
     margin-top: 20px;
-    $info-width: 500px;
+    $info-width: 40%;
     .info {
       float: left;
       width: $info-width;
-      padding-right: 100px;
+      padding: 5px 20px 0 0;
       .top {
         font-size: 0px;
         img {
           display: inline-block;
-          width: 138px;
+          width: 113px;
+          margin-right: 10px;
           vertical-align: middle;
         }
         .title {
           display: inline-block;
-          width: 400px - 138px;
           vertical-align: middle;
-          font-size: 22px;
+          font-size: 20px;
           font-weight: 400;
+          letter-spacing: 0.8px;
         }
       }
       a {
@@ -32,9 +33,9 @@
     }
     .slides {
       margin-left: $info-width;
+      width: 100% - $info-width;
       padding-top: 20px;
       .fotorama {
-        width: 600px;
         margin: auto;
         // reduces flickering on page open
         .fotorama__stage {
