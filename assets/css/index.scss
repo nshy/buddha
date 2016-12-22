@@ -208,3 +208,44 @@
 }
 
 }
+
+
+@media (max-width: 767px) {
+
+.index {
+  .middle {
+    .photo_container {
+      width: 100%;
+      float: none;
+      padding-right: 0;
+      a {
+        height: 250px;
+        background-size: auto 140%;
+        background-position: 60% -20px;
+        .geshela {
+          padding-top: 10px;
+        }
+      }
+    }
+    .quotes {
+      width: 100%;
+      margin-left: 0;
+      margin-top: 20px;
+    }
+  }
+  .dynamic {
+    > .news {
+      width: 100%;
+      float: none;
+      .feed {
+        margin-right: 0px;
+      }
+    }
+    .right {
+      margin: 30px 0;
+      width: 100%;
+    }
+  }
+}
+
+}
