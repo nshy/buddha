@@ -251,6 +251,24 @@
 }
 
 
+@media (max-width: 600px) {
+
+.index {
+  .middle {
+    .photo_container {
+      a {
+        background-position: 70% -20px;
+        .geshela {
+          padding-top: 140px;
+        }
+      }
+    }
+  }
+}
+
+}
+
+
 @media (max-width: 480px) {
 
 .index {
