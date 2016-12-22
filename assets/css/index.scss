@@ -87,6 +87,7 @@
     }
   }
   .dynamic {
+    overflow: auto;
     .header {
       .title {
         font-size: 28px;
@@ -98,9 +99,11 @@
         font-weight: 600;
       }
     }
-    $right-width: 400px;
+    $left-width: 65%;
     > .news {
-      margin-right: $right-width;
+      width: $left-width;
+      float: left;
+
       .feed {
         margin-top: 15px;
         margin-right: 100px;
@@ -119,8 +122,7 @@
       }
     }
     .right {
-      float: right;
-      width: $right-width;
+      margin-left: $left-width;
       @mixin index-block {
         margin: 30px 0 30px;
         border: $separator-style;
