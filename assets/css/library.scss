@@ -131,6 +131,14 @@
     .book-thumb:nth-child(4n) {
       margin-right: 0px;
     }
+    .book-thumb {
+      margin: 0 0 40px 0;
+      padding-bottom: 20px;
+      border-bottom: $separator-style;
+    }
+    .book-thumb:last-child {
+      border-bottom: none;
+    }
   }
 }
 
