@@ -35,6 +35,11 @@
   font-weight: 300;
 }
 
+@mixin site-element-level-2-480px {
+  font-size: 20px;
+  font-weight: 400;
+}
+
 @mixin site-backlink {
   font-size: 13px;
   font-weight: 700;

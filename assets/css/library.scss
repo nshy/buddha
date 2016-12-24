@@ -122,6 +122,18 @@
 
 .library {
   background-image: none;
+  .section {
+    .title {
+      @include site-element-level-2-480px;
+    }
+  }
+  .recent {
+    .header {
+      .title {
+        @include site-element-level-2-480px;
+      }
+    }
+  }
   .recent {
     // undo above
     .book-thumb:nth-child(3n) {
