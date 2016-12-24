@@ -122,6 +122,16 @@
 
 .library {
   background-image: none;
+  .recent {
+    // undo above
+    .book-thumb:nth-child(3n) {
+      margin-right: 0px;
+    }
+    // undo above
+    .book-thumb:nth-child(4n) {
+      margin-right: 0px;
+    }
+  }
 }
 
 }
