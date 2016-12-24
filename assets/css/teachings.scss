@@ -29,12 +29,13 @@
           display: table-cell;
           width: 40px;
           font-weight: 300;
-          padding: 15px 0px 15px 10px;
+          padding: 15px 0px 0px 10px;
         }
 
         .description {
           display: table-cell;
           padding-right: 40px;
+          padding-bottom: 15px;
         }
 
         .date {
@@ -88,6 +89,13 @@
       margin-bottom: 25px;
     }
     @include site-records-layout(30px);
+    .records {
+      .record {
+        .description {
+          padding-bottom: 0px;
+        }
+      }
+    }
   }
 }
 
