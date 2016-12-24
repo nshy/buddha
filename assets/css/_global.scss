@@ -61,6 +61,9 @@ a:hover {
   color: $link-color-hover;
   text-decoration: none;
 }
+a:focus {
+  text-decoration: none;
+}
 
 .site-tab {
   border-bottom: $separator-style;
