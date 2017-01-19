@@ -155,9 +155,8 @@ get '/teachers/:teacher/' do |teacher|
   erb :teacher
 end
 
-get '/text/:id/' do |id|
-  @file = Preamble.load("data/text/#{id}/page.adoc")
-  erb :text
+get '/yoga/' do
+  erb "<%= load_page('yoga/page.erb') %>"
 end
 
 get '/links/' do
