@@ -60,9 +60,10 @@ PAGES.each do |node, filename|
         audio_url =  parse_url(record, 'views-field-field-lect-mp3-lo-fid')
       end
 
+      date = record.at_css('td.views-field-field-lect-date-value').text.strip
       records << {
       description: record.at_css('td.views-field-title').text.strip,
-      record_date: record.at_css('td.views-field-field-lect-date-value').text.strip,
+      record_date: Date.parse(date).strftime('%Y-%m-%d'),
       audio_url: audio_url,
       video_url: parse_url(record, 'views-field-field-lect-avi-lo-fid'),
       }
