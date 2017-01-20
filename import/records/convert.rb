@@ -64,8 +64,8 @@ PAGES.each do |node, filename|
       records << {
       description: record.at_css('td.views-field-title').text.strip,
       record_date: Date.parse(date).strftime('%Y-%m-%d'),
-      audio_url: audio_url,
-      video_url: parse_url(record, 'views-field-field-lect-avi-lo-fid'),
+      audio_url: audio_url.strip,
+      video_url: parse_url(record, 'views-field-field-lect-avi-lo-fid').strip,
       }
     end
     save_node("tmp/xml/#{filename}.xml", records, node)
