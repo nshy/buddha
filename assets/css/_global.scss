@@ -171,6 +171,16 @@ table.site-data-table {
   }
 }
 
+.news-2-tables {
+  font-size: 0;
+  margin: 20px 0;
+  table {
+    font-size: 14px;
+    display: inline-block;
+    vertical-align: top;
+    width: 50%;
+  }
+}
 
 @media (max-width: 1199px) {
 
@@ -210,6 +220,19 @@ table.site-data-table {
   }
 }
 
+.news-2-tables {
+  table { width: 100%; }
+}
+
+}
+
+
+@media (max-width: 767px) {
+
+.news-2-tables {
+  table { width: 50%; }
+}
+
 }
 
 
@@ -239,6 +262,10 @@ table.site-data-table {
       color: white;
     }
   }
+}
+
+.news-2-tables {
+  table { width: 100%; }
 }
 
 }
