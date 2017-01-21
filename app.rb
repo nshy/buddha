@@ -36,7 +36,7 @@ before do
   end
   @environment = SiteConfig::ENV
   @ya_metrika = SiteConfig::YA_METRIKA
-  @extra_style = nil
+  @extra_styles = []
 end
 
 not_found do
@@ -84,12 +84,14 @@ get '/news' do
   end
   @years = NewsStore.years
   @menu_active = :news
+  @extra_styles = @news.map { |n| n[:news].style }
+  @extra_styles.compact!
   erb :'news-index'
 end
 
 get '/news/:id/' do |id|
   @news = NewsStore.find(id)
-  @extra_style = @news.style
+  @extra_styles = [ @news.style ]
   @slug = id
   @menu_active = :news
   erb :'news-single'
