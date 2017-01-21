@@ -177,6 +177,8 @@ end
 get '/' do
   NewsStore.load
   @news = NewsStore.top(3)
+  @extra_styles = @news.map { |n| n[:news].style }
+  @extra_styles.compact!
   File.open('data/timetable/timetable.xml') do |file|
     @timetable = TimetableDocument.new(Nokogiri::XML(file)).timetable
   end
