@@ -1,15 +1,5 @@
 <div class="section">
   <div class="title"> <%= title %> </div>
-  <% plans.each do |p| %>
-  <div class="class" id="<%= slug(Russian::transliterate(p.title)) %>">
-    <img src="/timetable/<%= p.image %>"/>
-    <div class="description">
-      <div class="title"> <%= p.title %> </div>
-      <div class="days"> <%= p.days %> </div>
-      <div class="info"> <%= p.info %> </div>
-    </div> <%# description %>
-  </div> <%# class %>
-  <% end %>
   <% classes.each do |c| %>
   <div class="class" id="<%= slug(Russian::transliterate(c.title)) %>">
     <img src="/timetable/<%= c.image %>"/>

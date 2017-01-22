@@ -2,24 +2,6 @@ require 'date'
 require 'nokogiri'
 require_relative 'models'
 
-def timetable_event_plan_events(timetable, date_begin, date_end)
-  events = []
-  timetable.event_plan.each do |plan|
-    cancels = plan.cancel.collect { |cancel| Date.parse(cancel) }
-    plan.date.each do |event_date|
-      date = Date.parse(event_date)
-      next if date < date_begin or date > date_end
-      events << {
-        title: plan.title,
-        begin: DateTime.parse("#{event_date} #{plan.begin}"),
-        end: DateTime.parse("#{event_date} #{plan.end}"),
-        cancel: cancels.include?(date)
-      }
-    end
-  end
-  events
-end
-
 def timetable_event_events(timetable, date_begin, date_end)
   events = []
   timetable.event.each do |event|
@@ -42,6 +24,11 @@ end
 
 def timetable_parse_classes_day(daytime)
   r = /([[:alpha:]]+)\s*,\s*(\d{2}:\d{2})-(\d{2}:\d{2})/.match(daytime)
+  { day: r[1], begin: r[2], end: r[3] }
+end
+
+def timetable_parse_classes_date(datetime)
+  r = /([^ ,]+)\s*,\s*(\d{2}:\d{2})-(\d{2}:\d{2})/.match(datetime)
   { day: r[1], begin: r[2], end: r[3] }
 end
 
@@ -68,6 +55,17 @@ def timetable_classes_events(timetable, date_begin, date_end)
         }
       end
     end
+    classes.date.each do |day|
+      d = timetable_parse_classes_date(day)
+      date = Date.parse(d[:day])
+      next if date < date_begin or date > date_end
+      events << {
+        title: classes.title,
+        begin: DateTime.parse("#{d[:day]} #{d[:begin]}"),
+        end: DateTime.parse("#{d[:day]} #{d[:end]}"),
+        cancel: cancels.include?(date)
+      }
+    end
   end
   events
 end
@@ -75,8 +73,7 @@ end
 # both dates are included
 def timetable_events(timetable, date_begin, date_end)
   events = timetable_event_events(timetable, date_begin, date_end) +
-           timetable_classes_events(timetable, date_begin, date_end) +
-           timetable_event_plan_events(timetable, date_begin, date_end)
+           timetable_classes_events(timetable, date_begin, date_end)
   events.sort! do |a, b|
     a[:begin] <=> b[:begin]
   end

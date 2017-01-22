@@ -102,16 +102,7 @@ class TimetableDocument < XDSL::Element
       element :begin
       element :end
       elements :cancel
-    end
-    elements :event_plan do
-      element :image
-      element :title
-      element :info
-      element :days
-      element :begin
-      element :end
       elements :date
-      elements :cancel
     end
   end
 end
