@@ -97,6 +97,7 @@ class TimetableDocument < XDSL::Element
       element :image
       element :title
       element :info
+      element :timeshort
       elements :day
       element :begin
       element :end

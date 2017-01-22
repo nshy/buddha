@@ -377,15 +377,6 @@ module TimetableHelper
     b + e
   end
 
-  def classes_days(classes)
-    days = classes.day.collect do |d|
-      i = timetable_parse_classes_day(d)
-      day = Date.parse(i[:day])
-      "#{Russian::strftime(day, "%A")} #{i[:begin]}"
-    end
-    days.join(", ")
-  end
-
   def week_events(timetable, week)
     week = timetable_events(timetable, week.monday, week.sunday)
     events_week_partition(week)

@@ -15,10 +15,7 @@
     <img src="/timetable/<%= c.image %>"/>
     <div class="description">
       <div class="title"> <%= c.title %> </div>
-      <% if not (c.begin.nil? and c.end.nil?)%>
-        <div class="dates"> <%= classes_dates(c) %> </div>
-      <% end %>
-      <div class="days"> <%= classes_days(c) %> </div>
+      <div class="timeshort"> <%= c.timeshort %> </div>
       <div class="info"> <%= c.info %> </div>
     </div> <%# description %>
   </div> <%# class %>
