@@ -9,7 +9,7 @@ end
 year = ARGV[0]
 
 timetable = nil
-File.open('data/timetable.xml') do |file|
+File.open('data/timetable/timetable.xml') do |file|
   timetable = TimetableDocument.new(Nokogiri::XML(file)).timetable
 end
 
