@@ -28,8 +28,13 @@ def timetable_parse_classes_day(daytime)
 end
 
 def timetable_parse_classes_date(datetime)
-  r = /([^ ,]+)\s*,\s*(\d{2}:\d{2})-(\d{2}:\d{2})/.match(datetime)
-  { day: r[1], begin: r[2], end: r[3] }
+  a = datetime.split(',')
+  date = a.shift.strip
+  times = a.collect do |i|
+    r = /(\d{2}:\d{2})-(\d{2}:\d{2})/.match(i)
+    { begin: r[1], end: r[2] }
+  end
+  { date: date, times: times }
 end
 
 def timetable_classes_events(timetable, date_begin, date_end)
@@ -57,14 +62,16 @@ def timetable_classes_events(timetable, date_begin, date_end)
     end
     classes.date.each do |day|
       d = timetable_parse_classes_date(day)
-      date = Date.parse(d[:day])
+      date = Date.parse(d[:date])
       next if date < date_begin or date > date_end
-      events << {
-        title: classes.title,
-        begin: DateTime.parse("#{d[:day]} #{d[:begin]}"),
-        end: DateTime.parse("#{d[:day]} #{d[:end]}"),
-        cancel: cancels.include?(date)
-      }
+      d[:times].each do |t|
+        events << {
+          title: classes.title,
+          begin: DateTime.parse("#{d[:date]} #{t[:begin]}"),
+          end: DateTime.parse("#{d[:date]} #{t[:end]}"),
+          cancel: cancels.include?(date)
+        }
+      end
     end
   end
   events
