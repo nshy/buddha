@@ -99,11 +99,6 @@ module CommonHelpers
       "&successURL=#{URI.escape(link, r)}"
   end
 
-  def render_text(text)
-    @file = Preamble.load("data/#{text}/page.adoc")
-    erb :text
-  end
-
   def slug(title)
     title.downcase.strip.gsub(' ', '-').gsub(/[^\w-]/, '')
   end

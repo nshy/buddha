@@ -161,17 +161,9 @@ get '/yoga/' do
   erb "<%= load_page('yoga/page.erb') %>"
 end
 
-get '/links/' do
-  render_text('links')
-end
-
 get /\/(about|teachers|contacts|donations)\// do
   @menu_active = :about
   erb :center
-end
-
-get '/activities/' do
-  render_text('activities')
 end
 
 get '/' do
