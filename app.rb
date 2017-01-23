@@ -44,7 +44,12 @@ not_found do
   File.open("data/compat.yaml") do |file|
     map = YAML.load(file.read)
   end
-  goto = map["#{request.path}?#{request.query_string}"]
+  obj = request.path
+  if not request.query_string.empty?
+    obj += '?'
+    obj += request.query_string
+  end
+  goto = map[obj]
   redirect to(goto) if not goto.nil?
   "not found"
 end
