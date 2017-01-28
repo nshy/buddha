@@ -106,6 +106,22 @@ module CommonHelpers
   def load_page(path)
     Tilt.new("data/#{path}").render(self)
   end
+
+  def digest_url(path, base)
+    sha1 = nil
+    File.open("#{base}/#{path}") do |file|
+      sha1 = Digest::SHA1.hexdigest(file.read)
+    end
+    "#{path}?sha1=#{sha1}"
+  end
+
+  def asset_digest_url(path)
+    digest_url(path, 'public')
+  end
+
+  def data_digest_url(path)
+    digest_url(path, 'data')
+  end
 end
 
 NewsFormat = {
