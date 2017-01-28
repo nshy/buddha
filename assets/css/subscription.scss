@@ -1,0 +1,41 @@
+#site-subscription {
+  .subscribe-form.ml-block-success {
+    // to hide initially
+    display: none;
+
+    color: white;
+  }
+  text-align: center;
+  .subscribe-form {
+    display: inline-block;
+    margin-top: 20px;
+    .form-section {
+      display: inline-block;
+      input {
+        height: 25px;
+        width: 250px;
+      }
+      .form-group {
+        margin-bottom: 0;
+      }
+      // signalling on invalid email
+      .form-group.ml-error .form-control {
+        border: 2px solid red;
+      }
+    }
+    .form-section.button {
+      button {
+        border-radius: 3px;
+      }
+      button.loading {
+        // to hide initially
+        display: none;
+        img {
+          width: 16px;
+          height: 16px;
+        }
+      }
+    }
+  }
+
+}
