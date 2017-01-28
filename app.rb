@@ -14,11 +14,7 @@ require 'yaml'
 require_relative 'models'
 require_relative 'toc'
 require_relative 'timetable'
-require_relative 'mail'
 require_relative 'helpers'
-require_relative 'asciiext'
-
-DB = Sequel.connect('sqlite://site.db')
 
 set :show_exceptions, false
 set :bind, '0.0.0.0'
@@ -184,42 +180,4 @@ get '/' do
   end
   @teachings = load_teachings
   erb :index
-end
-
-error Subscription::Exception do
-  @message = env['sinatra.error']
-  erb :message
-end
-
-post '/subscribe' do
-  Subscription::subscribe(params[:email])
-  @message = 'Вам отправлено письмо со ссылкой для активации подписки.'
-  erb :message
-end
-
-get '/subscription/activate' do
-  @subscription = Subscription::activate(params[:key])
-  @message = <<-END
-    Подписка успешна активирована.
-    Уточните параметры подписки, если желаете.
-  END
-  erb :subscription
-end
-
-get '/subscription/manage' do
-  @subscription = Subscription::check(params[:key])
-  @message = 'Параметры подписки'
-  erb :subscription
-end
-
-post '/subscription/update' do
-  @subscription = Subscription::manage(params)
-  @message = 'Параметры подписки изменены'
-  erb :subscription
-end
-
-get '/unsubscribe' do
-  Subscription::unsubscribe(params[:key])
-  @message = 'Ваша подписка полностью прекращена.'
-  erb :message
 end

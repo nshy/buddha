@@ -1,13 +1,10 @@
 require 'nokogiri'
-require 'sequel'
 require_relative 'models'
 require_relative 'helpers'
 require 'uri'
 require 'net/http'
 
 include CommonHelpers
-
-DB = Sequel.connect('sqlite://site.db')
 
 def theme_file(name)
   "data/themes/#{name}.xml"
@@ -75,20 +72,5 @@ def check_themes_for_undefined_sizes
       (not r.video_url.nil? and r.video_size.nil?)
     end
     puts path if not bad.nil?
-  end
-end
-
-def mark_all_delivered_type(type)
-  options = Class.new.extend(type).options
-  each_file("data/#{options[:dir]}") do |path|
-    DB[:delivery].insert(rid: path_to_id(path), type: options[:type])
-  end
-end
-
-def mark_all_delivered
-  DB.transaction do
-    mark_all_delivered_type(News)
-    mark_all_delivered_type(Books)
-    mark_all_delivered_type(TimeUpdates)
   end
 end
