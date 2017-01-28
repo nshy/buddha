@@ -93,6 +93,7 @@ end
 get '/news/:id/' do |id|
   @news = NewsStore.find(id)
   @extra_styles = [ @news.style ]
+  @extra_styles.compact!
   @slug = id
   @menu_active = :news
   erb :'news-single'
