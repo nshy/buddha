@@ -18,6 +18,9 @@ require_relative 'helpers'
 
 set :show_exceptions, false
 set :bind, '0.0.0.0'
+if settings.development?
+  set :static_cache_control, [ :public, max_age: 0 ]
+end
 
 helpers TeachingsHelper, CommonHelpers
 helpers NewsHelpers, BookHelpers, CategoryHelpers
@@ -51,10 +54,16 @@ not_found do
 end
 
 get /.+\.(jpg|gif|swf|css)/ do
+  if settings.development?
+    cache_control :public, max_age: 0
+  end
   send_file "data/#{request.path}"
 end
 
 get /.+\.(doc|pdf)/ do
+  if settings.development?
+    cache_control :public, max_age: 0
+  end
   send_file "data/#{request.path}", disposition: :attachment
 end
 
