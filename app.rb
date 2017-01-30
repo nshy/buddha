@@ -4,7 +4,7 @@ require 'rubygems'
 require 'bundler'
 
 require_relative 'config'
-Bundler.require(:default, SiteConfig::ENV)
+Bundler.require
 
 require 'tilt/erubis'
 require 'sinatra/capture'
@@ -33,7 +33,6 @@ before do
   File.open("data/menu.xml") do |file|
     @menu = MenuDocument.new(Nokogiri::XML(file)).menu
   end
-  @environment = SiteConfig::ENV
   @ya_metrika = SiteConfig::YA_METRIKA
   @extra_styles = []
 end
