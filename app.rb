@@ -35,6 +35,7 @@ before do
   end
   @ya_metrika = SiteConfig::YA_METRIKA
   @extra_styles = []
+  @digests = load_digests()
 end
 
 not_found do

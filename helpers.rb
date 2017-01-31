@@ -107,20 +107,24 @@ module CommonHelpers
     Tilt.new("data/#{path}").render(self)
   end
 
-  def digest_url(path, base)
-    sha1 = nil
-    File.open("#{base}/#{path}") do |file|
-      sha1 = Digest::SHA1.hexdigest(file.read)
+  def digest_url(url)
+    return url if @digests.nil?
+    sha1 = @digests[url]
+    if not sha1.nil?
+      "#{url}?sha1=#{sha1}"
+    else
+      url
     end
-    "#{path}?sha1=#{sha1}"
   end
 
-  def asset_digest_url(path)
-    digest_url(path, 'public')
-  end
-
-  def data_digest_url(path)
-    digest_url(path, 'data')
+  def load_digests
+    return nil if not File.exist?('digests.txt')
+    digests = {}
+    File.readlines('digests.txt').each do |line|
+      hash, path = line.split(' ')
+      digests[path] = hash
+    end
+    digests
   end
 end
 

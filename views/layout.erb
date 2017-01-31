@@ -12,7 +12,7 @@
     <script src="//api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
     <script src="/3d-party/js/scrollUp-2.4.1.js"></script>
     <script src="/3d-party/js/bigSlide-0.12.0.js"></script>
-    <script src="<%= asset_digest_url('/main.js') %>"></script>
+    <script src="<%= digest_url('/main.js') %>"></script>
     <script src="/3d-party/js/modernizr-custom-1.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700i&subset=cyrillic" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css">
@@ -37,10 +37,10 @@
       <link rel="stylesheet" href="/css/contacts.css">
       <link rel="stylesheet" href="/css/about.css">
     <% else %>
-      <link rel="stylesheet" href=<%= asset_digest_url('/css/bundle.css') %>">
+      <link rel="stylesheet" href="<%= digest_url('/css/bundle.css') %>">
     <% end %>
     <% @extra_styles.each do |style| %>
-      <link rel="stylesheet" href="<%= data_digest_url(style) %>">
+      <link rel="stylesheet" href="<%= digest_url(style) %>">
     <% end %>
   </head>
   <body>
