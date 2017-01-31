@@ -7,7 +7,7 @@ $navbar-height: 44px;
 body {
   background-color: #a35555;
   margin-bottom: 50px;
-  background-image: url(/background_red.png);
+  background-image: url(/background_red.png?v=1);
   background-size: 22px 32px;
   font-family: 'Open Sans', sans-serif;
   .container.body {
@@ -212,7 +212,7 @@ nav {
 }
 
 #scrollUp {
-  background-image: url(/to_top.png);
+  background-image: url(/to_top.png?v=1);
   background-size: contain;
   background-repeat: no-repeat;
   height: 44px;

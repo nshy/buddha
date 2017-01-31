@@ -153,14 +153,14 @@
         a:before {
           display: inline-block;
           content: "";
-          background-image: url(/play_video.svg);
+          background-image: url(/play_video.svg?v=1);
           background-repeat: no-repeat;
           height: 11px;
           width: 14px;
           margin: 0px 4px -1px 0px;
         }
         a:hover:before {
-          background-image: url(/play_video_cyan.svg);
+          background-image: url(/play_video_cyan.svg?v=1);
         }
       }
       .date {
@@ -170,14 +170,14 @@
         a.site-button:before {
           display: inline-block;
           content: "";
-          background-image: url(/download.svg);
+          background-image: url(/download.svg?v=1);
           background-repeat: no-repeat;
           height: 14px;
           width: 12px;
           margin: 0px 3px -1px 0px;
         }
         a:hover.site-button:before {
-          background-image: url(/download_white.svg);
+          background-image: url(/download_white.svg?v=1);
         }
         a.site-button {
           .type { font-weight: 400; }
