@@ -103,7 +103,8 @@ module CommonHelpers
     title.downcase.strip.gsub(' ', '-').gsub(/[^\w-]/, '')
   end
 
-  def load_page(path)
+  def load_page(path, url)
+    @url = url
     Tilt.new("data/#{path}").render(self)
   end
 

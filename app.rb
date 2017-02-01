@@ -169,7 +169,7 @@ get '/teachers/:teacher/' do |teacher|
 end
 
 get '/yoga/' do
-  erb "<%= load_page('yoga/page.erb') %>"
+  erb "<%= load_page('yoga/page.erb', '/yoga/') %>"
 end
 
 get /\/(about|teachers|contacts|donations)\// do

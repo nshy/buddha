@@ -23,20 +23,14 @@
       ]
   %>
   <div class="site-tab">
-    <% path = nil %>
+    <% active = nil %>
     <% menu.each do |item| %>
-      <%
-        active = false
-        if request.path == item[:url]
-          active = true
-          path = item[:path]
-        end
-      %>
-      <a class="<%= "active" if active %>"
+      <% active = item if request.path == item[:url] %>
+      <a class="<%= "active" if active == item %>"
          href="<%= item[:url] %>">
          <%= Unicode::upcase(item[:title]) %>
       </a>
     <% end %>
   </div>
-  <%= load_page(path) %>
+  <%= load_page(active[:path], active[:url]) %>
 </div>
