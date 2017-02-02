@@ -109,17 +109,14 @@ module CommonHelpers
   end
 
   def digest_url(url, base = nil, context = nil)
-    return url if @digests.nil?
     full_url = url
     full_url = "#{base}#{url}" if not base.nil?
     output_url = url
     output_url = full_url if not context.nil? and context != base
+    return output_url if @digests.nil?
     sha1 = @digests[full_url]
-    if not sha1.nil?
-      "#{output_url}?sha1=#{sha1}"
-    else
-      output_url
-    end
+    return output_url if sha1.nil?
+    "#{output_url}?sha1=#{sha1}"
   end
 
   def digest_local_url(url)
