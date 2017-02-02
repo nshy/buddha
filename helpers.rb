@@ -124,7 +124,7 @@ module CommonHelpers
   end
 
   def load_digests
-    return nil if not File.exist?('digests.txt')
+    return nil if not File.exist?('digests.txt') or settings.development?
     digests = {}
     File.readlines('digests.txt').each do |line|
       hash, path = line.split(' ')
