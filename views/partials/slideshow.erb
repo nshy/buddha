@@ -3,11 +3,14 @@
     full_path: false,
     sorted: true
   } %>
-  <% each_file("data/#{url}/#{directory}", options) do |name| %>
-    <% if root %>
-      <a href="<%= "#{url}/#{directory}/#{name}" %>"></a>
-    <% else %>
-      <a href="<%= "#{directory}/#{name}" %>"/></a>
-    <% end %>
+  <% each_file("data#{url}#{directory}", options) do |name| %>
+    <%
+      if root
+        href = digest_url("#{url}#{directory}/#{name}")
+      else
+        href = digest_url("#{directory}/#{name}", url)
+      end
+    %>
+    <a href="<%= href %>"></a>
   <% end %>
 </div>
