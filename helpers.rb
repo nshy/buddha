@@ -123,7 +123,7 @@ module CommonHelpers
   end
 
   def digest_local_url(url)
-    digest_url(url, @url)
+    digest_url(url, @url, @context_url)
   end
 
   def load_digests
