@@ -135,6 +135,15 @@ module CommonHelpers
     end
     digests
   end
+
+  def slideshow(dir, url = (@url or '/'), context_url = @context_url)
+    erb :'partials/slideshow',
+        locals: {
+          url: url,
+          context_url: context_url,
+          directory: dir,
+        }
+  end
 end
 
 NewsFormat = {

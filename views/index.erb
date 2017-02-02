@@ -20,11 +20,7 @@
       <a href="/about/">ПОДРОБНЕЕ О ЦЕНТРЕ&nbsp;&rarr;</a>
     </div>
     <div class="slides">
-      <%= erb :'partials/slideshow',
-        locals: { url: '/about/',
-                  directory: 'photos',
-                  root: true
-      } %>
+      <%= slideshow('about/photos') %>
     </div>
   </div> <!-- head -->
   <hr/>

@@ -96,6 +96,7 @@ get '/news' do
   @menu_active = :news
   @extra_styles = @news.map { |n| n[:news].style }
   @extra_styles.compact!
+  @context_url = '/news/'
   erb :'news-index'
 end
 
