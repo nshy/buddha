@@ -108,15 +108,17 @@ module CommonHelpers
     Tilt.new("data/#{path}").render(self)
   end
 
-  def digest_url(url, base = nil)
+  def digest_url(url, base = nil, context = nil)
     return url if @digests.nil?
     full_url = url
     full_url = "#{base}#{url}" if not base.nil?
+    output_url = url
+    output_url = full_url if not context.nil? and context != base
     sha1 = @digests[full_url]
     if not sha1.nil?
-      "#{url}?sha1=#{sha1}"
+      "#{output_url}?sha1=#{sha1}"
     else
-      url
+      output_url
     end
   end
 
