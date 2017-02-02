@@ -9,7 +9,7 @@
 </div>
 <% if banner_active(banner) %>
 <div class="site-baner">
-    <img src="/wheel.png">
+    <img src="<%= digest_url('/wheel.png') %>">
     <div class="message"> <%= banner.message %> </div>
 </div>
 <% end %>

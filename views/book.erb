@@ -12,7 +12,7 @@
   <hr/>
 
   <div class="cover">
-    <img src="<%= "cover-medium.jpg" %>"/>
+    <img src="<%= digest_url('cover-medium.jpg', "/book/#{@book_slug}/") %>"/>
   </div>
   <% # instead of just 'column' to escape bootstrap globals %>
   <div class="info-column">

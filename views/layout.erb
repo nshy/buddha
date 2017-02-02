@@ -47,7 +47,8 @@
     <nav>
       <div class="container">
         <a class="logo" href="/">
-          <img alt="Московский Буддийский Центр Ламы Цонкапы" src="/logo.svg"/>
+          <img alt="Московский Буддийский Центр Ламы Цонкапы"
+               src="<%= digest_url('/logo.svg') %>"/>
         </a>
 
         <div class="links">
@@ -60,7 +61,7 @@
         </div>
 
         <a href="#menu" class="menu-link push">
-          <img alt="Меню" src="/menu.svg"/>
+          <img alt="Меню" src="<%= digest_url('/menu.svg') %>"/>
         </a>
       </div> <%# container %>
     </nav>
