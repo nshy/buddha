@@ -267,7 +267,7 @@ end
 
 module NewsHelpers
   def render_news(news, slug, ext)
-    @url = "/news/#{slug}"
+    @url = "/news/#{slug}/"
     NewsFormat[ext][:render].call(news, slug, self)
   end
 end
