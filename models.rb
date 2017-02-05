@@ -22,7 +22,7 @@ class TeachingsDocument < XDSL::Element
   class Teachings
 
     def begin_date
-      t = theme.min { |a, b| a.begin_date <=> a.begin_date }
+      t = theme.min { |a, b| a.begin_date <=> b.begin_date }
       t.begin_date
     end
 
