@@ -66,13 +66,6 @@ class LibraryDocument < XDSL::Element
   end
 end
 
-class TimeUpdateDocument < XDSL::Element
-  element :update do
-    element :publish_date
-    element :message
-  end
-end
-
 class TimetableDocument < XDSL::Element
   element :banner do
     element :begin, Date
