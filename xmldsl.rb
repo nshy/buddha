@@ -1,66 +1,81 @@
 module XDSL
 
 module ElementClass
+
+  attr_reader :parsers
+
   def element(name, &block)
-    if not block.nil?
-      klass = Class.new(Element)
-      klass.instance_eval(&block)
-      define_method(name) do
-        child = @element.at_xpath(name.to_s)
-        return nil if child.nil?
-        klass.new(child)
-      end
-      const_set(name.capitalize, klass)
+    @parsers ||= {}
+    klass = define_klass(name, &block)
+
+    if not klass.nil?
+      add_parser(name) { |e| klass.new(e) }
     else
-      define_method(name) do
-        e = @element.at_xpath("#{name.to_s}")
-        return nil if e.nil? or e.text.empty?
-        e.text.strip
+      add_parser(name) do |e|
+        t = e.text.strip
+        t.empty? ? nil : t
       end
     end
+
+    add_getter(name)
   end
 
   def elements(name, &block)
-    if not block.nil?
-      klass = Class.new(Element)
-      klass.instance_eval(&block)
-      define_method(name) do
-        ElementSet.new(@element.xpath(name.to_s), klass)
-      end
-      const_set(name.capitalize, klass)
+    @parsers ||= {}
+    klass = define_klass(name, &block)
+
+    if not klass.nil?
+      add_set_parser(name) { |c| klass.new(c) }
     else
-      define_method(name) do
-        @element.xpath("#{name.to_s}").map { |e| e.text }
-      end
+      add_set_parser(name) { |c| c.text }
+    end
+
+    add_getter(name)
+  end
+
+private
+
+  def define_klass(name, &block)
+    return nil if block.nil?
+    klass = Class.new(Element)
+    const_set(name.capitalize, klass)
+    klass.instance_eval(&block)
+    klass
+  end
+
+  def add_getter(name)
+    define_method(name) do
+      @values[name]
     end
   end
+
+  def add_set_parser(name, &block)
+    @parsers[name] = lambda do |element|
+      element.xpath(name.to_s).map { |c| block.call(c) }
+    end
+  end
+
+  def add_parser(name, &block)
+    @parsers[name] = lambda do |element|
+      e = element.at_xpath(name.to_s)
+      e.nil? ? nil : block.call(e)
+    end
+  end
+
 end
 
 class Element
   extend ElementClass
 
+  attr_reader :values
+
   def initialize(element)
-    @element = element
-  end
-end
-
-class ElementSet
-  include Enumerable
-
-  def initialize(set, klass)
-    @set = set
-    @klass = klass
-  end
-
-  def each
-    @set.each do |e|
-      yield @klass.new(e)
+    @values = {}
+    self.class.parsers.each do |name, parser|
+      @values[name] = parser.call(element)
     end
   end
 
-  def size
-    @set.size
-  end
 end
 
 end # module XDSL
