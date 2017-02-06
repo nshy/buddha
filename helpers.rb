@@ -414,9 +414,3 @@ module TimetableHelper
     events_week_partition(week)
   end
 end
-
-module TimeUpdateHelpers
-  def render_changes(message)
-    Asciidoctor.render(message)
-  end
-end
