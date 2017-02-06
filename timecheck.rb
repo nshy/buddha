@@ -8,10 +8,7 @@ if ARGV.size < 1
 end
 year = ARGV[0]
 
-timetable = nil
-File.open('data/timetable/timetable.xml') do |file|
-  timetable = TimetableDocument.new(Nokogiri::XML(file)).timetable
-end
+timetable = TimetableDocument.load('data/timetable/timetable.xml')
 
 date_begin = Date.parse("#{year}-01-01")
 date_end = Date.parse("#{year}-12-31")

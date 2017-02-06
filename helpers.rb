@@ -5,7 +5,7 @@ module TeachingsHelper
       File.open(path) do |file|
         teachings << {
           id: path_to_id(path),
-          document: TeachingsDocument.new(Nokogiri::XML(file)).teachings
+          document: TeachingsDocument.load(file)
         }
       end
     end
@@ -338,10 +338,7 @@ module CategoryHelpers
   def load_categories
     categories = {}
     each_file('data/book-category') do |path|
-      File.open(path) do |file|
-        categories[path_to_id(path)] =
-          BookCategoryDocument.new(Nokogiri::XML(file)).category
-      end
+      categories[path_to_id(path)] = BookCategoryDocument.load(path)
     end
     categories
   end

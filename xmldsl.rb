@@ -1,3 +1,5 @@
+require 'nokogiri'
+
 module XDSL
 
 module ElementClass
@@ -31,6 +33,14 @@ module ElementClass
     end
 
     add_getter(name)
+  end
+
+  def load(path)
+    doc = nil
+    File.open(path) do |file|
+      doc = new(Nokogiri::XML(file).root)
+    end
+    doc
   end
 
 private

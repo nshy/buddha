@@ -30,9 +30,7 @@ I18n.default_locale = :ru
 SiteData = 'data'
 
 before do
-  File.open("data/menu.xml") do |file|
-    @menu = MenuDocument.new(Nokogiri::XML(file)).menu
-  end
+  @menu = MenuDocument.load("data/menu.xml")
   @ya_metrika = SiteConfig::YA_METRIKA
   @extra_styles = []
   @digests = load_digests()
@@ -74,9 +72,7 @@ get '/archive/' do
 end
 
 get '/teachings/:id/' do |id|
-  File.open("data/teachings/#{id}.xml") do |file|
-    @teachings = TeachingsDocument.new(Nokogiri::XML(file)).teachings
-  end
+  @teachings = TeachingsDocument.load("data/teachings/#{id}.xml")
   @teachings_slug = id
   @menu_active = :teachings
   erb :teachings
@@ -110,9 +106,7 @@ get '/news/:id/' do |id|
 end
 
 get '/book/:id/' do |id|
-  File.open("data/book/#{id}/info.xml") do |file|
-    @book = BookDocument.new(Nokogiri::XML(file)).book
-  end
+  @book = BookDocument.load("data/book/#{id}/info.xml")
   @book_slug = id
   @categories = load_categories
   @menu_active = :library
@@ -120,15 +114,11 @@ get '/book/:id/' do |id|
 end
 
 get '/book-category/:id/' do |id|
-  File.open("data/book-category/#{id}.xml") do |file|
-    @category = BookCategoryDocument.new(Nokogiri::XML(file)).category
-  end
+  @category = BookCategoryDocument.load("data/book-category/#{id}.xml")
   @books = {}
   @category.group.each do |group|
     group.book.each do |book|
-      File.open("data/book/#{book}/info.xml") do |file|
-        @books[book] = BookDocument.new(Nokogiri::XML(file)).book
-      end
+      @books[book] = BookDocument.load("data/book/#{book}/info.xml")
     end
   end
   @categories = load_categories
@@ -140,22 +130,16 @@ end
 get '/library/' do
   @categories = load_categories
   @books = {}
-  File.open('data/library.xml') do |file|
-    @library = LibraryDocument.new(Nokogiri::XML(file)).library
-  end
+  @library = LibraryDocument.load('data/library.xml')
   @library.recent.book.each do |book_id|
-    File.open("data/book/#{book_id}/info.xml") do |file|
-      @books[book_id] = BookDocument.new(Nokogiri::XML(file)).book
-    end
+    @books[book_id] = BookDocument.load("data/book/#{book_id}/info.xml")
   end
   @menu_active = :library
   erb :library
 end
 
 get '/timetable' do
-  File.open('data/timetable/timetable.xml') do |file|
-    @timetable = TimetableDocument.new(Nokogiri::XML(file)).timetable
-  end
+  @timetable = TimetableDocument.load('data/timetable/timetable.xml')
   @menu_active = :timetable
   if params[:show] == 'week'
     erb :timetable
@@ -183,12 +167,8 @@ get '/' do
   @news = NewsStore.top(3)
   @extra_styles = @news.map { |n| n[:news].style }
   @extra_styles.compact!
-  File.open('data/timetable/timetable.xml') do |file|
-    @timetable = TimetableDocument.new(Nokogiri::XML(file)).timetable
-  end
-  File.open('data/quotes.xml') do |file|
-    @quotes = QuotesDocument.new(Nokogiri::XML(file)).quotes
-  end
+  @timetable = TimetableDocument.load('data/timetable/timetable.xml')
+  @quotes = QuotesDocument.load('data/quotes.xml')
   @teachings = load_teachings
   erb :index
 end
