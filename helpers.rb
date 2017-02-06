@@ -24,12 +24,12 @@ module TeachingsHelper
   def last_records(teachings)
     docs = teachings.map { |tch| tch[:document] }
     recs = teachings_records(docs)
-    recs.sort_by! { |r| Date.parse(r.record_date) }
+    recs.sort_by! { |r| r.record_date }
     recs.reverse.first(5)
   end
 
   def record_date(record)
-    Date.parse(record.record_date).strftime('%Y.%m.%d')
+    record.record_date.strftime('%Y.%m.%d')
   end
 
   def record_description(record, index)
@@ -416,9 +416,7 @@ module TimetableHelper
 
   def banner_active(banner)
     today = Date.today
-    b = Date.parse(banner.begin)
-    e = Date.parse(banner.end)
-    (b < today) and (today < e)
+    (banner.begin < today) and (today < banner.end)
   end
 end
 

@@ -5,8 +5,7 @@ require_relative 'models'
 def timetable_event_events(timetable, date_begin, date_end)
   events = []
   timetable.event.each do |event|
-    date = Date.parse(event.date)
-    next if date < date_begin or date > date_end
+    next if event.date < date_begin or event.date > date_end
     events << {
       title: event.title,
       begin: DateTime.parse("#{event.date} #{event.begin}"),

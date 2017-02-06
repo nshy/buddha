@@ -6,16 +6,23 @@ module ElementClass
 
   attr_reader :parsers
 
-  def element(name, &block)
+  def element(name, scalar_klass = nil, &block)
     @parsers ||= {}
-    klass = define_klass(name, &block)
 
-    if not klass.nil?
+    if block_given?
+      throw "klass and block cannot be set both" if not scalar_klass.nil?
+      klass = define_klass(name, &block)
       add_parser(name) { |e| klass.new(e) }
     else
       add_parser(name) do |e|
         t = e.text.strip
-        t.empty? ? nil : t
+        if not scalar_klass.nil?
+          scalar_klass.parse(t)
+        elsif not t.empty?
+          t
+        else
+          nil
+        end
       end
     end
 
@@ -24,9 +31,9 @@ module ElementClass
 
   def elements(name, &block)
     @parsers ||= {}
-    klass = define_klass(name, &block)
 
-    if not klass.nil?
+    if block_given?
+      klass = define_klass(name, &block)
       add_set_parser(name) { |c| klass.new(c) }
     else
       add_set_parser(name) { |c| c.text }
@@ -46,7 +53,6 @@ module ElementClass
 private
 
   def define_klass(name, &block)
-    return nil if block.nil?
     klass = Class.new(Element)
     const_set(name.capitalize, klass)
     klass.instance_eval(&block)

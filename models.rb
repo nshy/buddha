@@ -1,4 +1,5 @@
 require_relative 'xmldsl'
+require 'date'
 
 class TeachingsDocument < XDSL::Element
   element :title
@@ -8,7 +9,7 @@ class TeachingsDocument < XDSL::Element
     element :buddha_node
     elements :record do
       element :description
-      element :record_date
+      element :record_date, Date
       element :audio_url
       element :audio_size
       element :video_url
@@ -24,10 +25,8 @@ class TeachingsDocument < XDSL::Element
 
   class Theme
     def begin_date
-      r = record.min do |a, b|
-        Date.parse(a.record_date) <=> Date.parse(b.record_date)
-      end
-      Date.parse(r.record_date)
+      r = record.min { |a, b| a.record_date <=> b.record_date }
+      r.record_date
     end
   end
 end
@@ -76,14 +75,14 @@ end
 
 class TimetableDocument < XDSL::Element
   element :banner do
-    element :begin
-    element :end
+    element :begin, Date
+    element :end, Date
     element :message
   end
   element :annual
   elements :event do
     element :title
-    element :date
+    element :date, Date
     element :begin
     element :end
     element :cancel
