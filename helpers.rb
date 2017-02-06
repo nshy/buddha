@@ -413,11 +413,6 @@ module TimetableHelper
     week = timetable_events(timetable, week.monday, week.sunday)
     events_week_partition(week)
   end
-
-  def banner_active(banner)
-    today = Date.today
-    (banner.begin < today) and (today < banner.end)
-  end
 end
 
 module TimeUpdateHelpers

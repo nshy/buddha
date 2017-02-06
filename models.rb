@@ -91,6 +91,13 @@ class TimetableDocument < XDSL::Element
     elements :cancel
     elements :date
   end
+
+  class Banner
+    def active?
+      today = Date.today
+      self.begin < today and today < self.end
+    end
+  end
 end
 
 class MenuDocument < XDSL::Element
