@@ -12,22 +12,6 @@ module TeachingsHelper
     teachings
   end
 
-  def teachings_records(docs)
-    r = docs.map do |tch|
-      r = tch.theme.map do |thm|
-        thm.record.map { |rc| rc }
-      end
-    end
-    r.flatten
-  end
-
-  def last_records(teachings)
-    docs = teachings.map { |tch| tch[:document] }
-    recs = teachings_records(docs)
-    recs.sort_by! { |r| r.record_date }
-    recs.reverse.first(5)
-  end
-
   def record_date(record)
     record.record_date.strftime('%Y.%m.%d')
   end

@@ -9,5 +9,7 @@ gem 'rest-client'
 gem 'preamble'
 gem 'unicode'
 gem 'russian'
+gem 'sqlite3'
+gem 'sequel'
 
 gem 'sinatra-contrib'

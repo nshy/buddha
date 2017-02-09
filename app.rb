@@ -11,10 +11,13 @@ require 'sinatra/capture'
 require 'set'
 require 'yaml'
 
+DB = Sequel.connect('sqlite://site.db')
+
 require_relative 'models'
 require_relative 'toc'
 require_relative 'timetable'
 require_relative 'helpers'
+require_relative 'cache'
 
 set :show_exceptions, false
 set :bind, '0.0.0.0'
@@ -66,7 +69,7 @@ get /.+\.(doc|pdf)/ do
 end
 
 get '/archive/' do
-  @teachings = load_teachings
+  @teachings = Cache.archive
   @menu_active = :teachings
   erb :'archive'
 end
@@ -169,6 +172,6 @@ get '/' do
   @extra_styles.compact!
   @timetable = TimetableDocument.load('data/timetable/timetable.xml')
   @quotes = QuotesDocument.load('data/quotes.xml')
-  @teachings = load_teachings
+  @records = Cache.last_records()
   erb :index
 end
