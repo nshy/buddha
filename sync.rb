@@ -5,31 +5,44 @@ require_relative 'convert'
 
 include CommonHelpers
 
-DB.create_table :disk_teachings, temp: true do
+DB.create_table :disk_state, temp: true do
   primary_key :id
   String :url, null: false, unique: true
   DateTime :last_modified , null: false
 end
 
-on_disk = DB[:disk_teachings]
-each_file('data/teachings', sorted: true) do |path|
-  on_disk.insert(url: path_to_id(path), last_modified: File.mtime(path))
-end
-
-updated = on_disk.join_table(:left, :teachings, url: :url).
-            where{teachings__last_modified < disk_teachings__last_modified}.
-              select(:teachings__url)
-
-deleted = DB[:teachings].join_table(:left, :disk_teachings, url: :url).
-            where(disk_teachings__url: nil).select(:teachings__url)
-
-added = on_disk.join_table(:left, :teachings, url: :url).
-          where(teachings__url: nil).select(:disk_teachings__url)
-
 def result_values(set)
   set.to_a.map { |v| v[:url] }
 end
 
-update_teachings(result_values(updated),
-                 result_values(added),
-                 result_values(deleted))
+def add_disk_state(url, mtime)
+  DB[:disk_state].insert(url: url, last_modified: mtime)
+end
+
+def find_modifications(table)
+  updated = DB[:disk_state].join_table(:left, table, url: :url).
+              where{ Sequel[table][:last_modified] <
+                     Sequel[:disk_state][:last_modified] }.
+                select(Sequel[table][:url])
+
+  deleted = DB[table].join_table(:left, :disk_state, url: :url).
+              where(Sequel[:disk_state][:url] => nil).
+                select(Sequel[table][:url])
+
+  added = DB[:disk_state].join_table(:left, table, url: :url).
+            where(Sequel[table][:url] => nil).select(Sequel[:disk_state][:url])
+
+  yield(result_values(updated),
+        result_values(added),
+        result_values(deleted))
+end
+
+# --------------------- teachings --------------------------
+
+each_file('data/teachings', sorted: true) do |path|
+  add_disk_state(path_to_id(path), File.mtime(path))
+end
+
+find_modifications(:teachings) do |updated, added, deleted|
+  update_teachings(updated, added, deleted)
+end
