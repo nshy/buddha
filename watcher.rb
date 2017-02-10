@@ -16,7 +16,7 @@ listener = Listen.to('data/teachings',
   update_table(:teachings,
                convert_paths(updated),
                convert_paths(added),
-               convert_paths(deleted)) { |url| load_teachings_url(url) }
+               convert_paths(deleted)) { |url| load_teachings(url) }
 end
 
 listener.start

@@ -26,11 +26,12 @@ end
 
 # --------------------- teachings --------------------------
 
-def load_teachings(path)
+def load_teachings(url)
+  path = "data/teachings/#{url}.xml"
   teachings = TeachingsDocument.load(path)
 
   id = DB[:teachings].insert(title: teachings.title,
-                             url: path_to_id(path),
+                             url: url,
                              last_modified: File.mtime(path))
 
   teachings.theme.each do |theme|
@@ -47,8 +48,4 @@ def load_teachings(path)
                           theme_id: theme_id)
     end
   end
-end
-
-def load_teachings_url(url)
-  load_teachings("data/teachings/#{url}.xml")
 end

@@ -44,4 +44,4 @@ each_file('data/teachings', sorted: true) do |path|
   add_disk_state(path_to_id(path), File.mtime(path))
 end
 
-sync_table(:teachings) { |url| load_teachings_url(url) }
+sync_table(:teachings) { |url| load_teachings(url) }
