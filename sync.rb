@@ -19,7 +19,7 @@ def add_disk_state(url, mtime)
   DB[:disk_state].insert(url: url, last_modified: mtime)
 end
 
-def find_modifications(table)
+def sync_table(table, &block)
   updated = DB[:disk_state].join_table(:left, table, url: :url).
               where{ Sequel[table][:last_modified] <
                      Sequel[:disk_state][:last_modified] }.
@@ -32,9 +32,10 @@ def find_modifications(table)
   added = DB[:disk_state].join_table(:left, table, url: :url).
             where(Sequel[table][:url] => nil).select(Sequel[:disk_state][:url])
 
-  yield(result_values(updated),
-        result_values(added),
-        result_values(deleted))
+  update_table(table,
+               result_values(updated),
+               result_values(added),
+               result_values(deleted)) { |url| block.call(url) }
 end
 
 # --------------------- teachings --------------------------
@@ -43,6 +44,4 @@ each_file('data/teachings', sorted: true) do |path|
   add_disk_state(path_to_id(path), File.mtime(path))
 end
 
-find_modifications(:teachings) do |updated, added, deleted|
-  update_teachings(updated, added, deleted)
-end
+sync_table(:teachings) { |url| load_teachings_url(url) }

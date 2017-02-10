@@ -33,22 +33,19 @@ def print_modification(type, set)
   set.each { |url| puts "  #{url}" }
 end
 
-def load_teachings_set(urls)
-  urls.each { |url| load_teachings("data/teachings/#{url}.xml") }
+def load_teachings_url(url)
+  load_teachings("data/teachings/#{url}.xml")
 end
 
-def update_teachings(updated, added, deleted)
+def update_table(table, updated, added, deleted)
   b = Time.new
 
   print_modification('DELETED', deleted)
-  DB[:teachings].where('url IN ?', deleted).delete
-
   print_modification('ADDED', added)
-  load_teachings_set(added)
-
   print_modification('UPDATED', updated)
-  DB[:teachings].where('url IN ?', updated).delete
-  load_teachings_set(updated)
+
+  DB[table].where('url IN ?', deleted + updated).delete
+  (added + updated).each { |url| yield url }
 
   e = Time.new
   puts "sync time is #{((e - b) * 1000).to_i}ms"
