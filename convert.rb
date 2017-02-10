@@ -4,6 +4,28 @@ require 'sequel'
 DB = Sequel.connect('sqlite://site.db')
 DB.run('pragma synchronous = off')
 
+def print_modification(type, set)
+  return if set.empty?
+  puts type
+  set.each { |url| puts "  #{url}" }
+end
+
+def update_table(table, updated, added, deleted)
+  b = Time.new
+
+  print_modification('DELETED', deleted)
+  print_modification('ADDED', added)
+  print_modification('UPDATED', updated)
+
+  DB[table].where('url IN ?', deleted + updated).delete
+  (added + updated).each { |url| yield url }
+
+  e = Time.new
+  puts "sync time is #{((e - b) * 1000).to_i}ms"
+end
+
+# --------------------- teachings --------------------------
+
 def load_teachings(path)
   teachings = TeachingsDocument.load(path)
 
@@ -27,26 +49,6 @@ def load_teachings(path)
   end
 end
 
-def print_modification(type, set)
-  return if set.empty?
-  puts type
-  set.each { |url| puts "  #{url}" }
-end
-
 def load_teachings_url(url)
   load_teachings("data/teachings/#{url}.xml")
-end
-
-def update_table(table, updated, added, deleted)
-  b = Time.new
-
-  print_modification('DELETED', deleted)
-  print_modification('ADDED', added)
-  print_modification('UPDATED', updated)
-
-  DB[table].where('url IN ?', deleted + updated).delete
-  (added + updated).each { |url| yield url }
-
-  e = Time.new
-  puts "sync time is #{((e - b) * 1000).to_i}ms"
 end
