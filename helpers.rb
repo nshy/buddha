@@ -67,15 +67,6 @@ module CommonHelpers
     path.gsub(/^[^.]+\./, '')
   end
 
-  def render_adoc(adoc, imagesdir = nil)
-    attr = {
-      'icons' => 'true',
-      'iconsdir' => '/icons',
-      'imagesdir' => imagesdir
-    }
-    Asciidoctor.render(adoc, attributes: attr)
-  end
-
   def yandex_money_url(target, title, sum, redirect)
     r = /[^a-zA-Z0-9*-._]/
     link = "#{SiteConfig::DOMAIN}#{redirect}"
