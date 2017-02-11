@@ -63,6 +63,10 @@ module CommonHelpers
     File.basename(path).gsub(/\.[^.]+$/, '')
   end
 
+  def path_to_ext(path)
+    path.gsub(/^[^.]+\./, '')
+  end
+
   def render_adoc(adoc, imagesdir = nil)
     attr = {
       'icons' => 'true',
