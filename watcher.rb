@@ -6,18 +6,33 @@ require_relative 'helpers'
 
 include CommonHelpers
 
-def convert_paths(paths)
-  paths.map { |p| path_to_id(p) }
+def convert_paths(paths, to_url)
+  paths.map { |p| to_url.call(p) }
 end
 
-listener = Listen.to('data/teachings',
-                       only: /.xml$/,
-                       relative: true) do |updated, added, deleted|
-  update_table(:teachings,
-               convert_paths(updated),
-               convert_paths(added),
-               convert_paths(deleted)) { |url| load_teachings(url) }
+Listeners = []
+def listen(table, path, only, to_url, loader)
+  Listeners << Listen.to(path,
+                         only: only,
+                         relative: true) do |updated, added, deleted|
+    update_table(table,
+                 convert_paths(updated, to_url),
+                 convert_paths(added, to_url),
+                 convert_paths(deleted, to_url)) { |url| loader.call(url) }
+  end
 end
 
-listener.start
-sleep
+def start
+  Listeners.each { |l| l.start }
+  sleep
+end
+
+# --------------------- teachings --------------------------
+
+listen(:teachings,
+       'data/teachings',
+       /.xml$/,
+       method(:path_to_id),
+       method(:load_teachings))
+
+start
