@@ -60,7 +60,7 @@ module CommonHelpers
   end
 
   def path_to_id(path)
-    File.basename(path).gsub(/.xml$/, '')
+    File.basename(path).gsub(/\.[^.]+$/, '')
   end
 
   def render_adoc(adoc, imagesdir = nil)
