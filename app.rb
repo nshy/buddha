@@ -69,7 +69,7 @@ get /.+\.(doc|pdf)/ do
 end
 
 get '/archive/' do
-  @teachings = Cache.archive
+  @teachings = Cache::Teaching.archive
   @menu_active = :teachings
   erb :'archive'
 end
@@ -168,6 +168,6 @@ get '/' do
   @extra_styles.compact!
   @timetable = TimetableDocument.load('data/timetable/timetable.xml')
   @quotes = QuotesDocument.load('data/quotes.xml')
-  @records = Cache.last_records()
+  @records = Cache::Record.latest(5)
   erb :index
 end

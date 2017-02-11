@@ -31,6 +31,10 @@ class Teaching < Sequel::Model(:archive_teachings)
   def date
     Date.parse(begin_date())
   end
+
+  def Teaching.archive()
+    eager(:themes).all
+  end
 end
 
 class Theme < Sequel::Model(:archive_themes)
@@ -40,15 +44,12 @@ class Theme < Sequel::Model(:archive_themes)
 end
 
 class Record < Sequel::Model
+
+  def Record.latest(num)
+    order(:record_date).reverse.limit(num).all
+  end
 end
 
-def Cache.archive()
-  Teaching.eager(:themes).all
-end
-
-def Cache.last_records()
-  Record.order(:record_date).reverse.limit(5).all
-end
 
 # --------------------- news --------------------------
 #
