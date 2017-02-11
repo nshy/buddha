@@ -125,22 +125,13 @@ end
 module NewsHelpers
   def render_news(news, cut)
     renders = {
-      adoc: lambda { |doc, id, context|
-        attr = {
-          'icons' => 'true',
-          'iconsdir' => '/icons',
-          'imagesdir' => "news/#{id}"
-        }
-        Asciidoctor.render(doc, attributes: attr)
-      },
-      html: lambda { |doc, id, context| doc },
-      erb: lambda { |doc, id, context|
-          Tilt::ERBTemplate.new { doc }.render(context)
-      }
+      adoc: lambda { |doc, context| Asciidoctor.render(doc) },
+      html: lambda { |doc, context| doc },
+      erb:  lambda { |doc, context| Tilt::ERBTemplate.new { doc }.render(context) }
     }
     @url = "/news/#{news.url}/"
     doc = cut ? news.cut : news.body
-    renders[news.ext.to_sym].call(doc, news.url, self)
+    renders[news.ext.to_sym].call(doc, self)
   end
 end
 
