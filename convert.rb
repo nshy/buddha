@@ -1,5 +1,6 @@
 require_relative 'models'
 require 'sequel'
+require 'preamble'
 
 DB = Sequel.connect('sqlite://site.db')
 DB.run('pragma synchronous = off')
@@ -48,4 +49,45 @@ def load_teachings(url)
                           theme_id: theme_id)
     end
   end
+end
+
+# --------------------- news --------------------------
+
+NewsExt = [:adoc, :html, :erb]
+
+def find_file(dir, name)
+  paths = NewsExt.map { |ext| "#{dir}/#{name}.#{ext}" }
+  paths.find { |path| File.exists?(path) }
+end
+
+def load_news(url)
+  is_dir = false
+  path = find_file('data/news', url)
+  if path.nil?
+    is_dir = true
+    path = find_file("data/news/#{url}", 'page')
+  end
+
+  html_cutter = /<!--[\t ]*page-cut[\t ]*-->.*/m
+  cutters = {
+    adoc: /^<<<$.*/m,
+    html: html_cutter,
+    erb: html_cutter
+  }
+
+  ext = path_to_ext(path)
+  doc = Preamble.load(path)
+  body = doc.content
+  cut = body.gsub(cutters[ext.to_sym], '')
+  cut = nil if cut == body
+
+  DB[:news].insert(date: Date.parse(doc.metadata['publish_date']),
+                   title: doc.metadata['title'],
+                   url: url,
+                   cut: cut,
+                   body: body,
+                   ext: ext,
+                   is_dir: is_dir,
+                   buddha_node: doc.metadata['buddha_node'],
+                   last_modified: File.mtime(path))
 end

@@ -46,3 +46,18 @@ each_file('data/teachings', sorted: true) do |path|
 end
 
 sync_table(:teachings) { |url| load_teachings(url) }
+
+# --------------------- news --------------------------
+
+each_file('data/news', sorted: true) do |path|
+  if File.directory?(path)
+    page = find_file(path, 'page')
+    next if page.nil?
+  else
+    next if not NewsExt.include?(path_to_ext(path).to_sym)
+    page = path
+  end
+  add_disk_state(path_to_id(path), File.mtime(page))
+end
+
+sync_table(:news) { |url| load_news(url) }

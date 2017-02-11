@@ -35,4 +35,16 @@ listen(:teachings,
        method(:path_to_id),
        method(:load_teachings))
 
+# --------------------- news --------------------------
+
+def news_path_url(path)
+  path_to_id(Pathname.new(path).each_filename.to_a[2])
+end
+
+listen(:news,
+       'data/news',
+       /.(adoc|erb|html)$/,
+       method(:news_path_url),
+       method(:load_news))
+
 start

@@ -21,6 +21,8 @@ DB.create_view(:archive_themes, themes, temp: true)
 
 module Cache
 
+# --------------------- teachings --------------------------
+
 class Teaching < Sequel::Model(:archive_teachings)
   set_primary_key :id
 
@@ -48,5 +50,41 @@ def Cache.last_records()
   Record.order(:record_date).reverse.limit(5).all
 end
 
+# --------------------- news --------------------------
+#
+class News < Sequel::Model
+  alias_method :cut_plain, :cut
+
+  def style
+    return nil if not is_dir
+    path = "data/news/#{url}/style.css"
+    return nil if not File.exists?(path)
+    "/news/#{url}/style.css"
+  end
+
+  def has_more
+    not cut_plain.nil?
+  end
+
+  def cut
+    cut_plain.nil? ? body : cut_plain
+  end
+
+  def News.years
+    select{strftime('%Y', date).as(:year)}.distinct.map(:year).reverse
+  end
+
+  def News.latest(num)
+    order(:date).limit(num).reverse.all
+  end
+
+  def News.by_url(url)
+    where(url: url).first
+  end
+
+  def News.by_year(year)
+    where{{strftime('%Y', date) => year}}.order(:date).reverse.all
+  end
 end
 
+end

@@ -52,8 +52,8 @@
       </div>
       <div class="feed">
         <% @news.each do |row| %>
-          <%= erb :'partials/news', locals: { slug: row[:slug],
-                                              news: row[:news],
+          <%= erb :'partials/news', locals: { slug: row.url,
+                                              news: row,
                                               index: true } %>
           <hr/>
         <% end %>

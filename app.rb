@@ -81,26 +81,23 @@ get '/teachings/:id/' do |id|
   erb :teachings
 end
 
-NewsStore = News.new("data/news")
-
 get '/news' do
   @params = params
-  NewsStore.load
   if params['top'] == 'true'
-    @news = NewsStore.top(10)
+    @news = Cache::News.latest(10)
   else
-    @news = NewsStore.by_year(params['year'].to_i)
+    @news = Cache::News.by_year(params['year'])
   end
-  @years = NewsStore.years
+  @years = Cache::News.years
   @menu_active = :news
-  @extra_styles = @news.map { |n| n[:news].style }
+  @extra_styles = @news.map { |n| n.style }
   @extra_styles.compact!
   @context_url = '/news/'
   erb :'news-index'
 end
 
 get '/news/:id/' do |id|
-  @news = NewsStore.find(id)
+  @news = Cache::News.by_url(id)
   @extra_styles = [ @news.style ]
   @extra_styles.compact!
   @slug = id
@@ -166,9 +163,8 @@ get /\/(about|teachers|contacts|donations)\// do
 end
 
 get '/' do
-  NewsStore.load
-  @news = NewsStore.top(3)
-  @extra_styles = @news.map { |n| n[:news].style }
+  @news = Cache::News.latest(3)
+  @extra_styles = @news.map { |n| n.style }
   @extra_styles.compact!
   @timetable = TimetableDocument.load('data/timetable/timetable.xml')
   @quotes = QuotesDocument.load('data/quotes.xml')

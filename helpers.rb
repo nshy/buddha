@@ -131,140 +131,24 @@ module CommonHelpers
   end
 end
 
-NewsFormat = {
-  adoc: {
-    cutter: /^<<<$.*/m,
-    render: lambda { |doc, id, context|
-      attr = {
-        'icons' => 'true',
-        'iconsdir' => '/icons',
-        'imagesdir' => "news/#{id}"
-      }
-      Asciidoctor.render(doc, attributes: attr)
-    }
-  },
-  html: {
-    cutter: /<!--[\t ]*page-cut[\t ]*-->.*/m,
-    render: lambda { |doc, id, context| doc }
-  },
-  erb: {
-    cutter: /<!--[\t ]*page-cut[\t ]*-->.*/m,
-    render: lambda { |doc, id, context|
-      Tilt::ERBTemplate.new { doc }.render(context)
-    }
-  }
-}
-
-class News
-  DIR_PAGE = 'page'
-  FILE_REGEXP = /^([\w_-]+)\.([[:alnum:]]+)$/
-
-  include CommonHelpers
-
-  attr_reader :news_dir
-
-  def initialize(news_dir)
-    @news_dir = news_dir
-  end
-
-  def find(id)
-    id_dir = "#{@news_dir}/#{id}"
-    is_dir = File.directory?(id_dir)
-    if is_dir
-      path = find_file(id_dir, DIR_PAGE)
-    else
-      path = find_file(@news_dir, id)
-    end
-    return nil if path.nil?
-    NewsDocument.new(id, path, is_dir)
-  end
-
-  def load()
-    @news = []
-    each_file(@news_dir) do |item|
-      is_dir = File.directory?(item)
-      if is_dir
-        id = File.basename(item)
-        path = find_file("#{@news_dir}/#{id}", DIR_PAGE)
-        next if path.nil?
-      else
-        m = FILE_REGEXP.match(File.basename(item))
-        next if m.nil?
-        id = m[1]
-        path = item
-      end
-      @news << {
-        slug: id,
-        news: NewsDocument.new(id, path, is_dir)
-      }
-    end
-    @news.sort! do |a, b|
-      b[:news].date <=> a[:news].date
-    end
-  end
-
-  def top(n)
-    @news.first(n)
-  end
-
-  def by_year(year)
-    @news.select do |n|
-      n[:news].date.year == year
-    end
-  end
-
-  def years()
-    @news.collect { |news| news[:news].date.year }.uniq
-  end
-
-private
-
-  def find_file(dir, name)
-    paths = NewsFormat.keys.map { |ext| "#{dir}/#{name}.#{ext}" }
-    paths.find { |path| File.exists?(path) }
-  end
-
-end
-
-
-class NewsDocument
-  attr_reader :has_more, :cut, :date, :ext, :is_dir
-
-  def initialize(id, path, is_dir)
-    @ext = News::FILE_REGEXP.match(File.basename(path))[2].to_sym
-    @doc = Preamble.load(path)
-    @content = @doc.content
-    @cut = @doc.content.gsub(NewsFormat[@ext][:cutter], '')
-    @has_more = @cut != @content
-    @date = Date.parse(@doc.metadata['publish_date'])
-    @is_dir = is_dir
-    @id = id
-  end
-
-  def title
-    @doc.metadata['title']
-  end
-
-  def buddha_node
-    @doc.metadata['buddha_node']
-  end
-
-  def style
-    return nil if not @is_dir
-    path = "#{NewsStore.news_dir}/#{@id}/style.css"
-    return nil if not File.exists?(path)
-    "/news/#{@id}/style.css"
-  end
-
-  def body
-    @content
-  end
-end
-
 module NewsHelpers
   def render_news(news, slug, ext)
+    renders = {
+      adoc: lambda { |doc, id, context|
+        attr = {
+          'icons' => 'true',
+          'iconsdir' => '/icons',
+          'imagesdir' => "news/#{id}"
+        }
+        Asciidoctor.render(doc, attributes: attr)
+      },
+      html: lambda { |doc, id, context| doc },
+      erb: lambda { |doc, id, context|
+          Tilt::ERBTemplate.new { doc }.render(context)
+      }
+    }
     @url = "/news/#{slug}/"
-    NewsFormat[ext][:render].call(news, slug, self)
+    renders[ext.to_sym].call(news, slug, self)
   end
 end
 
