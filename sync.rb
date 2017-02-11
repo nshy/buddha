@@ -36,6 +36,7 @@ def sync_table(table, &block)
                result_values(updated),
                result_values(added),
                result_values(deleted)) { |url| block.call(url) }
+  DB[:disk_state].delete
 end
 
 # --------------------- teachings --------------------------
