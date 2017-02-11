@@ -100,7 +100,6 @@ get '/news/:id/' do |id|
   @news = Cache::News.by_url(id)
   @extra_styles = [ @news.style ]
   @extra_styles.compact!
-  @slug = id
   @menu_active = :news
   erb :'news-single'
 end

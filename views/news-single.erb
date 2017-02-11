@@ -4,7 +4,6 @@
       &larr; ДРУГИЕ НОВОСТИ <%= @news.date.year %> ГОДА
     </a>
   </div>
-  <%= erb :'partials/news', locals: { slug: @slug,
-                                      news: @news,
+  <%= erb :'partials/news', locals: { news: @news,
                                       index: false } %>
 </div>

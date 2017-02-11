@@ -132,7 +132,7 @@ module CommonHelpers
 end
 
 module NewsHelpers
-  def render_news(news, slug, ext)
+  def render_news(news, cut)
     renders = {
       adoc: lambda { |doc, id, context|
         attr = {
@@ -147,8 +147,9 @@ module NewsHelpers
           Tilt::ERBTemplate.new { doc }.render(context)
       }
     }
-    @url = "/news/#{slug}/"
-    renders[ext.to_sym].call(news, slug, self)
+    @url = "/news/#{news.url}/"
+    doc = cut ? news.cut : news.body
+    renders[news.ext.to_sym].call(doc, news.url, self)
   end
 end
 

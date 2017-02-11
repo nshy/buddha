@@ -10,9 +10,9 @@
     <%= news.title %>
   </div>
   <div class="body">
-    <%= render_news(index ? news.cut : news.body, slug, news.ext) %>
+    <%= render_news(news, index) %>
   </div>
   <% if index and news.has_more %>
-    <a class="site-button" href="<%= "news/#{slug}/" %>"> Подробнее </a>
+    <a class="site-button" href="<%= "news/#{news.url}/" %>"> Подробнее </a>
   <% end %>
 </div>

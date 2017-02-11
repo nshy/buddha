@@ -15,15 +15,13 @@
         </div>
       <% end %>
     </div>
-    <%= erb :'partials/news', locals: { slug: first.url,
-                                        news: first,
+    <%= erb :'partials/news', locals: { news: first,
                                         index: true } %>
     <hr/>
   </div>
   <div class="feed">
     <% @news.each do |row| %>
-      <%= erb :'partials/news', locals: { slug: row.url,
-                                          news: row,
+      <%= erb :'partials/news', locals: { news: row,
                                           index: true } %>
       <hr/>
     <% end %>
