@@ -25,6 +25,44 @@ def update_table(table, updated, added, deleted)
   puts "sync time is #{((e - b) * 1000).to_i}ms"
 end
 
+DB.create_table :time_clamper, temp: true do
+  DateTime :time
+end
+DB[:time_clamper].insert(time: nil)
+
+def clamp_time(time)
+  DB[:time_clamper].update(time: time)
+  DB[:time_clamper].first[:time]
+end
+
+def sync_root_table(table, file, &block)
+  itemdb = DB[:root_docs].where(url: file)
+  item = itemdb.first
+  if File.exists?(file)
+    mtime = clamp_time(File.mtime(file))
+    if item.nil?
+      # add
+      puts "A #{file}"
+      DB[:root_docs].insert(url: file, last_modified: mtime)
+      block.call
+      return
+    end
+
+    return if mtime <= item[:last_modified]
+    # update
+    puts "U #{file}"
+    DB[table].delete
+    block.call
+    itemdb.update(last_modified: mtime)
+  elsif not item.nil?
+    puts "D #{file}"
+    # delete
+    itemdb.delete
+    DB[table].delete
+  end
+end
+
+
 # --------------------- teachings --------------------------
 
 def load_teachings(url)
