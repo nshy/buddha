@@ -105,34 +105,20 @@ get '/news/:id/' do |id|
 end
 
 get '/book/:id/' do |id|
-  @book = BookDocument.load("data/book/#{id}/info.xml")
-  @book_slug = id
-  @categories = load_categories
+  @book = Cache::Book.find(id)
   @menu_active = :library
   erb :book
 end
 
 get '/book-category/:id/' do |id|
-  @category = BookCategoryDocument.load("data/book-category/#{id}.xml")
-  @books = {}
-  @category.group.each do |group|
-    group.book.each do |book|
-      @books[book] = BookDocument.load("data/book/#{book}/info.xml")
-    end
-  end
-  @categories = load_categories
-  @id = id
+  @category = Cache::Category.find(id)
   @menu_active = :library
   erb :'book-category'
 end
 
 get '/library/' do
-  @categories = load_categories
-  @books = {}
-  @library = LibraryDocument.load('data/library.xml')
-  @library.recent.book.each do |book_id|
-    @books[book_id] = BookDocument.load("data/book/#{book_id}/info.xml")
-  end
+  @sections = Cache::Section.all
+  @books = Cache::Book.recent(5)
   @menu_active = :library
   erb :library
 end

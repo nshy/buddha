@@ -137,7 +137,7 @@ end
 
 module BookHelpers
   def variable_row(name, value)
-    return if value.nil? or value.empty?
+    return if value.nil?
     erb :'partials/variable_row', locals: { name: name, value: value }
   end
 
@@ -179,8 +179,8 @@ module BookHelpers
     r.keys
   end
 
-  def book_thumb(id, book)
-    erb :'partials/book_thumb', locals: { id: id, book: book }
+  def book_thumb(book)
+    erb :'partials/book_thumb', locals: { book: book }
   end
 end
 

@@ -59,4 +59,20 @@ listen(:news,
        method(:resource_path_url),
        method(:load_news))
 
+# --------------------- library --------------------------
+
+listen(:books,
+       'data/book/',
+       /info.xml$/,
+       method(:resource_path_url),
+       method(:load_books))
+
+listen(:book_categories,
+       'data/book-category/',
+       /.xml$/,
+       method(:resource_path_url),
+       method(:load_book_categories))
+
+listen_root(:top_categories, 'data/library.xml') { load_library() }
+
 start

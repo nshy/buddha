@@ -129,3 +129,61 @@ def load_news(url)
                    buddha_node: doc.metadata['buddha_node'],
                    last_modified: File.mtime(path))
 end
+
+# --------------------- books --------------------------
+
+def load_books(url)
+  path = "data/book/#{url}/info.xml"
+  book = BookDocument.load(path)
+
+  DB[:books].insert(title: book.title,
+                    authors: book.author.join(', '),
+                    translators: book.translator.join(', '),
+                    year: book.year,
+                    isbn: book.isbn,
+                    publisher: book.publisher,
+                    amount: book.amount,
+                    annotation: book.annotation,
+                    contents: book.contents,
+                    outer_id: book.outer_id,
+                    added: book.added,
+                    url: url,
+                    last_modified: File.mtime(path))
+end
+
+def load_book_categories(url)
+  path = "data/book-category/#{url}.xml"
+  category = BookCategoryDocument.load(path)
+
+  DB[:book_categories].
+    insert(name: category.name,
+           url: url,
+           last_modified: File.mtime(path))
+
+  category.group.each do |group|
+    group.book.each do |book|
+      DB[:category_books].
+        insert(group: group.name,
+               book_id: book,
+               category_id: url)
+    end
+  end
+
+  category.subcategory.each do |subcategory|
+    DB[:category_subcategories].
+      insert(category_id: url,
+             subcategory_id: subcategory)
+  end
+end
+
+def load_library()
+  library = LibraryDocument.load('data/library.xml')
+
+  library.section.each do |section|
+    section.category.each do |category|
+      DB[:top_categories].
+        insert(section: section.name,
+               category_id: category)
+    end
+  end
+end

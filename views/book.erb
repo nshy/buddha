@@ -12,15 +12,15 @@
   <hr/>
 
   <div class="cover">
-    <img src="<%= digest_url('cover-medium.jpg', "/book/#{@book_slug}/") %>"/>
+    <img src="<%= digest_url('cover-medium.jpg', "/book/#{@book.url}/") %>"/>
   </div>
   <% # instead of just 'column' to escape bootstrap globals %>
   <div class="info-column">
     <div class="info">
       <% # instead of just 'info' to escape bootstrap globals %>
       <div class="info-table">
-        <%= variable_row 'Автор', comma_present(@book.author) %>
-        <%= variable_row 'Переводчик', comma_present(@book.translator) %>
+        <%= variable_row 'Автор', @book.authors %>
+        <%= variable_row 'Переводчик', @book.translators %>
         <%= variable_row 'Год', @book.year %>
         <%= variable_row 'ISBN', @book.isbn %>
         <%= variable_row 'Издательство', @book.publisher %>
@@ -33,12 +33,11 @@
     <div class="categories">
       <div class="title">В категориях:</div>
       <div class="content">
-        <% book_categories(@categories, @book_slug).each do |id| %>
+        <% @book.categories.each do |category| %>
           <div class="item">
             <%= erb :'partials/category_link',
                 locals: {
-                  categories: @categories,
-                  category: id,
+                  category: category,
                   upcase: true
                 } %>
           </div>

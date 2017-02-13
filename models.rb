@@ -41,6 +41,7 @@ class BookDocument < XDSL::Element
   element :amount
   element :annotation
   element :contents
+  element :added
   element :outer_id
 end
 

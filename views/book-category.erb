@@ -7,16 +7,16 @@
       <a href="/library/"> &larr; БИБЛИОТЕКА </a>
     </div>
   </div>
+  <% books_by_group = @category.books_by_group %>
   <div class="menu">
-    <% if not category_categories(@categories, @id).empty? %>
+    <% if not @category.parents.empty? %>
       <div class="section">
         <div class="title">В категориях</div>
-          <% category_categories(@categories, @id).each do |id| %>
+          <% @category.parents.each do |category| %>
             <div class="item">
               <%= erb :'partials/category_link',
                   locals: {
-                    categories: @categories,
-                    category: id,
+                    category: category,
                     upcase: true
                   } %>
             </div>
@@ -24,15 +24,14 @@
       </div>
       <hr/>
     <% end %>
-    <% if not @category.subcategory.empty? %>
+    <% if not @category.children.empty? %>
       <div class="section">
         <div class="title">Подкатегории</div>
-        <% @category.subcategory.each do |id| %>
+        <% @category.children.each do |category| %>
           <div class="item">
             <%= erb :'partials/category_link',
                 locals: {
-                  categories: @categories,
-                  category: id,
+                  category: category,
                   upcase: true
                 } %>
           </div>
@@ -42,22 +41,21 @@
     <% end %>
     <div class="section">
       <div class="title">На этой странице</div>
-      <% @category.group.each do |group| %>
+      <% books_by_group.keys.each do |group| %>
         <div class="item">
-          <a href="<%= "##{group.name}" %>">
-            <%= Unicode::upcase(group.name) %>
+          <a href="<%= "##{group}" %>">
+            <%= Unicode::upcase(group) %>
           </a>
         </div>
       <% end %>
     </div>
   </div>
   <div class="books">
-    <% @category.group.each do |group| %>
-      <div id="<%= group.name %>" class="group">
-        <div class="name"> <%= group.name %> </div>
-        <% group.book.each do |book_id| %>
-          <% book = @books[book_id] %>
-          <%= book_thumb(book_id, book) %>
+    <% books_by_group.each do |group, books| %>
+      <div id="<%= group %>" class="group">
+        <div class="name"> <%= group %> </div>
+        <% books.each do |book| %>
+          <%= book_thumb(book) %>
         <% end %>
       </div>
       <hr/>

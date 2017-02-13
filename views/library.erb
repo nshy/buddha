@@ -8,20 +8,19 @@
       <div class="title"> Последние добавленные </div>
     </div>
     <div class="items">
-      <% @books.each do |id, book| %>
-        <%= book_thumb(id, book) %>
+      <% @books.each do |book| %>
+        <%= book_thumb(book) %>
       <% end %>
     </div>
   </div>
 
-  <% @library.section.each do |section| %>
+  <% @sections.each do |section| %>
     <div class="section">
       <div class="title"> <%= section.name %> </div>
-        <% section.category.each do |category| %>
+        <% section.categories.each do |category| %>
           <div class="item">
             <%= erb :'partials/category_link',
                 locals: {
-                  categories: @categories,
                   category: category,
                   upcase: false
                 } %>
@@ -35,8 +34,8 @@
       <div class="title"> Последние добавленные </div>
     </div>
     <div class="items">
-      <% @books.each do |id, book| %>
-        <%= book_thumb(id, book) %>
+      <% @books.each do |book| %>
+        <%= book_thumb(book) %>
       <% end %>
     </div>
   </div>

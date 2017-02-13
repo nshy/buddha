@@ -61,3 +61,19 @@ each_file('data/news', sorted: true) do |path|
 end
 
 sync_table(:news) { |url| load_news(url) }
+
+# --------------------- books --------------------------
+
+each_file('data/book', sorted: true) do |path|
+  add_disk_state(path_to_id(path), File.mtime("#{path}/info.xml"))
+end
+
+sync_table(:books) { |url| load_books(url) }
+
+each_file('data/book-category', sorted: true) do |path|
+  add_disk_state(path_to_id(path), File.mtime(path))
+end
+
+sync_table(:book_categories) { |url| load_book_categories(url) }
+
+sync_root_table(:top_categories, 'data/library.xml') { load_library() }
