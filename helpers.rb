@@ -141,10 +141,6 @@ module BookHelpers
     erb :'partials/variable_row', locals: { name: name, value: value }
   end
 
-  def comma_present(values)
-    values.join(', ')
-  end
-
   def parse_annotation(text)
     return [] if text.nil?
     text.split "\n\n"
@@ -159,58 +155,12 @@ module BookHelpers
     erb :'partials/headings', locals: { headings: heading.children }
   end
 
-  def each_book
-    Dir.entries('data/book').each do |book|
-      next if not File.exist?("data/book/#{book}/info.xml")
-      yield book
-    end
-  end
-
   def book_cover_url(id, size)
     digest_url("/book/#{id}/cover-#{size}.jpg")
   end
 
-  def book_categories(categories, id)
-    r = categories.select do |cid, c|
-      c.group.any? do |g|
-        g.book.include?(id)
-      end
-    end
-    r.keys
-  end
-
   def book_thumb(book)
     erb :'partials/book_thumb', locals: { book: book }
-  end
-end
-
-module CategoryHelpers
-  def category_categories(categories, id)
-    r = categories.select { |cid, c| c.subcategory.include?(id) }
-    r.keys
-  end
-
-  def load_categories
-    categories = {}
-    each_file('data/book-category') do |path|
-      categories[path_to_id(path)] = BookCategoryDocument.load(path)
-    end
-    categories
-  end
-
-  def count_category(categories, cid, subcategories = nil, books = nil)
-    books = Set.new if books.nil?
-    subcategories = Set.new if subcategories.nil?
-    categories[cid].group.each do |g|
-      g.book.each do |bid|
-        books.add(bid)
-      end
-    end
-    categories[cid].subcategory.each do |sid|
-      next if subcategories.include?(sid)
-      count_category(categories, sid, subcategories, books)
-    end
-    books.size
   end
 end
 

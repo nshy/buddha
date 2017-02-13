@@ -26,7 +26,7 @@ if settings.development?
 end
 
 helpers TeachingsHelper, CommonHelpers
-helpers NewsHelpers, BookHelpers, CategoryHelpers
+helpers NewsHelpers, BookHelpers
 helpers TimetableHelper
 
 I18n.default_locale = :ru
