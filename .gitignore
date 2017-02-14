@@ -13,3 +13,4 @@ dump
 /routines/records/secrets.json
 /routines/records/credentials.yaml
 digests.txt
+/node_modules
