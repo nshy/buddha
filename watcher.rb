@@ -6,6 +6,8 @@ require_relative 'helpers'
 
 include CommonHelpers
 
+$stdout.sync = true
+
 def convert_paths(paths, to_url)
   paths.map { |p| to_url.call(p) }
 end
