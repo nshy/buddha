@@ -108,6 +108,14 @@ class MenuDocument < XDSL::Element
       element :link
     end
   end
+
+  def about
+    item.select { |i| i.name == 'about' }.first
+  end
+
+  def others
+    item.select { |i| i.name != 'about' }
+  end
 end
 
 class QuotesDocument < XDSL::Element

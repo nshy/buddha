@@ -67,24 +67,26 @@
     <div class="container body push">
       <%= yield %>
       <div class="footer row">
-        <div class="map">
         <%= erb :'partials/contacts' %>
+        <div class="map">
         <div class="links">
-          <% @menu.item.each do |item| %>
-          <div class="column">
-            <div class="menu">
-              <a href="<%= item.link %>"> <%= item.title %> </a>
-            </div>
-            <div class="submenu">
-            <% item.subitem.each do |subitem| %>
-              <a href="<%= subitem.link %>"> <%= subitem.title %> </a>
-            <% end %>
-            </div>
-          </div>
+          <% about = @menu.about %>
+          <a href="<%= about.link %>"> <%= about.title %> </a>
+          <div class="sublinks">
+          <% about.subitem.each do |subitem| %>
+            <a href="<%= subitem.link %>"> <%= subitem.title %> </a>
           <% end %>
-        </div> <%# links %>
+          </div>
+        </div>
+        <div class="links">
+          <% @menu.others.each do |item| %>
+            <a href="<%= item.link %>"> <%= item.title %> </a>
+          <% end %>
+        </div>
         </div> <%# map %>
-        <%= erb :'partials/subscribe' %>
+        <div class="mail">
+          <%= erb :'partials/subscribe' %>
+        </div>
       </div> <%# footer %>
     </div> <%# container %>
 
