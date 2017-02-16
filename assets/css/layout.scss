@@ -121,12 +121,13 @@ nav {
   .map {
     float: left;
     width: $map-width;
+    margin-top: 10px;
   }
 
   .links {
     display: inline-block;
     vertical-align: top;
-    margin: 0px 30px;
+    margin-left: 20px;
     line-height: 25px;
 
     a {
@@ -152,12 +153,13 @@ nav {
   }
 
   .mail {
-    margin-right: $contacts-width;
-    margin-left: $map-width;
+    margin-right: $contacts-width + 120px;
+    margin-left: $map-width + 120px;
   }
 
   .contacts {
     float: right;
+    margin-top: 10px;
     width: $contacts-width;
     padding-right: 30px;
 
