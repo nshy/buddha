@@ -104,7 +104,7 @@ get '/news/:id/' do |id|
   erb :'news-single'
 end
 
-get '/book/:id/' do |id|
+get '/books/:id/' do |id|
   @book = Cache::Book.find(id)
   @menu_active = :library
   erb :book

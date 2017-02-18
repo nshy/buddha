@@ -64,7 +64,7 @@ sync_table(:news) { |url| load_news(url) }
 
 # --------------------- books --------------------------
 
-each_file('data/book', sorted: true) do |path|
+each_file('data/books', sorted: true) do |path|
   add_disk_state(path_to_id(path), File.mtime("#{path}/info.xml"))
 end
 

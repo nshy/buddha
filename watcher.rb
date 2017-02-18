@@ -64,7 +64,7 @@ listen(:news,
 # --------------------- library --------------------------
 
 listen(:books,
-       'data/book/',
+       'data/books/',
        /info.xml$/,
        method(:resource_path_url),
        method(:load_books))

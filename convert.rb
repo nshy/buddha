@@ -126,7 +126,7 @@ end
 # --------------------- books --------------------------
 
 def load_books(url)
-  path = "data/book/#{url}/info.xml"
+  path = "data/books/#{url}/info.xml"
   book = BookDocument.load(path)
 
   DB[:books].insert(title: book.title,
