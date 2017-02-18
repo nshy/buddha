@@ -70,7 +70,7 @@ end
 
 sync_table(:books) { |url| load_books(url) }
 
-each_file('data/book-category', sorted: true) do |path|
+each_file('data/book-categories', sorted: true) do |path|
   add_disk_state(path_to_id(path), File.mtime(path))
 end
 

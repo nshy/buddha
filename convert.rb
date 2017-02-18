@@ -146,7 +146,7 @@ def load_books(url)
 end
 
 def load_book_categories(url)
-  path = "data/book-category/#{url}.xml"
+  path = "data/book-categories/#{url}.xml"
   category = BookCategoryDocument.load(path)
 
   DB[:book_categories].

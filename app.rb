@@ -110,7 +110,7 @@ get '/books/:id/' do |id|
   erb :book
 end
 
-get '/book-category/:id/' do |id|
+get '/book-categories/:id/' do |id|
   @category = Cache::Category.find(id)
   @menu_active = :library
   erb :'book-category'

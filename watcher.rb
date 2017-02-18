@@ -70,7 +70,7 @@ listen(:books,
        method(:load_books))
 
 listen(:book_categories,
-       'data/book-category/',
+       'data/book-categories/',
        /.xml$/,
        method(:resource_path_url),
        method(:load_book_categories))
