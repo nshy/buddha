@@ -24,7 +24,7 @@ module TeachingsHelper
 end
 
 module CommonHelpers
-  def each_file(dir, options={})
+  def dir_files(dir, options={})
     default_options = {
       full_path: true,
       sorted: false,
@@ -38,13 +38,17 @@ module CommonHelpers
       names.reverse! if options[:reverse]
     end
 
-    names.each do |name|
+    names.map do |name|
       if options[:full_path]
-        yield dir + '/' +  name
+        dir + '/' +  name
       else
-        yield name
+        name
       end
     end
+  end
+
+  def each_file(dir, options={})
+    dir_files(dir, options).each { |p| yield p }
   end
 
   def format_date(date)

@@ -104,6 +104,10 @@ class Teaching
       end
     end
   end
+
+  def self.files
+    dir_files('data/teachings', sorted: true)
+  end
 end
 
 # --------------------- news --------------------------
@@ -149,6 +153,17 @@ class News
                      buddha_node: doc.metadata['buddha_node'],
                      last_modified: File.mtime(path))
   end
+
+  def self.files
+    files = dir_files('data/news', sorted: true).map do |path|
+      if File.directory?(path)
+        Cache::News::find_file(path, 'page')
+      elsif Cache::News::Ext.include?(path_to_ext(path).to_sym)
+        path
+      end
+    end
+    files.compact
+  end
 end
 
 # --------------------- books --------------------------
@@ -174,6 +189,13 @@ class Book
                       url: url,
                       last_modified: File.mtime(path))
   end
+
+  def self.files
+    dir_files('data/books', sorted: true).map do |path|
+      "#{path}/info.xml"
+    end
+  end
+
 end
 
 class BookCategory
@@ -202,6 +224,10 @@ class BookCategory
         insert(category_id: url,
                subcategory_id: subcategory)
     end
+  end
+
+  def self.files
+    dir_files('data/book-categories', sorted: true)
   end
 end
 
@@ -240,6 +266,18 @@ class Digest
     DB[:digests].insert(url: url,
                         digest: sha1,
                         last_modified: File.mtime(path))
+  end
+
+  def self.files
+    pub = `find public -type f`.split.select do |path|
+      not path.start_with?('public/3d-party/') and not /\.un~$/ =~ path
+    end
+
+    data = `find data -type f`.split.select do |path|
+      /\.(jpg|gif|swf|css|doc|pdf)$/ =~ path
+    end
+
+    pub + data
   end
 end
 
