@@ -12,15 +12,15 @@ end
 
 urls = [
   '/',
-  '/book-category/geshe-la/',
-  '/book/baykal-2009/',
+  '/book-categories/geshe-la/',
+  '/books/baykal-2009/',
   '/timetable?show=week',
   '/library/',
   '/news/2016-09-04/',
   '/news?top=true',
   '/timetable?show=schedule',
   '/teachings/2016-autumn/',
-  '/archive/',
+  '/teachings/',
   '/teachers/'
 ]
 
