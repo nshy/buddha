@@ -67,10 +67,10 @@ get /.+\.(doc|pdf)/ do
   send_file "data/#{request.path}", disposition: :attachment
 end
 
-get '/archive/' do
+get '/teachings/' do
   @teachings = Cache::Teaching.archive
   @menu_active = :teachings
-  erb :'archive'
+  erb :'teachings-index'
 end
 
 get '/teachings/:id/' do |id|
