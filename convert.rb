@@ -5,24 +5,17 @@ require 'preamble'
 DB = Sequel.connect('sqlite://site.db')
 DB.run('pragma synchronous = off')
 
-def print_modification(type, set)
-  return if set.empty?
-  puts type
-  set.each { |url| puts "  #{url}" }
+def print_modification(prefix, set)
+  set.each { |url| puts "#{prefix} #{url}" }
 end
 
 def update_table(table, updated, added, deleted)
-  b = Time.new
-
-  print_modification('DELETED', deleted)
-  print_modification('ADDED', added)
-  print_modification('UPDATED', updated)
+  print_modification('D', deleted)
+  print_modification('A', added)
+  print_modification('U', updated)
 
   DB[table].where('url IN ?', deleted + updated).delete
   (added + updated).each { |url| yield url }
-
-  e = Time.new
-  puts "sync time is #{((e - b) * 1000).to_i}ms"
 end
 
 DB.create_table :time_clamper, temp: true do
