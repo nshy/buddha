@@ -4,6 +4,7 @@ require 'preamble'
 
 DB = Sequel.connect('sqlite://site.db')
 DB.run('pragma synchronous = off')
+DB.run('pragma foreign_keys = on')
 
 def print_modification(prefix, set)
   set.each { |url| puts "#{prefix} #{url}" }
