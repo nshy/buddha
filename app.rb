@@ -36,7 +36,6 @@ before do
   @menu = MenuDocument.load("data/menu.xml")
   @ya_metrika = SiteConfig::YA_METRIKA
   @extra_styles = []
-  @digests = load_digests()
 end
 
 not_found do

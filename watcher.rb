@@ -77,4 +77,18 @@ listen(:book_categories,
 
 listen_root(:top_categories, 'data/library.xml') { load_library() }
 
+# --------------------- digests --------------------------
+
+listen(:digests,
+       'data/',
+       /.(jpg|gif|swf|css|doc|pdf)$/,
+       method(:digest_path_url),
+       method(:load_digest))
+
+listen(:digests,
+       'public/',
+       /.(png|svg|css|js|jpg)$/,
+       method(:digest_path_url),
+       method(:load_digest))
+
 start

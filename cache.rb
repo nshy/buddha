@@ -195,4 +195,9 @@ class Section < Sequel::Model(sections)
   end
 end
 
+# --------------------- books --------------------------
+
+class Digest < Sequel::Model
+end
+
 end

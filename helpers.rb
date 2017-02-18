@@ -92,24 +92,13 @@ module CommonHelpers
     full_url = "#{base}#{url}" if not base.nil?
     output_url = url
     output_url = full_url if not context.nil? and context != base
-    return output_url if @digests.nil?
-    sha1 = @digests[full_url]
-    return output_url if sha1.nil?
-    "#{output_url}?sha1=#{sha1}"
+    digest = Cache::Digest[full_url]
+    return output_url if digest.nil?
+    "#{output_url}?sha1=#{digest[:digest]}"
   end
 
   def digest_local_url(url)
     digest_url(url, @url, @context_url)
-  end
-
-  def load_digests
-    return nil if not File.exist?('digests.txt') or settings.development?
-    digests = {}
-    File.readlines('digests.txt').each do |line|
-      hash, path = line.split(' ')
-      digests[path] = hash
-    end
-    digests
   end
 
   def slideshow(dir, url = (@url or '/'), context_url = @context_url)

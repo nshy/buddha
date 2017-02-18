@@ -77,3 +77,19 @@ end
 sync_table(:book_categories) { |url| load_book_categories(url) }
 
 sync_root_table(:top_categories, 'data/library.xml') { load_library() }
+
+# --------------------- digests --------------------------
+
+pub = `find public -type f`.split.select do |path|
+  not path.start_with?('public/3d-party/') and not /\.un~$/ =~ path
+end
+
+data = `find data -type f`.split.select do |path|
+  /\.(jpg|gif|swf|css|doc|pdf)$/ =~ path
+end
+
+(pub + data).each do |path|
+  add_disk_state(digest_path_url(path), File.mtime(path))
+end
+
+sync_table(:digests) { |url| load_digest(url) }

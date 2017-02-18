@@ -2,6 +2,7 @@ require_relative 'models'
 require 'sequel'
 require 'preamble'
 require 'pathname'
+require 'digest'
 
 DB = Sequel.connect('sqlite://site.db')
 DB.run('pragma synchronous = off')
@@ -183,4 +184,22 @@ def load_library()
                category_id: category)
     end
   end
+end
+
+# --------------------- digests --------------------------
+
+def load_digest(url)
+  path = "data#{url}"
+  path = "public#{url}" if not File.exists?(path)
+  sha1 = nil
+  File.open(path) do |file|
+    sha1 = Digest::SHA1.hexdigest(file.read)
+  end
+  DB[:digests].insert(url: url,
+                      digest: sha1,
+                      last_modified: File.mtime(path))
+end
+
+def digest_path_url(path)
+  url = path.gsub(/^(data|public)/, '')
 end
