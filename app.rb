@@ -96,7 +96,7 @@ get '/news' do
 end
 
 get '/news/:id/' do |id|
-  @news = Cache::News.by_url(id)
+  @news = Cache::News.by_id(id)
   @extra_styles = [ @news.style ]
   @extra_styles.compact!
   @menu_active = :news

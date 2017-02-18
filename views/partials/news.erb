@@ -13,6 +13,6 @@
     <%= render_news(news, index) %>
   </div>
   <% if index and news.has_more %>
-    <a class="site-button" href="<%= "news/#{news.url}/" %>"> Подробнее </a>
+    <a class="site-button" href="<%= "news/#{news.id}/" %>"> Подробнее </a>
   <% end %>
 </div>

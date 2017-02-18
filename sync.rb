@@ -6,32 +6,31 @@ require_relative 'convert'
 include CommonHelpers
 
 DB.create_table :disk_state, temp: true do
-  primary_key :id
-  String :url, null: false, unique: true
+  String :id, primary_key: true
   DateTime :last_modified , null: false
 end
 
 def result_values(set)
-  set.to_a.map { |v| v[:url] }
+  set.to_a.map { |v| v[:id] }
 end
 
 def sync_table(klass)
   klass.files.each do |path|
-    DB[:disk_state].insert(url: klass.path_to_id(path),
+    DB[:disk_state].insert(id: klass.path_to_id(path),
                            last_modified: File.mtime(path))
   end
   table = klass.table
-  updated = DB[:disk_state].join_table(:left, table, url: :url).
+  updated = DB[:disk_state].join_table(:left, table, id: :id).
               where{ Sequel[table][:last_modified] <
                      Sequel[:disk_state][:last_modified] }.
-                select(Sequel[table][:url])
+                select(Sequel[table][:id])
 
-  deleted = DB[table].join_table(:left, :disk_state, url: :url).
-              where(Sequel[:disk_state][:url] => nil).
-                select(Sequel[table][:url])
+  deleted = DB[table].join_table(:left, :disk_state, id: :id).
+              where(Sequel[:disk_state][:id] => nil).
+                select(Sequel[table][:id])
 
-  added = DB[:disk_state].join_table(:left, table, url: :url).
-            where(Sequel[table][:url] => nil).select(Sequel[:disk_state][:url])
+  added = DB[:disk_state].join_table(:left, table, id: :id).
+            where(Sequel[table][:id] => nil).select(Sequel[:disk_state][:id])
 
   update_table(klass,
                result_values(updated),

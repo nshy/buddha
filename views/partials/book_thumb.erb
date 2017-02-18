@@ -1,7 +1,7 @@
 <div class="book-thumb">
-  <a href="<%= "/books/#{book.url}/" %>">
+  <a href="<%= "/books/#{book.id}/" %>">
     <img class="cover"
-         src="<%= book_cover_url(book.url, :medium) %>"/>
+         src="<%= book_cover_url(book.id, :medium) %>"/>
     <div class="title">
       <%= book.title %>
     </div>

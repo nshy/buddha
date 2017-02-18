@@ -12,7 +12,7 @@
         </div>
         <div class="title"> <%= year %> </div>
         <% by_year[year].each do |teachings| %>
-            <a class="teachings" href="<%= "/teachings/#{teachings.url}/" %>">
+            <a class="teachings" href="<%= "/teachings/#{teachings.id}/" %>">
               <%= teachings.title %>
             </a>
           <% teachings.themes.each do |theme| %>

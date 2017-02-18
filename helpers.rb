@@ -122,7 +122,7 @@ module NewsHelpers
       html: lambda { |doc, context| doc },
       erb:  lambda { |doc, context| Tilt::ERBTemplate.new { doc }.render(context) }
     }
-    @url = "/news/#{news.url}/"
+    @url = "/news/#{news.id}/"
     doc = cut ? news.cut : news.body
     renders[news.ext.to_sym].call(doc, self)
   end

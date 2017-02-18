@@ -1,7 +1,7 @@
 Sequel.migration do
   up do
     create_table(:books) do
-      String :url, primary_key: true
+      String :id, primary_key: true
       String :title, null: false
       String :authors
       String :translators
@@ -17,7 +17,7 @@ Sequel.migration do
     end
 
     create_table(:book_categories) do
-      String :url, primary_key: true
+      String :id, primary_key: true
       String :name, null: false
       DateTime :last_modified, null: false
     end

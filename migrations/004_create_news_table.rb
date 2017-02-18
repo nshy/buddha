@@ -1,10 +1,9 @@
 Sequel.migration do
   up do
     create_table(:news) do
-      primary_key :id
+      String :id, primary_key: true
       Date :date, null: false
       String :title, null: false
-      String :url, unique: true, null: false
       String :cut
       String :body, null: false
       String :ext, null: false

@@ -4,7 +4,7 @@ archive = DB[:teachings].
             join(:themes, teaching_id: :id).
             join(:records, theme_id: :id).
               select_group(:teachings__id).
-              select_append(:teachings__title, :url).
+              select_append(:teachings__title).
               select_append{ min(record_date).as(begin_date) }.
                 order(:begin_date).reverse
 
@@ -58,9 +58,9 @@ class News < Sequel::Model
 
   def style
     return nil if not is_dir
-    path = "data/news/#{url}/style.css"
+    path = "data/news/#{id}/style.css"
     return nil if not File.exists?(path)
-    "/news/#{url}/style.css"
+    "/news/#{id}/style.css"
   end
 
   def has_more
@@ -79,8 +79,8 @@ class News < Sequel::Model
     order(:date).limit(num).reverse.all
   end
 
-  def News.by_url(url)
-    where(url: url).first
+  def News.by_id(id)
+    where(id: id).first
   end
 
   def News.by_year(year)
@@ -90,46 +90,46 @@ end
 
 # --------------------- books --------------------------
 
-# create table mapping category url to its 'direct' size
+# create table mapping category id to its 'direct' size
 # direct means only books of category itself are counted
 category_sizes =
   DB[:book_categories].
-  join(:category_books, category_id: :book_categories__url).
-  join(:books, url: :category_books__book_id).
+  join(:category_books, category_id: :book_categories__id).
+  join(:books, id: :category_books__book_id).
     select_group(:category_id).
-    select_append{ count(:books__url).as(:count) }
+    select_append{ count(:books__id).as(:count) }
 
 # extra construction to calculate full size of category
-# creates table 'url, child url' so that for every
+# creates table 'id, child id' so that for every
 # category we have list of direct/indirect subcategories
 # to count for full size
 sources = DB[:sources].with_recursive(
             :sources,
             DB[:book_categories].
-              select(:url, Sequel::as(:url, :source_id)),
+              select(:id, Sequel::as(:id, :source_id)),
             DB[:category_subcategories].
               join(:sources, source_id: :category_subcategories__category_id).
                 select(:category_subcategories__category_id,
                        :category_subcategories__subcategory_id),
             union_all: false)
 
-# this table is 'url, count' with full sizes of categories
+# this table is 'id, count' with full sizes of categories
 category_sizes_full =
   sources.
     join(category_sizes, category_id: :source_id).
-      select_group(:url).
+      select_group(:id).
       select_append{ sum(:count).as(:count) }
 
-# this table is 'url, name, count' category table
+# this table is 'id, name, count' category table
 # so all tech columnts are filtered out and count column is added
 book_categories_sizes =
   DB[:book_categories].
-    join(category_sizes_full, url: :book_categories__url).
-      select(:book_categories__url, :name, :count)
+    join(category_sizes_full, id: :book_categories__id).
+      select(:book_categories__id, :name, :count)
 DB.create_view(:book_categories_sizes, book_categories_sizes, temp: true)
 
 class Category < Sequel::Model(:book_categories_sizes)
-  set_primary_key :url
+  set_primary_key :id
   many_to_many :parents,
                   left_key: :subcategory_id,
                   right_key: :category_id,
@@ -147,15 +147,15 @@ class Category < Sequel::Model(:book_categories_sizes)
                   right_key: :book_id,
                   join_table: :category_books,
                   class: '::Cache::Book',
-                  :select => [:url, :title, :authors, :category_books__group]
+                  :select => [:id, :title, :authors, :category_books__group]
 
   def books_by_group
     books.group_by { |b| b.group }
   end
 
-  def Category.find(url)
+  def Category.find(id)
     Category.eager(:children, :parents, :books).
-              where(:url => url).first
+              where(:id => id).first
   end
 end
 
@@ -174,8 +174,8 @@ class Book < Sequel::Model
     order(:added).reverse.limit(num)
   end
 
-  def Book.find(url)
-    eager(:categories).where(:url => url).first
+  def Book.find(id)
+    eager(:categories).where(:id => id).first
   end
 end
 

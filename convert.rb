@@ -18,8 +18,8 @@ def update_table(klass, updated, added, deleted)
   print_modification('A', added, klass)
   print_modification('U', updated, klass)
 
-  DB[klass.table].where('url IN ?', deleted + updated).delete
-  (added + updated).each { |url| klass.load(url) }
+  DB[klass.table].where('id IN ?', deleted + updated).delete
+  (added + updated).each { |id| klass.load(id) }
 end
 
 DB.create_table :time_clamper, temp: true do
@@ -34,14 +34,14 @@ end
 
 def sync_root_table(table, file, &block)
   url = path_to_id(Pathname.new(file).each_filename.to_a[1])
-  itemdb = DB[:root_docs].where(url: file)
+  itemdb = DB[:root_docs].where(id: file)
   item = itemdb.first
   if File.exists?(file)
     mtime = clamp_time(File.mtime(file))
     if item.nil?
       # add
       puts "A #{url}"
-      DB[:root_docs].insert(url: file, last_modified: mtime)
+      DB[:root_docs].insert(id: file, last_modified: mtime)
       block.call
       return
     end
@@ -81,13 +81,13 @@ end
 class Teaching
   extend Cacheable
 
-  def self.load(url)
-    path = "data/teachings/#{url}.xml"
+  def self.load(id)
+    path = "data/teachings/#{id}.xml"
     teachings = TeachingsDocument.load(path)
 
-    id = DB[:teachings].insert(title: teachings.title,
-                               url: url,
-                               last_modified: File.mtime(path))
+    DB[:teachings].insert(title: teachings.title,
+                          id: id,
+                          last_modified: File.mtime(path))
 
     teachings.theme.each do |theme|
       theme_id = DB[:themes].insert(title: theme.title,
@@ -122,12 +122,12 @@ class News
     paths.find { |path| File.exists?(path) }
   end
 
-  def self.load(url)
+  def self.load(id)
     is_dir = false
-    path = find_file('data/news', url)
+    path = find_file('data/news', id)
     if path.nil?
       is_dir = true
-      path = find_file("data/news/#{url}", 'page')
+      path = find_file("data/news/#{id}", 'page')
     end
 
     html_cutter = /<!--[\t ]*page-cut[\t ]*-->.*/m
@@ -145,7 +145,7 @@ class News
 
     DB[:news].insert(date: Date.parse(doc.metadata['publish_date']),
                      title: doc.metadata['title'],
-                     url: url,
+                     id: id,
                      cut: cut,
                      body: body,
                      ext: ext,
@@ -171,8 +171,8 @@ end
 class Book
   extend Cacheable
 
-  def self.load(url)
-    path = "data/books/#{url}/info.xml"
+  def self.load(id)
+    path = "data/books/#{id}/info.xml"
     book = BookDocument.load(path)
 
     DB[:books].insert(title: book.title,
@@ -186,7 +186,7 @@ class Book
                       contents: book.contents,
                       outer_id: book.outer_id,
                       added: book.added,
-                      url: url,
+                      id: id,
                       last_modified: File.mtime(path))
   end
 
@@ -201,13 +201,13 @@ end
 class BookCategory
   extend Cacheable
 
-  def self.load(url)
-    path = "data/book-categories/#{url}.xml"
+  def self.load(id)
+    path = "data/book-categories/#{id}.xml"
     category = BookCategoryDocument.load(path)
 
     DB[:book_categories].
       insert(name: category.name,
-             url: url,
+             id: id,
              last_modified: File.mtime(path))
 
     category.group.each do |group|
@@ -215,13 +215,13 @@ class BookCategory
         DB[:category_books].
           insert(group: group.name,
                  book_id: book,
-                 category_id: url)
+                 category_id: id)
       end
     end
 
     category.subcategory.each do |subcategory|
       DB[:category_subcategories].
-        insert(category_id: url,
+        insert(category_id: id,
                subcategory_id: subcategory)
     end
   end
@@ -256,14 +256,14 @@ class Digest
     path.gsub(/^(data|public)/, '')
   end
 
-  def self.load(url)
-    path = "data#{url}"
-    path = "public#{url}" if not File.exists?(path)
+  def self.load(id)
+    path = "data#{id}"
+    path = "public#{id}" if not File.exists?(path)
     sha1 = nil
     File.open(path) do |file|
       sha1 = ::Digest::SHA1.hexdigest(file.read)
     end
-    DB[:digests].insert(url: url,
+    DB[:digests].insert(id: id,
                         digest: sha1,
                         last_modified: File.mtime(path))
   end
