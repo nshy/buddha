@@ -19,7 +19,8 @@ def add_disk_state(url, mtime)
   DB[:disk_state].insert(url: url, last_modified: mtime)
 end
 
-def sync_table(table, &block)
+def sync_table(klass)
+  table = klass.table
   updated = DB[:disk_state].join_table(:left, table, url: :url).
               where{ Sequel[table][:last_modified] <
                      Sequel[:disk_state][:last_modified] }.
@@ -32,10 +33,10 @@ def sync_table(table, &block)
   added = DB[:disk_state].join_table(:left, table, url: :url).
             where(Sequel[table][:url] => nil).select(Sequel[:disk_state][:url])
 
-  update_table(table,
+  update_table(klass,
                result_values(updated),
                result_values(added),
-               result_values(deleted)) { |url| block.call(url) }
+               result_values(deleted))
   DB[:disk_state].delete
 end
 
@@ -45,22 +46,22 @@ each_file('data/teachings', sorted: true) do |path|
   add_disk_state(path_to_id(path), File.mtime(path))
 end
 
-sync_table(:teachings) { |url| load_teachings(url) }
+sync_table(Cache::Teaching)
 
 # --------------------- news --------------------------
 
 each_file('data/news', sorted: true) do |path|
   if File.directory?(path)
-    page = find_file(path, 'page')
+    page = Cache::News::find_file(path, 'page')
     next if page.nil?
   else
-    next if not NewsExt.include?(path_to_ext(path).to_sym)
+    next if not Cache::News::Ext.include?(path_to_ext(path).to_sym)
     page = path
   end
   add_disk_state(path_to_id(path), File.mtime(page))
 end
 
-sync_table(:news) { |url| load_news(url) }
+sync_table(Cache::News)
 
 # --------------------- books --------------------------
 
@@ -68,15 +69,15 @@ each_file('data/books', sorted: true) do |path|
   add_disk_state(path_to_id(path), File.mtime("#{path}/info.xml"))
 end
 
-sync_table(:books) { |url| load_books(url) }
+sync_table(Cache::Book)
 
 each_file('data/book-categories', sorted: true) do |path|
   add_disk_state(path_to_id(path), File.mtime(path))
 end
 
-sync_table(:book_categories) { |url| load_book_categories(url) }
+sync_table(Cache::BookCategory)
 
-sync_root_table(:top_categories, 'data/library.xml') { load_library() }
+sync_root_table(:top_categories, 'data/library.xml') { Cache.load_library() }
 
 # --------------------- digests --------------------------
 
@@ -89,7 +90,7 @@ data = `find data -type f`.split.select do |path|
 end
 
 (pub + data).each do |path|
-  add_disk_state(digest_path_url(path), File.mtime(path))
+  add_disk_state(Cache::Digest.path_to_id(path), File.mtime(path))
 end
 
-sync_table(:digests) { |url| load_digest(url) }
+sync_table(Cache::Digest)

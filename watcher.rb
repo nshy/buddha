@@ -8,19 +8,19 @@ include CommonHelpers
 
 $stdout.sync = true
 
-def convert_paths(paths, to_url)
-  paths.map { |p| to_url.call(p) }
+def convert_paths(paths, klass)
+  paths.map { |p| klass.path_to_id(p) }
 end
 
 Listeners = []
-def listen(table, path, only, to_url, loader)
+def listen(klass, path, only)
   Listeners << Listen.to(path,
                          only: only,
                          relative: true) do |updated, added, deleted|
-    update_table(table,
-                 convert_paths(updated, to_url),
-                 convert_paths(added, to_url),
-                 convert_paths(deleted, to_url)) { |url| loader.call(url) }
+    update_table(klass,
+                 convert_paths(updated, klass),
+                 convert_paths(added, klass),
+                 convert_paths(deleted, klass))
   end
 end
 
@@ -43,52 +43,36 @@ end
 
 # --------------------- teachings --------------------------
 
-listen(:teachings,
+listen(Cache::Teaching,
        'data/teachings',
-       /.xml$/,
-       method(:path_to_id),
-       method(:load_teachings))
+       /.xml$/)
 
 # --------------------- news --------------------------
 
-def resource_path_url(path)
-  path_to_id(Pathname.new(path).each_filename.to_a[2])
-end
-
-listen(:news,
+listen(Cache::News,
        'data/news',
-       /.(adoc|erb|html)$/,
-       method(:resource_path_url),
-       method(:load_news))
+       /.(adoc|erb|html)$/)
 
 # --------------------- library --------------------------
 
-listen(:books,
+listen(Cache::Book,
        'data/books/',
-       /info.xml$/,
-       method(:resource_path_url),
-       method(:load_books))
+       /info.xml$/)
 
-listen(:book_categories,
+listen(Cache::BookCategory,
        'data/book-categories/',
-       /.xml$/,
-       method(:resource_path_url),
-       method(:load_book_categories))
+       /.xml$/)
 
-listen_root(:top_categories, 'data/library.xml') { load_library() }
+listen_root(:top_categories, 'data/library.xml') { Cache.load_library() }
 
 # --------------------- digests --------------------------
 
-listen(:digests,
+listen(Cache::Digest,
        'data/',
-       /.(jpg|gif|swf|css|doc|pdf)$/,
-       method(:digest_path_url),
-       method(:load_digest))
+       /.(jpg|gif|swf|css|doc|pdf)$/)
 
-listen(:digests,
+listen(Cache::Digest,
        'public/',
-       /.(png|svg|css|js|jpg)$/,
-       method(:digest_path_url),
-       method(:load_digest))
+       /.(png|svg|css|js|jpg)$/)
 
 start
