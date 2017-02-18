@@ -1,19 +1,21 @@
 require_relative 'models'
 require 'sequel'
 require 'preamble'
+require 'pathname'
 
 DB = Sequel.connect('sqlite://site.db')
 DB.run('pragma synchronous = off')
 DB.run('pragma foreign_keys = on')
 
-def print_modification(prefix, set)
-  set.each { |url| puts "#{prefix} #{url}" }
+def print_modification(prefix, dir, set)
+  set.each { |url| puts "#{prefix} #{dir}/#{url}" }
 end
 
 def update_table(table, updated, added, deleted)
-  print_modification('D', deleted)
-  print_modification('A', added)
-  print_modification('U', updated)
+  dir = table.to_s.gsub(/_/, '-')
+  print_modification('D', dir, deleted)
+  print_modification('A', dir, added)
+  print_modification('U', dir, updated)
 
   DB[table].where('url IN ?', deleted + updated).delete
   (added + updated).each { |url| yield url }
@@ -30,13 +32,14 @@ def clamp_time(time)
 end
 
 def sync_root_table(table, file, &block)
+  url = path_to_id(Pathname.new(file).each_filename.to_a[1])
   itemdb = DB[:root_docs].where(url: file)
   item = itemdb.first
   if File.exists?(file)
     mtime = clamp_time(File.mtime(file))
     if item.nil?
       # add
-      puts "A #{file}"
+      puts "A #{url}"
       DB[:root_docs].insert(url: file, last_modified: mtime)
       block.call
       return
@@ -44,12 +47,12 @@ def sync_root_table(table, file, &block)
 
     return if mtime <= item[:last_modified]
     # update
-    puts "U #{file}"
+    puts "U #{url}"
     DB[table].delete
     block.call
     itemdb.update(last_modified: mtime)
   elsif not item.nil?
-    puts "D #{file}"
+    puts "D #{url}"
     # delete
     itemdb.delete
     DB[table].delete
