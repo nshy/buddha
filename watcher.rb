@@ -8,19 +8,23 @@ include CommonHelpers
 
 $stdout.sync = true
 
-def convert_paths(paths, klass)
+def convert_paths(paths, fileset, klass)
+  paths = paths.select { |p| fileset.match(p) }
   paths.map { |p| klass.path_to_id(p) }
 end
 
 Listeners = []
-def listen(klass, path, only)
-  Listeners << Listen.to(path,
-                         only: only,
+def listen(klass)
+  klass.filesets.each do |fileset|
+    listener = Listen.to(fileset.dir,
                          relative: true) do |updated, added, deleted|
-    update_table(klass,
-                 convert_paths(updated, klass),
-                 convert_paths(added, klass),
-                 convert_paths(deleted, klass))
+      update_table(klass,
+                   convert_paths(updated, fileset, klass),
+                   convert_paths(added, fileset, klass),
+                   convert_paths(deleted, fileset, klass))
+    end
+    listener.only(fileset.only) if not fileset.only.nil?
+    Listeners << listener
   end
 end
 
@@ -41,38 +45,12 @@ def start
   sleep
 end
 
-# --------------------- teachings --------------------------
-
-listen(Cache::Teaching,
-       'data/teachings',
-       /.xml$/)
-
-# --------------------- news --------------------------
-
-listen(Cache::News,
-       'data/news',
-       /.(adoc|erb|html)$/)
-
-# --------------------- library --------------------------
-
-listen(Cache::Book,
-       'data/books/',
-       /info.xml$/)
-
-listen(Cache::BookCategory,
-       'data/book-categories/',
-       /.xml$/)
+listen(Cache::Teaching)
+listen(Cache::News)
+listen(Cache::Book)
+listen(Cache::BookCategory)
+listen(Cache::Digest)
 
 listen_root(:top_categories, 'data/library.xml') { Cache.load_library() }
-
-# --------------------- digests --------------------------
-
-listen(Cache::Digest,
-       'data/',
-       /.(jpg|gif|swf|css|doc|pdf)$/)
-
-listen(Cache::Digest,
-       'public/',
-       /.(png|svg|css|js|jpg)$/)
 
 start

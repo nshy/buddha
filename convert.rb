@@ -76,6 +76,25 @@ module Cacheable
   end
 end
 
+class FileSet
+  attr_reader :dir, :only, :excludes
+
+  def initialize(dir, only, excludes = [])
+    @dir = dir
+    @only = only
+    @excludes = excludes.map { |e| Regexp.new(Regexp.escape("#{@dir}/#{e}")) }
+  end
+
+  def match(path)
+    return false if /\.un~$/ =~ path
+    return false if not @only.nil? and not @only =~ path
+    if @excludes
+      @excludes.each { |e| return false if e =~ path }
+    end
+    true
+  end
+end
+
 # --------------------- teachings --------------------------
 
 class Teaching
@@ -103,6 +122,10 @@ class Teaching
                             theme_id: theme_id)
       end
     end
+  end
+
+  def self.filesets
+    [ FileSet.new('data/teachings', /.xml$/) ]
   end
 
   def self.files
@@ -154,6 +177,10 @@ class News
                      last_modified: File.mtime(path))
   end
 
+  def self.filesets
+    [ FileSet.new('data/news', /.(adoc|erb|html)$/) ]
+  end
+
   def self.files
     files = dir_files('data/news', sorted: true).map do |path|
       if File.directory?(path)
@@ -188,6 +215,10 @@ class Book
                       added: book.added,
                       id: id,
                       last_modified: File.mtime(path))
+  end
+
+  def self.filesets
+    [ FileSet.new('data/books', /info.xml$/) ]
   end
 
   def self.files
@@ -226,6 +257,10 @@ class BookCategory
     end
   end
 
+  def self.filesets
+    [ FileSet.new('data/book-categories', /.xml$/) ]
+  end
+
   def self.files
     dir_files('data/book-categories', sorted: true)
   end
@@ -242,6 +277,7 @@ def Cache.load_library()
     end
   end
 end
+
 
 # --------------------- digests --------------------------
 
@@ -268,18 +304,21 @@ class Digest
                         last_modified: File.mtime(path))
   end
 
+  def self.filesets
+    [ FileSet.new('public', nil,
+                   [
+                     '3d-party',
+                     'logs',
+                   ]),
+      FileSet.new('data', /\.(jpg|gif|swf|css|doc|pdf)$/)
+    ]
+  end
+
   def self.files
-    pub = `find public -type f`.split.select do |path|
-      not path.start_with?('public/3d-party/') and
-      not path.start_with?('public/logs/') and
-      not /\.un~$/ =~ path
+    files = filesets.map do |fileset|
+      `find #{fileset.dir} -type f`.split.select { |path| fileset.match(path) }
     end
-
-    data = `find data -type f`.split.select do |path|
-      /\.(jpg|gif|swf|css|doc|pdf)$/ =~ path
-    end
-
-    pub + data
+    files.flatten
   end
 end
 
