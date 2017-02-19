@@ -270,7 +270,9 @@ class Digest
 
   def self.files
     pub = `find public -type f`.split.select do |path|
-      not path.start_with?('public/3d-party/') and not /\.un~$/ =~ path
+      not path.start_with?('public/3d-party/') and
+      not path.start_with?('public/logs/') and
+      not /\.un~$/ =~ path
     end
 
     data = `find data -type f`.split.select do |path|
