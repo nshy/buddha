@@ -4,6 +4,7 @@ var gulp = require('gulp');
 var sass = require('gulp-sass');
 var concat = require('gulp-concat');
 var deleted = require('gulp-deleted2');
+var rename = require('gulp-rename');
 
 gulp.task('sass-data', function () {
   return gulp.src('./data/**/*.scss')
@@ -11,10 +12,17 @@ gulp.task('sass-data', function () {
           .pipe(gulp.dest('./data'));
 });
 
-gulp.task('sass', function () {
+gulp.task('sass-purge', function () {
+  return gulp.src('./assets/css/**/*.scss')
+          .pipe(rename(function(path) {
+            path.extname = '.css';
+          }))
+          .pipe(deleted('./public/css', '*'));
+});
+
+gulp.task('sass', ['sass-purge'], function () {
   return gulp.src('./assets/css/**/*.scss')
           .pipe(sass().on('error', sass.logError))
-          .pipe(deleted('./public/css', '*'))
           .pipe(gulp.dest('./public/css'));
 });
 
