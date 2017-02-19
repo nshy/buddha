@@ -36,7 +36,7 @@
       <link rel="stylesheet" href="/css/contacts.css">
       <link rel="stylesheet" href="/css/about.css">
     <% else %>
-      <link rel="stylesheet" href="<%= digest_url('/css/bundle.css') %>">
+      <link rel="stylesheet" href="<%= digest_url('/bundle.css') %>">
     <% end %>
     <% @extra_styles.each do |style| %>
       <link rel="stylesheet" href="<%= digest_url(style) %>">

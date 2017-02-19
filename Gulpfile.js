@@ -23,9 +23,9 @@ gulp.task('sass', ['clean'], function () {
 });
 
 gulp.task('concat', ['sass'], function () {
-  return gulp.src(['public/css/*.css', '!public/css/bundle.css'])
+  return gulp.src(['public/css/*.css'])
           .pipe(concat('bundle.css'))
-          .pipe(gulp.dest('./public/css'));
+          .pipe(gulp.dest('./public'));
 });
 
 gulp.task('css', ['concat', 'sass-data'])
