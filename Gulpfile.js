@@ -3,7 +3,7 @@
 var gulp = require('gulp');
 var sass = require('gulp-sass');
 var concat = require('gulp-concat');
-var deleted = require('gulp-deleted');
+var deleted = require('gulp-deleted2');
 
 gulp.task('sass-data', function () {
   return gulp.src('./data/**/*.scss')
