@@ -309,6 +309,7 @@ class Digest
                    [
                      '3d-party',
                      'logs',
+                     'css',
                    ]),
       FileSet.new('data', /\.(jpg|gif|swf|css|doc|pdf)$/)
     ]
