@@ -3,12 +3,7 @@
 var gulp = require('gulp');
 var sass = require('gulp-sass');
 var concat = require('gulp-concat');
-var clean = require('gulp-clean');
-
-gulp.task('clean', function () {
-  return gulp.src('public/css/*')
-          .pipe(clean({force: true}))
-});
+var deleted = require('gulp-deleted');
 
 gulp.task('sass-data', function () {
   return gulp.src('./data/**/*.scss')
@@ -16,9 +11,10 @@ gulp.task('sass-data', function () {
           .pipe(gulp.dest('./data'));
 });
 
-gulp.task('sass', ['clean'], function () {
+gulp.task('sass', function () {
   return gulp.src('./assets/css/**/*.scss')
           .pipe(sass().on('error', sass.logError))
+          .pipe(deleted('./public/css', '*'))
           .pipe(gulp.dest('./public/css'));
 });
 
