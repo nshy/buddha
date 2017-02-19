@@ -13,3 +13,7 @@ gem 'sqlite3'
 gem 'sequel'
 
 gem 'sinatra-contrib'
+
+group :tools do
+  gem 'activesupport'
+end
