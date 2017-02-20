@@ -96,6 +96,7 @@ module CommonHelpers
     full_url = "#{base}#{url}" if not base.nil?
     output_url = url
     output_url = full_url if not context.nil? and context != base
+    return output_url if settings.development?
     digest = Cache::Digest[full_url]
     return output_url if digest.nil?
     "#{output_url}?sha1=#{digest[:digest]}"
