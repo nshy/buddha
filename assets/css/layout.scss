@@ -148,6 +148,10 @@ nav {
         font-size: 11px;
         font-weight: 400;
         display: block;
+        margin-top: 4px;
+      }
+      a:hover {
+          color: #3fb5ff;
       }
     }
   }
@@ -263,5 +267,8 @@ nav {
 #scrollUp {
   display: none !important;
 }
+.panel {
+    display: none;
+  }
 
 }
