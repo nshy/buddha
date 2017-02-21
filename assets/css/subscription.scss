@@ -1,12 +1,11 @@
 #site-subscription {
   // so that my lengthy 'nshyrokovskiy@gmail.com' fit
-  $content-width: 350px;
   .welcome {
     color: #c8d7e2;
     font-size: 14px;
     font-weight: 400;
     padding: 15px 0 10px;
-    width: $content-width;
+    width: 350px;
     margin: auto;
   }
   background-color: #4b6077;
@@ -15,44 +14,71 @@
   .subscribe-form.ml-block-success {
     // to hide initially
     display: none;
-
     color: white;
   }
-  $button-width: 120px;
-  .subscribe-form {
-    padding-bottom: 15px;
-    width: $content-width;
-    margin: auto;
-    .form-section.edit {
-      margin-right: $button-width;
-      input {
-        height: 25px;
+  .ml-block-form {
+
+    .subscribe-form {
+      padding-bottom: 15px;
+      width: 350px;
+      margin: auto;
+      margin-top: -28px;
+
+      .form-section.edit {
+        .form-control {
+          width: 240px;
+          height: 32px;
+          padding-left: 7px;
+          border: 0px;
+          padding-top: 4px;
+          transition: ease-in-out .2s;
+        }
+        .form-control:focus {
+            border-color: #66afe9;
+            border: 1px;
+            -webkit-box-shadow: 0 0 15px rgb(88, 193, 255);
+            box-shadow: 0 0 15px rgb(88, 193, 255);
+            transition: ease-in-out .2s;
+        }
+        .form-group {
+          margin-bottom: 0;
+        }
+        // signalling on invalid email
+        .form-group.ml-error .form-control {
+          border: 2px solid red;
+        }
       }
-      .form-group {
-        margin-bottom: 0;
-      }
-      // signalling on invalid email
-      .form-group.ml-error .form-control {
-        border: 2px solid red;
-      }
-    }
-    .form-section.button {
-      float: right;
-      width: $button-width;
-      button {
-        width: $button-width;
-        border-radius: 3px;
-        margin-left: -3px;
-      }
-      button.loading {
-        // to hide initially
-        display: none;
-        img {
-          width: 16px;
-          height: 16px;
+      .form-section.button {
+        float: right;
+        width: 120px;
+        position: relative;
+        top: 32px;
+        button {
+          width: 120px;
+          padding: 5px 15px;
+          border-radius: 3px;
+          background-color: #4789d9;
+          border: 1px solid #4789d9;
+          color: #ffffff;
+          transition: ease-in-out .2s;
+        }
+        button:focus {
+          outline: none;
+        }
+        button:hover {
+          outline: none;
+          background-color:#3fb5ff;
+          border: 1px solid #56b0ff;
+        }
+        .loading {
+          // to hide initially
+          display: none;
+          img {
+            width: 16px;
+            height: 16px;
+          }
         }
       }
     }
   }
-
 }
