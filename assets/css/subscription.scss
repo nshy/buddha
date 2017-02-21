@@ -1,10 +1,12 @@
 #site-subscription {
+  width:380px;
   // so that my lengthy 'nshyrokovskiy@gmail.com' fit
   .welcome {
     color: #c8d7e2;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 400;
-    padding: 15px 0 10px;
+    line-height: 1.2;
+    padding: 13px 0 5px;
     width: 350px;
     margin: auto;
   }
@@ -82,3 +84,12 @@
     }
   }
 }
+
+
+@media (max-width: 1199px) {
+  #site-subscription {
+    width: 380px;
+  }
+}
+
+

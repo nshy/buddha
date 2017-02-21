@@ -89,6 +89,7 @@ nav {
 
   .address {
     margin: 5px 0px 14px;
+    height: 5px;
 
     img {
       padding-right: 6px;
@@ -157,15 +158,15 @@ nav {
   }
 
   .mail {
-    margin: 6px 510px 0px 260px;
+    margin: 0px 510px 0px 260px;
   }
 
   .contacts {
     float: right;
-    margin-top: 10px;
-    width: $contacts-width;
+    margin-top: -98px;
+    width: 350px;
     padding-right: 30px;
-
+    margin-right: 47px;
     $copyright-width: 90px;
     .copyright {
       float: left;
@@ -174,6 +175,24 @@ nav {
 
     .name {
       margin-left: $copyright-width;
+    }
+
+    .address {
+      img {
+        display: block;
+        float: left;
+        margin: 2px 0px 14px;
+      }
+      span {
+        width: 290px;
+        display: block;
+        float: left;
+        margin-left: 3px;
+      }
+    }
+    .phone {
+      margin-top: 40px;
+      display: block;
     }
   }
 

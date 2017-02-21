@@ -67,7 +67,6 @@
     <div class="container body push">
       <%= yield %>
       <div class="footer row">
-        <%= erb :'partials/contacts' %>
         <div class="map">
         <div class="links">
           <% about = @menu.about %>
@@ -87,6 +86,7 @@
         <div class="mail">
           <%= erb :'partials/subscribe' %>
         </div>
+        <%= erb :'partials/contacts' %>
       </div> <%# footer %>
     </div> <%# container %>
 
