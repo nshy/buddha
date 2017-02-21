@@ -53,7 +53,7 @@ nav {
     .links {
       display: inline-block;
       vertical-align: middle;
-      @include menu-link
+      @include menu-link;
       a {
         font-size: 12px;
         font-weight: 600;
@@ -157,8 +157,7 @@ nav {
   }
 
   .mail {
-    margin-right: $contacts-width + 120px;
-    margin-left: $map-width + 120px;
+    margin: 6px 510px 0px 260px;
   }
 
   .contacts {
