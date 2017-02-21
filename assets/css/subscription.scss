@@ -14,10 +14,14 @@
   border-radius: 4px;
 
   .subscribe-form.ml-block-success {
-    // to hide initially
-    display: none;
-    color: white;
-  }
+      color: white;
+      margin-left: 15px;
+      margin-top: 10px;
+      font-size: 13px;
+      padding-bottom: 20px;
+    }
+
+
   .ml-block-form {
 
     .subscribe-form {
