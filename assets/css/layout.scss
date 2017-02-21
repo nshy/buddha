@@ -94,6 +94,16 @@ nav {
     img {
       padding-right: 6px;
     }
+    span {
+      a {
+        color: $link-color;
+        display: block;
+      }
+      a:hover {
+        color: $link-color-hover;
+        cursor: pointer;
+      }
+    }
   }
 
   .phone {
@@ -194,6 +204,24 @@ nav {
       margin-top: 40px;
       display: block;
     }
+  }
+
+  .f {
+    background-image: url(/f.svg);
+    display: block;
+    width: 25px;
+    float: right;
+    height: 25px;
+    margin-top: -98px;
+    margin-right: 20px;
+    -webkit-transition: all ease 0.3s;
+    -moz-transition: all ease 0.3s;
+    transition: all ease 0.3s;
+    opacity: 0.8;
+  }
+  .f:hover {
+    opacity: 1;
+    cursor: pointer;
   }
 
 }
