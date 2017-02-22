@@ -96,11 +96,10 @@ nav {
     }
     span {
       a {
-        color: $link-color;
-        display: block;
+        color: #4789d9;
       }
       a:hover {
-        color: $link-color-hover;
+        color: #3fb5ff;
         cursor: pointer;
       }
     }
@@ -111,7 +110,7 @@ nav {
       color:#cbd6e2;
     }
     a:hover {
-      color: $link-color-hover;
+      color: #3fb5ff;
     }
 
     img {
@@ -259,10 +258,6 @@ nav {
 
 }
 
-.footer {
-  display: none;
-}
-
 #scrollUp {
   background-image: url(/to_top.png?v=1);
   background-size: contain;
@@ -307,6 +302,23 @@ nav {
 
 }
 
+@media (max-width: 1199px) {
+  .footer {
+    .mail {
+      margin: 0 0 0 240px;
+    }
+    .contacts {
+      width: 290px;
+      padding-right: 30px;
+      margin-right: 40px;
+      .address {
+        span {
+          width: 220px;
+        }
+      }
+    }
+  }
+}
 
 @media (min-width: 768px) {
 

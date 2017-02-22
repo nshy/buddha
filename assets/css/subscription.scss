@@ -14,11 +14,13 @@
   border-radius: 4px;
 
   .subscribe-form.ml-block-success {
-      color: white;
-      margin-left: 15px;
-      margin-top: 10px;
-      font-size: 13px;
-      padding-bottom: 20px;
+    color: white;
+    padding-left: 15px;
+    margin-top: 11px;
+    font-size: 13px;
+    position: absolute;
+    padding-bottom: 20px;
+    background-color: #4b6077;
     }
 
 
@@ -91,6 +93,7 @@
 
 
 @media (max-width: 1199px) {
+
   #site-subscription {
     width: 380px;
   }
