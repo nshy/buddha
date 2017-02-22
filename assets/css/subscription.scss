@@ -99,6 +99,12 @@
   }
 }
 
+@media (min-width: 1025px) {
+  .footer_hr {
+    display: none;
+  }
+}
+
 @media (max-width: 1024px) {
 
 #site-subscription {
@@ -113,6 +119,53 @@
     }
   }
 }
+}
+
+@media (max-width: 768px) {
+  #site-subscription {
+    width: 100%;
+    .subscribe-form.ml-block-success {
+      color: white;
+      margin: 11px 10% 0 10%;
+      font-size: 13px;
+      display: inline-block;
+      text-align: center;
+      position: absolute;
+      padding-right: 40px;
+      padding-bottom: 16px;
+      width: 80%;
+      background-color: #4b6077;
+    }
+  }
+}
+
+@media (max-width: 590px) {
+  #site-subscription {
+    width: 100%;
+    border-radius: 0;
+    .welcome {
+      width: 80%;
+      margin: 0 10%;
+    }
+    .ml-block-form .subscribe-form {
+      width: 100%;
+      margin-top: -15px;
+      height: 140px;
+      .form-section.button {
+        width: 100%;
+        position: relative;
+        top: 78px;
+        button {
+          width: 80%;
+          margin: 0 10% 0 10%;
+        }
+      }
+      .form-section.edit .form-control {
+        width: 80%;
+        margin: 0 10%;
+      }
+    }
+  }
 }
 
 

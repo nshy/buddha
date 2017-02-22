@@ -211,7 +211,7 @@ nav {
     width: 25px;
     float: right;
     height: 25px;
-    margin-top: -98px;
+    margin-top: -101px;
     margin-right: 20px;
     -webkit-transition: all ease 0.3s;
     -moz-transition: all ease 0.3s;
@@ -313,7 +313,7 @@ nav {
       margin-right: 40px;
       .address {
         span {
-          width: 220px;
+          width: 230px;
         }
       }
     }
@@ -336,11 +336,17 @@ nav {
     .mail {
       margin: 0 0 0 260px;
     }
+    .footer_hr {
+      border-top: 1px solid #5d6d84;
+      margin: 20px 20px 0;
+    }
+    .f {
+      margin-top: -95px;
+    }
     .contacts {
       width: 100%;
-      padding-right: 40px;
-      margin-right: -20px;
-      margin-top: 30px;
+      padding-left: 60px;
+      margin-top: 20px;
       .name {
         margin-left: 0;
       }
@@ -356,6 +362,52 @@ nav {
       .phone {
         margin-top: 30px;
       }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .footer {
+    .mail {
+      margin: 120px 20px 0;
+    }
+    .footer_hr {
+      display: none;
+    }
+  }
+}
+
+@media (max-width: 590px) {
+  .footer {
+    .mail {
+      margin: 120px 0;
+      width: 100%;
+    }
+    .map {
+      width: 100%;
+      .right {
+          float: right;
+          margin-right: 20px;
+          a {
+            text-align: right;
+          }
+      }
+    }
+    .contacts {
+      margin-top: -100px;
+      .address {
+        margin: 10px 0px 14px;
+        span {
+          width: 90%;
+        }
+      }
+      .phone {
+        margin-top: 40px;
+      }
+    }
+
+    .f {
+      margin-top: -105px;
     }
   }
 }
