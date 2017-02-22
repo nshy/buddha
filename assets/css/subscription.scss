@@ -15,11 +15,11 @@
 
   .subscribe-form.ml-block-success {
     color: white;
-    padding-left: 15px;
+    padding-left: 20px;
     margin-top: 11px;
     font-size: 13px;
     position: absolute;
-    padding-bottom: 20px;
+    padding-bottom: 16px;
     background-color: #4b6077;
     }
 
@@ -44,8 +44,8 @@
         .form-control:focus {
             border-color: #66afe9;
             border: 1px;
-            -webkit-box-shadow: 0 0 15px rgb(88, 193, 255);
-            box-shadow: 0 0 15px rgb(88, 193, 255);
+            -webkit-box-shadow: 0 0 12px rgb(88, 193, 255);
+            box-shadow: 0 0 12px rgb(88, 193, 255);
             transition: ease-in-out .2s;
         }
         .form-group {
@@ -97,6 +97,22 @@
   #site-subscription {
     width: 380px;
   }
+}
+
+@media (max-width: 1024px) {
+
+#site-subscription {
+  width: 470px;
+  .welcome {
+    width: 430px;
+  }
+  .ml-block-form .subscribe-form {
+    width: 430px;
+    .form-section.edit .form-control {
+      width: 320px;
+    }
+  }
+}
 }
 
 
