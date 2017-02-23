@@ -1,5 +1,7 @@
 #!/bin/ruby
 
+module Cache
+
 archive = DB[:teachings].
             join(:themes, teaching_id: :id).
             join(:records, theme_id: :id).
@@ -8,8 +10,6 @@ archive = DB[:teachings].
               select_append{ min(record_date).as(begin_date) }.
                 order(:begin_date).reverse
 
-DB.create_view(:archive_teachings, archive, temp: true)
-
 themes = DB[:themes].
             join(:records, theme_id: :id).
               select_group(:themes__id).
@@ -17,13 +17,11 @@ themes = DB[:themes].
               select_append{ count(records__id).as(count) }.
               select_append{ min(record_date).as(begin_date) }.
                 order(:begin_date)
-DB.create_view(:archive_themes, themes, temp: true)
 
-module Cache
 
 # --------------------- teachings --------------------------
 
-class Teaching < Sequel::Model(:archive_teachings)
+class Teaching < Sequel::Model(archive)
   set_primary_key :id
 
   one_to_many :themes
@@ -37,7 +35,7 @@ class Teaching < Sequel::Model(:archive_teachings)
   end
 end
 
-class Theme < Sequel::Model(:archive_themes)
+class Theme < Sequel::Model(themes)
   set_primary_key :id
 
   many_to_one :teaching
@@ -126,9 +124,8 @@ book_categories_sizes =
   DB[:book_categories].
     join(category_sizes_full, id: :book_categories__id).
       select(:book_categories__id, :name, :count)
-DB.create_view(:book_categories_sizes, book_categories_sizes, temp: true)
 
-class Category < Sequel::Model(:book_categories_sizes)
+class Category < Sequel::Model(book_categories_sizes)
   set_primary_key :id
   many_to_many :parents,
                   left_key: :subcategory_id,
@@ -155,7 +152,7 @@ class Category < Sequel::Model(:book_categories_sizes)
 
   def Category.find(id)
     Category.eager(:children, :parents, :books).
-              where(:id => id).first
+              where(:book_categories__id => id).first
   end
 end
 
