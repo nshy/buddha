@@ -46,7 +46,8 @@ not_found do
   uri = local_uri(request.path, request.query_string)
   goto = map[uri]
   redirect to(goto) if not goto.nil?
-  "not found"
+  @redirection = "#{SiteConfig::OLD_SITE}#{uri}"
+  erb :'try-old-site'
 end
 
 get /.+\.(jpg|gif|swf|css)/ do
@@ -150,4 +151,9 @@ get '/' do
   @quotes = QuotesDocument.load('data/quotes.xml')
   @records = Cache::Record.latest(5)
   erb :index
+end
+
+get '/not-found/*' do
+  @uri = local_uri(params['splat'][0], request.query_string)
+  erb :'not-found'
 end
