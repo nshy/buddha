@@ -114,6 +114,12 @@ module CommonHelpers
           directory: dir,
         }
   end
+
+  def local_uri(path, query_string)
+    return path if query_string.empty?
+    path += '?'
+    path += query_string
+  end
 end
 
 module NewsHelpers
