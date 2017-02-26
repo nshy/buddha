@@ -91,7 +91,13 @@ nav {
     margin: 5px 0px 14px;
 
     img {
-      padding-right: 6px;
+      float: left;
+      padding-top: 2px;
+    }
+
+    span {
+      display: block;
+      margin-left: 22px;
     }
   }
 
@@ -110,7 +116,7 @@ nav {
 }
 
 .footer {
-  $contacts-width: 300px;
+  $contacts-width: 350px;
   $map-width: 220px;
   background: #34465a;
   margin-top: 30px;
