@@ -1,11 +1,13 @@
 #site-subscription {
+  width: 380px;
   // so that my lengthy 'nshyrokovskiy@gmail.com' fit
   $content-width: 350px;
   .welcome {
     color: #c8d7e2;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 400;
-    padding: 15px 0 10px;
+    padding: 13px 0 10px;
+    line-height: 1.2;
     width: $content-width;
     margin: auto;
   }
@@ -15,6 +17,7 @@
   .subscribe-form.ml-block-success {
     // to hide initially
     display: none;
+    font-size: 13px;
 
     color: white;
   }
@@ -26,7 +29,15 @@
     .form-section.edit {
       margin-right: $button-width;
       input {
-        height: 25px;
+        height: 32px;
+        padding: 4px 7px 6px;
+        border: 0px;
+      }
+      input:focus {
+        border-color: #66afe9;
+        border: 1px;
+                box-shadow: 0 0 12px rgb(88, 193, 255);
+        -webkit-box-shadow: 0 0 12px rgb(88, 193, 255);
       }
       .form-group {
         margin-bottom: 0;
@@ -43,6 +54,15 @@
         width: $button-width;
         border-radius: 3px;
         margin-left: -3px;
+        padding: 5px 15px;
+        background-color: #4789d9;
+        border: 1px solid #4789d9;
+        color: #ffffff;
+        transition: background-color .2s;
+      }
+      button:hover {
+        background-color:#3fb5ff;
+        border: 1px solid #3fb5ff;
       }
       button.loading {
         // to hide initially
