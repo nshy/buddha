@@ -53,7 +53,7 @@ nav {
     .links {
       display: inline-block;
       vertical-align: middle;
-      @include menu-link
+      @include menu-link;
       a {
         font-size: 12px;
         font-weight: 600;
