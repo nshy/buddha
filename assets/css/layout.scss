@@ -116,7 +116,7 @@ nav {
 }
 
 .footer {
-  $contacts-width: 350px;
+  $contacts-width: 400px;
   $map-width: 220px;
   background: #34465a;
   margin-top: 30px;
@@ -163,11 +163,14 @@ nav {
     margin-left: $map-width + 80px;
   }
 
-  .contacts {
+  .right {
     float: right;
     margin-top: 10px;
     width: $contacts-width;
-    padding-right: 30px;
+  }
+
+  .right .contacts {
+    margin-right: 80px;
 
     $copyright-width: 90px;
     .copyright {
@@ -178,6 +181,23 @@ nav {
     .name {
       margin-left: $copyright-width;
     }
+  }
+
+  .right a.facebook {
+    float: right;
+    width: 25px;
+    height: 25px;
+    margin-right: 20px;
+    margin-top: -3px;
+
+    background-image: url(/facebook.svg?v=1);
+    -webkit-transition: all ease 0.3s;
+       -moz-transition: all ease 0.3s;
+            transition: all ease 0.3s;
+    opacity: 0.8;
+  }
+  .right a.facebook:hover {
+    opacity: 1;
   }
 
 }
