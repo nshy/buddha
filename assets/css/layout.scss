@@ -127,7 +127,6 @@ nav {
   .map {
     float: left;
     width: $map-width;
-    margin-top: 10px;
   }
 
   .links {
@@ -154,6 +153,10 @@ nav {
         font-size: 11px;
         font-weight: 400;
         display: block;
+        margin-top: 4px;
+      }
+      a:hover {
+        color: #3fb5ff;
       }
     }
   }
@@ -165,7 +168,6 @@ nav {
 
   .right {
     float: right;
-    margin-top: 10px;
     width: $contacts-width;
   }
 
