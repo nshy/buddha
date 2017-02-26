@@ -50,7 +50,7 @@ not_found do
   erb :'try-old-site'
 end
 
-get /.+\.(jpg|gif|swf|css)/ do
+get /.+\.(jpg|gif|swf|css|ttf)/ do
   if settings.development?
     cache_control :public, max_age: 0
   end
