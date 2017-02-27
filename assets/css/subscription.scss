@@ -1,15 +1,12 @@
 #site-subscription {
-  width: 380px;
   // so that my lengthy 'nshyrokovskiy@gmail.com' fit
-  $content-width: 350px;
+  padding: 15px;
   .welcome {
     color: #c8d7e2;
     font-size: 13px;
     font-weight: 400;
-    padding: 13px 0 10px;
+    margin-bottom: 10px;
     line-height: 1.2;
-    width: $content-width;
-    margin: auto;
   }
   background-color: #4b6077;
   border-radius: 4px;
@@ -23,11 +20,10 @@
   }
   $button-width: 120px;
   .subscribe-form {
-    padding-bottom: 15px;
-    width: $content-width;
     margin: auto;
+    position: relative;
     .form-section.edit {
-      margin-right: $button-width;
+      margin-right: $button-width - 3px;
       input {
         height: 32px;
         padding: 4px 7px 6px;
@@ -48,12 +44,13 @@
       }
     }
     .form-section.button {
-      float: right;
       width: $button-width;
+      position: absolute;
+      top: 0;
+      right: 0;
       button {
-        width: $button-width;
+        width: 100%;
         border-radius: 3px;
-        margin-left: -3px;
         padding: 5px 15px;
         background-color: #4789d9;
         border: 1px solid #4789d9;
