@@ -73,3 +73,19 @@
   }
 
 }
+
+
+@media (max-width: 767px) {
+
+#site-subscription {
+  .welcome {
+    width: 430px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .subscribe-form {
+    width: 430px;
+  }
+}
+
+}

@@ -296,7 +296,19 @@ nav {
 }
 
 .footer {
-  display: none;
+  .map {
+    float: none;
+  }
+
+  .mail {
+    margin-left: 20px;
+    margin-top: 20px;
+  }
+
+  .right {
+    padding-top: 0;
+    border-top: 0px;
+  }
 }
 
 #scrollUp {
