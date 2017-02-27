@@ -115,9 +115,10 @@ nav {
   }
 }
 
+$contacts-width: 400px;
+$map-width: 220px;
+
 .footer {
-  $contacts-width: 400px;
-  $map-width: 220px;
   background: #34465a;
   margin-top: 30px;
   padding-top: 20px;
@@ -203,6 +204,30 @@ nav {
   }
 
 }
+
+
+@media (max-width: 1199px) {
+
+$contacts-width: 330px;
+
+.footer {
+  .mail {
+    margin-right: $contacts-width;
+    margin-left: $map-width + 20px;
+  }
+
+  .right {
+    width: $contacts-width;
+  }
+
+  .right .contacts {
+    margin-right: 60px;
+  }
+
+}
+
+}
+
 
 @media (max-width: 767px) {
 
