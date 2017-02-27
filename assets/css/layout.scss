@@ -228,6 +228,40 @@ nav {
 }
 
 
+@media (max-width: 991px) {
+
+.footer {
+  .map {
+    float: left;
+  }
+
+  .mail {
+    display: block;
+    width: auto;
+    margin-left: 260px;
+    margin-right: 20px;
+  }
+
+  .right {
+    display: block;
+    width: auto;
+    padding-top: 20px;
+    border-top: 1px solid #5d6d84;
+    margin-top: 20px;
+    margin-left: 20px;
+
+    .contacts {
+      .address {
+        margin: 18px 0px 18px;
+      }
+    }
+  }
+
+}
+
+}
+
+
 @media (max-width: 767px) {
 
 body {
