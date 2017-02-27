@@ -67,11 +67,6 @@
     <div class="container body push">
       <%= yield %>
       <div class="footer row">
-        <div class="right">
-          <a href="https://www.facebook.com/MoscowBuddhistCenterofLamaTsonkapa/"
-             class="facebook"></a>
-          <%= erb :'partials/contacts' %>
-        </div>
         <div class="map">
         <div class="links">
           <% about = @menu.about %>
@@ -90,6 +85,11 @@
         </div> <%# map %>
         <div class="mail">
           <%= erb :'partials/subscribe' %>
+        </div>
+        <div class="right">
+          <a href="https://www.facebook.com/MoscowBuddhistCenterofLamaTsonkapa/"
+             class="facebook"></a>
+          <%= erb :'partials/contacts' %>
         </div>
       </div> <%# footer %>
     </div> <%# container %>

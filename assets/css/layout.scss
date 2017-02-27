@@ -115,9 +115,6 @@ nav {
   }
 }
 
-$contacts-width: 400px;
-$map-width: 220px;
-
 .footer {
   background: #34465a;
   margin-top: 30px;
@@ -126,8 +123,8 @@ $map-width: 220px;
   border-radius: 0 0 5px 5px;
 
   .map {
-    float: left;
-    width: $map-width;
+    display: inline-block;
+    vertical-align: top;
   }
 
   .links {
@@ -163,17 +160,21 @@ $map-width: 220px;
   }
 
   .mail {
-    margin-right: $contacts-width;
-    margin-left: $map-width + 80px;
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 80px;
   }
 
   .right {
-    float: right;
-    width: $contacts-width;
+    display: inline-block;
+    vertical-align: top;
+    width: 380px;
+    margin-left: 80px;
+    margin-right: 20px;
   }
 
   .right .contacts {
-    margin-right: 80px;
+    margin-right: 60px;
 
     $copyright-width: 90px;
     .copyright {
@@ -190,7 +191,6 @@ $map-width: 220px;
     float: right;
     width: 25px;
     height: 25px;
-    margin-right: 20px;
     margin-top: -3px;
 
     background-image: url(/facebook.svg?v=1);
@@ -208,20 +208,18 @@ $map-width: 220px;
 
 @media (max-width: 1199px) {
 
-$contacts-width: 330px;
-
 .footer {
   .mail {
-    margin-right: $contacts-width;
-    margin-left: $map-width + 20px;
+    margin-left: 15px;
   }
 
   .right {
-    width: $contacts-width;
+    width: 310px;
+    margin-left: 15px;
   }
 
   .right .contacts {
-    margin-right: 60px;
+    margin-right: 40px;
   }
 
 }
