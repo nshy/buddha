@@ -89,3 +89,28 @@
 }
 
 }
+
+
+@media (max-width: 590px) {
+
+#site-subscription {
+  padding: 15px 50px 30px 50px;
+  border-radius: 0;
+  .welcome {
+    width: auto;
+    margin-bottom: 20px;
+  }
+  .subscribe-form {
+    width: auto;
+    .form-section.edit {
+      margin-right: 0;
+      margin-bottom: 15px;
+    }
+    .form-section.button {
+      position: static;
+      width: auto;
+    }
+  }
+}
+
+}
