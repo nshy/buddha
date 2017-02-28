@@ -1,0 +1,21 @@
+.error {
+  width: 500px;
+  margin: auto;
+  text-align: center;
+  padding: 200px 0 200px;
+
+  .title {
+    font-size: 34px;
+    font-weight: 400;
+    margin-bottom: 20px;
+  }
+
+  .message, .url {
+    font-size: 16px;
+    font-weight: 400;
+  }
+
+  .message {
+    margin-bottom: 15px;
+  }
+}
