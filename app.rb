@@ -173,6 +173,6 @@ get '/' do
 end
 
 get '/not-found/*' do
-  @uri = local_uri(params['splat'][0], request.query_string)
+  @uri = local_uri("/#{params['splat'][0]}", request.query_string)
   erb :'not-found'
 end
