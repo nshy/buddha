@@ -39,6 +39,7 @@ before do
 end
 
 not_found do
+  @menu_active = nil
   map = {}
   File.open("data/compat.yaml") do |file|
     map = YAML.load(file.read)
