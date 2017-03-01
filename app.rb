@@ -51,6 +51,10 @@ not_found do
   erb :'try-old-site'
 end
 
+error do
+  erb :error
+end
+
 get /.+\.(jpg|gif|swf|css|ttf)/ do
   if settings.development?
     cache_control :public, max_age: 0
@@ -175,4 +179,8 @@ end
 get '/not-found/*' do
   @uri = local_uri("/#{params['splat'][0]}", request.query_string)
   erb :'not-found'
+end
+
+get '/error/' do
+  raise 'error'
 end
