@@ -1,14 +1,7 @@
 <div class="teacher">
-<%
-  teachers = {
-  'geshela' => 'Досточтимый Геше Джампа Тинлей',
-  'hh-bogdo-gegen-9' => 'Его Святейшество Богдо-геген IX',
-  'hh-dalai-lama-14' => 'Его Святейшество Далай-лама XIV'
-  }
-%>
 
 <div class="site-header">
-  <div class="title"> <%= teachers[@teacher] %> </div>
+  <div class="title"> <%= @teacher_title %> </div>
   <div class="backlink">
     <a href="/teachers/"> &larr; УЧИТЕЛЯ </a>
   </div>

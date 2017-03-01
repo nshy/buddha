@@ -131,7 +131,13 @@ get '/timetable' do
 end
 
 get '/teachers/:teacher/' do |teacher|
+  teachers = {
+  'geshela' => 'Досточтимый Геше Джампа Тинлей',
+  'hh-bogdo-gegen-9' => 'Его Святейшество Богдо-геген IX',
+  'hh-dalai-lama-14' => 'Его Святейшество Далай-лама XIV'
+  }
   @teacher = teacher
+  @teacher_title = teachers[teacher]
   erb :teacher
 end
 
