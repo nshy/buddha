@@ -157,7 +157,7 @@ get '/yoga/' do
   erb "<%= load_page('yoga/page.erb', '/yoga/') %>"
 end
 
-get /\/(about|teachers|contacts|donations)\// do
+get /^\/(about|teachers|contacts|donations)\/$/ do
   @menu_active = :about
   erb :center
 end
