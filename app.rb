@@ -73,6 +73,7 @@ end
 
 get '/teachings/:id/' do |id|
   @teachings = TeachingsDocument.load("data/teachings/#{id}.xml")
+  halt 404 if @teachings.nil?
   @teachings_slug = id
   @menu_active = :teachings
   erb :teachings
@@ -82,9 +83,12 @@ get '/news' do
   @params = params
   if params['top'] == 'true'
     @news = Cache::News.latest(10)
-  else
+    params.delete('top')
+  elsif not params['year'].nil?
     @news = Cache::News.by_year(params['year'])
+    params.delete('year')
   end
+  halt 404 if @news.nil? or @news.empty? or not params.empty?
   @years = Cache::News.years
   @menu_active = :news
   @extra_styles = @news.map { |n| n.style }
@@ -95,6 +99,7 @@ end
 
 get '/news/:id/' do |id|
   @news = Cache::News.by_id(id)
+  halt 404 if @news.nil?
   @extra_styles = [ @news.style ]
   @extra_styles.compact!
   @menu_active = :news
@@ -103,12 +108,14 @@ end
 
 get '/books/:id/' do |id|
   @book = Cache::Book.find(id)
+  halt 404 if @book.nil?
   @menu_active = :library
   erb :book
 end
 
 get '/book-categories/:id/' do |id|
   @category = Cache::Category.find(id)
+  halt 404 if @category.nil?
   @menu_active = :library
   erb :'book-category'
 end
@@ -123,10 +130,14 @@ end
 get '/timetable' do
   @timetable = TimetableDocument.load('data/timetable/timetable.xml')
   @menu_active = :timetable
-  if params[:show] == 'week'
+  show = params.delete('show')
+  halt 404 if not params.empty?
+  if show == 'week'
     erb :timetable
-  elsif params[:show] == 'schedule'
+  elsif show == 'schedule'
     erb :classes
+  else
+    halt 404
   end
 end
 
@@ -138,6 +149,7 @@ get '/teachers/:teacher/' do |teacher|
   }
   @teacher = teacher
   @teacher_title = teachers[teacher]
+  halt 404 if @teacher_title.nil?
   erb :teacher
 end
 

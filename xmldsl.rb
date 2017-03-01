@@ -43,6 +43,7 @@ module ElementClass
   end
 
   def load(path)
+    return nil if not File.exists?(path)
     doc = nil
     File.open(path) do |file|
       doc = new(Nokogiri::XML(file).root)
