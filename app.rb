@@ -89,8 +89,8 @@ get '/news' do
     @news = Cache::News.latest(10)
     params.delete('top')
   elsif not params['year'].nil?
-    @news = Cache::News.by_year(params['year'])
-    params.delete('year')
+    @year = params.delete('year')
+    @news = Cache::News.by_year(@year)
   end
   halt 404 if @news.nil? or @news.empty? or not params.empty?
   @years = Cache::News.years
