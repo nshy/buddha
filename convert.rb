@@ -111,6 +111,7 @@ class Teaching
     teachings.theme.each do |theme|
       theme_id = DB[:themes].insert(title: theme.title,
                                     begin_date: theme.begin_date,
+                                    buddha_node: theme.buddha_node,
                                     teaching_id: id)
 
       theme.record.each do |record|
