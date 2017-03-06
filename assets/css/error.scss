@@ -4,6 +4,16 @@
   text-align: center;
   padding: 100px 0 100px;
 
+  .cloud {
+    display: block;
+    background-image: url(/cloud_9.png);
+    background-size: 100%;
+    background-repeat: no-repeat;
+    width: 200px;
+    height: 86px;
+    margin: 0 auto 10px;
+  }
+
   .title {
     font-size: 34px;
     font-weight: 400;
