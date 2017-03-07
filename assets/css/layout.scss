@@ -186,6 +186,12 @@ nav {
     .name {
       margin-left: $copyright-width;
     }
+
+    .old_site_link {
+      color: #99a5b2;
+      float: right;
+      margin-top: -18px;
+    }
   }
 
   .right a.facebook {
@@ -375,7 +381,14 @@ nav {
     margin-left: 0;
     margin-right: 0;
   }
-
+  .right {
+    .contacts {
+      .old_site_link {
+        margin: 10px 20px;
+        float: left;
+      }
+    }
+  }
 }
 
 }
