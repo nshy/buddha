@@ -30,6 +30,10 @@
         font-size: 13px;
         font-weight: 600;
       }
+      .wheel_of_dharma {
+        width: 100%;
+        padding: 0 8%;
+      }
     }
     .slides {
       margin-left: $info-width;
@@ -85,7 +89,17 @@
       .fotorama__nav-wrap {
         margin-top: 40px;
       }
+
     }
+    .quotes .teachings_symbol {
+       width: 100%;
+       height: 35px;
+       margin-top: -81px;
+       background-image: url(/teachings_symbol.png);
+       background-size: 55%;
+       background-repeat: no-repeat;
+       background-position: 49%;
+     }
   }
   .dynamic {
     overflow: auto;
@@ -163,8 +177,24 @@
           font-size: 22px;
         }
       }
+      .wheel_of_dharma {
+        display: none;
+      }
     }
   }
+
+  .middle {
+    .quotes .teachings_symbol {
+        width: 100%;
+        height: 35px;
+        margin-top: -81px;
+        background-image: url(/teachings_symbol.png);
+        background-size: 55%;
+        background-repeat: no-repeat;
+        background-position: 49%;
+    }
+  }
+
 }
 
 }
@@ -202,6 +232,9 @@
       margin-left: $teachers-width;
       .fotorama__html {
         text-align: center;
+      }
+      .teachings_symbol {
+        display: none;
       }
     }
   }
