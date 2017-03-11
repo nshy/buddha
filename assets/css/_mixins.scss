@@ -150,36 +150,30 @@
       .description {
         font-weight: 400;
 
-        a:before {
-          display: inline-block;
-          content: "";
+        a {
+          display: block;
+          padding-left: 21px;
+
           background-image: url(/play_video.svg?v=1);
+          &:hover { background-image: url(/play_video_cyan.svg?v=1); }
           background-repeat: no-repeat;
-          height: 11px;
-          width: 14px;
-          margin: 0px 4px -1px 0px;
-        }
-        a:hover:before {
-          background-image: url(/play_video_cyan.svg?v=1);
+          background-size: 14px;
+          background-position: left 5px;
         }
       }
       .date {
         font-weight: 300;
       }
       .download {
-        a.site-button:before {
-          display: inline-block;
-          content: "";
+        a {
+          padding-left: 35px;
+
           background-image: url(/download.svg?v=1);
+          &:hover { background-image: url(/download_white.svg?v=1); }
           background-repeat: no-repeat;
-          height: 14px;
-          width: 12px;
-          margin: 0px 3px -1px 0px;
-        }
-        a:hover.site-button:before {
-          background-image: url(/download_white.svg?v=1);
-        }
-        a.site-button {
+          background-size: 12px;
+          background-position: 15px 8px;
+
           .type { font-weight: 400; }
           .size { font-weight: 400; }
         }
