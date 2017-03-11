@@ -167,15 +167,13 @@
       .download {
         a {
           padding-left: 35px;
+          font-weight: 400;
 
           background-image: url(/download.svg?v=1);
           &:hover { background-image: url(/download_white.svg?v=1); }
           background-repeat: no-repeat;
           background-size: 12px;
           background-position: 15px 8px;
-
-          .type { font-weight: 400; }
-          .size { font-weight: 400; }
         }
       }
     }

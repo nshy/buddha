@@ -15,8 +15,7 @@
     <div class="download">
       <% if not record.audio_url.nil? and not record.audio_size.nil? %>
         <a class="site-button" href="<%= record.audio_url %>" download>
-            <span class="type">mp3</span>&nbsp;&nbsp;
-            <span class="size"><%= record.audio_size %>&nbsp;Mб</span>
+            mp3&nbsp;&nbsp;<%= record.audio_size %>&nbsp;Mб
         </a>
       <% end %>
     </div>
