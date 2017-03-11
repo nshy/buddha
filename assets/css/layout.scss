@@ -73,45 +73,26 @@ nav {
   font-size: 11px;
   font-weight: 400;
 
-  // image size with padding is 18x17 px (original is *x14),
-  // vertical padding is for alignment with text
-  // horizontal is to make text after images to be aligned
-  // in different rows
-  img {
-    padding-bottom: 3px;
+  .copyright, .address, .phone {
+    padding-left: 20px;
+    background-repeat: no-repeat;
+    background-position: left 1px;
   }
 
   .copyright {
-    img {
-      padding-right: 4px;
-    }
+    background-image: url(/copyright.svg?v=1);
   }
 
   .address {
+    background-image: url(/pin.svg?v=1);
     margin: 5px 0px 14px;
-
-    img {
-      float: left;
-      padding-top: 2px;
-    }
-
-    span {
-      display: block;
-      margin-left: 22px;
-    }
   }
 
-  .phone {
-    a {
-      color:#cbd6e2;
-    }
-    a:hover {
-      color: $link-color-hover;
-    }
+  a.phone {
+    background-image: url(/phone.svg?v=1);
 
-    img {
-      padding-right: 4px;
-    }
+    color:#cbd6e2;
+    &:hover { color: $link-color-hover; }
   }
 }
 
