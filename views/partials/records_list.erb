@@ -2,15 +2,16 @@
 <% records.each_with_index do |record, idx| %>
   <div class="record">
     <div class="index"> <%= idx + 1 %> </div>
-    <div class="description">
-      <% if not record.youtube_id.nil? %>
-      <a href="http://www.youtube.com/watch?v=<%= record.youtube_id %>">
-        <span><%= record_description(record, idx + 1) %></span>
+    <% if not record.youtube_id.nil? %>
+      <a href="http://www.youtube.com/watch?v=<%= record.youtube_id %>"
+         class="description">
+        <%= record_description(record, idx + 1) %>
       </a>
-      <% else %>
-        <span><%= record_description(record, idx + 1) %></span>
-      <% end %>
-    </div>
+    <% else %>
+      <div class="description">
+        <%= record_description(record, idx + 1) %>
+      </div>
+    <% end %>
     <div class="date"> <%= record_date(record) %> </div>
     <div class="download">
       <% if not record.audio_url.nil? and not record.audio_size.nil? %>
@@ -24,6 +25,6 @@
 </div> <%# records %>
 <script>
 $(document).ready(function() {
-  $('.description a').magnificPopup({type:'iframe'});
+  $('a.description').magnificPopup({type:'iframe'});
 });
 </script>

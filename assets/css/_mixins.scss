@@ -149,8 +149,8 @@
       color: #000;
       .description {
         font-weight: 400;
-
-        a {
+      }
+      a.description {
           display: block;
           padding-left: 21px;
 
@@ -159,7 +159,6 @@
           background-repeat: no-repeat;
           background-size: 14px;
           background-position: left 5px;
-        }
       }
       .date {
         font-weight: 300;
