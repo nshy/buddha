@@ -176,6 +176,7 @@ nav {
       display: block;
       text-align: right;
       color: #99a5b2;
+      &:hover { color: $link-color-hover; }
     }
   }
 
