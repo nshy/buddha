@@ -45,23 +45,14 @@
       padding-bottom: 5px;
       display: block;
     }
-    $icon-right: 2px;
-    $icon-width: 14px;
-    $icon-left: 8px;
-    $icon-full: $icon-right + $icon-width + $icon-left;
-    .theme:before {
-      display: inline-block;
-      content: "";
+
+    .theme {
       background-image: url(/folder.svg?v=1);
       background-repeat: no-repeat;
-      height: 12px;
-      width: $icon-width;
-      position: relative;
-      margin-left: -$icon-full + $icon-right;
-      margin-right: $icon-left;
-    }
-    .theme {
-      padding-left: $icon-full;
+      background-size: 14px;
+      background-position: left 3px;
+
+      padding-left: 24px;
       margin: 8px 0px;
       .title {
         font-size: 16px;
