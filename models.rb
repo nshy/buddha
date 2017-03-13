@@ -93,7 +93,8 @@ class TimetableDocument < XDSL::Element
   class Banner
     def active?
       today = Date.today
-      self.begin < today and today < self.end
+      (self.begin.nil? or self.begin < today) and
+      (self.end.nil? or today < self.end)
     end
   end
 end
