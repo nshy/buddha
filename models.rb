@@ -167,7 +167,7 @@ class TimetableDocument < XDSL::Element
     elements :day, ClassesDay
     element :begin, Date
     element :end, Date
-    elements :cancel
+    elements :cancel, Date
     elements :date, ClassesDate
   end
 

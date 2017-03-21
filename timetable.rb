@@ -10,7 +10,6 @@ def timetable_classes_events(timetable, date_begin, date_end)
     classes_begin = date_begin > classes_begin ? date_begin : classes_begin
     classes_end = date_end < classes_end ? date_end : classes_end
     next if classes_end < classes_begin
-    cancels = classes.cancel.collect { |cancel| Date.parse(cancel) }
     classes.day.each do |day|
       classes_begin.step(classes_end).each do |date|
         w = Week.new(date)
@@ -19,7 +18,7 @@ def timetable_classes_events(timetable, date_begin, date_end)
           title: classes.title,
           begin: day.begin(w),
           end: day.end(w),
-          cancel: cancels.include?(date)
+          cancel: classes.cancel.include?(date)
         }
       end
     end
@@ -30,7 +29,7 @@ def timetable_classes_events(timetable, date_begin, date_end)
           title: classes.title,
           begin: t[:begin],
           end: t[:end],
-          cancel: cancels.include?(date.date)
+          cancel: classes.cancel.include?(date.date)
         }
       end
     end
