@@ -159,13 +159,6 @@ class TimetableDocument < XDSL::Element
     element :message
   end
   element :annual
-  elements :event do
-    element :title
-    element :date, Date
-    element :begin
-    element :end
-    element :cancel
-  end
   elements :classes do
     element :image
     element :title
