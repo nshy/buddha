@@ -29,14 +29,21 @@ module ElementClass
     add_getter(name)
   end
 
-  def elements(name, &block)
+  def elements(name, scalar_klass = nil, &block)
     @parsers ||= {}
 
     if block_given?
+      throw "klass and block cannot be set both" if not scalar_klass.nil?
       klass = define_klass(name, &block)
       add_set_parser(name) { |c| klass.new(c) }
     else
-      add_set_parser(name) { |c| c.text }
+      add_set_parser(name) do |c|
+        if not scalar_klass.nil?
+          scalar_klass.parse(c.text.strip)
+        else
+          c.text
+        end
+      end
     end
 
     add_getter(name)
