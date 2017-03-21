@@ -16,59 +16,35 @@ def timetable_event_events(timetable, date_begin, date_end)
   events
 end
 
-def classes_border(date, border)
-  return border if date.nil?
-  border = Date.parse(date)
-end
-
-def timetable_parse_classes_day(daytime)
-  r = /([[:alpha:]]+)\s*,\s*(\d{2}:\d{2})-(\d{2}:\d{2})/.match(daytime)
-  { day: r[1], begin: r[2], end: r[3] }
-end
-
-def timetable_parse_classes_date(datetime)
-  a = datetime.split(',')
-  date = a.shift.strip
-  times = a.collect do |i|
-    r = /(\d{2}:\d{2})-(\d{2}:\d{2})/.match(i)
-    { begin: r[1], end: r[2] }
-  end
-  { date: date, times: times }
-end
-
 def timetable_classes_events(timetable, date_begin, date_end)
   events = []
   timetable.classes.each do |classes|
-    classes_begin = classes_border(classes.begin, date_begin)
-    classes_end = classes_border(classes.end, date_end)
+    classes_begin = classes.begin or date_begin
+    classes_end = classes.end or date_end
     classes_begin = date_begin > classes_begin ? date_begin : classes_begin
     classes_end = date_end < classes_end ? date_end : classes_end
     next if classes_end < classes_begin
     cancels = classes.cancel.collect { |cancel| Date.parse(cancel) }
-    classes.day.each do |daytime|
-      d = timetable_parse_classes_day(daytime)
-      cwday = Date.parse(d[:day]).cwday
+    classes.day.each do |day|
       classes_begin.step(classes_end).each do |date|
-        next if date.cwday != cwday
-        strdate = date.strftime('%Y-%m-%d')
+        w = Week.new(date)
+        next if date.cwday != day.day
         events << {
           title: classes.title,
-          begin: DateTime.parse("#{strdate} #{d[:begin]}"),
-          end: DateTime.parse("#{strdate} #{d[:end]}"),
+          begin: day.begin(w),
+          end: day.end(w),
           cancel: cancels.include?(date)
         }
       end
     end
-    classes.date.each do |day|
-      d = timetable_parse_classes_date(day)
-      date = Date.parse(d[:date])
-      next if date < date_begin or date > date_end
-      d[:times].each do |t|
+    classes.date.each do |date|
+      next if date.date < date_begin or date.date > date_end
+      date.times.each do |t|
         events << {
           title: classes.title,
-          begin: DateTime.parse("#{d[:date]} #{t[:begin]}"),
-          end: DateTime.parse("#{d[:date]} #{t[:end]}"),
-          cancel: cancels.include?(date)
+          begin: t[:begin],
+          end: t[:end],
+          cancel: cancels.include?(date.date)
         }
       end
     end
