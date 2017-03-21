@@ -115,21 +115,3 @@ def events_week_partition(events)
   end
   partition
 end
-
-class Week
-  def initialize(date = Date.today)
-    @monday = date - (date.cwday - 1)
-  end
-
-  def monday
-    @monday
-  end
-
-  def sunday
-    @monday + 6
-  end
-
-  def next
-    Week.new(@monday + 7)
-  end
-end
