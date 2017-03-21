@@ -44,7 +44,8 @@ not_found do
   File.open("data/compat.yaml") do |file|
     map = YAML.load(file.read)
   end
-  uri = local_uri(request.path, request.query_string)
+  uri = local_uri(URI::unescape(request.path),
+                  URI::unescape(request.query_string))
   goto = map[uri]
   redirect to(goto) if not goto.nil?
   @redirection = "#{SiteConfig::OLD_SITE}#{uri}"
