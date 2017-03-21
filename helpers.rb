@@ -187,20 +187,6 @@ module TimetableHelper
     date.strftime("%-d %B");
   end
 
-  def past_classes(classes)
-    return false if classes.end.nil?
-    Date.parse(classes.end) < Week.new.monday
-  end
-
-  def future_classes(classes)
-    return false if classes.begin.nil?
-    Date.parse(classes.begin) > Week.new.sunday
-  end
-
-  def actual_classes(classes)
-    not (past_classes(classes) or future_classes(classes))
-  end
-
   def classes_dates(classes)
     b = e = ""
     if not classes.begin.nil?

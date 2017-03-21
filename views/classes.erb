@@ -10,12 +10,12 @@
 
   <%= erb :'partials/classes', locals:
     { title: "Текущие",
-      classes: @timetable.classes.select { |c| actual_classes(c) },
+      classes: @timetable.classes.select { |c| c.actual? },
     } %>
   <hr/>
 
   <%= erb :'partials/classes', locals:
     { title: "Будущие",
-      classes: @timetable.classes.select { |c| future_classes(c) },
+      classes: @timetable.classes.select { |c| c.future? },
     } %>
 </div>
