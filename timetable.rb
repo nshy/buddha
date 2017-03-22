@@ -18,6 +18,7 @@ def timetable_classes_events(timetable, date_begin, date_end)
           title: classes.title,
           begin: day.begin(w),
           end: day.end(w),
+          place: day.place,
           cancel: classes.cancel.include?(date)
         }
       end
@@ -29,6 +30,7 @@ def timetable_classes_events(timetable, date_begin, date_end)
           title: classes.title,
           begin: t[:begin],
           end: t[:end],
+          place: 'Спартаковская',
           cancel: classes.cancel.include?(date.date)
         }
       end
@@ -53,7 +55,9 @@ def event_each_conflict(events)
     conflicts = succ_events.take_while do |succ_event|
       event[:end] > succ_event[:begin]
     end
-    conflicts = conflicts.select { |event| not event[:cancel] }
+    conflicts = conflicts.select do |candidate|
+      (not candidate[:cancel]) and (candidate[:place] == event[:place])
+    end
     next if conflicts.empty?
     yield event, conflicts
   end

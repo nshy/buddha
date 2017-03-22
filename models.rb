@@ -111,18 +111,20 @@ class TimetableDocument < XDSL::Element
   end
 
   class ClassesDay
-    attr_reader :day
+    attr_reader :day, :place
 
-    def initialize(day, time)
+    def initialize(day, time, place)
       @day = day
       @time = time
+      @place = place || 'Спартаковская'
     end
 
     def self.parse(value)
       a = value.split(',')
       day = Date.parse(a.shift.strip).cwday
       time = ClassesTime.parse(a.shift.strip)
-      new(day, time)
+      place = a.empty? ? nil : a.shift.strip
+      new(day, time, place)
     end
 
     def begin(week)
