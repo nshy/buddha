@@ -21,10 +21,9 @@ $border-style: 1px solid #cccccc;
 
         .date {
           font-size: 0px;
-          display: inline-block;
+          float: left;
           vertical-align: top;
           width: 55px;
-          margin-right: 18px;
           padding: 4px;
           margin-top: -4px;
 
@@ -48,7 +47,7 @@ $border-style: 1px solid #cccccc;
 
         @include site-events;
         .events {
-          display: inline-block;
+          margin-left: 65px;
           .event {
             .time {
               width: 120px;
@@ -102,16 +101,16 @@ $border-style: 1px solid #cccccc;
   .table {
     .day-line {
       .day {
-        .date {
-          margin-right: 3px;
-        }
         .events {
+          margin-left: 58px;
+          border-left: 5px solid transparent;
           .event {
             .time {
               width: 98px;
             }
           }
         }
+        .events.mytnaya { border-left: 5px solid #ffcc66; }
       }
     }
   }

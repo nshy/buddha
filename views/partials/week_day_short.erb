@@ -1,5 +1,7 @@
 <% mark_event_conflicts(events) %>
-<div class="events">
+<% clazz = "events" %>
+<% clazz += " #{style}" if style %>
+<div class="<%= clazz %>">
   <% events.each do |event| %>
     <% clazz = "event" %>
     <% clazz += " conflict" if event[:conflict] %>
@@ -10,11 +12,5 @@
         <%= "#{event[:title]}" %>
       </a>
     </div> <%# event %>
-  <% end %>
-  <% if events.empty? %>
-    <div class="event">
-      <div class="time"> </div>
-      <a class="name empty"> Нет занятий </a>
-    </div>
   <% end %>
 </div> <%# events %>
