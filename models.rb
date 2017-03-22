@@ -94,28 +94,43 @@ end
 
 class TimetableDocument < XDSL::Element
 
-  class ClassesDay
-    REGEXP = /([[:alpha:]]+)\s*,\s*(\d{2}:\d{2})-(\d{2}:\d{2})/
+  class ClassesTime
+    REGEXP = /(\d{2}:\d{2})-(\d{2}:\d{2})/
 
-    attr_reader :day
+    attr_reader :begin, :end
 
-    def initialize(day, b, e)
-      @day = Date.parse(day).cwday
+    def initialize(b, e)
       @begin = b
       @end = e
     end
 
     def self.parse(value)
       r = REGEXP.match(value)
-      new(r[1], r[2], r[3])
+      new(r[1], r[2])
+    end
+  end
+
+  class ClassesDay
+    attr_reader :day
+
+    def initialize(day, time)
+      @day = day
+      @time = time
+    end
+
+    def self.parse(value)
+      a = value.split(',')
+      day = Date.parse(a.shift.strip).cwday
+      time = ClassesTime.parse(a.shift.strip)
+      new(day, time)
     end
 
     def begin(week)
-      time(week, @begin)
+      time(week, @time.begin)
     end
 
     def end(week)
-      time(week, @end)
+      time(week, @time.end)
     end
 
   private
@@ -126,8 +141,6 @@ class TimetableDocument < XDSL::Element
   end
 
   class ClassesDate
-    REGEXP = /([[:alpha:]]+)\s*,\s*(\d{2}:\d{2})-(\d{2}:\d{2})/
-
     attr_reader :date, :times
 
     def initialize(date, times)
@@ -139,8 +152,9 @@ class TimetableDocument < XDSL::Element
       a = value.split(',')
       date = Date.parse(a.shift.strip)
       times = a.collect do |i|
-        r = /(\d{2}:\d{2})-(\d{2}:\d{2})/.match(i)
-        { begin: time(date, r[1]), end: time(date, r[2]) }
+        t = ClassesTime.parse(i)
+        { begin: time(date, t.begin),
+          end: time(date, t.end) }
       end
       new(date, times)
     end
