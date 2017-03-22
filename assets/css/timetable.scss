@@ -76,6 +76,10 @@ $border-style: 1px solid #cccccc;
       }
     }
   }
+  .footnote {
+    border-left: 10px solid #ffcc66;
+    padding-left: 7px;
+  }
 }
 
 
@@ -113,6 +117,9 @@ $border-style: 1px solid #cccccc;
         .events.mytnaya { border-left: 5px solid #ffcc66; }
       }
     }
+  }
+  .footnote {
+    border-left: 5px solid #ffcc66;
   }
 }
 
