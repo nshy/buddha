@@ -1,0 +1,3 @@
+User-agent: *
+# we don't store audio permanenly, geshe.ru will do
+Disallow: /audio/
