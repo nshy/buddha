@@ -15,7 +15,7 @@
     <div class="date"> <%= record_date(record) %> </div>
     <div class="download">
       <% if not record.audio_url.nil? and not record.audio_size.nil? %>
-        <a class="site-button" href="<%= record.audio_url %>"
+        <a class="site-button" href="<%= digest_url(record.audio_url) %>"
           <%= "download" if not /yadi.sk/ =~ record.audio_url %>
         >
             mp3&nbsp;&nbsp;<%= record.audio_size %>&nbsp;Mб
