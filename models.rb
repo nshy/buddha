@@ -87,6 +87,10 @@ class Week
     Week.new(@monday + 7)
   end
 
+  def succ
+    self.next
+  end
+
   def <=>(week)
     self.monday <=> week.monday
   end
@@ -135,34 +139,45 @@ class TimetableDocument < XDSL::Element
       time(week, @time.end)
     end
 
-  private
-    def time(week, t)
-      strdate = week.day(@day).strftime('%Y-%m-%d')
-      DateTime.parse("#{strdate} #{t}")
+    def dates(b, e)
+      wb = Week.new(b)
+      we = Week.new(e)
+      dates = (wb..we).collect do |w|
+        ClassesDate.new(w.day(@day), [ @time ], @place)
+      end
+      dates.select { |d| d.date >= b and d.date <= e }
     end
   end
 
   class ClassesDate
-    attr_reader :date, :times
+    attr_reader :date, :times, :place
 
-    def initialize(date, times)
+    def initialize(date, times, place)
       @date = date
       @times = times
+      @place = place
     end
 
     def self.parse(value)
       a = value.split(',')
       date = Date.parse(a.shift.strip)
-      times = a.collect do |i|
-        t = ClassesTime.parse(i)
-        { begin: time(date, t.begin),
-          end: time(date, t.end) }
+      times = a.collect { |t| ClassesTime.parse(t) }
+      new(date, times, 'Спартаковская')
+    end
+
+    def to_event
+      @times.collect do |t|
+        {
+          begin: date_time(@date, t.begin),
+          end: date_time(@date, t.end),
+          place: @place,
+          date: @date,
+        }
       end
-      new(date, times)
     end
 
   private
-    def self.time(date, t)
+    def date_time(date, t)
       strdate = date.strftime('%Y-%m-%d')
       DateTime.parse("#{strdate} #{t}")
     end
@@ -188,12 +203,8 @@ class TimetableDocument < XDSL::Element
   end
 
   class Classes
-    alias_method :begin_plain, :begin
-    alias_method :end_plain, :end
-
-    def begin
-      b = begin_plain
-      return b if not b.nil?
+    def begin_full
+      return self.begin if not self.begin.nil?
 
       b = date.map { |d| d.date }.min
       return b if not b.nil?
@@ -201,9 +212,8 @@ class TimetableDocument < XDSL::Element
       Date.new(1900)
     end
 
-    def end
-      e = end_plain
-      return e if not e.nil?
+    def end_full
+      return self.end if not self.end.nil?
 
       e = date.map { |d| d.date }.max
       return e if not e.nil?
@@ -212,12 +222,29 @@ class TimetableDocument < XDSL::Element
     end
 
     def future?
-      Week.new < Week.new(self.begin)
+      Week.new < Week.new(self.begin_full)
     end
 
     def actual?
       c = Week.new
-      Week.new(self.begin) <= c and c <= Week.new(self.end)
+      Week.new(self.begin_full) <= c and c <= Week.new(self.end_full)
+    end
+
+    def events(b, e)
+      dates = date.select { |d| d.date >= b and d.date <= e }
+
+      cb = self.begin || b
+      ce = self.end || e
+      cb = b > cb ? b : cb
+      ce = e < ce ? e : ce
+      dates += day.collect { |d| d.dates(cb, ce) }.flatten
+
+      events = dates.collect { |d| d.to_event }.flatten
+
+      events.each do |e|
+        e[:title] = title
+        e[:cancel] = cancel.include?(e[:date])
+      end
     end
   end
 
@@ -227,6 +254,11 @@ class TimetableDocument < XDSL::Element
       (self.begin.nil? or self.begin <= today - 1) and
       (self.end.nil? or today <= self.end)
     end
+  end
+
+  def events(b, e)
+    events = classes.collect { |c| c.events(b, e) }.flatten
+    events.sort { |a, b| a[:begin] <=> b[:begin] }
   end
 end
 

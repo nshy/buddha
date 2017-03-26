@@ -201,7 +201,6 @@ module TimetableHelper
   end
 
   def week_events(timetable, week)
-    week = timetable_events(timetable, week.monday, week.sunday)
-    events_week_partition(week)
+    events_week_partition(timetable.events(week.monday, week.sunday))
   end
 end

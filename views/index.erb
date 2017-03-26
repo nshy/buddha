@@ -67,7 +67,7 @@
         <hr/>
         <% day = Date.today %>
         <%= erb :'partials/week_day_places', locals: {
-          events: timetable_events(@timetable, day, day) } %>
+          events: @timetable.events(day, day) } %>
       </div>
       <div class="records">
         <div class="header">

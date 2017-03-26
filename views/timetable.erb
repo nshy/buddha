@@ -35,7 +35,7 @@
        </div>
      <% end %>
   </div>
-  <% events = timetable_events(@timetable, week.monday, next_week.sunday) %>
+  <% events = @timetable.events(week.monday, next_week.sunday) %>
   <% mytnaya = events.select { |e| e[:place] == 'Мытная' } %>
   <% if not mytnaya.empty? %>
 
