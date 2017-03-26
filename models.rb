@@ -200,9 +200,65 @@ class TimetableDocument < XDSL::Element
     element :end, Date
     elements :cancel, Date
     elements :date, ClassesDate
+    elements :changes do
+      element :begin, Date
+      element :end, Date
+      elements :day, ClassesDay
+    end
+  end
+
+  module DayDates
+    def day_dates(b, e)
+      cb = self.begin || b
+      ce = self.end || e
+      cb = b > cb ? b : cb
+      ce = e < ce ? e : ce
+      day.collect { |d| d.dates(cb, ce) }.flatten
+    end
+  end
+
+  class DateInterval
+    attr_reader :begin, :end
+
+    def initialize(b, e)
+      @begin = b
+      @end = e
+    end
+  end
+
+  class IntervalBuilder
+    attr_reader :intervals
+
+    def initialize(b, e)
+      @intervals = [ DateInterval.new(b, e) ]
+    end
+
+    def delete(b, e)
+      @intervals = @intervals.collect do |i|
+        if i.begin >= b and i.end <= e
+          []
+        elsif i.begin < b and i.end > e
+          [ DateInterval.new(i.begin, b - 1),
+            DateInterval.new(e + 1, i.end) ]
+        elsif i.begin > e or i.end < b
+          i
+        elsif i.begin < b
+          DateInterval.new(i.begin, b - 1)
+        else
+          DateInterval.new(e + 1, i.end)
+        end
+      end
+      @intervals.flatten!
+    end
   end
 
   class Classes
+    include DayDates
+
+    class Changes
+      include DayDates
+    end
+
     def begin_full
       return self.begin if not self.begin.nil?
 
@@ -233,11 +289,11 @@ class TimetableDocument < XDSL::Element
     def events(b, e)
       dates = date.select { |d| d.date >= b and d.date <= e }
 
-      cb = self.begin || b
-      ce = self.end || e
-      cb = b > cb ? b : cb
-      ce = e < ce ? e : ce
-      dates += day.collect { |d| d.dates(cb, ce) }.flatten
+      dates += changes.collect { |c| c.day_dates(b, e) }.flatten
+
+      i = IntervalBuilder.new(b, e)
+      changes.each { |c| i.delete(c.begin, c.end) }
+      dates += i.intervals.collect { |i| day_dates(i.begin, i.end) }.flatten
 
       events = dates.collect { |d| d.to_event }.flatten
 
