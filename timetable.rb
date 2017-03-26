@@ -2,7 +2,8 @@ require 'date'
 require 'nokogiri'
 require_relative 'models'
 
-def timetable_classes_events(timetable, date_begin, date_end)
+# both dates are included
+def timetable_events(timetable, date_begin, date_end)
   events = []
   timetable.classes.each do |classes|
     classes_begin = classes.begin or date_begin
@@ -36,12 +37,6 @@ def timetable_classes_events(timetable, date_begin, date_end)
       end
     end
   end
-  events
-end
-
-# both dates are included
-def timetable_events(timetable, date_begin, date_end)
-  events = timetable_classes_events(timetable, date_begin, date_end)
   events.sort! do |a, b|
     a[:begin] <=> b[:begin]
   end
