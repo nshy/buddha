@@ -33,6 +33,17 @@
           margin-top: 4px;
           font-size: 15px;
           font-weight: 400;
+          margin-bottom: 5px;
+        }
+
+        .changes {
+          .note {
+            display: inline;
+            font-weight: 600;
+          }
+          .announce {
+            display: inline;
+          }
         }
 
         .info {

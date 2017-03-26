@@ -201,6 +201,7 @@ class TimetableDocument < XDSL::Element
     elements :cancel, Date
     elements :date, ClassesDate
     elements :changes do
+      element :announce
       element :begin, Date
       element :end, Date
       elements :day, ClassesDay
@@ -257,6 +258,11 @@ class TimetableDocument < XDSL::Element
 
     class Changes
       include DayDates
+
+      def actual?
+        (Week.new.next >= Week.new(self.begin)) and
+          Week.new <= Week.new(self.end)
+      end
     end
 
     def begin_full
@@ -301,6 +307,10 @@ class TimetableDocument < XDSL::Element
         e[:title] = title
         e[:cancel] = cancel.include?(e[:date])
       end
+    end
+
+    def announces
+      changes.select { |c| c.actual? }.collect { |c| c.announce }.join(' ')
     end
   end
 
