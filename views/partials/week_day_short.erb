@@ -9,7 +9,7 @@
     <div class="<%= clazz %>">
       <div class="time"> <%= event_interval(event) %> </div>
       <a href="/timetable?show=schedule#<%= slug(Russian::transliterate(event[:title])) %>">
-        <%= "#{event[:title]}" %>
+        <%= "#{event[:title]}" %><% if event[:temp] %><sup>*</sup><% end %>
       </a>
     </div> <%# event %>
   <% end %>

@@ -35,15 +35,22 @@
        </div>
      <% end %>
   </div>
+
   <% events = @timetable.events(week.monday, next_week.sunday) %>
+
   <% mytnaya = events.select { |e| e[:place] == 'Мытная' } %>
   <% if not mytnaya.empty? %>
-
   <div class="footnote">
     Цветом отмечены занятия которые проходят в старом помещении Центра по
     <a href="https://yandex.ru/maps/-/C6Eou-3n">адресу</a>
     ул.&nbsp;Мытная&nbsp;23,&nbsp;к.1.
   </div>
+  <% end %>
 
+  <% if not events.select { |e| e[:temp] }.empty? %>
+  <div class="star">
+    <sup><b>*</b></sup> эти занятия проводятся по измененному графику.
+    Подробности смотрите в разделе "План".
+  </div>
   <% end %>
 </div>

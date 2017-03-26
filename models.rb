@@ -117,18 +117,25 @@ class TimetableDocument < XDSL::Element
   class ClassesDay
     attr_reader :day, :place
 
-    def initialize(day, time, place)
+    def initialize(day, time, place, temp)
       @day = day
       @time = time
       @place = place || 'Спартаковская'
+      @temp = temp
     end
 
     def self.parse(value)
+      value.strip!
+      temp = false
+      if value[0] == '*'
+        value = value[1..-1]
+        temp = true
+      end
       a = value.split(',')
       day = Date.parse(a.shift.strip).cwday
       time = ClassesTime.parse(a.shift.strip)
       place = a.empty? ? nil : a.shift.strip
-      new(day, time, place)
+      new(day, time, place, temp)
     end
 
     def begin(week)
@@ -143,7 +150,7 @@ class TimetableDocument < XDSL::Element
       wb = Week.new(b)
       we = Week.new(e)
       dates = (wb..we).collect do |w|
-        ClassesDate.new(w.day(@day), [ @time ], @place)
+        ClassesDate.new(w.day(@day), [ @time ], @place, @temp)
       end
       dates.select { |d| d.date >= b and d.date <= e }
     end
@@ -152,17 +159,18 @@ class TimetableDocument < XDSL::Element
   class ClassesDate
     attr_reader :date, :times, :place
 
-    def initialize(date, times, place)
+    def initialize(date, times, place, temp)
       @date = date
       @times = times
       @place = place
+      @temp = temp
     end
 
     def self.parse(value)
       a = value.split(',')
       date = Date.parse(a.shift.strip)
       times = a.collect { |t| ClassesTime.parse(t) }
-      new(date, times, 'Спартаковская')
+      new(date, times, 'Спартаковская', false)
     end
 
     def to_event
@@ -172,6 +180,7 @@ class TimetableDocument < XDSL::Element
           end: date_time(@date, t.end),
           place: @place,
           date: @date,
+          temp: @temp,
         }
       end
     end
