@@ -118,53 +118,79 @@ class TimetableDocument < XDSL::Element
 
     def self.parse(value)
       r = REGEXP.match(value)
+      return nil if r.nil?
       new(r[1], r[2])
+    end
+
+    def to_s
+      "#{@begin}-#{@end}"
     end
   end
 
-  class ClassesDay
-    attr_reader :day, :place
-
-    def initialize(day, time, place, temp)
-      @day = day
-      @time = time
-      @place = place || 'Спартаковская'
-      @temp = temp
-    end
-
-    def self.parse(value)
+  module DayParser
+    def parse_day(value, clazz)
+      # parse *
       value.strip!
       temp = false
       if value[0] == '*'
         value = value[1..-1]
         temp = true
       end
+
       a = value.split(',')
-      day = Date.parse(a.shift.strip).cwday
-      time = ClassesTime.parse(a.shift.strip)
-      place = a.empty? ? nil : a.shift.strip
-      new(day, time, place, temp)
+      date = Date.parse(a.shift.strip)
+
+      # parse times
+      times = []
+      last = a.shift
+      raise "Time must be specified in '#{value}'" if last.nil?
+      begin
+        time = ClassesTime.parse(last.strip)
+        break if time.nil?
+        times << time
+        last = a.shift
+      end while last
+
+      last.strip! if last
+      place = last || 'Спартаковская'
+      raise "day value '#{value}' has unparsed tail" if not a.empty?
+      if not ['Спартаковская', 'Мытная'].include?(place)
+        raise "address must be Спартаковская either or Мытная in '#{value}'"
+      end
+
+      clazz.new(date, times, place, temp)
+    end
+  end
+
+  class ClassesDay
+    extend DayParser
+
+    attr_reader :day, :place
+
+    def initialize(day, times, place, temp)
+      @day = day.cwday
+      @times = times
+      @place = place
+      @temp = temp
     end
 
-    def begin(week)
-      time(week, @time.begin)
-    end
-
-    def end(week)
-      time(week, @time.end)
+    def self.parse(value)
+      parse_day(value, self)
     end
 
     def dates(b, e)
       wb = Week.new(b)
       we = Week.new(e)
       dates = (wb..we).collect do |w|
-        ClassesDate.new(w.day(@day), [ @time ], @place, @temp)
+        ClassesDate.new(w.day(@day), @times, @place, @temp)
       end
       dates.select { |d| d.date >= b and d.date <= e }
     end
   end
 
   class ClassesDate
+    extend DayParser
+
     attr_reader :date, :times, :place
 
     def initialize(date, times, place, temp)
@@ -175,10 +201,7 @@ class TimetableDocument < XDSL::Element
     end
 
     def self.parse(value)
-      a = value.split(',')
-      date = Date.parse(a.shift.strip)
-      times = a.collect { |t| ClassesTime.parse(t) }
-      new(date, times, 'Спартаковская', false)
+      parse_day(value, self)
     end
 
     def to_event
