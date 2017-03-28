@@ -37,7 +37,7 @@
       <div class="fotorama"
            data-arrows="false"
            data-width="100%">
-        <% @quotes.quote.each do |quote| %>
+        <% @quotes.current_quotes.each do |quote| %>
           <div> <%= quote %> </div>
         <% end %>
       </div>

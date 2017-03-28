@@ -94,6 +94,14 @@ class Week
   def <=>(week)
     self.monday <=> week.monday
   end
+
+  def -(week)
+    (@monday - week.monday).numerator / 7
+  end
+
+  def +(num)
+    Week.new(@monday + 7 * num)
+  end
 end
 
 class TimetableDocument < XDSL::Element
@@ -358,5 +366,16 @@ class MenuDocument < XDSL::Element
 end
 
 class QuotesDocument < XDSL::Element
+  elements :begin, Date
   elements :quote
+
+  def current_quotes
+    num = 5
+    w = Week.new
+    b = self.begin.select { |b| b <= w.monday }.last
+
+    wb = Week.new(b)
+    wb += 1 if not b.monday?
+    (quote + quote.slice(0, num)).slice((w - wb) % quote.length, num)
+  end
 end
