@@ -107,6 +107,8 @@ end
 class TimetableDocument < XDSL::Element
 
   class ClassesSingleTime
+    include Comparable
+
     attr_reader :hour, :minute
 
     def initialize(hour, minute)
@@ -121,6 +123,14 @@ class TimetableDocument < XDSL::Element
     def self.parse(value)
       d = DateTime.parse(value)
       new(d.hour, d.minute)
+    end
+
+    def <=>(time)
+      to_minutes <=> time.to_minutes
+    end
+
+    def to_minutes
+      @hour * 24 + @minute
     end
   end
 
@@ -144,7 +154,7 @@ class TimetableDocument < XDSL::Element
         return nil if not REGEXP.match(es)
         e = ClassesSingleTime.parse(es)
       else
-        e = ClassesSingleTime.new((b.hour + 2), b.minute)
+        e = ClassesSingleTime.new((b.hour + 2) % 24, b.minute)
       end
       new(b, e)
     end
@@ -233,9 +243,11 @@ class TimetableDocument < XDSL::Element
 
     def to_event
       @times.collect do |t|
+        d = @date
+        d += 1 if t.end < t.begin
         {
           begin: date_time(@date, t.begin),
-          end: date_time(@date, t.end),
+          end: date_time(d, t.end),
           place: @place,
           date: @date,
           temp: @temp,
