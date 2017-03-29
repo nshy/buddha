@@ -106,8 +106,26 @@ end
 
 class TimetableDocument < XDSL::Element
 
+  class ClassesSingleTime
+    attr_reader :hour, :minute
+
+    def initialize(hour, minute)
+      @hour = hour
+      @minute = minute
+    end
+
+    def to_s
+      "#{@hour}:#{@minute}"
+    end
+
+    def self.parse(value)
+      d = DateTime.parse(value)
+      new(d.hour, d.minute)
+    end
+  end
+
   class ClassesTime
-    REGEXP = /(\d{2}:\d{2})-(\d{2}:\d{2})/
+    REGEXP = /\d{2}:\d{2}/
 
     attr_reader :begin, :end
 
@@ -117,9 +135,18 @@ class TimetableDocument < XDSL::Element
     end
 
     def self.parse(value)
-      r = REGEXP.match(value)
-      return nil if r.nil?
-      new(r[1], r[2])
+      a = value.strip.split('-')
+      bs = a.shift
+      return nil if not REGEXP.match(bs)
+      b = ClassesSingleTime.parse(bs)
+      es = a.shift
+      if es
+        return nil if not REGEXP.match(es)
+        e = ClassesSingleTime.parse(es)
+      else
+        e = ClassesSingleTime.new((b.hour + 2), b.minute)
+      end
+      new(b, e)
     end
 
     def to_s
