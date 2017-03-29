@@ -19,7 +19,7 @@ module ElementClass
         if not scalar_klass.nil?
           scalar_klass.parse(t)
         elsif not t.empty?
-          t
+          e.inner_html
         else
           nil
         end
