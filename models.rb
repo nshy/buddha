@@ -170,46 +170,54 @@ class TimetableDocument < XDSL::Element
     end
   end
 
-  module DayParser
-    def parse_day(value, clazz)
-      a = value.split(',')
-      date = Date.parse(a.shift.strip)
-
-      # parse times
+  module ParseHelper
+    def parse_times(a)
       times = []
-      last = a.shift
-      raise "Time must be specified in '#{value}'" if last.nil?
-      begin
-        time = ClassesTime.parse(last.strip)
+      while a.first
+        time = ClassesTime.parse(a.first)
         break if time.nil?
         times << time
-        last = a.shift
-      end while last
-
-      last.strip! if last
-      place = last || 'Спартаковская'
-      raise "day value '#{value}' has unparsed tail" if not a.empty?
-      if not ['Спартаковская', 'Мытная'].include?(place)
-        raise "address must be Спартаковская either or Мытная in '#{value}'"
+        a.shift
       end
+      times
+    end
 
-      clazz.new(date, times, place)
+    def parse_place(a)
+      place = a.shift || 'Спартаковская'
+      if not ['Спартаковская', 'Мытная'].include?(place)
+        raise "address must be Спартаковская either or Мытная"
+      end
+      place
+    end
+
+    def parse_check_tail(a)
+      raise "unparsed tail" if not a.empty?
     end
   end
 
   class ClassesDay
-    extend DayParser
+    extend ParseHelper
 
     attr_reader :day, :place
 
     def initialize(day, times, place)
-      @day = day.cwday
+      @day = day
       @times = times
       @place = place
     end
 
     def self.parse(value)
-      parse_day(value, self)
+      a = value.split(',')
+
+      day = Date.parse(a.shift.strip).cwday
+
+      times = parse_times(a)
+      raise "Time must be specified" if times.empty?
+
+      place = parse_place(a)
+      parse_check_tail(a)
+
+      new(day, times, place)
     end
 
     def dates(b, e)
@@ -223,7 +231,7 @@ class TimetableDocument < XDSL::Element
   end
 
   class ClassesDate
-    extend DayParser
+    extend ParseHelper
 
     attr_reader :date, :times, :place
 
@@ -234,7 +242,17 @@ class TimetableDocument < XDSL::Element
     end
 
     def self.parse(value)
-      parse_day(value, self)
+      a = value.split(',')
+
+      date = Date.parse(a.shift.strip)
+
+      times = parse_times(a)
+      raise "Time must be specified" if times.empty?
+
+      place = parse_place(a)
+      parse_check_tail(a)
+
+      new(date, times, place)
     end
 
     def to_event
