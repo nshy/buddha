@@ -137,14 +137,20 @@ class TimetableDocument < XDSL::Element
   class ClassesTime
     REGEXP = /\d{2}:\d{2}/
 
-    attr_reader :begin, :end
+    attr_reader :begin, :end, :temp
 
-    def initialize(b, e)
+    def initialize(b, e, temp)
       @begin = b
       @end = e
+      @temp = temp
     end
 
     def self.parse(value)
+      # parse *
+      value.strip!
+      temp = value.end_with?('*')
+      value.chop! if temp
+
       a = value.strip.split('-')
       bs = a.shift
       return nil if not REGEXP.match(bs)
@@ -156,7 +162,7 @@ class TimetableDocument < XDSL::Element
       else
         e = ClassesSingleTime.new((b.hour + 2) % 24, b.minute)
       end
-      new(b, e)
+      new(b, e, temp)
     end
 
     def to_s
@@ -166,14 +172,6 @@ class TimetableDocument < XDSL::Element
 
   module DayParser
     def parse_day(value, clazz)
-      # parse *
-      value.strip!
-      temp = false
-      if value[0] == '*'
-        value = value[1..-1]
-        temp = true
-      end
-
       a = value.split(',')
       date = Date.parse(a.shift.strip)
 
@@ -195,7 +193,7 @@ class TimetableDocument < XDSL::Element
         raise "address must be Спартаковская either or Мытная in '#{value}'"
       end
 
-      clazz.new(date, times, place, temp)
+      clazz.new(date, times, place)
     end
   end
 
@@ -204,11 +202,10 @@ class TimetableDocument < XDSL::Element
 
     attr_reader :day, :place
 
-    def initialize(day, times, place, temp)
+    def initialize(day, times, place)
       @day = day.cwday
       @times = times
       @place = place
-      @temp = temp
     end
 
     def self.parse(value)
@@ -219,7 +216,7 @@ class TimetableDocument < XDSL::Element
       wb = Week.new(b)
       we = Week.new(e)
       dates = (wb..we).collect do |w|
-        ClassesDate.new(w.day(@day), @times, @place, @temp)
+        ClassesDate.new(w.day(@day), @times, @place)
       end
       dates.select { |d| d.date >= b and d.date <= e }
     end
@@ -230,11 +227,10 @@ class TimetableDocument < XDSL::Element
 
     attr_reader :date, :times, :place
 
-    def initialize(date, times, place, temp)
+    def initialize(date, times, place)
       @date = date
       @times = times
       @place = place
-      @temp = temp
     end
 
     def self.parse(value)
@@ -250,7 +246,7 @@ class TimetableDocument < XDSL::Element
           end: date_time(d, t.end),
           place: @place,
           date: @date,
-          temp: @temp,
+          temp: t.temp,
         }
       end
     end
