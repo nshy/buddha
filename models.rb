@@ -134,12 +134,27 @@ class TimetableDocument < XDSL::Element
     end
   end
 
+  class EventTime
+    attr_reader :begin, :end
+
+    def initialize(b, e)
+      @begin = b
+      @end = e
+    end
+
+    def cross(t)
+      not (t.begin > @end or t.end < @begin)
+    end
+  end
+
   class ClassesTime
     REGEXP = /\d{2}:\d{2}/
+    DayBegin = ClassesSingleTime.new(0, 0)
+    DayEnd = ClassesSingleTime.new(0, 0)
 
     attr_reader :begin, :end, :temp
 
-    def initialize(b, e, temp)
+    def initialize(b, e, temp = false)
       @begin = b
       @end = e
       @temp = temp
@@ -168,6 +183,18 @@ class TimetableDocument < XDSL::Element
     def to_s
       "#{@begin}-#{@end}"
     end
+
+    def event_time(date)
+      d = date
+      d = date + 1 if @end <= @begin
+      b = DateTime.new(date.year, date.month, date.day,
+                       @begin.hour, @begin.minute)
+      e = DateTime.new(d.year, d.month, d.day,
+                       @end.hour, @end.minute)
+      EventTime.new(b, e)
+    end
+
+    WholeDay = new(DayBegin, DayEnd)
   end
 
   module ParseHelper
@@ -257,22 +284,39 @@ class TimetableDocument < XDSL::Element
 
     def to_event
       @times.collect do |t|
-        d = @date
-        d += 1 if t.end < t.begin
+        et = t.event_time(@date)
         {
-          begin: date_time(@date, t.begin),
-          end: date_time(d, t.end),
+          begin: et.begin,
+          end: et.end,
           place: @place,
-          date: @date,
           temp: t.temp,
         }
       end
     end
+  end
 
-  private
-    def date_time(date, t)
-      strdate = date.strftime('%Y-%m-%d')
-      DateTime.parse("#{strdate} #{t}")
+  class Cancel
+    extend ParseHelper
+
+    attr_reader :date, :times
+
+    def initialize(date, times)
+      @times = times.collect { |t| t.event_time(date) }
+      @times << ClassesTime::WholeDay.event_time(date) if @times.empty?
+    end
+
+    def self.parse(value)
+      a = value.split(',')
+
+      date = Date.parse(a.shift.strip)
+      times = parse_times(a)
+      parse_check_tail(a)
+
+      new(date, times)
+    end
+
+    def affect?(e)
+      @times.any? { |t| t.cross(e) }
     end
   end
 
@@ -291,7 +335,7 @@ class TimetableDocument < XDSL::Element
     elements :day, ClassesDay
     element :begin, Date
     element :end, Date
-    elements :cancel, Date
+    elements :cancel, Cancel
     elements :date, ClassesDate
     elements :changes do
       element :announce
@@ -398,7 +442,7 @@ class TimetableDocument < XDSL::Element
 
       events.each do |e|
         e[:title] = title
-        e[:cancel] = cancel.include?(e[:date])
+        e[:cancel] = cancel.any? { |c| c.affect?(EventTime.new(e[:begin], e[:end])) }
       end
     end
 
