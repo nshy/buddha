@@ -410,30 +410,25 @@ class TimetableDocument < XDSL::Element
     end
 
     def begin_full
-      return self.begin if not self.begin.nil?
-
-      b = date.map { |d| d.date }.min
-      return b if not b.nil?
-
-      Date.new(1900)
+      self.begin || date.map { |d| d.date }.min
     end
 
     def end_full
-      return self.end if not self.end.nil?
-
-      e = date.map { |d| d.date }.max
-      return e if not e.nil?
-
-      Date.new(2100)
+      self.end || date.map { |d| d.date }.max
     end
 
     def future?
-      Week.new < Week.new(self.begin_full)
+      b = begin_full
+      b and Week.new < Week.new(b)
+    end
+
+    def past?
+      e = end_full
+      e and Week.new > Week.new(e)
     end
 
     def actual?
-      c = Week.new
-      Week.new(self.begin_full) <= c and c <= Week.new(self.end_full)
+      not (past? or future?)
     end
 
     def events(b, e)
