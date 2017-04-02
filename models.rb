@@ -380,16 +380,16 @@ class TimetableDocument < XDSL::Element
 
     def delete(b, e)
       @intervals = @intervals.collect do |i|
-        if i.begin >= b and i.end <= e
+        if i.begin >= b and (e.nil? or i.end <= e)
           []
-        elsif i.begin < b and i.end > e
+        elsif i.begin < b and e and i.end > e
           [ DateInterval.new(i.begin, b - 1),
             DateInterval.new(e + 1, i.end) ]
-        elsif i.begin > e or i.end < b
+        elsif (e and i.begin > e) or i.end < b
           i
         elsif i.begin < b
           DateInterval.new(i.begin, b - 1)
-        else
+        elsif e
           DateInterval.new(e + 1, i.end)
         end
       end
@@ -405,7 +405,7 @@ class TimetableDocument < XDSL::Element
 
       def actual?
         (Week.new.next >= Week.new(self.begin)) and
-          Week.new <= Week.new(self.end)
+          (self.end.nil? or Week.new <= Week.new(self.end))
       end
     end
 
