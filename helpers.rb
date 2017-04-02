@@ -167,7 +167,7 @@ end
 module TimetableHelper
   def timetable_months()
     first = Week.new.monday
-    last = first + 13
+    last = Week.new.next.sunday
     if first.month == last.month
       Russian::strftime(first, "%B")
     else
