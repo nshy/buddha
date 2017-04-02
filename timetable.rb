@@ -24,12 +24,3 @@ def mark_event_conflicts(events)
     conflicts.each { |event| event[:conflict] = true }
   end
 end
-
-def events_week_partition(events)
-  groups = events.group_by { |event| (event[:time].begin.wday - 1) % 7 }
-  partition = []
-  (0..6).each do |day|
-    partition << (groups.has_key?(day) ? groups[day] : [])
-  end
-  partition
-end

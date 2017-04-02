@@ -83,6 +83,14 @@ class Week
     @monday + (cwday - 1)
   end
 
+  def self.cwdays
+    1..7
+  end
+
+  def dates
+    monday..sunday
+  end
+
   def next
     Week.new(@monday + 7)
   end
