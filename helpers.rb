@@ -175,23 +175,6 @@ module TimetableHelper
     end
   end
 
-  def format_date_classes(date)
-    date.strftime("%-d %B");
-  end
-
-  def classes_dates(classes)
-    b = e = ""
-    if not classes.begin.nil?
-      d = Date.parse(classes.begin)
-      b = "с #{Russian::strftime(d, "%e %B")}"
-    end
-    if not classes.end.nil?
-      d = Date.parse(classes.end)
-      e = " по #{Russian::strftime(d, "%e %B")}"
-    end
-    b + e
-  end
-
   def week_day(date, events)
     locals = { date: date,
                events: events.select { |e| e[:time].begin.to_date == date } }
