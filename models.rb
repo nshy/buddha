@@ -117,12 +117,16 @@ class TimetableDocument < XDSL::Element
     end
 
     def to_s
-      "#{@hour}:#{@minute}"
+      "%02d:%02d" % [ @hour, @minute ]
     end
 
     def self.parse(value)
       d = DateTime.parse(value)
       new(d.hour, d.minute)
+    end
+
+    def self.from_datetime(t)
+      new(t.hour, t.minute)
     end
 
     def <=>(time)
@@ -144,6 +148,11 @@ class TimetableDocument < XDSL::Element
 
     def cross(t)
       not (t.begin > @end or t.end < @begin)
+    end
+
+    def classes_time
+      ClassesTime.new(ClassesSingleTime.from_datetime(@begin),
+                      ClassesSingleTime.from_datetime(@end))
     end
   end
 
@@ -181,7 +190,7 @@ class TimetableDocument < XDSL::Element
     end
 
     def to_s
-      "#{@begin}-#{@end}"
+      "#{@begin} - #{@end}"
     end
 
     def event_time(date)
@@ -284,10 +293,8 @@ class TimetableDocument < XDSL::Element
 
     def to_event
       @times.collect do |t|
-        et = t.event_time(@date)
         {
-          begin: et.begin,
-          end: et.end,
+          time: t.event_time(@date),
           place: @place,
           temp: t.temp,
         }
@@ -442,7 +449,7 @@ class TimetableDocument < XDSL::Element
 
       events.each do |e|
         e[:title] = title
-        e[:cancel] = cancel.any? { |c| c.affect?(EventTime.new(e[:begin], e[:end])) }
+        e[:cancel] = cancel.any? { |c| c.affect?(e[:time]) }
       end
     end
 
@@ -461,7 +468,7 @@ class TimetableDocument < XDSL::Element
 
   def events(b, e)
     events = classes.collect { |c| c.events(b, e) }.flatten
-    events.sort { |a, b| a[:begin] <=> b[:begin] }
+    events.sort { |a, b| a[:time].begin <=> b[:time].begin }
   end
 end
 

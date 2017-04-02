@@ -7,7 +7,7 @@ def event_each_conflict(events)
     next if event[:cancel]
     succ_events = events.drop(index + 1)
     conflicts = succ_events.take_while do |succ_event|
-      event[:end] > succ_event[:begin]
+      event[:time].end > succ_event[:time].begin
     end
     conflicts = conflicts.select do |candidate|
       (not candidate[:cancel]) and (candidate[:place] == event[:place])
@@ -26,7 +26,7 @@ def mark_event_conflicts(events)
 end
 
 def events_week_partition(events)
-  groups = events.group_by { |event| (event[:begin].wday - 1) % 7 }
+  groups = events.group_by { |event| (event[:time].begin.wday - 1) % 7 }
   partition = []
   (0..6).each do |day|
     partition << (groups.has_key?(day) ? groups[day] : [])

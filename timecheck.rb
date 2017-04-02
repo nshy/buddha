@@ -14,15 +14,11 @@ date_begin = Date.parse("#{year}-01-01")
 date_end = Date.parse("#{year}-12-31")
 events = timetable.events(date_begin, date_end)
 
-def print_event_interval(event)
-   "#{event[:begin].strftime('%H:%M')}-#{event[:end].strftime('%H:%M')}"
-end
-
 event_each_conflict(events) do |event, conflicts|
   puts "#{event[:title]} "\
-       "#{event[:begin].strftime('%Y-%m-%d')} "\
-       "#{print_event_interval(event)}"
+       "#{event[:time].begin.strftime('%Y-%m-%d')} "\
+       "#{event[:time].classes_time}"
   conflicts.each do |conflict|
-    puts "  #{conflict[:title]} #{print_event_interval(conflict)}"
+    puts "  #{conflict[:title]} #{conflict[:time].classes_time}"
   end
 end

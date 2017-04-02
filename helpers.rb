@@ -175,14 +175,6 @@ module TimetableHelper
     end
   end
 
-  def event_interval(event)
-    time_interval(event[:begin], event[:end])
-  end
-
-  def time_interval(b, e)
-     "#{b.strftime('%H:%M')} - #{e.strftime('%H:%M')}"
-  end
-
   def format_date_classes(date)
     date.strftime("%-d %B");
   end
