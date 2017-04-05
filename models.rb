@@ -362,46 +362,16 @@ class TimetableDocument < XDSL::Element
 
   module DayDates
     def day_dates(b, e)
+      r = days_range(b, e)
+      day.collect { |d| d.dates(r.begin, r.end) }.flatten
+    end
+
+    def days_range(b, e)
       cb = self.begin || b
       ce = self.end || e
       cb = b > cb ? b : cb
       ce = e < ce ? e : ce
-      day.collect { |d| d.dates(cb, ce) }.flatten
-    end
-  end
-
-  class DateInterval
-    attr_reader :begin, :end
-
-    def initialize(b, e)
-      @begin = b
-      @end = e
-    end
-  end
-
-  class IntervalBuilder
-    attr_reader :intervals
-
-    def initialize(b, e)
-      @intervals = [ DateInterval.new(b, e) ]
-    end
-
-    def delete(b, e)
-      @intervals = @intervals.collect do |i|
-        if i.begin >= b and (e.nil? or i.end <= e)
-          []
-        elsif i.begin < b and e and i.end > e
-          [ DateInterval.new(i.begin, b - 1),
-            DateInterval.new(e + 1, i.end) ]
-        elsif (e and i.begin > e) or i.end < b
-          i
-        elsif i.begin < b
-          DateInterval.new(i.begin, b - 1)
-        elsif e
-          DateInterval.new(e + 1, i.end)
-        end
-      end
-      @intervals.flatten!
+      cb..ce
     end
   end
 
@@ -441,12 +411,13 @@ class TimetableDocument < XDSL::Element
 
     def events(b, e)
       dates = date.select { |d| d.date >= b and d.date <= e }
+      dates += day_dates(b, e)
 
-      dates += changes.collect { |c| c.day_dates(b, e) }.flatten
-
-      i = IntervalBuilder.new(b, e)
-      changes.each { |c| i.delete(c.begin, c.end) }
-      dates += i.intervals.collect { |i| day_dates(i.begin, i.end) }.flatten
+      changes.each do |c|
+        r = c.days_range(b, e)
+        dates = dates.select { |d| d.date < r.begin or d.date > r.end }
+        dates += c.day_dates(r.begin, r.end)
+      end
 
       events = dates.collect { |d| d.to_event }.flatten
 
