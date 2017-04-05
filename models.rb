@@ -367,11 +367,11 @@ class TimetableDocument < XDSL::Element
     end
 
     def days_range(b, e)
-      cb = self.begin || b
-      ce = self.end || e
-      cb = b > cb ? b : cb
-      ce = e < ce ? e : ce
-      cb..ce
+      cb = self.begin
+      ce = self.end
+      b = cb if cb and cb > b
+      e = ce if ce and ce < e
+      b..e
     end
   end
 
