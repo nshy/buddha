@@ -359,6 +359,11 @@ class TimetableDocument < XDSL::Element
     end
   end
 
+  elements :event do
+    element :title
+    element :date, ClassesDate
+  end
+
   module DayDates
     def begin_full
       self.begin || date.map { |d| d.date }.min
@@ -439,6 +444,14 @@ class TimetableDocument < XDSL::Element
     end
   end
 
+  class Event
+    def events(b, e)
+      return [] if date.date < b or date.date > e
+      events = date.to_event
+      events.each { |e| e[:title] = title }
+    end
+  end
+
   class Banner
     def active?
       today = Date.today
@@ -448,8 +461,9 @@ class TimetableDocument < XDSL::Element
   end
 
   def events(b, e)
-    events = classes.collect { |c| c.events(b, e) }.flatten
-    events.sort { |a, b| a[:time].begin <=> b[:time].begin }
+    r = classes.collect { |c| c.events(b, e) }.flatten
+    r += event.collect { |ev| ev.events(b, e) }.flatten
+    r.sort { |a, b| a[:time].begin <=> b[:time].begin }
   end
 end
 

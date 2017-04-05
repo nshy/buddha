@@ -8,9 +8,13 @@
     <% clazz += " cancel" if event[:cancel] %>
     <div class="<%= clazz %>">
       <div class="time"> <%= event[:time].classes_time %> </div>
+      <% if /href/ =~ event[:title] %>
+        <%= event[:title] %>
+      <% else %>
       <a href="/timetable?show=schedule#<%= slug(Russian::transliterate(event[:title])) %>">
         <%= "#{event[:title]}" %><% if event[:temp] %><sup>*</sup><% end %>
       </a>
+      <% end %>
     </div> <%# event %>
   <% end %>
 </div> <%# events %>
