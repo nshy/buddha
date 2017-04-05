@@ -291,8 +291,6 @@ class TimetableDocument < XDSL::Element
       date = Date.parse(a.shift.strip)
 
       times = parse_times(a)
-      raise "Time must be specified" if times.empty?
-
       place = parse_place(a)
       parse_check_tail(a)
 
