@@ -81,11 +81,12 @@
       font-weight: 400;
 
       .time {
+        float: left;
         display: inline-block;
         color: #5d646f;
       }
       a {
-        display: inline-block;
+        display: block;
         &.empty {
           color: #a0a9b8;
         }
