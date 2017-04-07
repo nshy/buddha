@@ -81,8 +81,18 @@ $border-style: 1px solid #cccccc;
     }
   }
   .footnote {
-    border-left: 10px solid #ffcc66;
-    padding-left: 7px;
+    .marker {
+      float: left;
+      width: 20px;
+      &.color {
+        width: 10px;
+        background-color: #ffcc66;
+      }
+    }
+    .text {
+      margin-left: 20px;
+    }
+    margin-bottom: 5px;
   }
 }
 
@@ -126,7 +136,11 @@ $border-style: 1px solid #cccccc;
     }
   }
   .footnote {
-    border-left: 5px solid #ffcc66;
+    .marker {
+      &.color {
+        width: 5px;
+      }
+    }
   }
 }
 

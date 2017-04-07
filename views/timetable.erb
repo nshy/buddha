@@ -33,16 +33,22 @@
   <% mytnaya = events.select { |e| e[:place] == 'Мытная' } %>
   <% if not mytnaya.empty? %>
   <div class="footnote">
-    Цветом отмечены занятия которые проходят в старом помещении Центра по
+    <div class="marker color">&nbsp;</div>
+    <div class="text">
+    занятия проводятся в старом помещении Центра по
     <a href="https://yandex.ru/maps/-/C6Eou-3n">адресу</a>
     ул.&nbsp;Мытная&nbsp;23,&nbsp;к.1.
+    </div>
   </div>
   <% end %>
 
   <% if not events.select { |e| e[:temp] }.empty? %>
-  <div class="star">
-    <sup><b>*</b></sup> эти занятия проводятся по измененному графику.
+  <div class="footnote">
+    <div class="marker star">*</div>
+    <div class="text">
+    занятия проводятся по измененному графику.
     Подробности смотрите в разделе "План".
+    </div>
   </div>
   <% end %>
 </div>
