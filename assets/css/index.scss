@@ -212,6 +212,31 @@
 }
 
 
+@media (max-width: 991px) and (min-width: 768px) {
+
+.index {
+  .dynamic {
+    .right {
+      .timetable {
+        .events {
+          .event {
+            .time {
+              float: none;
+            }
+            .title {
+              margin-left: 0;
+            }
+            margin-bottom: 10px;
+          }
+        }
+      }
+    }
+  }
+}
+
+}
+
+
 @media (max-width: 767px) {
 
 .index {
