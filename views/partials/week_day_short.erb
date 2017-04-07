@@ -8,6 +8,7 @@
     <% clazz += " cancel" if event[:cancel] %>
     <div class="<%= clazz %>">
       <div class="time"> <%= event[:time].classes_time %> </div>
+      <div class="title">
       <% if /href/ =~ event[:title] %>
         <%= event[:title] %>
       <% else %>
@@ -15,6 +16,7 @@
         <%= "#{event[:title]}" %><% if event[:temp] %><sup>*</sup><% end %>
       </a>
       <% end %>
+      </div>
     </div> <%# event %>
   <% end %>
 </div> <%# events %>
