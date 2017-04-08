@@ -7,8 +7,8 @@
   %>
   <div class="months"> <%= timetable_months %></div>
   <% week = Week.new; next_week = week.next %>
-  <% events_cur = @timetable.events(week.monday, week.sunday) %>
-  <% events_next = @timetable.events(next_week.monday, next_week.sunday) %>
+  <% events_cur = @timetable.events(week.monday..week.sunday) %>
+  <% events_next = @timetable.events(next_week.monday..next_week.sunday) %>
   <div class="table two-weeks">
     <% Week.cwdays.each do |day| %>
       <div class="day-line">
@@ -28,7 +28,7 @@
      <% end %>
   </div>
 
-  <% events = @timetable.events(week.monday, next_week.sunday) %>
+  <% events = @timetable.events(week.monday..next_week.sunday) %>
 
   <% mytnaya = events.select { |e| e[:place] == 'Мытная' } %>
   <% if not mytnaya.empty? %>
