@@ -384,6 +384,10 @@ class TimetableDocument < XDSL::Element
       day.collect { |d| d.dates(r.begin, r.end) }.flatten
     end
 
+    def date_dates(b, e)
+      date.select { |d| d.date >= b and d.date <= e }
+    end
+
     def days_range(b, e)
       cb = self.begin
       ce = self.end
@@ -401,6 +405,11 @@ class TimetableDocument < XDSL::Element
 
     class Schedule
       include DayDates
+
+      def dates(b, e)
+        r = date_dates(b, e)
+        r += day_dates(b, e)
+      end
     end
 
     class Changes
@@ -409,6 +418,24 @@ class TimetableDocument < XDSL::Element
       def actual?
         (Week.new.next >= Week.new(begin_full)) and
           (self.end_full.nil? or Week.new <= Week.new(end_full))
+      end
+
+      def apply(r, b, e)
+        r = days_filter(r, b, e)
+        r += day_dates(b, e)
+        r = date_filter(r, b, e)
+        r += date_dates(b, e)
+      end
+
+    private
+      def days_filter(r, b, e)
+        return r if day.empty?
+        cr = days_range(b, e)
+        r.select { |d| d.date < cr.begin or d.date > cr.end }
+      end
+
+      def date_filter(r, b, e)
+        r.select { |d| not include_date?(d.date) }
       end
     end
 
@@ -427,18 +454,8 @@ class TimetableDocument < XDSL::Element
     end
 
     def events(b, e)
-      dates = schedule.date.select { |d| d.date >= b and d.date <= e }
-      dates += schedule.day_dates(b, e)
-
-      changes.each do |c|
-        if not c.day.empty?
-          r = c.days_range(b, e)
-          dates = dates.select { |d| d.date < r.begin or d.date > r.end }
-          dates += c.day_dates(r.begin, r.end)
-        end
-        dates = dates.select { |d| not c.include_date?(d.date) }
-        dates += c.date.select { |d| d.date >= b and d.date <= e }
-      end
+      dates = schedule.dates(b, e)
+      changes.each { |c| dates = c.apply(dates, b, e) }
 
       events = dates.collect { |d| d.to_event }.flatten
 
