@@ -344,12 +344,18 @@ class TimetableDocument < XDSL::Element
     element :image
     element :title
     element :info
-    element :timeshort
-    elements :day, ClassesDay
-    element :begin, Date
-    element :end, Date
+
+    element :schedule do
+      element :timeshort
+      element :announce
+      elements :day, ClassesDay
+      element :begin, Date
+      element :end, Date
+      elements :date, ClassesDate
+    end
+
     elements :cancel, Cancel
-    elements :date, ClassesDate
+
     elements :changes do
       element :announce
       element :begin, Date
@@ -392,7 +398,10 @@ class TimetableDocument < XDSL::Element
   end
 
   class Classes
-    include DayDates
+
+    class Schedule
+      include DayDates
+    end
 
     class Changes
       include DayDates
@@ -404,12 +413,12 @@ class TimetableDocument < XDSL::Element
     end
 
     def future?
-      b = begin_full
+      b = schedule.begin_full
       b and Week.new < Week.new(b)
     end
 
     def past?
-      e = end_full
+      e = schedule.end_full
       e and Week.new > Week.new(e)
     end
 
@@ -418,8 +427,8 @@ class TimetableDocument < XDSL::Element
     end
 
     def events(b, e)
-      dates = date.select { |d| d.date >= b and d.date <= e }
-      dates += day_dates(b, e)
+      dates = schedule.date.select { |d| d.date >= b and d.date <= e }
+      dates += schedule.day_dates(b, e)
 
       changes.each do |c|
         if not c.day.empty?
@@ -441,6 +450,10 @@ class TimetableDocument < XDSL::Element
 
     def announces
       changes.select { |c| c.actual? }.collect { |c| c.announce }.join(' ')
+    end
+
+    def timeshort
+      schedule.timeshort
     end
   end
 
