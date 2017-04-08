@@ -4,16 +4,16 @@
 <div class="<%= clazz %>">
   <% events.each do |event| %>
     <% clazz = "event" %>
-    <% clazz += " conflict" if event[:conflict] %>
-    <% clazz += " cancel" if event[:cancel] %>
+    <% clazz += " conflict" if event.conflict? %>
+    <% clazz += " cancel" if event.cancelled? %>
     <div class="<%= clazz %>">
-      <div class="time"> <%= event[:time].classes_time %> </div>
+      <div class="time"> <%= event.time.classes_time %> </div>
       <div class="title">
-      <% if /href/ =~ event[:title] %>
-        <%= event[:title] %>
+      <% if /href/ =~ event.title %>
+        <%= event.title %>
       <% else %>
-      <a href="/timetable?show=schedule#<%= slug(Russian::transliterate(event[:title])) %>">
-        <%= "#{event[:title]}" %><% if event[:temp] %><sup>*</sup><% end %>
+      <a href="/timetable?show=schedule#<%= slug(Russian::transliterate(event.title)) %>">
+        <%= "#{event.title}" %><% if event.temporary? %><sup>*</sup><% end %>
       </a>
       <% end %>
       </div>

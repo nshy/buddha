@@ -177,7 +177,7 @@ module TimetableHelper
 
   def week_day(date, events)
     locals = { date: date,
-               events: events.select { |e| e[:time].begin.to_date == date } }
+               events: events.select { |e| e.time.begin.to_date == date } }
     erb :'partials/week_day', locals: locals
   end
 end

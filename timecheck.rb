@@ -15,7 +15,7 @@ date_end = Date.parse("#{year}-12-31")
 events = timetable.events(date_begin..date_end)
 
 def event_title_string(event)
-  title = Nokogiri::HTML.fragment(event[:title]).text
+  title = Nokogiri::HTML.fragment(event.title).text
   title.strip!
   title.gsub!(/\n/, '')
   title.gsub!(/ {2,}/, ' ')
@@ -24,9 +24,9 @@ end
 
 event_each_conflict(events) do |event, conflicts|
   puts "#{event_title_string(event)} "\
-       "#{event[:time].begin.strftime('%Y-%m-%d')} "\
-       "#{event[:time].classes_time}"
+       "#{event.time.begin.strftime('%Y-%m-%d')} "\
+       "#{event.time.classes_time}"
   conflicts.each do |conflict|
-    puts "  #{event_title_string(conflict)} #{conflict[:time].classes_time}"
+    puts "  #{event_title_string(conflict)} #{conflict.time.classes_time}"
   end
 end

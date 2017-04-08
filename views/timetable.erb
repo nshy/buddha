@@ -30,7 +30,7 @@
 
   <% events = @timetable.events(week.monday..next_week.sunday) %>
 
-  <% mytnaya = events.select { |e| e[:place] == 'Мытная' } %>
+  <% mytnaya = events.select { |e| e.place == 'Мытная' } %>
   <% if not mytnaya.empty? %>
   <div class="footnote">
     <div class="marker color">&nbsp;</div>
@@ -42,7 +42,7 @@
   </div>
   <% end %>
 
-  <% if not events.select { |e| e[:temp] }.empty? %>
+  <% if not events.select { |e| e.temporary? }.empty? %>
   <div class="footnote">
     <div class="marker star">*</div>
     <div class="text">

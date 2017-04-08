@@ -112,6 +112,24 @@ class Week
   end
 end
 
+class Event
+  attr_accessor :title, :date, :time, :place
+
+  attr_writer :conflict, :cancelled, :temporary
+
+  def conflict?
+    @conflict
+  end
+
+  def cancelled?
+    @cancelled
+  end
+
+  def temporary?
+    @temporary
+  end
+end
+
 class TimetableDocument < XDSL::Element
 
   class ClassesSingleTime
@@ -299,11 +317,11 @@ class TimetableDocument < XDSL::Element
 
     def to_event
       @times.collect do |t|
-        {
-          time: t.event_time(@date),
-          place: @place,
-          temp: t.temp,
-        }
+        e = ::Event.new
+        e.time = t.event_time(@date)
+        e.place = @place
+        e.temporary = t.temp
+        e
       end
     end
   end
@@ -462,8 +480,8 @@ class TimetableDocument < XDSL::Element
       events = dates.collect { |d| d.to_event }.flatten
 
       events.each do |e|
-        e[:title] = title
-        e[:cancel] = cancel.any? { |c| c.affect?(e[:time]) }
+        e.title = title
+        e.cancelled = cancel.any? { |c| c.affect?(e.time) }
       end
     end
 
@@ -480,7 +498,7 @@ class TimetableDocument < XDSL::Element
     def events(r)
       return [] if not r.cover?(date.date)
       events = date.to_event
-      events.each { |e| e[:title] = title }
+      events.each { |e| e.title = title }
     end
   end
 
@@ -495,7 +513,7 @@ class TimetableDocument < XDSL::Element
   def events(r)
     res = classes.collect { |c| c.events(r) }.flatten
     res += event.collect { |e| e.events(r) }.flatten
-    res.sort { |a, b| a[:time].begin <=> b[:time].begin }
+    res.sort { |a, b| a.time.begin <=> b.time.begin }
   end
 end
 
