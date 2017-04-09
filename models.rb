@@ -482,6 +482,7 @@ class TimetableDocument < XDSL::Element
 
     class Schedule
       include WeekBorders
+      include TimePosition
       include DayDates
 
       def events(r)
@@ -528,7 +529,10 @@ class TimetableDocument < XDSL::Element
     end
 
     def announces
-      changes.select { |c| c.actual? or c.future? }.collect { |c| c.announce }.join(' ')
+      a = changes.select { |c| c.actual? or c.future? } +
+          schedule.select { |s| s.future? }
+      a.sort! { |a, b| a.range.begin <=> b.range.begin }
+      a.collect { |a| a.announce }.join(' ')
     end
 
     def timeshort
