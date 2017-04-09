@@ -393,7 +393,7 @@ class TimetableDocument < XDSL::Element
     element :title
     element :info
 
-    element :schedule do
+    elements :schedule do
       element :timeshort
       element :announce
       elements :day, ClassesDay
@@ -418,13 +418,38 @@ class TimetableDocument < XDSL::Element
     element :date, ClassesDate
   end
 
+  module WeekBorders
+    def week_range
+      r = range
+      wb = r.begin ? Week.new(r.begin) : nil
+      we = r.end ? Week.new(r.end) : nil
+      OpenRange.new(wb, we)
+    end
+  end
+
+  module TimePosition
+    def future?
+      week_range.left?(Week.new)
+    end
+
+    def actual?
+      week_range.cover?(Week.new)
+    end
+  end
+
   module DayDates
+  private
     def begin_full
       self.begin || date.map { |d| d.date }.min
     end
 
     def end_full
       self.end || date.map { |d| d.date }.max
+    end
+
+  public
+    def range
+      OpenRange.new(begin_full, end_full)
     end
 
     def day_events(r)
@@ -449,25 +474,14 @@ class TimetableDocument < XDSL::Element
     def include_date?(d)
       date.any? { |cd| cd.date == d }
     end
-
-    def future?
-      b = begin_full
-      b and Week.new < Week.new(b)
-    end
-
-    def past?
-      e = end_full
-      e and Week.new > Week.new(e)
-    end
-
-    def actual?
-      not (past? or future?)
-    end
   end
 
   class Classes
+    include WeekBorders
+    include TimePosition
 
     class Schedule
+      include WeekBorders
       include DayDates
 
       def events(r)
@@ -477,6 +491,8 @@ class TimetableDocument < XDSL::Element
 
     class Changes
       include DayDates
+      include WeekBorders
+      include TimePosition
 
       def apply(res, r)
         res = days_filter(res, r)
@@ -497,16 +513,12 @@ class TimetableDocument < XDSL::Element
       end
     end
 
-    def future?
-      schedule.future?
-    end
-
-    def actual?
-      schedule.actual?
+    def range
+      OpenRange.new(schedule.first.range.begin, schedule.last.range.end)
     end
 
     def events(r)
-      events = schedule.events(r)
+      events = schedule.collect { |s| s.events(r) }.flatten
       changes.each { |c| events = c.apply(events, r) }
 
       events.each do |e|
@@ -520,7 +532,11 @@ class TimetableDocument < XDSL::Element
     end
 
     def timeshort
-      schedule.timeshort
+      actual_schedule.timeshort
+    end
+
+    def actual_schedule
+      schedule.detect { |s| s.week_range.cover?(Week.new) }
     end
   end
 
