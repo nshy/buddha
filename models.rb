@@ -91,6 +91,10 @@ class Week
     monday..sunday
   end
 
+  def prev
+    Week.new(@monday - 7)
+  end
+
   def next
     Week.new(@monday + 7)
   end
@@ -542,6 +546,16 @@ class TimetableDocument < XDSL::Element
     def actual_schedule
       schedule.detect { |s| s.week_range.cover?(Week.new) }
     end
+
+    def on_load
+      p = nil
+      schedule.each do |s|
+        if p and p.week_range.cover?(s.week_range.begin)
+          p.end = s.week_range.begin.prev.sunday
+        end
+        p = s
+      end
+    end
   end
 
   class Event
@@ -560,6 +574,10 @@ class TimetableDocument < XDSL::Element
     res = classes.collect { |c| c.events(r) }.flatten
     res += event.collect { |e| e.events(r) }.flatten
     res.sort { |a, b| a.time.begin <=> b.time.begin }
+  end
+
+  def on_load
+    classes.each { |c| c.on_load }
   end
 end
 
