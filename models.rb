@@ -426,6 +426,20 @@ class TimetableDocument < XDSL::Element
     def include_date?(d)
       date.any? { |cd| cd.date == d }
     end
+
+    def future?
+      b = begin_full
+      b and Week.new < Week.new(b)
+    end
+
+    def past?
+      e = end_full
+      e and Week.new > Week.new(e)
+    end
+
+    def actual?
+      not (past? or future?)
+    end
   end
 
   class Classes
@@ -440,11 +454,6 @@ class TimetableDocument < XDSL::Element
 
     class Changes
       include DayDates
-
-      def actual?
-        (Week.new.next >= Week.new(begin_full)) and
-          (self.end_full.nil? or Week.new <= Week.new(end_full))
-      end
 
       def apply(res, r)
         res = days_filter(res, r)
@@ -466,17 +475,11 @@ class TimetableDocument < XDSL::Element
     end
 
     def future?
-      b = schedule.begin_full
-      b and Week.new < Week.new(b)
-    end
-
-    def past?
-      e = schedule.end_full
-      e and Week.new > Week.new(e)
+      schedule.future?
     end
 
     def actual?
-      not (past? or future?)
+      schedule.actual?
     end
 
     def events(r)
