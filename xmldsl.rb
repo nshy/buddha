@@ -26,7 +26,7 @@ module ElementClass
       end
     end
 
-    add_getter(name)
+    add_accessors(name)
   end
 
   def elements(name, scalar_klass = nil, &block)
@@ -46,7 +46,7 @@ module ElementClass
       end
     end
 
-    add_getter(name)
+    add_accessors(name)
   end
 
   def load(path)
@@ -55,6 +55,7 @@ module ElementClass
     File.open(path) do |file|
       doc = new(Nokogiri::XML(file).root)
     end
+    doc.on_load if doc.respond_to? :on_load
     doc
   end
 
@@ -67,9 +68,12 @@ private
     klass
   end
 
-  def add_getter(name)
+  def add_accessors(name)
     define_method(name) do
       @values[name]
+    end
+    define_method("#{name}=".to_sym) do |v|
+      @values[name] = v
     end
   end
 
