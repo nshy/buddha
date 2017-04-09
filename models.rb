@@ -528,7 +528,7 @@ class TimetableDocument < XDSL::Element
     end
 
     def announces
-      changes.select { |c| c.actual? }.collect { |c| c.announce }.join(' ')
+      changes.select { |c| c.actual? or c.future? }.collect { |c| c.announce }.join(' ')
     end
 
     def timeshort
