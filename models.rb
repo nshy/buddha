@@ -112,6 +112,22 @@ class Week
   end
 end
 
+class Range
+  def cover?(x)
+    not (left?(x) or right?(x))
+  end
+
+  def left?(x)
+    b = self.begin
+    b and x < b
+  end
+
+  def right?(x)
+    e = self.end
+    e and x > e
+  end
+end
+
 class Event
   attr_accessor :title, :date, :time, :place
 
@@ -509,9 +525,7 @@ class TimetableDocument < XDSL::Element
 
   class Banner
     def active?
-      today = Date.today
-      (self.begin.nil? or self.begin <= today - 1) and
-      (self.end.nil? or today <= self.end)
+      (self.begin..self.end).cover?(Date.today)
     end
   end
 
