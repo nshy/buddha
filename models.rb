@@ -112,7 +112,14 @@ class Week
   end
 end
 
-class Range
+class OpenRange
+  attr_reader :begin, :end
+
+  def initialize(b, e)
+    @begin = b
+    @end = e
+  end
+
   def cover?(x)
     not (left?(x) or right?(x))
   end
@@ -525,7 +532,7 @@ class TimetableDocument < XDSL::Element
 
   class Banner
     def active?
-      (self.begin..self.end).cover?(Date.today)
+      OpenRange.new(self.begin, self.end).cover?(Date.today)
     end
   end
 
