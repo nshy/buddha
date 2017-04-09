@@ -458,6 +458,7 @@ class TimetableDocument < XDSL::Element
 
     def day_events(r)
       r = days_range(r)
+      return [] if r.nil?
       day.collect { |d| d.events(r) }.flatten
     end
 
@@ -472,6 +473,7 @@ class TimetableDocument < XDSL::Element
       e = r.end
       b = cb if cb and cb > b
       e = ce if ce and ce < e
+      return nil if b > e
       b..e
     end
 
@@ -510,6 +512,7 @@ class TimetableDocument < XDSL::Element
       def days_filter(res, r)
         return res if day.empty?
         dr = days_range(r)
+        return res if dr.nil?
         res.select { |d| not dr.cover?(d.date) }
       end
 
