@@ -128,6 +128,10 @@ class Event
   def temporary?
     @temporary
   end
+
+  def date
+    time.begin.to_date
+  end
 end
 
 class TimetableDocument < XDSL::Element
@@ -229,6 +233,14 @@ class TimetableDocument < XDSL::Element
       EventTime.new(b, e)
     end
 
+    def event(date, place)
+      e = ::Event.new
+      e.time = event_time(date)
+      e.place = place
+      e.temporary = temp
+      e
+    end
+
     WholeDay = new(DayBegin, DayEnd)
   end
 
@@ -282,13 +294,13 @@ class TimetableDocument < XDSL::Element
       new(day, times, place)
     end
 
-    def dates(r)
-      wb = Week.new(r.begin)
-      we = Week.new(r.end)
-      dates = (wb..we).collect do |w|
-        ClassesDate.new(w.day(@day), @times, @place)
+    def events(r)
+      b = Week.new(r.begin)
+      e = Week.new(r.end)
+      events = (b..e).collect do |w|
+        @times.collect { |t| t.event(w.day(@day), @place) }
       end
-      dates.select { |d| r.cover?(d.date) }
+      events.flatten.select { |e| r.cover?(e.date) }
     end
   end
 
@@ -315,14 +327,9 @@ class TimetableDocument < XDSL::Element
       new(date, times, place)
     end
 
-    def to_event
-      @times.collect do |t|
-        e = ::Event.new
-        e.time = t.event_time(@date)
-        e.place = @place
-        e.temporary = t.temp
-        e
-      end
+    def events(r)
+      events = @times.collect { |t| t.event(@date, @place) }
+      events.select { |e| r.cover?(e.date) }
     end
   end
 
@@ -397,13 +404,13 @@ class TimetableDocument < XDSL::Element
       self.end || date.map { |d| d.date }.max
     end
 
-    def day_dates(r)
+    def day_events(r)
       r = days_range(r)
-      day.collect { |d| d.dates(r) }.flatten
+      day.collect { |d| d.events(r) }.flatten
     end
 
-    def date_dates(r)
-      date.select { |d| r.cover?(d.date) }
+    def date_events(r)
+      date.collect { |d| d.events(r) }.flatten
     end
 
     def days_range(r)
@@ -426,9 +433,8 @@ class TimetableDocument < XDSL::Element
     class Schedule
       include DayDates
 
-      def dates(r)
-        res = date_dates(r)
-        res += day_dates(r)
+      def events(r)
+        date_events(r) + day_events(r)
       end
     end
 
@@ -442,9 +448,9 @@ class TimetableDocument < XDSL::Element
 
       def apply(res, r)
         res = days_filter(res, r)
-        res += day_dates(r)
+        res += day_events(r)
         res = date_filter(res)
-        res += date_dates(r)
+        res += date_events(r)
       end
 
     private
@@ -474,10 +480,8 @@ class TimetableDocument < XDSL::Element
     end
 
     def events(r)
-      dates = schedule.dates(r)
-      changes.each { |c| dates = c.apply(dates, r) }
-
-      events = dates.collect { |d| d.to_event }.flatten
+      events = schedule.events(r)
+      changes.each { |c| events = c.apply(events, r) }
 
       events.each do |e|
         e.title = title
@@ -496,9 +500,7 @@ class TimetableDocument < XDSL::Element
 
   class Event
     def events(r)
-      return [] if not r.cover?(date.date)
-      events = date.to_event
-      events.each { |e| e.title = title }
+      date.events(r).each { |e| e.title = title }
     end
   end
 
