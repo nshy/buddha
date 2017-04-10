@@ -313,6 +313,7 @@ class TimetableDocument < XDSL::Element
       day = Date.parse(a.shift.strip).cwday
 
       times = parse_times(a)
+      # for luck
       raise "Time must be specified" if times.empty?
 
       place = parse_place(a)
