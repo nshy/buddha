@@ -421,6 +421,7 @@ class TimetableDocument < XDSL::Element
   elements :event do
     element :title
     element :date, ClassesDate
+    elements :cancel, Cancel
   end
 
   module WeekBorders
@@ -483,9 +484,18 @@ class TimetableDocument < XDSL::Element
     end
   end
 
+  module Cancelable
+    def mark_cancels(events)
+      events.each do |e|
+        e.cancelled = cancel.any? { |c| c.affect?(e.time) }
+      end
+    end
+  end
+
   class Classes
     include WeekBorders
     include TimePosition
+    include Cancelable
 
     class Schedule
       include WeekBorders
@@ -529,11 +539,8 @@ class TimetableDocument < XDSL::Element
     def events(r)
       events = schedule.collect { |s| s.events(r) }.flatten
       changes.each { |c| events = c.apply(events, r) }
-
-      events.each do |e|
-        e.title = title
-        e.cancelled = cancel.any? { |c| c.affect?(e.time) }
-      end
+      mark_cancels(events)
+      events.each { |e| e.title = title }
     end
 
     def announces
@@ -563,8 +570,11 @@ class TimetableDocument < XDSL::Element
   end
 
   class Event
+    include Cancelable
+
     def events(r)
-      date.events(r).each { |e| e.title = title }
+      events = date.events(r).each { |e| e.title = title }
+      mark_cancels(events)
     end
   end
 
