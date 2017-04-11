@@ -159,6 +159,16 @@ class Event
   def date
     time.begin.to_date
   end
+
+  def ==(other)
+    @title == other.title and
+    @time == other.time and
+    @place == other.place
+  end
+
+  def to_s
+    "#{@time} #{@title} #{@place}"
+  end
 end
 
 class TimetableDocument < XDSL::Element
@@ -210,6 +220,14 @@ class TimetableDocument < XDSL::Element
     def classes_time
       ClassesTime.new(ClassesSingleTime.from_datetime(@begin),
                       ClassesSingleTime.from_datetime(@end))
+    end
+
+    def ==(other)
+      @begin == other.begin and @end == other.end
+    end
+
+    def to_s
+      "#{@begin} - #{@end}"
     end
   end
 
@@ -512,23 +530,30 @@ class TimetableDocument < XDSL::Element
       include WeekBorders
       include TimePosition
 
-      def apply(res, r)
-        res = days_filter(res, r)
-        res += day_events(r)
-        res = date_filter(res)
-        res += date_events(r)
+      def apply(events, r)
+        events = apply_change(events, days_filter(events, r), day_events(r))
+        apply_change(events, date_filter(events), date_events(r))
       end
 
     private
-      def days_filter(res, r)
-        return res if day.empty?
-        dr = days_range(r)
-        return res if dr.nil?
-        res.select { |d| not dr.cover?(d.date) }
+      def mark_changes(changes, filtered)
+        changes.each { |c| c.temporary = !filtered.include?(c) }
       end
 
-      def date_filter(res)
-        res.select { |d| not include_date?(d.date) }
+      def apply_change(events, filtered, changes)
+        mark_changes(changes, filtered)
+        events - filtered + changes
+      end
+
+      def days_filter(events, r)
+        return [] if day.empty?
+        dr = days_range(r)
+        return [] if dr.nil?
+        events.select { |e| dr.cover?(e.date) }
+      end
+
+      def date_filter(events)
+        events.select { |e| include_date?(e.date) }
       end
     end
 
