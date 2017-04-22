@@ -327,16 +327,26 @@ class TimetableDocument < XDSL::Element
 
     attr_reader :day, :place
 
-    def initialize(day, times, place)
+    def initialize(day, mul, start, times, place)
       @day = day
+      @mul = mul
+      @start = start
       @times = times
       @place = place
     end
 
     def self.parse(value)
+      mul = nil
+      start = nil
+
       a = value.split(',')
 
-      day = Date.parse(a.shift.strip).cwday
+      d = a.shift.strip.split('/')
+      day = Date.parse(d.shift.strip).cwday
+      if not d.empty?
+        mul = d.shift.to_i
+        start = Date.parse(d.shift)
+      end
 
       times = parse_times(a)
       # for luck
@@ -345,13 +355,18 @@ class TimetableDocument < XDSL::Element
       place = parse_place(a)
       parse_check_tail(a)
 
-      new(day, times, place)
+      new(day, mul, start, times, place)
     end
 
     def events(r)
       b = Week.new(r.begin)
       e = Week.new(r.end)
-      events = (b..e).collect do |w|
+      weeks = b..e
+      if @mul
+        s = Week.new(@start)
+        weeks = weeks.select { |w| (s - w) % @mul == 0 }
+      end
+      events = weeks.collect do |w|
         @times.collect { |t| t.event(w.day(@day), @place) }
       end
       events.flatten.select { |e| r.cover?(e.date) }
