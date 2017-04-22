@@ -475,12 +475,12 @@ class TimetableDocument < XDSL::Element
   end
 
   module TimePosition
-    def future?
-      week_range.left?(Week.new)
+    def future?(week)
+      week_range.left?(week)
     end
 
-    def actual?
-      week_range.cover?(Week.new)
+    def actual?(week)
+      week_range.cover?(week)
     end
   end
 
@@ -591,23 +591,23 @@ class TimetableDocument < XDSL::Element
       events.each { |e| e.title = title }
     end
 
-    def announces
-      a = changes.select { |c| c.actual? or c.future? } +
-          schedule.select { |s| s.future? }
+    def announces(week)
+      a = changes.select { |c| c.actual?(week) or c.future?(week) } +
+          schedule.select { |s| s.future?(week) }
       a.sort! { |a, b| a.range.begin <=> b.range.begin }
       a.collect { |a| a.announce }.join(' ')
     end
 
-    def timeshort
-      if actual?
-        actual_schedule.timeshort
+    def timeshort(week)
+      if actual?(week)
+        actual_schedule(week).timeshort
       else
         schedule.first.timeshort
       end
     end
 
-    def actual_schedule
-      schedule.detect { |s| s.week_range.cover?(Week.new) }
+    def actual_schedule(week)
+      schedule.detect { |s| s.week_range.cover?(week) }
     end
 
     def on_load

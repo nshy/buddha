@@ -5,10 +5,10 @@
         banner: @timetable.banner
       }
   %>
-  <div class="months"> <%= timetable_months %></div>
-  <% week = Week.new; next_week = week.next %>
+  <% week = Week.new + @skip; next_week = week + 1 %>
   <% events_cur = @timetable.events(week.monday..week.sunday) %>
   <% events_next = @timetable.events(next_week.monday..next_week.sunday) %>
+  <div class="months"> <%= timetable_months(week) %></div>
   <div class="table two-weeks">
     <% Week.cwdays.each do |day| %>
       <div class="day-line">

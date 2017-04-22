@@ -165,9 +165,9 @@ module BookHelpers
 end
 
 module TimetableHelper
-  def timetable_months()
-    first = Week.new.monday
-    last = Week.new.next.sunday
+  def timetable_months(week)
+    first = week.monday
+    last = week.next.sunday
     if first.month == last.month
       Russian::strftime(first, "%B")
     else
@@ -179,5 +179,11 @@ module TimetableHelper
     locals = { date: date,
                events: events.select { |e| e.time.begin.to_date == date } }
     erb :'partials/week_day', locals: locals
+  end
+
+  def timetable_link(selected, skip)
+      base = "/timetable?show=#{selected}"
+      base += "&skip=#{skip}" if skip > 0
+      base
   end
 end

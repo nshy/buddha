@@ -6,12 +6,12 @@
     <img src="<%= digest_url("/timetable/#{c.image}") %>"/>
     <div class="description">
       <div class="title"> <%= c.title %> </div>
-      <div class="timeshort"> <%= c.timeshort %> </div>
-      <% a = c.announces %>
+      <div class="timeshort"> <%= c.timeshort(week) %> </div>
+      <% a = c.announces(week) %>
       <% if not a.empty? %>
       <div class="changes">
         <span class="note"> Изменения: </span>
-        <span class="announces"><%= c.announces %> </span>
+        <span class="announces"><%= a %> </span>
       </div>
       <% end %>
       <div class="info"> <%= c.info %> </div>

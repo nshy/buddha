@@ -136,6 +136,8 @@ get '/timetable' do
   @timetable = TimetableDocument.load('data/timetable/timetable.xml')
   @menu_active = :timetable
   show = params.delete('show')
+  @skip = params.delete('skip') || 0
+  @skip = @skip.to_i
   halt 404 if not params.empty?
   if show == 'week'
     erb :timetable

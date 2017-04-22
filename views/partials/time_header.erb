@@ -1,11 +1,21 @@
 <div class="site-header">
-  <div class="title"> Расписание занятий </div>
+  <div class="title">
+    <% if settings.development? and @skip > 0 %>
+      <a href="<%= timetable_link(selected, @skip - 1) %>"> &larr; </a>
+    <% end %>
+
+    Расписание занятий
+
+    <% if settings.development? %>
+      <a href="<%= timetable_link(selected, @skip + 1) %>"> &rarr; </a>
+    <% end %>
+  </div>
 </div>
 <div class="site-tab">
   <a class="<%= "active" if selected == :week %>"
-     href="/timetable?show=week">НА НЕДЕЛЮ</a>
+     href="<%= timetable_link('week', @skip) %>">НА НЕДЕЛЮ</a>
   <a class="<%= "active" if selected == :schedule %>"
-     href="/timetable?show=schedule">ПЛАН</a>
+     href="<%= timetable_link('schedule', @skip) %>">ПЛАН</a>
 </div>
 <% if banner.active? %>
 <div class="site-baner">
