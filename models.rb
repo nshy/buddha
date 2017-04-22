@@ -472,11 +472,11 @@ class TimetableDocument < XDSL::Element
   module DayDates
   private
     def begin_full
-      self.begin || date.map { |d| d.date }.min
+      day.empty? ?  date.map { |d| d.date }.min : self.begin
     end
 
     def end_full
-      self.end || date.map { |d| d.date }.max
+      day.empty? ? date.map { |d| d.date }.max : self.end
     end
 
   public
