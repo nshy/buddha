@@ -114,6 +114,10 @@ class Week
   def +(num)
     Week.new(@monday + 7 * num)
   end
+
+  def to_s
+    "start at #{@monday}"
+  end
 end
 
 class OpenRange
@@ -136,6 +140,10 @@ class OpenRange
   def right?(x)
     e = self.end
     e and x > e
+  end
+
+  def to_s
+    "#{@begin} - #{@end}"
   end
 end
 
