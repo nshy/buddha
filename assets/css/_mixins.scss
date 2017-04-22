@@ -85,11 +85,7 @@
         display: inline-block;
         color: #5d646f;
       }
-      a {
-        &.empty {
-          color: #a0a9b8;
-        }
-      }
+      .title.empty { color: #a0a9b8; }
     }
     .event.conflict {
       .time, a {
