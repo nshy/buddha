@@ -584,7 +584,11 @@ class TimetableDocument < XDSL::Element
     end
 
     def timeshort
-      actual_schedule.timeshort
+      if actual?
+        actual_schedule.timeshort
+      else
+        schedule.first.timeshort
+      end
     end
 
     def actual_schedule
