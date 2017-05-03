@@ -105,10 +105,8 @@ a:focus {
 .site-tab {
   border-bottom: $separator-style;
   margin-bottom: 20px;
-  @include menu-link;
   a {
-    font-size: 12px;
-    font-weight: 600;
+    @include menu-link;
     margin-right: 20px;
     padding-bottom: 10px;
   }
@@ -296,7 +294,7 @@ table.site-sber-table {
       transition: none;
     }
   }
-  .active {
+  a.active {
     background-color: #ff6333;
     padding: 6px 9px 4px;
     border-radius: 4px;

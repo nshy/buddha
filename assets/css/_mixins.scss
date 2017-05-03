@@ -11,15 +11,15 @@
 }
 
 @mixin menu-link {
-  a {
-    display: inline-block;
-    color: #5f646e;
-    &:hover {
-      color: #000000;
-      @include hover-transition(color);
-    }
+  display: inline-block;
+  color: #5f646e;
+  font-size: 12px;
+  font-weight: 600;
+  &:hover {
+    color: #000000;
+    @include hover-transition(color);
   }
-  .active {
+  &.active {
     border-bottom: 2px solid #ff6333;
     color: black;
   }
