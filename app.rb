@@ -19,6 +19,12 @@ require_relative 'timetable'
 require_relative 'helpers'
 require_relative 'cache'
 
+enable :sessions
+set :session_secret, SiteConfig::SESSION_SECRET
+set :sessions, :domain => SiteConfig::DOMAIN
+set :sessions, :path => '/'
+set :sessions, :key => 'session'
+
 set :show_exceptions, false
 set :bind, '0.0.0.0'
 if settings.development?
@@ -186,4 +192,17 @@ end
 
 get '/error/' do
   raise 'error'
+end
+
+get '/login/?' do
+  erb :login
+end
+
+post '/login' do
+  if params[:password] == SiteConfig::ADMIN_CONFIG
+    session[:login] = true
+    redirect to('/')
+  else
+    redirect to('/login')
+  end
 end
