@@ -23,20 +23,13 @@
     margin: auto;
     position: relative;
     .form-section.edit {
-      margin-right: $button-width - 3px;
-      input {
-        height: 32px;
-        padding: 4px 7px 6px;
-        border: 0px;
-      }
-      input:focus {
-        border-color: #66afe9;
-        border: 1px;
-                box-shadow: 0 0 12px rgb(88, 193, 255);
-        -webkit-box-shadow: 0 0 12px rgb(88, 193, 255);
-      }
+      margin-right: $button-width - 5px;
       .form-group {
         margin-bottom: 0;
+        input {
+          border: 0;
+          width: 100%;
+        }
       }
       // signalling on invalid email
       .form-group.ml-error .form-control {
@@ -50,16 +43,6 @@
       right: 0;
       button {
         width: 100%;
-        border-radius: 3px;
-        padding: 5px 15px;
-        background-color: #4789d9;
-        border: 1px solid #4789d9;
-        color: #ffffff;
-        transition: background-color .2s;
-      }
-      button:hover {
-        background-color:#3fb5ff;
-        border: 1px solid #3fb5ff;
       }
       button.loading {
         // to hide initially

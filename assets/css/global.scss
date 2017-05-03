@@ -37,6 +37,43 @@ a.site-button {
   }
 }
 
+button {
+  display: inline-block;
+  vertical-align: top;
+
+  border-radius: 3px;
+  padding: 5px 15px;
+
+  background-color: #4789d9;
+  border: none;
+  color: #ffffff;
+  height: 32px;
+
+  &:hover {
+    background-color:#3fb5ff;
+  }
+
+  transition: background-color .2s;
+}
+
+input {
+  display: inline-block;
+  vertical-align: top;
+
+  color: #555;
+  background-color: #fff;
+  outline: 0;
+  border-radius: 4px;
+  height: 32px;
+  padding: 4px 7px 6px;
+
+  &:focus {
+    box-shadow: 0 0 12px #58c1ff;
+  }
+
+  transition: all .15s ease-in-out;
+}
+
 hr {
   border-top: $separator-style;
 }
