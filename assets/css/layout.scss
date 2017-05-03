@@ -38,26 +38,34 @@ nav {
     height: $navbar-height;
     vertical-align: middle;
 
-    .logo {
-      margin-left: 5px;
-      // merely to center thing vertically
-      padding-top: 5px;
-      display: inline-block;
-
-      img {
-        width: 34px;
-        height: 34px;
-      }
+    a.menu {
+      @include menu-link;
+      vertical-align: top;
+      height: $navbar-height;
+      padding-top: 13px;
     }
 
-    .links {
-      display: inline-block;
-      vertical-align: middle;
-      a {
-        @include menu-link;
-        margin: 0px 15px;
-        padding: 12px 0 12px;
+    .main {
+      margin-right: 100px;
+      a.logo {
+        margin: 0 15px 0 5px;
+        // merely to center thing vertically
+        padding-top: 5px;
+        display: inline-block;
+
+        img {
+          width: 34px;
+          height: 34px;
+        }
       }
+      a.menu { margin-right: 30px; }
+    }
+
+    .admin {
+      float: right;
+      width: 100px;
+      text-align: right;
+      a.menu { margin-right: 20px; }
     }
 
     .menu-link {
@@ -270,10 +278,13 @@ body {
 
 nav {
   .container {
-    .logo {
+    .main {
       margin-left: -5px;
+      a.logo {
+        margin-left: 0px;
+      }
     }
-    .links {
+    a.menu {
       display: none;
     }
     .menu-link {
