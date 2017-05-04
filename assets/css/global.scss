@@ -237,6 +237,45 @@ table.site-sber-table {
   }
 }
 
+.site-events {
+
+vertical-align: top;
+border-left: 10px solid transparent;
+padding-left: 3px;
+margin-bottom: 10px;
+
+.event {
+  font-size: 15px;
+  font-weight: 400;
+
+}
+
+.time {
+  float: left;
+  display: inline-block;
+  color: #5d646f;
+}
+
+.title.empty { color: #a0a9b8; }
+
+.event.conflict {
+  .time,
+  a { color: red; }
+}
+
+.event.cancel {
+  .time,
+  a {
+    color: red;
+    text-decoration: line-through;
+  }
+}
+
+}
+
+.site-events.mytnaya { border-left: 10px solid #ffcc66; }
+.site-events:last-child { margin-bottom: 0px; }
+
 @media (max-width: 1199px) {
 
 .site-baner {

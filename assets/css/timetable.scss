@@ -1,147 +1,130 @@
 @import 'mixins';
 
 $border-style: 1px solid #cccccc;
-.timetable {
-  .months {
-    @include site-element-level-2;
-    margin: 20px 0px 10px;
+
+.page-timetable {
+
+.months {
+  @include site-element-level-2;
+  margin: 20px 0px 10px;
+}
+
+.table {
+  border-radius: 5px;
+  border: $border-style;
+}
+
+.table.two-weeks { display: table; }
+.table.one-week { display: none; }
+
+.day-line {
+  display: table-row;
+}
+
+.day {
+  width: 50%;
+  display: table-cell;
+  padding: 16px 10px 12px;
+
+  border-bottom: $border-style;
+}
+
+.date {
+  font-size: 0px;
+  float: left;
+  vertical-align: top;
+  width: 55px;
+  padding: 4px;
+  margin-top: -4px;
+}
+
+.month-day {
+  display: inline-block;
+  width: 20px;
+  text-align: right;
+  font-size: 15px;
+  font-weight: 400;
+  color: #5d646f;
+}
+
+.week-day {
+  display: inline-block;
+  padding-left: 4px;
+  font-size: 14px;
+  font-weight: 400;
+  color: #a0aab8;
+}
+
+.site-events {
+  margin-left: 65px;
+  .time { width: 120px; }
+  .title { margin-left: 120px; }
+}
+
+.day:nth-child(2n + 1) { border-right: $border-style; }
+
+.day.current {
+  background: #f1f1f1;
+
+  .date {
+    background-color: #ff6333;
+    border-radius: 2px;
   }
-  .table {
-    &.two-weeks { display: table; }
-    &.one-week { display: none; }
-    border-radius: 5px;
-    border: $border-style;
-    .day-line {
-      display: table-row;
-      .day {
-        width: 50%;
-        display: table-cell;
-        padding: 16px 10px 12px;
 
-        border-bottom: $border-style;
+  .month-day,
+  .week-day { color: #ffffff; }
+}
 
-        .date {
-          font-size: 0px;
-          float: left;
-          vertical-align: top;
-          width: 55px;
-          padding: 4px;
-          margin-top: -4px;
+.day-line:nth-of-type(7) {
+  .day { border-bottom: none; }
+}
 
-          .month-day {
-            display: inline-block;
-            width: 20px;
-            text-align: right;
-            font-size: 15px;
-            font-weight: 400;
-            color: #5d646f;
-          }
+.footnote { margin-bottom: 5px; }
 
-          .week-day {
-            display: inline-block;
-            padding-left: 4px;
-            font-size: 14px;
-            font-weight: 400;
-            color: #a0aab8;
-          }
-        }
+.marker {
+  float: left;
+  width: 20px;
+}
 
-        @include site-events;
-        .events {
-          margin-left: 65px;
-          .event {
-            .time {
-              width: 120px;
-            }
-            .title {
-              margin-left: 120px;
-            }
-          }
-        }
-      }
-      .day:nth-child(2n + 1) {
-        border-right: $border-style;
-      }
+.marker.color {
+  width: 10px;
+  background-color: #ffcc66;
+}
 
-      .day.current {
-        background: #f1f1f1;
-        .date {
-          background-color: #ff6333;
-          border-radius: 2px;
-          .month-day, .week-day {
-            color: #ffffff;
-          }
-        }
-      }
-    }
-    .day-line:nth-of-type(7) {
-      .day {
-        border-bottom: none;
-      }
-    }
-  }
-  .footnote {
-    .marker {
-      float: left;
-      width: 20px;
-      &.color {
-        width: 10px;
-        background-color: #ffcc66;
-      }
-    }
-    .text {
-      margin-left: 20px;
-    }
-    margin-bottom: 5px;
-  }
+.text { margin-left: 20px; }
 }
 
 
 @media (max-width: 991px) {
 
-.timetable {
-  .table {
-    &.two-weeks { display: none; }
-    &.one-week { display: table; }
-    .day-line {
-      .day:nth-child(2n + 1) {
-        border-right: none;
-      }
-    }
-  }
+.page-timetable {
+
+.table.two-weeks { display: none; }
+.table.one-week { display: table; }
+
+.day:nth-child(2n + 1) { border-right: none; }
+
 }
 
 }
+
 
 @media (max-width: 480px) {
 
-.timetable {
-  .table {
-    .day-line {
-      .day {
-        .events {
-          margin-left: 58px;
-          border-left: 5px solid transparent;
-          .event {
-            .time {
-              width: 98px;
-            }
-            .title {
-              margin-left: 98px;
-            }
-          }
-        }
-        .events.mytnaya { border-left: 5px solid #ffcc66; }
-      }
-    }
-  }
-  .footnote {
-    .marker {
-      &.color {
-        width: 5px;
-      }
-    }
-  }
+.page-timetable {
+
+.site-events {
+  margin-left: 58px;
+  border-left: 5px solid transparent;
+
+  .time { width: 98px; }
+  .title { margin-left: 98px; }
+}
+
+.site-events.mytnaya { border-left: 5px solid #ffcc66; }
+
+.marker.color { width: 5px; }
+
 }
 
 }

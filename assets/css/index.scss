@@ -132,17 +132,10 @@
       }
       .timetable {
         @include index-block;
-        @include site-events;
         margin-top: 10px;
-        .events {
-          .event {
-            .time {
-              width: 110px;
-            }
-            .title {
-              margin-left: 110px;
-            }
-          }
+        .site-events {
+          .time { width: 110px; }
+          .title { margin-left: 110px; }
         }
       }
       > .records {

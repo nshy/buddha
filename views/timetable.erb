@@ -1,10 +1,11 @@
-<div class="timetable">
-  <%= erb :'partials/time_header',
-      locals: {
-        selected: :week,
-        banner: @timetable.banner
-      }
-  %>
+<%= erb :'partials/time_header',
+    locals: {
+      selected: :week,
+      banner: @timetable.banner
+    }
+%>
+
+<div class="page-timetable">
   <% week = Week.new + @skip; next_week = week + 1 %>
   <% events_cur = @timetable.events(week.monday..week.sunday) %>
   <% events_next = @timetable.events(next_week.monday..next_week.sunday) %>
