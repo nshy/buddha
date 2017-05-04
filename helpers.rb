@@ -124,14 +124,10 @@ end
 
 module NewsHelpers
   def render_news(news, cut)
-    renders = {
-      adoc: lambda { |doc, context| Asciidoctor.render(doc) },
-      html: lambda { |doc, context| doc },
-      erb:  lambda { |doc, context| Tilt::ERBTemplate.new { doc }.render(context) }
-    }
     @url = "/news/#{news.id}/"
     doc = cut ? news.cut : news.body
-    renders[news.ext.to_sym].call(doc, self)
+    return doc if news.ext == 'html'
+    Tilt::ERBTemplate.new { doc }.render(self)
   end
 end
 

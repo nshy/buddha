@@ -139,7 +139,7 @@ end
 class News
   extend Cacheable
 
-  Ext = [:adoc, :html, :erb]
+  Ext = [:html, :erb]
 
   def self.find_file(dir, name)
     paths = Ext.map { |ext| "#{dir}/#{name}.#{ext}" }
@@ -154,17 +154,12 @@ class News
       path = find_file("data/news/#{id}", 'page')
     end
 
-    html_cutter = /<!--[\t ]*page-cut[\t ]*-->.*/m
-    cutters = {
-      adoc: /^<<<$.*/m,
-      html: html_cutter,
-      erb: html_cutter
-    }
+    cutter = /<!--[\t ]*page-cut[\t ]*-->.*/m
 
     ext = path_to_ext(path)
     doc = Preamble.load(path)
     body = doc.content
-    cut = body.gsub(cutters[ext.to_sym], '')
+    cut = body.gsub(cutter, '')
     cut = nil if cut == body
 
     DB[:news].insert(date: Date.parse(doc.metadata['publish_date']),
@@ -179,7 +174,7 @@ class News
   end
 
   def self.filesets
-    [ FileSet.new('data/news', /.(adoc|erb|html)$/) ]
+    [ FileSet.new('data/news', /.(erb|html)$/) ]
   end
 
   def self.files
