@@ -8,6 +8,10 @@
   margin-bottom: 30px;
 }
 
+.section:nth-child(2) {
+  border-top: $separator-style;
+}
+
 .title-section {
   @include site-element-level-2;
   margin: 20px 0px 10px;

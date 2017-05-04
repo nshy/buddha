@@ -8,17 +8,18 @@
 <div class="page-classes">
   <div class="annual"> <%= @timetable.annual %> </div>
 
+  <div class="sections">
   <%  week = Week.new + @skip %>
   <%= erb :'partials/classes', locals:
     { title: "Текущие",
       classes: @timetable.classes.select { |c| c.actual?(week) },
       week: week,
     } %>
-  <hr/>
 
   <%= erb :'partials/classes', locals:
     { title: "Будущие",
       classes: @timetable.classes.select { |c| c.future?(week) },
       week: week,
     } %>
+  <div>
 </div>
