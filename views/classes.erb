@@ -1,11 +1,11 @@
-<div class="classes">
-  <%= erb :'partials/time_header',
-      locals: {
-        selected: :schedule,
-        banner: @timetable.banner
-      }
-  %>
+<%= erb :'partials/time_header',
+    locals: {
+      selected: :schedule,
+      banner: @timetable.banner
+    }
+%>
 
+<div class="page-classes">
   <div class="annual"> <%= @timetable.annual %> </div>
 
   <%  week = Week.new + @skip %>

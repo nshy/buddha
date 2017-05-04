@@ -1,11 +1,11 @@
 <% if not classes.empty? %>
 <div class="section">
-  <div class="title"> <%= title %> </div>
+  <div class="title-section"> <%= title %> </div>
   <% classes.each do |c| %>
   <div class="class" id="<%= slug(Russian::transliterate(c.title)) %>">
     <img src="<%= digest_url("/timetable/#{c.image}") %>"/>
     <div class="description">
-      <div class="title"> <%= c.title %> </div>
+      <div class="title-class"> <%= c.title %> </div>
       <div class="timeshort"> <%= c.timeshort(week) %> </div>
       <% a = c.announces(week) %>
       <% if not a.empty? %>
