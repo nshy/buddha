@@ -25,7 +25,7 @@ gulp.task('sass-purge', function () {
 gulp.task('sass', ['sass-purge'], function () {
   return gulp.src('./assets/css/**/*.scss')
           .pipe(newer({dest: './public/css', ext: '.css'}))
-          .pipe(sass().on('error', sass.logError))
+          .pipe(sass({outputStyle: 'expanded'}).on('error', sass.logError))
           .pipe(gulp.dest('./public/css'));
 });
 
