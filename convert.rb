@@ -291,12 +291,8 @@ class Digest
   def self.load(id)
     path = "data#{id}"
     path = "public#{id}" if not File.exists?(path)
-    sha1 = nil
-    File.open(path) do |file|
-      sha1 = ::Digest::SHA1.hexdigest(file.read)
-    end
     DB[:digests].insert(id: id,
-                        digest: sha1,
+                        digest: ::Digest::SHA1.file(path).hexdigest,
                         last_modified: File.mtime(path))
   end
 
