@@ -12,15 +12,9 @@
     <% if not @category.parents.empty? %>
       <div class="section">
         <div class="section-title">В категориях</div>
-          <% @category.parents.each do |category| %>
-            <div class="item">
-              <%= erb :'partials/category_link',
-                  locals: {
-                    category: category,
-                    upcase: true
-                  } %>
-            </div>
-          <% end %>
+        <% @category.parents.each do |category| %>
+        <%= book_category(category) %>
+        <% end %>
       </div>
       <hr/>
     <% end %>
@@ -28,25 +22,15 @@
       <div class="section">
         <div class="section-title">Подкатегории</div>
         <% @category.children.each do |category| %>
-          <div class="item">
-            <%= erb :'partials/category_link',
-                locals: {
-                  category: category,
-                  upcase: true
-                } %>
-          </div>
+        <%= book_category(category) %>
         <% end %>
       </div>
       <hr/>
     <% end %>
-    <div class="section">
+    <div class="section onpage">
       <div class="section-title">На этой странице</div>
       <% books_by_group.keys.each do |group| %>
-        <div class="item">
-          <a href="<%= "##{group}" %>">
-            <%= Unicode::upcase(group) %>
-          </a>
-        </div>
+      <a href="<%= "##{group}" %>"> <%= Unicode::upcase(group) %> </a>
       <% end %>
     </div>
   </div>

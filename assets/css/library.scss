@@ -34,13 +34,16 @@ background-repeat: no-repeat;
   margin-bottom: 20px;
 }
 
-.section .item {
-  font-size: 18px;
-  font-weight: 400;
+.book-category {
   margin-bottom: 7px;
 }
 
-.section .size {
+.book-category a {
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.book-category .size {
   font-size: 12px;
   font-weight: 400;
   color:  #a0a0a0;

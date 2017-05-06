@@ -1,9 +1,4 @@
-<%
-  if upcase
-    name = Unicode::upcase(category.name)
-  else
-    name = category.name
-  end
-%>
+<div class="book-category">
 <a href="<%= "/book-categories/#{category.id}/" %>"><%= name %>
 </a>&nbsp;<span class="size"><%= category.count %></span>
+</div>

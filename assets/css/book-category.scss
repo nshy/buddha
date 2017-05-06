@@ -30,17 +30,21 @@ hr:last-child { display:none; }
   margin-top: -6px;
 }
 
-.section .item {
-  margin: 8px 0px;
-  color:  #717783;
+.section.onpage a,
+.book-category {
+  display: block;
+  margin: 8px 0;
+}
+
+.section a {
   font-size: 13px;
   font-weight: bold;
 }
 
 .section .size {
-  color:  #a0a0a0;
   font-size: 10px;
   font-weight: bold;
+  color:  #a0a0a0;
 }
 
 }
@@ -59,9 +63,13 @@ hr:last-child { display:none; }
   border-bottom: $separator-style;
 }
 
-.section .item {
-  margin: 10px 0px;
+.section a {
   font-size: 15px;
+}
+
+.section.onpage a,
+.book-category {
+  margin: 10px 0px;
 }
 
 }

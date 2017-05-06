@@ -16,10 +16,7 @@
     <div class="section">
       <div class="title-section"> <%= section.name %> </div>
       <% section.categories.each do |category| %>
-      <div class="item">
-        <%= erb :'partials/category_link',
-            locals: { category: category, upcase: false } %>
-      </div>
+      <%= book_category(category, false) %>
       <% end %>
     </div>
   <% end %>

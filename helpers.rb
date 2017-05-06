@@ -158,6 +158,13 @@ module BookHelpers
   def book_thumb(book)
     erb :'partials/book_thumb', locals: { book: book }
   end
+
+  def book_category(category, upcase = true)
+    name = category.name
+    name = Unicode::upcase(category.name) if upcase
+    erb :'partials/category_link',
+        locals: { category: category, name: name }
+  end
 end
 
 module TimetableHelper

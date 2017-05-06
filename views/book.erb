@@ -28,10 +28,7 @@
     <div class="categories">
       <div class="title">В категориях:</div>
       <% @book.categories.each do |category| %>
-      <div class="item">
-        <%= erb :'partials/category_link',
-            locals: { category: category, upcase: true } %>
-      </div>
+      <%= book_category(category) %>
       <% end %>
     </div>
   </div>

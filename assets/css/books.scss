@@ -50,17 +50,19 @@ img {
   margin-top: 25px;
 }
 
-.categories .item {
-  color:  #717783;
-  font-size: 13px;
-  font-weight: bold;
+.book-category {
   margin: 10px 0px;
 }
 
-.categories .size {
-  color:  #a0a0a0;
+.book-category a {
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.book-category .size {
   font-size: 10px;
   font-weight: bold;
+  color:  #a0a0a0;
 }
 
 .headings > .heading {
