@@ -131,13 +131,15 @@ class Category < Sequel::Model(book_categories_sizes)
                   left_key: :subcategory_id,
                   right_key: :category_id,
                   join_table: :category_subcategories,
-                  :class => self
+                  :class => self,
+                  :select => [:book_categories__id, :name, :count]
 
   many_to_many :children,
                   left_key: :category_id,
                   right_key: :subcategory_id,
                   join_table: :category_subcategories,
-                  :class => self
+                  :class => self,
+                  :select => [:book_categories__id, :name, :count]
 
   many_to_many :books,
                   left_key: :category_id,
@@ -161,7 +163,8 @@ class Book < Sequel::Model
                   left_key: :book_id,
                   right_key: :category_id,
                   join_table: :category_books,
-                  class: Category
+                  class: Category,
+                  :select => [:book_categories__id, :name, :count]
 
   def group
     self[:group]
@@ -185,7 +188,8 @@ class Section < Sequel::Model(sections)
                   left_key: :section,
                   right_key: :category_id,
                   join_table: :top_categories,
-                  class: Category
+                  class: Category,
+                  :select => [:book_categories__id, :name, :count]
 
   def Section.all
     eager(:categories).all
