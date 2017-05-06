@@ -17,7 +17,7 @@ background-repeat: no-repeat;
   margin-left: 100px;
 }
 
-.title-recent {
+.recent > .title {
   @include site-element-level-2;
   margin-bottom: 15px;
 }
@@ -29,7 +29,7 @@ background-repeat: no-repeat;
   margin-bottom: 30px;
 }
 
-.title-section {
+.section > .title{
   @include site-element-level-2;
   margin-bottom: 20px;
 }
@@ -127,11 +127,11 @@ background-position: 96% 50px;
 
 background-image: none;
 
-.title-section {
+.section > .title {
   @include site-element-level-2-480px;
 }
 
-.title-recent {
+.recent > .title {
   @include site-element-level-2-480px;
 }
 
