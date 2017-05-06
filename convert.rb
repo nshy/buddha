@@ -199,8 +199,8 @@ class Book
     book = BookDocument.load(path)
 
     DB[:books].insert(title: book.title,
-                      authors: book.author.join(', '),
-                      translators: book.translator.join(', '),
+                      authors: join_no_empty(book.author),
+                      translators: join_no_empty(book.translator),
                       year: book.year,
                       isbn: book.isbn,
                       publisher: book.publisher,
@@ -221,6 +221,12 @@ class Book
     dir_files('data/books', sorted: true).map do |path|
       "#{path}/info.xml"
     end
+  end
+
+private
+  def self.join_no_empty(a)
+    return nil if a.empty?
+    a.join(', ')
   end
 
 end
