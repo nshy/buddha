@@ -2,9 +2,9 @@
 
 .page-category {
 
-hr:last-child { display:none; }
+hr:last-child { display: none; }
 
-.group-name {
+.group > .title {
   font-size: 18px;
   margin-bottom: 20px;
 }
@@ -23,25 +23,32 @@ hr:last-child { display:none; }
   display: block;
 }
 
-.section .title {
+.menu .title {
   font-weight: 500;
   font-size: 18px;
-  padding-bottom: 10px;
-  margin-top: -6px;
+  padding: 14px 0 10px;
+  border-top: $separator-style;
+  margin-top: 20px;
 }
 
-.section.onpage a,
+.menu .title:first-child {
+  padding-top: 0;
+  border-top: none;
+  margin-top: 0;
+}
+
+a.onpage,
 .book-category {
   display: block;
   margin: 8px 0;
 }
 
-.section a {
+.menu a {
   font-size: 13px;
   font-weight: bold;
 }
 
-.section .size {
+.book-category .size {
   font-size: 10px;
   font-weight: bold;
   color:  #a0a0a0;
@@ -63,14 +70,10 @@ hr:last-child { display:none; }
   border-bottom: $separator-style;
 }
 
-.section a {
-  font-size: 15px;
-}
+.menu a { font-size: 15px; }
 
-.section.onpage a,
-.book-category {
-  margin: 10px 0px;
-}
+a.onpage,
+.book-category { margin: 10px 0px; }
 
 }
 
