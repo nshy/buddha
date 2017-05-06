@@ -1,114 +1,74 @@
 @import 'mixins';
 
-.book {
+.page-book {
 
-  hr {
-    margin-top: 20px;
-    margin-bottom: 22px;
+hr {
+  margin-top: 20px;
+  margin-bottom: 22px;
+}
+
+// .annotation { margin-top: 15px; }
+
+.title {
+  @include site-element-level-2;
+  margin-bottom: 5px;
+}
+
+img {
+  display: inline-block;
+  vertical-align: top;
+  margin: 5px 15px 15px 0;
+}
+
+.info-column {
+  padding-top: 20px;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.properties {
+  padding-bottom: 10px;
+  border-bottom: $separator-style;
+  td {
+    font-size: 13px;
+    padding-bottom: 8px;
   }
 
-  .annotation {
-    margin-top: 15px;
-    .title {
-      @include site-element-level-2;
-      margin-bottom: 5px;
-    }
+  td:nth-child(1) {
+    font-weight: 600;
+    padding-right: 20px;
+    width: 100px;
   }
 
-  .headings {
-    margin-top: 15px;
-    .title {
-      @include site-element-level-2;
-      margin-bottom: 5px;
-    }
-    .items {
-      padding-left: 1em;
-      .heading {
-        padding-left: 1em;
-        text-indent: -2em;
-      }
-    }
-  }
-
-  .cover {
-    display: inline-block;
-    vertical-align: top;
-    margin-right: 15px;
-    margin-top: 5px;
-  }
-
-  .info-column {
-    display: inline-block;
-    vertical-align: top;
-
-    .info {
-      .info-table {
-        display: table;
-
-        .row { display: table-row; }
-
-        .cell {
-          display: table-cell;
-          font-size: 13px;
-          padding-bottom: 8px;
-        }
-
-        .name {
-          font-weight: 600;
-          padding-right: 20px;
-          width: 100px;
-        }
-
-        .value {
-          font-weight: 400;
-          color: #585c62;
-        }
-      }
-    }
-
-    hr {
-      margin-top: 10px;
-      margin-bottom: 25px;
-    }
-
-    .categories {
-      .title {
-        @include site-element-level-2;
-      }
-      .item {
-        color:  #717783;
-        font-size: 13px;
-        font-weight: bold;
-        margin: 10px 0px;
-
-        .size {
-          color:  #a0a0a0;
-          font-size: 10px;
-          font-weight: bold;
-        }
-      }
-    }
+  td:nth-child(2) {
+    font-weight: 400;
+    color: #585c62;
   }
 }
 
-
-@media (max-width: 991px) {
-
-.book {
-  .info-column {
-    padding-top: 20px;
-  }
+.categories {
+  margin-top: 25px;
 }
 
+.categories .item {
+  color:  #717783;
+  font-size: 13px;
+  font-weight: bold;
+  margin: 10px 0px;
 }
 
+.categories .size {
+  color:  #a0a0a0;
+  font-size: 10px;
+  font-weight: bold;
+}
 
-@media (max-width: 480px) {
+.headings > .heading {
+  padding-left: 0;
+}
 
-.book {
-  .cover {
-    margin-top: 5px;
-  }
+.heading {
+  padding-left: 1em;
 }
 
 }

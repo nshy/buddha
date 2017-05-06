@@ -1,66 +1,50 @@
-<div class="book">
-
-  <div class="site-header">
-    <div class="title">
-      <%= @book.title %>
-    </div>
-    <div class="backlink">
-      <a href="/library/"> &larr; БИБЛИОТЕКА </a>
-    </div>
+<div class="site-header">
+  <div class="title">
+    <%= @book.title %>
   </div>
+  <div class="backlink">
+    <a href="/library/"> &larr; БИБЛИОТЕКА </a>
+  </div>
+</div>
 
+<div class="page-book">
   <hr/>
 
-  <div class="cover">
-    <img src="<%= digest_url('cover-medium.jpg', "/books/#{@book.id}/") %>"/>
-  </div>
+  <img src="<%= digest_url('cover-medium.jpg', "/books/#{@book.id}/") %>"/>
   <% # instead of just 'column' to escape bootstrap globals %>
   <div class="info-column">
-    <div class="info">
+    <div class="properties">
       <% # instead of just 'info' to escape bootstrap globals %>
-      <div class="info-table">
-        <%= variable_row 'Автор', @book.authors %>
-        <%= variable_row 'Переводчик', @book.translators %>
-        <%= variable_row 'Год', @book.year %>
-        <%= variable_row 'ISBN', @book.isbn %>
-        <%= variable_row 'Издательство', @book.publisher %>
-        <%= variable_row 'Количество', @book.amount %>
-      </div>
+      <table>
+        <%= book_info_line 'Автор', @book.authors %>
+        <%= book_info_line 'Переводчик', @book.translators %>
+        <%= book_info_line 'Год', @book.year %>
+        <%= book_info_line 'ISBN', @book.isbn %>
+        <%= book_info_line 'Издательство', @book.publisher %>
+        <%= book_info_line 'Количество', @book.amount %>
+      </table>
     </div>
-
-    <hr/>
 
     <div class="categories">
       <div class="title">В категориях:</div>
-      <div class="content">
-        <% @book.categories.each do |category| %>
-          <div class="item">
-            <%= erb :'partials/category_link',
-                locals: {
-                  category: category,
-                  upcase: true
-                } %>
-          </div>
-        <% end %>
+      <% @book.categories.each do |category| %>
+      <div class="item">
+        <%= erb :'partials/category_link',
+            locals: { category: category, upcase: true } %>
       </div>
+      <% end %>
     </div>
   </div>
 
   <% if not(@book.annotation.nil? or @book.annotation.empty?) %>
-    <div class="annotation">
-      <div class="title"> Описание </div>
-      <div class="text">
-        <% parse_annotation(@book.annotation).each do |paragraph| %>
-          <p><%= paragraph%></p>
-        <% end %>
-      </div>
-    </div>
+    <div class="title"> Описание </div>
+    <% parse_annotation(@book.annotation).each do |paragraph| %>
+    <p><%= paragraph%></p>
+    <% end %>
   <% end %>
+  <div class="title"> Cодержание </div>
   <div class="headings">
-    <div class="title"> Cодержание </div>
-    <div class="items">
-      <%= headings_div(parse_toc(@book.contents)) %>
-    </div>
+    <%= headings_div(parse_toc(@book.contents)) %>
   </div>
 
 </div>

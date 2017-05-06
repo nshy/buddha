@@ -132,9 +132,9 @@ module NewsHelpers
 end
 
 module BookHelpers
-  def variable_row(name, value)
+  def book_info_line(name, value)
     return if value.nil?
-    erb :'partials/variable_row', locals: { name: name, value: value }
+    "<tr><td> #{name} </td><td> #{value} </td></tr>"
   end
 
   def parse_annotation(text)
