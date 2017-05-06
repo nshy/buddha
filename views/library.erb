@@ -5,11 +5,9 @@
 
   <div class="recent widescreen">
     <div class="title"> Последние добавленные </div>
-    <div class="items">
-      <% @books.each do |book| %>
-        <%= book_thumb(book) %>
-      <% end %>
-    </div>
+    <% @books.each do |book| %>
+      <%= book_thumb(book) %>
+    <% end %>
   </div>
 
   <% @sections.each do |section| %>
@@ -23,10 +21,8 @@
 
   <div class="recent tabletscreen">
     <div class="title"> Последние добавленные </div>
-    <div class="items">
-      <% @books.each do |book| %>
-        <%= book_thumb(book) %>
-      <% end %>
-    </div>
+    <% @books.each do |book| %>
+      <%= book_thumb(book) %>
+    <% end %>
   </div>
 </div>
