@@ -1,11 +1,7 @@
 <div class="teachings">
   <div class="site-header">
-    <div class="title">
-      <%= "#{@teachings.title}, #{@teachings.year}" %>
-    </div>
-    <div class="backlink">
-      <a href="/teachings/">&larr; ВСЕ УЧЕНИЯ</a>
-    </div>
+    <div class="title"> <%= "#{@teachings.title}, #{@teachings.year}" %> </div>
+    <a href="/teachings/">&larr; ВСЕ УЧЕНИЯ</a>
   </div>
   <% @teachings.theme.each do |theme| %>
   <div class="theme">

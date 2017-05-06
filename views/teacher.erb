@@ -2,9 +2,7 @@
 
 <div class="site-header">
   <div class="title"> <%= @teacher_title %> </div>
-  <div class="backlink">
-    <a href="/teachers/"> &larr; УЧИТЕЛЯ </a>
-  </div>
+  <a href="/teachers/"> &larr; УЧИТЕЛЯ </a>
 </div>
 
 <%= load_page("teachers/#{@teacher}/page.erb", "/teachers/#{@teacher}/") %>
