@@ -1,3 +1,6 @@
+$separator-style: 1px solid #dedede;
+$link-color-hover: #3fb5ff;
+
 @mixin hover-images {
   a:hover {
     img {
