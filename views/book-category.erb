@@ -11,7 +11,7 @@
   <div class="menu">
     <% if not @category.parents.empty? %>
       <div class="section">
-        <div class="section-title">В категориях</div>
+        <div class="title">В категориях</div>
         <% @category.parents.each do |category| %>
         <%= book_category(category) %>
         <% end %>
@@ -20,7 +20,7 @@
     <% end %>
     <% if not @category.children.empty? %>
       <div class="section">
-        <div class="section-title">Подкатегории</div>
+        <div class="title">Подкатегории</div>
         <% @category.children.each do |category| %>
         <%= book_category(category) %>
         <% end %>
@@ -28,7 +28,7 @@
       <hr/>
     <% end %>
     <div class="section onpage">
-      <div class="section-title">На этой странице</div>
+      <div class="title">На этой странице</div>
       <% books_by_group.keys.each do |group| %>
       <a href="<%= "##{group}" %>"> <%= Unicode::upcase(group) %> </a>
       <% end %>
