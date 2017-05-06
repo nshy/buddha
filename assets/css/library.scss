@@ -1,73 +1,70 @@
 @import '_library';
 @import 'mixins';
 
-.library {
-  background-image: url(/time.jpg?v=1);
-  background-position: 6% 90%;
-  background-size: 30%;
-  background-repeat: no-repeat;
+.page-library {
 
-  .recent.tabletscreen {
-    display: none;
-  }
+background-image: url(/time.jpg?v=1);
+background-position: 6% 90%;
+background-size: 30%;
+background-repeat: no-repeat;
 
-  .recent {
-    .header {
-      .title {
-        @include site-element-level-2;
-        margin-bottom: 15px;
-      }
-    }
+.recent.tabletscreen {
+  display: none;
+}
 
-    display: inline-block;
-    width: 600px;
-    float: right;
-    margin-left: 100px;
-  }
-  .recent::after {
-    content: " ";
-    clear: both;
-    display: block;
-  }
+.recent {
+  width: 600px;
+  float: right;
+  margin-left: 100px;
+}
 
-  .section {
-    display: inline-block;
-    vertical-align: top;
-    text-align: left;
-    margin-bottom: 30px;
+.title-recent {
+  @include site-element-level-2;
+  margin-bottom: 15px;
+}
 
-    .title {
-      @include site-element-level-2;
-      margin-bottom: 20px;
-    }
-    .item {
-      font-size: 18px;
-      font-weight: 400;
-      .size {
-        color:  #a0a0a0;
-        font-size: 12px;
-        font-weight: 400;
-      }
-      margin-bottom: 7px;
-    }
-  }
+.section {
+  display: inline-block;
+  vertical-align: top;
+  text-align: left;
+  margin-bottom: 30px;
+}
 
-  overflow: auto;
+.title-section {
+  @include site-element-level-2;
+  margin-bottom: 20px;
+}
+
+.section .item {
+  font-size: 18px;
+  font-weight: 400;
+  margin-bottom: 7px;
+}
+
+.section .size {
+  font-size: 12px;
+  font-weight: 400;
+  color:  #a0a0a0;
+}
+
+overflow: auto;
 }
 
 
 @media (max-width: 1199px) {
 
-.library {
-  .recent {
-    width: 530px;
-    margin-left: 0px;
+.page-library {
 
-    // so that 3 book columns can fit
-    .book-thumb:nth-child(3n) {
-      margin-right: 0px;
-    }
-  }
+.recent {
+  width: 530px;
+  margin-left: 0px;
+}
+
+// so that 3 book columns can fit
+.book-thumb:nth-child(3n) {
+  margin-right: 0px;
+}
+
 }
 
 }
@@ -75,30 +72,34 @@
 
 @media (max-width: 991px) {
 
-.library {
-  background-position: 96% 50px;
-  .recent {
-    width: 100%;
-    float: none;
+.page-library {
 
-    // undo above
-    .book-thumb:nth-child(3n) {
-      margin-right: 20px;
-    }
-    // so that 4 book columns can fit
-    .book-thumb:nth-child(4n) {
-      margin-right: 0px;
-    }
-  }
+background-position: 96% 50px;
 
-  .recent.widescreen {
-    display: none;
-  }
-  .recent.tabletscreen {
-    display: block;
-    padding-top: 20px;
-    border-top: $separator-style;
-  }
+.recent {
+  width: 100%;
+  float: none;
+}
+
+// undo above
+.book-thumb:nth-child(3n) {
+  margin-right: 20px;
+}
+// so that 4 book columns can fit
+.book-thumb:nth-child(4n) {
+  margin-right: 0px;
+}
+
+.recent.widescreen {
+  display: none;
+}
+
+.recent.tabletscreen {
+  display: block;
+  padding-top: 20px;
+  border-top: $separator-style;
+}
+
 }
 
 }
@@ -106,13 +107,13 @@
 
 @media (max-width: 767px) {
 
-.library {
-  .recent {
-    // undo above
-    .book-thumb:nth-child(4n) {
-      margin-right: 20px;
-    }
-  }
+.page-library {
+
+// undo above
+.book-thumb:nth-child(4n) {
+  margin-right: 20px;
+}
+
 }
 
 }
@@ -120,38 +121,28 @@
 
 @media (max-width: 480px) {
 
-.library {
-  background-image: none;
-  .section {
-    .title {
-      @include site-element-level-2-480px;
-    }
-  }
-  .recent {
-    .header {
-      .title {
-        @include site-element-level-2-480px;
-      }
-    }
-  }
-  .recent {
-    // undo above
-    .book-thumb:nth-child(3n) {
-      margin-right: 0px;
-    }
-    // undo above
-    .book-thumb:nth-child(4n) {
-      margin-right: 0px;
-    }
-    .book-thumb {
-      margin: 0 0 40px 0;
-      padding-bottom: 20px;
-      border-bottom: $separator-style;
-    }
-    .book-thumb:last-child {
-      border-bottom: none;
-    }
-  }
+.page-library {
+
+background-image: none;
+
+.title-section {
+  @include site-element-level-2-480px;
+}
+
+.title-recent {
+  @include site-element-level-2-480px;
+}
+
+.book-thumb {
+  margin: 0 0 40px 0;
+  padding-bottom: 20px;
+  border-bottom: $separator-style;
+}
+
+.book-thumb:last-child {
+  border-bottom: none;
+}
+
 }
 
 }

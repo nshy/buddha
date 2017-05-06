@@ -1,12 +1,10 @@
-<div class="library">
+<div class="page-library">
   <div class="site-header">
     <div class="title"> Библиотека </div>
   </div>
 
   <div class="recent widescreen">
-    <div class="header">
-      <div class="title"> Последние добавленные </div>
-    </div>
+    <div class="title-recent"> Последние добавленные </div>
     <div class="items">
       <% @books.each do |book| %>
         <%= book_thumb(book) %>
@@ -16,23 +14,18 @@
 
   <% @sections.each do |section| %>
     <div class="section">
-      <div class="title"> <%= section.name %> </div>
-        <% section.categories.each do |category| %>
-          <div class="item">
-            <%= erb :'partials/category_link',
-                locals: {
-                  category: category,
-                  upcase: false
-                } %>
-          </div>
-        <% end %>
+      <div class="title-section"> <%= section.name %> </div>
+      <% section.categories.each do |category| %>
+      <div class="item">
+        <%= erb :'partials/category_link',
+            locals: { category: category, upcase: false } %>
+      </div>
+      <% end %>
     </div>
   <% end %>
 
   <div class="recent tabletscreen">
-    <div class="header">
-      <div class="title"> Последние добавленные </div>
-    </div>
+    <div class="title-recent"> Последние добавленные </div>
     <div class="items">
       <% @books.each do |book| %>
         <%= book_thumb(book) %>
