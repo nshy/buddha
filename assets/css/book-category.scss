@@ -1,78 +1,69 @@
 @import 'mixins';
 
-.category {
-  hr:last-child {
-    display:none;
-  }
+.page-category {
 
-  .books {
-    .name {
-      font-size: 18px;
-      margin-bottom: 20px;
-    }
-    margin: -6px 0px 0px 0px;
-  }
+hr:last-child { display:none; }
 
-  .menu {
-    display: inline-block;
-    float: right;
-    width: 350px;
-    vertical-align: top;
-    border-left: $separator-style;
-    margin-left: 20px;
-    padding-left: 20px;
+.group-name {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
 
-    .section {
-      .title {
-        font-weight: 500;
-        font-size: 18px;
-        padding-bottom: 10px;
-        margin-top: -6px;
-      }
-      .item {
-        margin: 8px 0px;
-        color:  #717783;
-        font-size: 13px;
-        font-weight: bold;
-        .size {
-          color:  #a0a0a0;
-          font-size: 10px;
-          font-weight: bold;
-        }
-      }
-    }
-  }
+.menu {
+  float: right;
+  width: 350px;
+  border-left: $separator-style;
+  margin-left: 20px;
+  padding-left: 20px;
+}
 
-  .menu::after {
-    content: " ";
-    clear: both;
-    display: block;
-  }
+.menu::after {
+  content: " ";
+  clear: both;
+  display: block;
+}
+
+.section-title {
+  font-weight: 500;
+  font-size: 18px;
+  padding-bottom: 10px;
+  margin-top: -6px;
+}
+
+.section .item {
+  margin: 8px 0px;
+  color:  #717783;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.section .size {
+  color:  #a0a0a0;
+  font-size: 10px;
+  font-weight: bold;
+}
 
 }
 
 
 @media (max-width: 767px) {
 
-.category {
-  .books {
-    margin: 0px 0px;
-  }
-  .menu {
-    border-left: 0px;
-    padding-left: 0px;
-    width: 100%;
-    padding-bottom: 20px;
-    margin-bottom: 30px;
-    border-bottom: $separator-style;
+.page-category {
 
-    .section {
-      .item {
-        margin: 10px 0px;
-        font-size: 15px;
-      }
-    }
-  }
+.menu {
+  border-left: 0px;
+  padding-left: 0px;
+  width: 100%;
+  padding-bottom: 20px;
+  margin-bottom: 30px;
+  border-bottom: $separator-style;
+}
+
+.section .item {
+  margin: 10px 0px;
+  font-size: 15px;
+}
+
 }
 
 }

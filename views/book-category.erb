@@ -1,17 +1,17 @@
-<div class="category">
-  <div class="site-header">
-    <div class="title">
-      <%= @category.name %>
-    </div>
-    <div class="backlink">
-      <a href="/library/"> &larr; БИБЛИОТЕКА </a>
-    </div>
+<div class="site-header">
+  <div class="title">
+    <%= @category.name %>
   </div>
+  <div class="backlink">
+    <a href="/library/"> &larr; БИБЛИОТЕКА </a>
+  </div>
+</div>
+<div class="page-category">
   <% books_by_group = @category.books_by_group %>
   <div class="menu">
     <% if not @category.parents.empty? %>
       <div class="section">
-        <div class="title">В категориях</div>
+        <div class="section-title">В категориях</div>
           <% @category.parents.each do |category| %>
             <div class="item">
               <%= erb :'partials/category_link',
@@ -26,7 +26,7 @@
     <% end %>
     <% if not @category.children.empty? %>
       <div class="section">
-        <div class="title">Подкатегории</div>
+        <div class="section-title">Подкатегории</div>
         <% @category.children.each do |category| %>
           <div class="item">
             <%= erb :'partials/category_link',
@@ -40,7 +40,7 @@
       <hr/>
     <% end %>
     <div class="section">
-      <div class="title">На этой странице</div>
+      <div class="section-title">На этой странице</div>
       <% books_by_group.keys.each do |group| %>
         <div class="item">
           <a href="<%= "##{group}" %>">
@@ -53,7 +53,7 @@
   <div class="books">
     <% books_by_group.each do |group, books| %>
       <div id="<%= group %>" class="group">
-        <div class="name"> <%= group %> </div>
+        <div class="group-name"> <%= group %> </div>
         <% books.each do |book| %>
           <%= book_thumb(book) %>
         <% end %>
