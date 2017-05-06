@@ -2,12 +2,8 @@
 
 .page-book {
 
-hr {
-  margin-top: 20px;
-  margin-bottom: 22px;
-}
-
-// .annotation { margin-top: 15px; }
+border-top: $separator-style;
+padding-top: 25px;
 
 .title {
   @include site-element-level-2;
@@ -26,12 +22,19 @@ img {
   vertical-align: top;
 }
 
-.properties {
-  padding-bottom: 10px;
+.info-column .title {
+  margin-top: 25px;
+}
+
+table {
   border-bottom: $separator-style;
   td {
     font-size: 13px;
     padding-bottom: 8px;
+  }
+
+  tr:last-child td {
+    padding-bottom: 18px;
   }
 
   td:nth-child(1) {
@@ -44,10 +47,6 @@ img {
     font-weight: 400;
     color: #585c62;
   }
-}
-
-.categories {
-  margin-top: 25px;
 }
 
 .book-category {

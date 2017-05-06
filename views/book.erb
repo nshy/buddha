@@ -2,31 +2,23 @@
   <div class="title"> <%= @book.title %> </div>
   <a href="/library/"> &larr; БИБЛИОТЕКА </a>
 </div>
-
 <div class="page-book">
-  <hr/>
-
   <img src="<%= digest_url('cover-medium.jpg', "/books/#{@book.id}/") %>"/>
   <% # instead of just 'column' to escape bootstrap globals %>
   <div class="info-column">
-    <div class="properties">
-      <% # instead of just 'info' to escape bootstrap globals %>
-      <table>
-        <%= book_info_line 'Автор', @book.authors %>
-        <%= book_info_line 'Переводчик', @book.translators %>
-        <%= book_info_line 'Год', @book.year %>
-        <%= book_info_line 'ISBN', @book.isbn %>
-        <%= book_info_line 'Издательство', @book.publisher %>
-        <%= book_info_line 'Количество', @book.amount %>
-      </table>
-    </div>
+    <table>
+      <%= book_info_line 'Автор', @book.authors %>
+      <%= book_info_line 'Переводчик', @book.translators %>
+      <%= book_info_line 'Год', @book.year %>
+      <%= book_info_line 'ISBN', @book.isbn %>
+      <%= book_info_line 'Издательство', @book.publisher %>
+      <%= book_info_line 'Количество', @book.amount %>
+    </table>
 
-    <div class="categories">
-      <div class="title">В категориях:</div>
-      <% @book.categories.each do |category| %>
-      <%= book_category(category) %>
-      <% end %>
-    </div>
+    <div class="title">В категориях:</div>
+    <% @book.categories.each do |category| %>
+    <%= book_category(category) %>
+    <% end %>
   </div>
 
   <% if not(@book.annotation.nil? or @book.annotation.empty?) %>
@@ -39,5 +31,4 @@
   <div class="headings">
     <%= headings_div(parse_toc(@book.contents)) %>
   </div>
-
 </div>
