@@ -1,6 +1,6 @@
 <div class="site-header">
   <div class="title"> <%= @book.title %> </div>
-  <a href="/library/"> &larr; БИБЛИОТЕКА </a>
+  <a class="backlink" href="/library/"> &larr; БИБЛИОТЕКА </a>
 </div>
 <div class="page-book">
   <img src="<%= digest_url('cover-medium.jpg', "/books/#{@book.id}/") %>"/>

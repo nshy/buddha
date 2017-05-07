@@ -1,6 +1,6 @@
 <div class="site-header">
   <div class="title"> <%= @category.name %> </div>
-  <a href="/library/"> &larr; БИБЛИОТЕКА </a>
+  <a class="backlink" href="/library/"> &larr; БИБЛИОТЕКА </a>
 </div>
 <div class="page-category">
   <% books_by_group = @category.books_by_group %>
