@@ -4,10 +4,8 @@
 </div>
 <div class="page-teachings">
   <% @teachings.theme.each do |theme| %>
-  <div class="theme">
-    <div class="title"> <%= theme.title %> </div>
-    <%= erb :'partials/records_list', locals: { records: theme.record } %>
-  </div> <%# theme %>
+  <span class="title"> <%= theme.title %> </span>
+  <%= erb :'partials/records_list', locals: { records: theme.record } %>
   <% end %>
 </div>
 <script>

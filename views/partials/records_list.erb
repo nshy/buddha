@@ -1,6 +1,7 @@
 <div class="site-records">
 <% records.each_with_index do |record, idx| %>
   <div class="record">
+    <!-- wrapper for a is to simplify button image layout -->
     <div class="index"> <%= idx + 1 %> </div>
     <% if not record.youtube_id.nil? %>
       <div class="description">

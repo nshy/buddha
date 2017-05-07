@@ -2,11 +2,15 @@
 
 .page-teachings {
 
-.theme { margin-bottom: 30px; }
-
 .title {
+  display: block;
   font-size: 26px;
   font-weight: 300;
+  margin-top: 30px;
+}
+
+.title:first-of-type {
+  margin-top: 0;
 }
 
 }
@@ -73,13 +77,11 @@
 
 .page-teachings {
 
-.theme { margin-bottom: 45px; }
-
 .title {
   font-size: 20px;
   line-height: 1.2;
   font-weight: 400;
-  margin-bottom: 25px;
+  margin: 45px 0 25px;
 }
 
 .site-records {
