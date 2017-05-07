@@ -2,18 +2,15 @@
 
 .page-classes {
 
-.annual {
-  margin-top: 20px;
-  margin-bottom: 30px;
-}
+hr:nth-of-type(1) { display: none; }
 
-.section:nth-child(2) {
-  border-top: $separator-style;
-}
-
-.title-section {
+.title {
   @include site-element-level-2;
-  margin: 20px 0px 10px;
+  margin-bottom: 10px;
+}
+
+> .title {
+  margin-top: 30px;
 }
 
 .class {
@@ -30,11 +27,6 @@ img {
 }
 
 .description { margin-left: 270px; }
-
-.title-class {
-  @include site-element-level-2;
-  margin-bottom: 10px;
-}
 
 .timeshort {
   margin-top: 4px;
