@@ -78,6 +78,11 @@
         <%= erb :'partials/records_list',
           locals: { records: @records } %>
       </div>
+      <script>
+      $(document).ready(function() {
+        $('.record .description a').magnificPopup({type:'iframe'});
+      });
+      </script>
     </div>
   </div>
 </div>
