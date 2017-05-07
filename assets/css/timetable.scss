@@ -9,23 +9,27 @@ $border-style: 1px solid #cccccc;
   margin: 20px 0px 10px;
 }
 
-.table {
+.two-weeks,
+.one-week {
   border-radius: 5px;
   border: $border-style;
+  width: 100%;
+  margin-bottom: 20px;
 }
 
-.table.two-weeks { display: table; }
-.table.one-week { display: none; }
-
-.day-line {
-  display: table-row;
+.two-weeks {
+  display: table;
+  .day-line { display: table-row; }
+  .day {
+    display: table-cell;
+    width: 50%;
+  }
 }
+
+.one-week { display: none; }
 
 .day {
-  width: 50%;
-  display: table-cell;
   padding: 16px 10px 12px;
-
   border-bottom: $border-style;
 }
 
@@ -99,9 +103,11 @@ $border-style: 1px solid #cccccc;
 
 .page-timetable {
 
-.table.two-weeks { display: none; }
-.table.one-week { display: table; }
+.two-weeks { display: none; }
+.one-week { display: block; }
 
+.day { overflow: auto }
+.day:nth-child(7) { border-bottom: none; }
 .day:nth-child(2n + 1) { border-right: none; }
 
 }

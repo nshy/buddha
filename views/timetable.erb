@@ -10,23 +10,23 @@
   <% events_cur = @timetable.events(week.monday..week.sunday) %>
   <% events_next = @timetable.events(next_week.monday..next_week.sunday) %>
   <div class="months"> <%= timetable_months(week) %></div>
-  <div class="table two-weeks">
+  <div class="two-weeks">
     <% Week.cwdays.each do |day| %>
-      <div class="day-line">
-        <%= week_day(week.day(day), events_cur) %>
-        <%= week_day(next_week.day(day), events_next) %>
-      </div>
+    <div class="day-line">
+      <%= week_day(week.day(day), events_cur) %>
+      <%= week_day(next_week.day(day), events_next) %>
+    </div>
     <% end %>
   </div>
-  <div class="table one-week">
-     <% week.dates.each do |date| %>
-      <div class="day-line"> <%= week_day(date, events_cur) %> </div>
-     <% end %>
+  <div class="one-week">
+    <% week.dates.each do |date| %>
+    <%= week_day(date, events_cur) %>
+    <% end %>
   </div>
-  <div class="table one-week">
-     <% next_week.dates.each do |date| %>
-      <div class="day-line"> <%= week_day(date, events_next) %> </div>
-     <% end %>
+  <div class="one-week">
+    <% next_week.dates.each do |date| %>
+    <%= week_day(date, events_next) %>
+    <% end %>
   </div>
 
   <% events = @timetable.events(week.monday..next_week.sunday) %>
