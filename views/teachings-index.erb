@@ -5,8 +5,10 @@
   <% by_year = @teachings.group_by { |t| t.date.year } %>
   <% by_year.keys.each do |year| %>
   <!-- unfortunately you can not use 50% with margins, thus extra half -->
-  <div class="side"><div class="year">
-    <div class="backborder_1"> <div class="backborder_2"></div> </div>
+  <div class="side">
+    <div class="backborder up"></div>
+    <div class="backborder down"></div>
+    <div class="year">
     <div class="title"> <%= year %> </div>
     <% by_year[year].each do |teachings| %>
       <a href="<%= "/teachings/#{teachings.id}/" %>"> <%= teachings.title %> </a>
@@ -18,6 +20,7 @@
       <% end %>
       <hr/>
     <% end %>
-  </div></div>
+    </div>
+  </div>
   <% end %> <!-- by year -->
 </div>

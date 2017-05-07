@@ -2,33 +2,25 @@
 
 .page-archive {
 
-$padding-x: 20px;
-$padding-y: 10px;
-
-.backborder_1 {
-  $height: 6px;
-
-  position: relative;
-  height: $height;
-  top: -$padding-y - $height;
-  margin: 0 (-$padding-x + 10px);
+.backborder {
   border: $separator-style;
+  border-bottom: none;
+}
+
+.backborder.up {
+  height: 5px;
+  margin: 0 20px;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  background-color: #f5f5f5;
+}
+
+.backborder.down {
+  height: 6px;
+  margin: 0 10px;
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
   background-color: #f9f9f9;
-}
-
-.backborder_2 {
-  $height: 5px;
-
-  position: relative;
-  height: $height;
-  border: $separator-style;
-  top: -$height;
-  border-top-left-radius: 3px;
-  border-top-right-radius: 3px;
-  margin: 0 10px;
-  background-color: #f5f5f5;
 }
 
 a {
@@ -43,7 +35,7 @@ a {
 .year {
   border: $separator-style;
   border-radius: 6px;
-  padding: $padding-y $padding-x 20px;
+  padding: 20px 20px;
   margin-bottom: 40px;
 }
 
