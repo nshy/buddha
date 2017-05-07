@@ -1,29 +1,11 @@
 <div class="site-records">
 <% records.each_with_index do |record, idx| %>
   <div class="record">
-    <!-- wrapper for a is to simplify button image layout -->
     <div class="index"> <%= idx + 1 %> </div>
-    <% if not record.youtube_id.nil? %>
-      <div class="description">
-      <a href="http://www.youtube.com/watch?v=<%= record.youtube_id %>">
-        <%= record_description(record, idx + 1) %>
-      </a>
-      </div>
-    <% else %>
-      <div class="description">
-        <%= record_description(record, idx + 1) %>
-      </div>
-    <% end %>
+    <!-- wrapper for a is to simplify button image layout -->
+    <div class="description"> <%= record_link(record, idx + 1) %> </div>
     <div class="date"> <%= record_date(record) %> </div>
-    <div class="download">
-      <% if not record.audio_url.nil? and not record.audio_size.nil? %>
-        <a class="site-button" href="<%= digest_url(record.audio_url) %>"
-          <%= "download" if not /yadi.sk/ =~ record.audio_url %>
-        >
-            mp3&nbsp;&nbsp;<%= record.audio_size %>&nbsp;Mб
-        </a>
-      <% end %>
-    </div>
+    <div class="download"> <%= record_download(record) %> </div>
   </div>
 <% end %>
 </div> <%# records %>

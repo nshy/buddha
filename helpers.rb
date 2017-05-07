@@ -21,6 +21,22 @@ module TeachingsHelper
     return d if not d.nil?
     "Лекция №#{index}"
   end
+
+  def record_link(record, idx)
+    link = nil
+    id = record.youtube_id
+    link = "http://www.youtube.com/watch?v=#{id}" if id
+    link(link, record_description(record, idx))
+  end
+
+  def record_download(record)
+    return if not (record.audio_url and record.audio_size)
+    download = ""
+    download = "download" if not /yadi.sk/ =~ record.audio_url
+    url = digest_url(record.audio_url)
+    text = "mp3&nbsp;&nbsp;#{record.audio_size}&nbsp;Mб"
+    "<a class='site-button' href='#{url}' #{download}>#{text}</a>"
+  end
 end
 
 module CommonHelpers
@@ -53,6 +69,11 @@ module CommonHelpers
 
   def format_date(date)
     date.strftime('%d/%m/%y')
+  end
+
+  def link(link, title)
+    return title if link.nil?
+    "<a href=#{link}>#{title}</a>"
   end
 
   def link_if(show, link, title)
