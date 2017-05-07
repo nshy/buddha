@@ -1,30 +1,23 @@
 <div class="site-header">
   <div class="title"> Учения переданные в центре </div>
 </div>
-<div class='page-archive'>
-  <div class="site-2-columns">
+<div class='page-archive site-2-columns'>
   <% by_year = @teachings.group_by { |t| t.date.year } %>
   <% by_year.keys.each do |year| %>
-    <div class="side">
-      <div class="year">
-        <div class="backborder_1">
-          <div class="backborder_2"></div>
-        </div>
-        <div class="title"> <%= year %> </div>
-        <% by_year[year].each do |teachings| %>
-            <a href="<%= "/teachings/#{teachings.id}/" %>">
-              <%= teachings.title %>
-            </a>
-          <% teachings.themes.each do |theme| %>
-            <div class="theme"><span class="title"><%=
-              theme.title %></span>&nbsp;&nbsp;<span class="size"><%=
-              theme.count %></span>
-            </div>
-          <% end %>
-          <hr/>
-        <% end %>
-      </div> <!-- year -->
-    </div> <!-- side -->
+  <!-- unfortunately you can not use 50% with margins, thus extra half -->
+  <div class="side"><div class="year">
+    <div class="backborder_1"> <div class="backborder_2"></div> </div>
+    <div class="title"> <%= year %> </div>
+    <% by_year[year].each do |teachings| %>
+      <a href="<%= "/teachings/#{teachings.id}/" %>"> <%= teachings.title %> </a>
+      <% teachings.themes.each do |theme| %>
+      <div class="theme"><span class="title"><%=
+        theme.title %></span>&nbsp;&nbsp;<span class="size"><%=
+        theme.count %></span>
+      </div>
+      <% end %>
+      <hr/>
+    <% end %>
+  </div></div>
   <% end %> <!-- by year -->
-  </div> <!-- site-2-columns -->
 </div>
