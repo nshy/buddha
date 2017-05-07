@@ -277,10 +277,10 @@ margin-bottom: 10px;
 .site-events:last-child { margin-bottom: 0px; }
 
 .site-records {
-  .record {
-    font-size: 14px;
-    color: #000;
-  }
+  .record { color: #000; }
+
+  .index,
+  .date { font-weight: 300; }
 
   .description { font-weight: 400; }
 
@@ -297,8 +297,6 @@ margin-bottom: 10px;
   .description a:hover {
     background-image: url(/play_video_cyan.svg?v=1);
   }
-
-  .date { font-weight: 300; }
 
   .download a {
     padding-left: 35px;

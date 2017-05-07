@@ -9,25 +9,23 @@
   font-weight: 300;
 }
 
-.site-records {
+}
+
+@media (min-width: 481px) {
+
+.page-teachings .site-records {
   display: table;
   width: 70%;
 
   .record { display: table-row; }
 
-  .index,
-  .description,
-  .date,
-  .download {
+  .record > div {
     border-bottom: $separator-style;
     display: table-cell;
   }
 
-  .record:last-child {
-    .index,
-    .description,
-    .date,
-    .download { border-bottom: none; }
+  .record:last-child > div {
+    border-bottom: none;
   }
 
   .index {
@@ -36,7 +34,7 @@
     padding: 15px 0px 0px 10px;
   }
 
-  .record > .description {
+  .description {
     padding-right: 40px;
     padding-bottom: 15px;
   }
@@ -51,18 +49,19 @@
 
 }
 
-
 @media (max-width: 1199px) {
 
 .page-teachings {
 
-.site-records { width: 100%; }
+.site-records {
+  width: 100%;
 
-.index { padding-left: 0px; }
+  .index { padding-left: 0px; }
 
-.download {
-  padding-right: 0px;
-  text-align: right;
+  .download {
+    padding-right: 0px;
+    text-align: right;
+  }
 }
 
 }
@@ -83,7 +82,18 @@
   margin-bottom: 25px;
 }
 
-@include site-records-layout(30px);
+.site-records {
+  .record { position: relative; }
+  .index {
+    position: absolute;
+    padding: 0;
+  }
+  .record > div { margin-left: 30px; }
+  .record .index { margin-left: 0px; }
+  .download { text-align: left; }
+}
+
+@include site-records-layout;
 
 .description { padding-bottom: 0px; }
 

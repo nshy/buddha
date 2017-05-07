@@ -73,25 +73,13 @@ $link-color-hover: #3fb5ff;
   }
 }
 
-@mixin site-records-layout($first-width) {
+@mixin site-records-layout {
 
 .site-records {
 
-display: block;
-
 .record {
-  display: block;
   padding: 15px 0px;
-  position: relative;
   border-bottom: $separator-style;
-}
-
-.index,
-.description,
-.date,
-.download {
-  display: block;
-  border-bottom: none;
 }
 
 .record:last-child {
@@ -101,20 +89,7 @@ display: block;
 
 .record:first-child { padding-top: 0px; }
 
-.index {
-  position: absolute;
-  padding: 0px;
-  width: $first-width;
-}
-
-.description,
-.date,
-.download {
-  margin-left: $first-width;
-}
-
 .date { margin-top: 5px; }
-.download { text-align: left; }
 
 }
 

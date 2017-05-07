@@ -139,7 +139,7 @@
       }
       .records {
         @include index-block;
-        @include site-records-layout(0px);
+        @include site-records-layout;
         .site-records .index { display: none; }
       }
     }
