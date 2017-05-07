@@ -1,8 +1,8 @@
-<div class="teachings">
-  <div class="site-header">
-    <div class="title"> <%= "#{@teachings.title}, #{@teachings.year}" %> </div>
-    <a class="backlink" href="/teachings/">&larr; ВСЕ УЧЕНИЯ</a>
-  </div>
+<div class="site-header">
+  <div class="title"> <%= "#{@teachings.title}, #{@teachings.year}" %> </div>
+  <a class="backlink" href="/teachings/">&larr; ВСЕ УЧЕНИЯ</a>
+</div>
+<div class="page-teachings">
   <% @teachings.theme.each do |theme| %>
   <div class="theme">
     <div class="title"> <%= theme.title %> </div>

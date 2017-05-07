@@ -1,12 +1,13 @@
-<div class="records">
+<div class="site-records">
 <% records.each_with_index do |record, idx| %>
   <div class="record">
     <div class="index"> <%= idx + 1 %> </div>
     <% if not record.youtube_id.nil? %>
-      <a href="http://www.youtube.com/watch?v=<%= record.youtube_id %>"
-         class="description">
+      <div class="description">
+      <a href="http://www.youtube.com/watch?v=<%= record.youtube_id %>">
         <%= record_description(record, idx + 1) %>
       </a>
+      </div>
     <% else %>
       <div class="description">
         <%= record_description(record, idx + 1) %>

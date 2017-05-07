@@ -1,76 +1,70 @@
 @import 'mixins';
 
-.teachings {
-  .theme {
-    margin-bottom: 30px;
-    .title {
-      font-size: 26px;
-      font-weight: 300;
-    }
-    @include site-records;
-    .records {
-      display: table;
-      width: 70%;
-      .record {
-        display: table-row;
+.page-teachings {
 
-        .index, .description, .date, .download {
-          border-bottom: $separator-style;
-        }
+.theme { margin-bottom: 30px; }
 
-        &:last-child {
-          .index, .description, .date, .download {
-            border-bottom: none;
-          }
-        }
+.title {
+  font-size: 26px;
+  font-weight: 300;
+}
 
-        .index {
-          display: table-cell;
-          width: 40px;
-          font-weight: 300;
-          padding: 15px 0px 0px 10px;
-        }
+.site-records {
+  display: table;
+  width: 70%;
 
-        .description {
-          display: table-cell;
-          padding-right: 40px;
-          padding-bottom: 15px;
-        }
+  .record { display: table-row; }
 
-        .date {
-          display: table-cell;
-          width: 115px;
-        }
-
-        .download {
-          display: table-cell;
-          width: 160px;
-          padding-right: 10px;
-        }
-      }
-    }
+  .index,
+  .description,
+  .date,
+  .download {
+    border-bottom: $separator-style;
+    display: table-cell;
   }
+
+  .record:last-child {
+    .index,
+    .description,
+    .date,
+    .download { border-bottom: none; }
+  }
+
+  .index {
+    width: 40px;
+    font-weight: 300;
+    padding: 15px 0px 0px 10px;
+  }
+
+  .record > .description {
+    padding-right: 40px;
+    padding-bottom: 15px;
+  }
+
+  .date { width: 115px; }
+
+  .download {
+    width: 160px;
+    padding-right: 10px;
+  }
+}
+
 }
 
 
 @media (max-width: 1199px) {
 
-.teachings {
-  .theme {
-    .records {
-      display: table;
-      width: 100%;
-      .record {
-        .index {
-          padding-left: 0px;
-        }
-        .download {
-          padding-right: 0px;
-          text-align: right;
-        }
-      }
-    }
-  }
+.page-teachings {
+
+.site-records { width: 100%; }
+
+.index { padding-left: 0px; }
+
+.download {
+  padding-right: 0px;
+  text-align: right;
+}
+
 }
 
 }
@@ -78,24 +72,21 @@
 
 @media (max-width: 480px) {
 
-.teachings {
-  .theme {
-    margin-bottom: 45px;
-    .title {
-      font-size: 20px;
-      line-height: 1.2;
-      font-weight: 400;
-      margin-bottom: 25px;
-    }
-    @include site-records-layout(30px);
-    .records {
-      .record {
-        .description {
-          padding-bottom: 0px;
-        }
-      }
-    }
-  }
+.page-teachings {
+
+.theme { margin-bottom: 45px; }
+
+.title {
+  font-size: 20px;
+  line-height: 1.2;
+  font-weight: 400;
+  margin-bottom: 25px;
+}
+
+@include site-records-layout(30px);
+
+.description { padding-bottom: 0px; }
+
 }
 
 }
