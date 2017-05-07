@@ -1,7 +1,7 @@
-<div class='archive'>
-  <div class="site-header">
-    <div class="title"> Учения переданные в центре </div>
-  </div>
+<div class="site-header">
+  <div class="title"> Учения переданные в центре </div>
+</div>
+<div class='page-archive'>
   <div class="site-2-columns">
   <% by_year = @teachings.group_by { |t| t.date.year } %>
   <% by_year.keys.each do |year| %>
@@ -12,7 +12,7 @@
         </div>
         <div class="title"> <%= year %> </div>
         <% by_year[year].each do |teachings| %>
-            <a class="teachings" href="<%= "/teachings/#{teachings.id}/" %>">
+            <a href="<%= "/teachings/#{teachings.id}/" %>">
               <%= teachings.title %>
             </a>
           <% teachings.themes.each do |theme| %>

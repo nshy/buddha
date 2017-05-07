@@ -1,71 +1,74 @@
 @import 'mixins';
 
-.archive {
-  $padding-x: 20px;
-  $padding-y: 10px;
+.page-archive {
 
-  .year .backborder_1 {
-    $height: 6px;
+$padding-x: 20px;
+$padding-y: 10px;
 
-    position: relative;
-    height: $height;
-    top: -$padding-y - $height;
-    margin: 0 (-$padding-x + 10px);
-    border: $separator-style;
-    border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
-    background-color: #f9f9f9;
+.backborder_1 {
+  $height: 6px;
 
-    .backborder_2 {
-      $height: 5px;
+  position: relative;
+  height: $height;
+  top: -$padding-y - $height;
+  margin: 0 (-$padding-x + 10px);
+  border: $separator-style;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  background-color: #f9f9f9;
+}
 
-      position: relative;
-      height: $height;
-      border: $separator-style;
-      top: -$height;
-      border-top-left-radius: 3px;
-      border-top-right-radius: 3px;
-      margin: 0 10px;
-      background-color: #f5f5f5;
-    }
-  }
+.backborder_2 {
+  $height: 5px;
 
-  .year {
-    border: $separator-style;
-    border-radius: 6px;
-    padding: $padding-y $padding-x 20px;
-    margin-bottom: 40px;
-    .title {
-      @include site-element-level-2;
-    }
-    a.teachings {
-      font-size: 22px;
-      font-weight: 300;
-      padding-bottom: 5px;
-      display: block;
-    }
+  position: relative;
+  height: $height;
+  border: $separator-style;
+  top: -$height;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  margin: 0 10px;
+  background-color: #f5f5f5;
+}
 
-    .theme {
-      background-image: url(/folder.svg?v=1);
-      background-repeat: no-repeat;
-      background-size: 14px;
-      background-position: left 3px;
+a {
+  font-size: 22px;
+  font-weight: 300;
+  padding-bottom: 5px;
+  display: block;
+}
 
-      padding-left: 24px;
-      margin: 8px 0px;
-      .title {
-        font-size: 16px;
-        font-weight: 400;
-        line-height: 1.2;
-      }
-      .size {
-        color: #a0a0a0;
-        font-size: 12px;
-        font-weight: 400;
-      }
-    }
-    hr:last-of-type {
-      display: none;
-    }
-  }
+.year > .title { @include site-element-level-2; }
+
+.year {
+  border: $separator-style;
+  border-radius: 6px;
+  padding: $padding-y $padding-x 20px;
+  margin-bottom: 40px;
+}
+
+.theme {
+  background-image: url(/folder.svg?v=1);
+  background-repeat: no-repeat;
+  background-size: 14px;
+  background-position: left 3px;
+
+  padding-left: 24px;
+  margin: 8px 0px;
+}
+
+.theme > .title {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.size {
+  color: #a0a0a0;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+hr:last-of-type { display: none; }
+
 }
