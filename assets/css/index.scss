@@ -80,61 +80,51 @@ overflow: auto;
   .fotorama__nav-wrap { margin-top: 40px; }
 }
 
-  .dynamic {
-    overflow: auto;
-    .header {
-      .title {
-        font-size: 28px;
-        font-weight: 300;
-        margin-bottom: 4px;
-      }
-      a {
-        font-size: 13px;
-        font-weight: 600;
-      }
-    }
-    $left-width: 65%;
-    > .news {
-      width: $left-width;
-      float: left;
-
-      .feed {
-        margin-top: 15px;
-        margin-right: 20px;
-        .title {
-          font-size: 20px;
-          font-weight: 400;
-          line-height: 1.2;
-          margin-bottom: 10px;
-        }
-        .date {
-          color: #94a1a8;
-        }
-        hr:last-child {
-          display: none;
-        }
-      }
-    }
-    .right {
-      margin-left: $left-width;
-      @mixin index-block {
-        margin: 30px 0 30px;
-        border: $separator-style;
-        border-radius: 5px;
-        padding: 15px;
-      }
-      .timetable {
-        @include index-block;
-        margin-top: 10px;
-        .site-events {
-          .time { width: 110px; }
-          .title { margin-left: 110px; }
-        }
-      }
-      > .records { @include index-block; }
-      @include site-records-layout;
-    }
+.index-header {
+  div {
+    font-size: 28px;
+    font-weight: 300;
+    margin-bottom: 4px;
   }
+  a {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  margin-bottom: 20px;
+}
+
+> .news {
+  width: 65%;
+  float: left;
+  padding-right: 20px;
+
+  .site-news > .title {
+    font-size: 20px;
+    font-weight: 400;
+    margin-bottom: 10px;
+  }
+  > hr:last-child { display: none; }
+}
+
+> .timetable,
+> .records {
+  margin-left: 65%;
+  border: $separator-style;
+  border-radius: 5px;
+  padding: 15px;
+}
+
+> .timetable { margin-top: 10px; }
+> .records { margin-top: 30px; }
+
+.site-events {
+  .time { width: 110px; }
+  .title { margin-left: 110px; }
+}
+
+@include site-records-layout;
+
 }
 
 
@@ -190,23 +180,13 @@ overflow: auto;
 @media (max-width: 991px) and (min-width: 768px) {
 
 .page-index {
-  .dynamic {
-    .right {
-      .timetable {
-        .events {
-          .event {
-            .time {
-              float: none;
-            }
-            .title {
-              margin-left: 0;
-            }
-            margin-bottom: 10px;
-          }
-        }
-      }
-    }
-  }
+
+.site-events {
+  margin-bottom: 10px;
+  .time { float: none; }
+  .title { margin-left: 0; }
+}
+
 }
 
 }
@@ -232,19 +212,18 @@ overflow: auto;
   margin-top: 20px;
 }
 
-  .dynamic {
-    > .news {
-      width: 100%;
-      float: none;
-      .feed {
-        margin-right: 0px;
-      }
-    }
-    .right {
-      margin: 30px 0;
-      width: 100%;
-    }
-  }
+> .news {
+  width: 100%;
+  float: none;
+  padding-right: 0px;
+}
+
+> .timetable,
+> .records {
+  margin: 30px 0;
+  width: 100%;
+}
+
 }
 
 }

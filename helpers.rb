@@ -237,4 +237,10 @@ module TimetableHelper
       base += "&skip=#{skip}" if skip > 0
       base
   end
+
+  def timetable_day_event(timetable)
+    day = Date.today
+    events = timetable.events(day..day)
+    erb :'partials/week_day_places', locals: { events: events }
+  end
 end

@@ -27,50 +27,42 @@
   <% end %>
 </div>
 <hr/>
-
-  <div class="dynamic">
-    <div class="news">
-      <div class="header">
-        <div class="title"> Новости </div>
-        <a href="/news?top=true">ВСЕ НОВОСТИ&nbsp;&rarr;</a>
-      </div>
-      <div class="feed">
-        <% @news.each do |news| %>
-        <div class="site-news">
-          <%= news_item(news, true) %>
-        </div>
-        <hr/>
-        <% end %>
-      </div>
-    </div>
-    <div class="right">
-      <div class="timetable">
-        <div class="header">
-          <div class="title"> Сегодня в центре </div>
-          <a href="/timetable?show=week">ВСЕ РАСПИСАНИЕ&nbsp;&rarr;</a>
-        </div>
-        <hr/>
-        <% day = Date.today %>
-        <%= erb :'partials/week_day_places', locals: {
-          events: @timetable.events(day..day) } %>
-      </div>
-      <div class="records">
-        <div class="header">
-          <div class="title"> Новые записи </div>
-          <a href="/teachings/">ВСЕ ЗАПИСИ&nbsp;&rarr;</a>
-        </div>
-        <hr/>
-        <div class="records">
-          <% @records.each do |record| %>
-          <%= teachings_record(record) %>
-          <% end %>
-        </div>
-      </div>
-      <script>
-      $(document).ready(function() {
-        $('.record .description a').magnificPopup({type:'iframe'});
-      });
-      </script>
-    </div>
+<div class="news">
+  <div class="index-header">
+    <div> Новости </div>
+    <a href="/news?top=true">ВСЕ НОВОСТИ&nbsp;&rarr;</a>
   </div>
+  <% @news.each do |news| %>
+  <div class="site-news">
+    <%= news_item(news, true) %>
+  </div>
+  <hr/>
+  <% end %>
+</div>
+<div class="timetable">
+  <div class="index-header">
+    <div> Сегодня в центре </div>
+    <a href="/timetable?show=week">ВСЕ РАСПИСАНИЕ&nbsp;&rarr;</a>
+  </div>
+  <hr/>
+  <%= timetable_day_event(@timetable) %>
+</div>
+<div class="records">
+  <div class="index-header">
+    <div> Новые записи </div>
+    <a href="/teachings/">ВСЕ ЗАПИСИ&nbsp;&rarr;</a>
+  </div>
+  <hr/>
+  <div class="records">
+    <% @records.each do |record| %>
+    <%= teachings_record(record) %>
+    <% end %>
+  </div>
+</div>
+
+<script>
+$(document).ready(function() {
+  $('.record .description a').magnificPopup({type:'iframe'});
+});
+</script>
 </div>
