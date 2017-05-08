@@ -1,18 +1,6 @@
-<% if not news.has_more %>
-<div class="news short">
-<% else %>
-<div class="news">
+<div class="date"> <%= Russian::strftime(news.date, "%d %B") %> </div>
+<div class="title"> <%= news.title %> </div>
+<div class="body"> <%= render_news(news, index) %> </div>
+<% if index and news.has_more %>
+<a class="site-button" href="<%= "news/#{news.id}/" %>"> Подробнее </a>
 <% end %>
-  <div class="date">
-    <%= Russian::strftime(news.date, "%d %B") %>
-  </div>
-  <div class="title">
-    <%= news.title %>
-  </div>
-  <div class="body">
-    <%= render_news(news, index) %>
-  </div>
-  <% if index and news.has_more %>
-    <a class="site-button" href="<%= "news/#{news.id}/" %>"> Подробнее </a>
-  <% end %>
-</div>

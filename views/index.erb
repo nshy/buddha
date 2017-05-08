@@ -51,10 +51,11 @@
         <a href="/news?top=true">ВСЕ НОВОСТИ&nbsp;&rarr;</a>
       </div>
       <div class="feed">
-        <% @news.each do |n| %>
-          <%= erb :'partials/news', locals: { news: n,
-                                              index: true } %>
-          <hr/>
+        <% @news.each do |news| %>
+        <div class="site-news">
+          <%= news_item(news, true) %>
+        </div>
+        <hr/>
         <% end %>
       </div>
     </div>

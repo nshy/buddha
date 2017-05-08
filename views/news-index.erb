@@ -1,7 +1,7 @@
-<div class="news-index">
-  <div class="site-header">
-    <div class="title"> Новости </div>
-  </div>
+<div class="site-header">
+  <div class="title"> Новости </div>
+</div>
+<div class="page-news-index">
   <% first = @news.shift %>
   <div class="top">
     <div class="menu">
@@ -15,15 +15,13 @@
         </div>
       <% end %>
     </div>
-    <%= erb :'partials/news', locals: { news: first,
-                                        index: true } %>
+    <div class="site-news side"> <%= news_item(first, true) %> </div>
     <hr/>
   </div>
-  <div class="feed">
-    <% @news.each do |row| %>
-      <%= erb :'partials/news', locals: { news: row,
-                                          index: true } %>
-      <hr/>
+  <div class="site-2-columns">
+    <% @news.each do |news| %>
+    <div class="site-news side"> <%= news_item(news, true) %> </div>
+    <hr/>
     <% end %>
   </div>
 </div>

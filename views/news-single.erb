@@ -1,9 +1,10 @@
-<div class="news-single">
+<div class="page-news-single">
   <div class="backlink">
     <a href="/news?year=<%= @news.date.year %>">
       &larr; ДРУГИЕ НОВОСТИ <%= @news.date.year %> ГОДА
     </a>
   </div>
-  <%= erb :'partials/news', locals: { news: @news,
-                                      index: false } %>
+  <div class="<%= news_single_class(@news) %>">
+    <%= news_item(@news) %>
+  </div>
 </div>

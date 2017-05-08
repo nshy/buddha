@@ -159,6 +159,16 @@ module NewsHelpers
     return doc if news.ext == 'html'
     Tilt::ERBTemplate.new { doc }.render(self)
   end
+
+  def news_item(news, index = false)
+    erb :'partials/news', locals: { news: news, index: index }
+  end
+
+  def news_single_class(news)
+    c = "site-news"
+    c += " short" if not news.has_more
+    c
+  end
 end
 
 module BookHelpers

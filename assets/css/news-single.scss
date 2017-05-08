@@ -1,0 +1,35 @@
+@import 'mixins';
+
+.page-news-single {
+
+.backlink {
+  margin: 30px 0px 20px;
+  @include site-backlink;
+}
+
+.site-news {
+  .title {
+    @include site-element-level-1;
+    margin-bottom: 15px;
+    line-height: 1.2;
+  }
+
+  > .body > .index { display: none; }
+
+  &.short {
+    display: inline-block;
+    width: 50%;
+  }
+}
+
+}
+
+
+@media (max-width: 991px) {
+
+.page-news-single >.site-news.short {
+  display: block;
+  width: 100%;
+}
+
+}
