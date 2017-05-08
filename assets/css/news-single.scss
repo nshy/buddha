@@ -2,7 +2,8 @@
 
 .page-news-single {
 
-.backlink {
+> a.backlink {
+  display: block;
   margin: 30px 0px 20px;
   @include site-backlink;
 }
