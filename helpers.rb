@@ -138,11 +138,19 @@ module CommonHelpers
 
   def slideshow(dir, url = (@url or '/'), context_url = @context_url)
     erb :'partials/slideshow',
-        locals: {
-          url: url,
-          context_url: context_url,
-          directory: dir,
-        }
+        locals: { url: url, context_url: context_url, directory: dir }
+  end
+
+  def slideshow_class(dir, extra_class,
+                      url = (@url or '/'), context_url = @context_url)
+    erb :'partials/slideshow',
+        locals: { url: url, extra_class: extra_class,
+                  context_url: context_url, directory: dir }
+  end
+
+  def fotorama_class(extra_class)
+    c = "fotorama"
+    c += " #{extra_class}" if extra_class
   end
 
   def local_uri(path, query_string)

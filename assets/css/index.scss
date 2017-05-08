@@ -1,48 +1,51 @@
 @import 'mixins';
 
-.index {
-  .head {
-    overflow: auto;
-    margin-top: 20px;
-    $info-width: 40%;
-    .info {
-      float: left;
-      width: $info-width;
-      padding: 5px 20px 0 0;
-      .top {
-        font-size: 0px;
-        img {
-          display: inline-block;
-          width: 113px;
-          margin-right: 10px;
-          vertical-align: middle;
-        }
-        .title {
-          display: inline-block;
-          vertical-align: middle;
-          font-size: 20px;
-          font-weight: 400;
-          letter-spacing: 0.8px;
-        }
-      }
-      a {
-        font-size: 13px;
-        font-weight: 600;
-      }
-    }
-    .slides {
-      margin-left: $info-width;
-      width: 100% - $info-width;
-      padding-top: 20px;
-      .fotorama {
-        margin: auto;
-        // reduces flickering on page open
-        .fotorama__stage {
-          height: 400px;
-        }
-      }
-    }
+.page-index {
+
+padding-top: 20px;
+overflow: auto;
+
+> .info {
+  float: left;
+  width: 40%;
+  padding: 5px 20px 0 0;
+  margin-bottom: 20px;
+
+  img {
+    display: inline-block;
+    vertical-align: middle;
+    width: 113px;
+    margin-right: 10px;
   }
+
+  .title {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: 0.8px;
+  }
+
+  a {
+    font-size: 13px;
+    font-weight: 600;
+  }
+}
+
+> hr { clear: both }
+
+.fotorama.photos {
+  margin-left: 40%;
+  width: 60%;
+  padding-top: 20px;
+  margin: auto;
+
+  // reduces flickering on page open
+  .fotorama__stage {
+    height: 400px;
+  }
+}
+
   .middle {
     $teachers-width: 40%;
     overflow: auto;
@@ -145,16 +148,11 @@
 
 
 @media (max-width: 1199px) {
-.index {
-  .head {
-    .info {
-      .top {
-        .title {
-          font-size: 22px;
-        }
-      }
-    }
-  }
+
+.page-index {
+
+> .info .title { font-size: 22px; }
+
 }
 
 }
@@ -162,23 +160,25 @@
 
 @media (max-width: 991px) {
 
-.index {
-  .head {
-    .info {
-      float: none;
-      width: 100%;
-      padding-bottom: 20px;
-      border-bottom: $separator-style;
-      .top {
-        width: 386px;
-        margin: 0 auto;
-      }
-    }
-    .slides {
-      width: 100%;
-      margin-left: 0;
-    }
+.page-index {
+
+> .info {
+  float: none;
+  width: 100%;
+  padding-bottom: 20px;
+  border-bottom: $separator-style;
+  .logo {
+    width: 386px;
+    margin: 0 auto;
   }
+}
+
+.fotorama.photos {
+  width: 100%;
+  padding-top: 0;
+  margin-left: 0;
+}
+
   .middle {
     $teachers-width: 50%;
     .photo_container {
@@ -202,7 +202,7 @@
 
 @media (max-width: 991px) and (min-width: 768px) {
 
-.index {
+.page-index {
   .dynamic {
     .right {
       .timetable {
@@ -227,7 +227,7 @@
 
 @media (max-width: 767px) {
 
-.index {
+.page-index {
   .middle {
     .photo_container {
       width: 100%;
@@ -268,7 +268,7 @@
 
 @media (max-width: 600px) {
 
-.index {
+.page-index {
   .middle {
     .photo_container {
       a {
@@ -286,21 +286,17 @@
 
 @media (max-width: 480px) {
 
-.index {
-  .head {
-    .info {
-      .top {
-        width: 264px;
-        .title {
-          font-size: 18px;
-          width: 140px;
-          br:nth-child(2) {
-            display: none;
-          }
-        }
-      }
-    }
+.page-index {
+
+> .info {
+  .logo { width: 270px; }
+  .title {
+    font-size: 18px;
+    width: 140px;
+    br:nth-child(2) { display: none; }
   }
+}
+
 }
 
 }
