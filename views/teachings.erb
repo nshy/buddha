@@ -5,7 +5,11 @@
 <div class="page-teachings">
   <% @teachings.theme.each do |theme| %>
   <span class="title"> <%= theme.title %> </span>
-  <%= erb :'partials/records_list', locals: { records: theme.record } %>
+  <div class="records">
+    <% theme.record.each_with_index do |record, idx| %>
+    <%= teachings_record(record, idx + 1) %>
+    <% end %>
+  </div>
   <% end %>
 </div>
 <script>

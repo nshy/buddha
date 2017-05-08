@@ -17,18 +17,22 @@
 
 @media (min-width: 481px) {
 
-.page-teachings .site-records {
+.page-teachings {
+
+.records {
   display: table;
   width: 70%;
+}
 
-  .record { display: table-row; }
+.site-record {
+  display: table-row;
 
-  .record > div {
+  > div {
     border-bottom: $separator-style;
     display: table-cell;
   }
 
-  .record:last-child > div {
+  &:last-child > div {
     border-bottom: none;
   }
 
@@ -53,13 +57,15 @@
 
 }
 
+}
+
 @media (max-width: 1199px) {
 
 .page-teachings {
 
-.site-records {
-  width: 100%;
+.records { width: 100%; }
 
+.site-record {
   .index { padding-left: 0px; }
 
   .download {
@@ -84,14 +90,14 @@
   margin: 45px 0 25px;
 }
 
-.site-records {
-  .record { position: relative; }
+.site-record {
+  position: relative;
   .index {
     position: absolute;
     padding: 0;
   }
-  .record > div { margin-left: 30px; }
-  .record .index { margin-left: 0px; }
+  > div { margin-left: 30px; }
+  .index { margin-left: 0px; }
   .download { text-align: left; }
 }
 

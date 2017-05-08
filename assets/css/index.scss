@@ -137,11 +137,8 @@
           .title { margin-left: 110px; }
         }
       }
-      .records {
-        @include index-block;
-        @include site-records-layout;
-        .site-records .index { display: none; }
-      }
+      > .records { @include index-block; }
+      @include site-records-layout;
     }
   }
 }

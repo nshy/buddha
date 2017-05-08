@@ -37,6 +37,10 @@ module TeachingsHelper
     text = "mp3&nbsp;&nbsp;#{record.audio_size}&nbsp;Mб"
     "<a class='site-button' href='#{url}' #{download}>#{text}</a>"
   end
+
+  def teachings_record(record, idx = nil)
+    erb :'partials/record', locals: { record: record, idx: idx }
+  end
 end
 
 module CommonHelpers
@@ -82,6 +86,11 @@ module CommonHelpers
     else
       "<span>#{title}</span>"
     end
+  end
+
+  def div_if(condition, c, content)
+    return if not condition
+    "<div class='#{c}'>#{content}</div>"
   end
 
   def path_to_id(path)

@@ -75,8 +75,11 @@
           <a href="/teachings/">ВСЕ ЗАПИСИ&nbsp;&rarr;</a>
         </div>
         <hr/>
-        <%= erb :'partials/records_list',
-          locals: { records: @records } %>
+        <div class="records">
+          <% @records.each do |record| %>
+          <%= teachings_record(record) %>
+          <% end %>
+        </div>
       </div>
       <script>
       $(document).ready(function() {
