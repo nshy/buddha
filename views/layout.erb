@@ -1,68 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>Московский Буддийский Центр Ламы Цонкапы</title>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <link rel="apple-touch-icon" sizes="57x57" href="<%= digest_url("/favs/apple-icon-57x57.png") %>">
-    <link rel="apple-touch-icon" sizes="60x60" href="<%= digest_url("/favs/apple-icon-60x60.png") %>">
-    <link rel="apple-touch-icon" sizes="72x72" href="<%= digest_url("/favs/apple-icon-72x72.png") %>">
-    <link rel="apple-touch-icon" sizes="76x76" href="<%= digest_url("/favs/apple-icon-76x76.png") %>">
-    <link rel="apple-touch-icon" sizes="114x114" href="<%= digest_url("/favs/apple-icon-114x114.png") %>">
-    <link rel="apple-touch-icon" sizes="120x120" href="<%= digest_url("/favs/apple-icon-120x120.png") %>">
-    <link rel="apple-touch-icon" sizes="144x144" href="<%= digest_url("/favs/apple-icon-144x144.png") %>">
-    <link rel="apple-touch-icon" sizes="152x152" href="<%= digest_url("/favs/apple-icon-152x152.png") %>">
-    <link rel="apple-touch-icon" sizes="180x180" href="<%= digest_url("/favs/apple-icon-180x180.png") %>">
-    <link rel="icon" type="image/png" sizes="192x192"  href="<%= digest_url("/favs/android-icon-192x192.png") %>">
-    <link rel="icon" type="image/png" sizes="32x32" href="<%= digest_url("/favs/favicon-32x32.png") %>">
-    <link rel="icon" type="image/png" sizes="96x96" href="<%= digest_url("/favs/favicon-96x96.png") %>">
-    <link rel="icon" type="image/png" sizes="16x16" href="<%= digest_url("/favs/favicon-16x16.png") %>">
-    <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-TileImage" content="<%= digest_url("/favs/ms-icon-144x144.png") %>">
-    <meta name="theme-color" content="#ffffff">
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.js"></script> <!-- 16 KB -->
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
-    <script src="//api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
-    <script src="/3d-party/js/scrollUp-2.4.1.js"></script>
-    <script src="/3d-party/js/bigSlide-0.12.0.js"></script>
-    <script src="<%= digest_url('/main.js') %>"></script>
-    <script src="/3d-party/js/modernizr-custom-1.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css">
-    <link  href="http://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.css" rel="stylesheet"> <!-- 3 KB -->
-    <link  href="http://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css" rel="stylesheet">
-    <% if settings.development? %>
-      <link rel="stylesheet" href="/css/global.css">
-      <link rel="stylesheet" href="/css/global-library.css">
-      <link rel="stylesheet" href="/css/layout.css">
-      <link rel="stylesheet" href="/css/archive.css">
-      <link rel="stylesheet" href="/css/teachings.css">
-      <link rel="stylesheet" href="/css/news-index.css">
-      <link rel="stylesheet" href="/css/news-single.css">
-      <link rel="stylesheet" href="/css/books.css">
-      <link rel="stylesheet" href="/css/book-category.css">
-      <link rel="stylesheet" href="/css/library.css">
-      <link rel="stylesheet" href="/css/index.css">
-      <link rel="stylesheet" href="/css/timetable.css">
-      <link rel="stylesheet" href="/css/classes.css">
-      <link rel="stylesheet" href="/css/subscription.css">
-      <link rel="stylesheet" href="/css/teachers.css">
-      <link rel="stylesheet" href="/css/contacts.css">
-      <link rel="stylesheet" href="/css/about.css">
-      <link rel="stylesheet" href="/css/fonts.css">
-      <link rel="stylesheet" href="/css/error.css">
-      <link rel="stylesheet" href="/css/login.css">
-    <% else %>
-      <link rel="stylesheet" href="<%= digest_url('/bundle.css') %>">
-    <% end %>
-    <% @extra_styles.each do |style| %>
-      <link rel="stylesheet" href="<%= digest_url(style) %>">
-    <% end %>
-  </head>
+  <%= erb :'partials/layout-head' %>
   <body>
     <nav>
       <div class="container">
