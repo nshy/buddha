@@ -46,49 +46,40 @@ overflow: auto;
   }
 }
 
-  .middle {
-    $teachers-width: 40%;
-    overflow: auto;
-    .photo_container {
-      float: left;
-      padding-right: 20px;
-      width: $teachers-width;
-    }
-    a {
-      display: block;
-      background-image: url(/geshela_main.jpg?v=1);
-      background-size: 120%;
-      background-position: -50px top;
-      height: 170px;
-      border-radius: 2px;
-      .title {
-        color: #fff;
-        font-size: 30px;
-        font-weight: 300;
-        padding-top: 15px;
-        padding-left: 20px;
-      }
-      .geshela {
-        color: #fff;
-        font-size: 15px;
-        font-weight: 600;
-        padding-top: 70px;
-        padding-left: 20px;
-      }
-    }
-    .quotes {
-      margin-left: $teachers-width;
-      .fotorama__stage {
-        height: 100px;
-      }
-      .fotorama__nav::after {
-        display: none;
-      }
-      .fotorama__nav-wrap {
-        margin-top: 40px;
-      }
-    }
+> a.teachers {
+  display: block;
+  float: left;
+  border-right: 20px solid transparent;
+  width: 40%;
+  background-image: url(/geshela_main.jpg?v=1);
+  background-size: 120%;
+  background-position: -50px top;
+  background-clip: content-box;
+  height: 170px;
+  border-radius: 2px;
+  .title {
+    color: #fff;
+    font-size: 30px;
+    font-weight: 300;
+    padding-top: 15px;
+    padding-left: 20px;
   }
+  .geshela {
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    padding-top: 70px;
+    padding-left: 20px;
+  }
+}
+
+.fotorama.quotes {
+  margin-left: 40%;
+  .fotorama__stage { height: 100px; }
+  .fotorama__nav::after { display: none; }
+  .fotorama__nav-wrap { margin-top: 40px; }
+}
+
   .dynamic {
     overflow: auto;
     .header {
@@ -179,22 +170,18 @@ overflow: auto;
   margin-left: 0;
 }
 
-  .middle {
-    $teachers-width: 50%;
-    .photo_container {
-      width: $teachers-width;
-      a {
-        background-size: 125%;
-        background-position: -60px;
-      }
-    }
-    .quotes {
-      margin-left: $teachers-width;
-      .fotorama__html {
-        text-align: center;
-      }
-    }
-  }
+
+> a.teachers {
+  width: 50%;
+  background-size: 125%;
+  background-position: -60px;
+}
+
+.fotorama.quotes {
+  margin-left: 50%;
+  .fotorama__html { text-align: center; }
+}
+
 }
 
 }
@@ -228,26 +215,23 @@ overflow: auto;
 @media (max-width: 767px) {
 
 .page-index {
-  .middle {
-    .photo_container {
-      width: 100%;
-      float: none;
-      padding-right: 0;
-      a {
-        height: 250px;
-        background-size: auto 140%;
-        background-position: 60% -20px;
-        .geshela {
-          padding-top: 10px;
-        }
-      }
-    }
-    .quotes {
-      width: 100%;
-      margin-left: 0;
-      margin-top: 20px;
-    }
-  }
+
+> a.teachers {
+  width: 100%;
+  float: none;
+  height: 250px;
+  border-right: none;
+  background-size: auto 140%;
+  background-position: 60% -20px;
+  .geshela { padding-top: 10px; }
+}
+
+.fotorama.quotes {
+  width: 100%;
+  margin-left: 0;
+  margin-top: 20px;
+}
+
   .dynamic {
     > .news {
       width: 100%;
@@ -269,16 +253,12 @@ overflow: auto;
 @media (max-width: 600px) {
 
 .page-index {
-  .middle {
-    .photo_container {
-      a {
-        background-position: 70% -20px;
-        .geshela {
-          padding-top: 140px;
-        }
-      }
-    }
-  }
+
+> a.teachers {
+  background-position: 70% -20px;
+  .geshela { padding-top: 140px; }
+}
+
 }
 
 }

@@ -17,27 +17,17 @@
 </div>
 <%= slideshow_class('about/photos', 'photos') %>
 <hr/>
+<a class="teachers" href="/teachers/">
+  <div class="title"> Учителя </div>
+  <div class="geshela"> Досточтимый Геше Джампа Тинлей </div>
+</a>
+<div class="fotorama quotes" data-arrows="false" data-width="100%">
+  <% @quotes.current_quotes.each do |quote| %>
+  <div> <%= quote.strip %> </div>
+  <% end %>
+</div>
+<hr/>
 
-  <div class="middle">
-    <div class="photo_container">
-    <a href="/teachers/">
-      <div class="title"> Учителя </div>
-      <div class="geshela">
-        Досточтимый Геше Джампа Тинлей
-      </div>
-    </a>
-    </div>
-    <div class="quotes">
-      <div class="fotorama"
-           data-arrows="false"
-           data-width="100%">
-        <% @quotes.current_quotes.each do |quote| %>
-          <div> <%= quote %> </div>
-        <% end %>
-      </div>
-    </div>
-  </div>
-  <hr/>
   <div class="dynamic">
     <div class="news">
       <div class="header">
