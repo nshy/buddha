@@ -27,8 +27,8 @@
   <% end %>
 </div>
 <hr/>
-<div class="news">
-  <div class="index-header">
+<div class="news block">
+  <div class="header">
     <div> Новости </div>
     <a href="/news?top=true">ВСЕ НОВОСТИ&nbsp;&rarr;</a>
   </div>
@@ -39,16 +39,16 @@
   <hr/>
   <% end %>
 </div>
-<div class="timetable">
-  <div class="index-header">
+<div class="timetable block">
+  <div class="header">
     <div> Сегодня в центре </div>
     <a href="/timetable?show=week">ВСЕ РАСПИСАНИЕ&nbsp;&rarr;</a>
   </div>
   <hr/>
   <%= timetable_day_event(@timetable) %>
 </div>
-<div class="records">
-  <div class="index-header">
+<div class="records block">
+  <div class="header">
     <div> Новые записи </div>
     <a href="/teachings/">ВСЕ ЗАПИСИ&nbsp;&rarr;</a>
   </div>

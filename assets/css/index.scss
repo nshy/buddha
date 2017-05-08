@@ -34,7 +34,7 @@ overflow: auto;
 
 > hr { clear: both }
 
-.fotorama.photos {
+> .fotorama.photos {
   margin-left: 40%;
   width: 60%;
   padding-top: 20px;
@@ -73,14 +73,14 @@ overflow: auto;
   }
 }
 
-.fotorama.quotes {
+> .fotorama.quotes {
   margin-left: 40%;
   .fotorama__stage { height: 100px; }
   .fotorama__nav::after { display: none; }
   .fotorama__nav-wrap { margin-top: 40px; }
 }
 
-.index-header {
+> .block > .header {
   div {
     font-size: 28px;
     font-weight: 300;
@@ -99,12 +99,13 @@ overflow: auto;
   float: left;
   padding-right: 20px;
 
-  .site-news > .title {
-    font-size: 20px;
-    font-weight: 400;
-    margin-bottom: 10px;
-  }
   > hr:last-child { display: none; }
+}
+
+.site-news > .title {
+  font-size: 20px;
+  font-weight: 400;
+  margin-bottom: 10px;
 }
 
 > .timetable,
@@ -154,7 +155,7 @@ overflow: auto;
   }
 }
 
-.fotorama.photos {
+> .fotorama.photos {
   width: 100%;
   padding-top: 0;
   margin-left: 0;
@@ -167,7 +168,7 @@ overflow: auto;
   background-position: -60px;
 }
 
-.fotorama.quotes {
+> .fotorama.quotes {
   margin-left: 50%;
   .fotorama__html { text-align: center; }
 }
@@ -206,7 +207,7 @@ overflow: auto;
   .geshela { padding-top: 10px; }
 }
 
-.fotorama.quotes {
+> .fotorama.quotes {
   width: 100%;
   margin-left: 0;
   margin-top: 20px;
