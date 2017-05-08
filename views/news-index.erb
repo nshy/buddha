@@ -3,21 +3,14 @@
 </div>
 <div class="page-news-index">
   <% first = @news.shift %>
-  <div class="top">
-    <div class="menu">
-      <div class="item">
-        <%= link_if(!@year.nil?, "/news?top=true", 'Последние') %>
-      </div>
-
-      <% @years.each do |year| %>
-        <div class="item">
-          <%= link_if(@year != year.to_s, "/news?year=#{year}", year) %>
-        </div>
-      <% end %>
-    </div>
-    <div class="site-news side"> <%= news_item(first, true) %> </div>
-    <hr/>
+  <div class="menu">
+    <%= link_if(!@year.nil?, "/news?top=true", 'Последние') %> <br/>
+    <% @years.each do |year| %>
+    <%= link_if(@year != year.to_s, "/news?year=#{year}", year) %>
+    <% end %>
   </div>
+  <div class="site-news top"> <%= news_item(first, true) %> </div>
+  <hr/>
   <div class="site-2-columns">
     <% @news.each do |news| %>
     <div class="site-news side"> <%= news_item(news, true) %> </div>

@@ -2,40 +2,40 @@
 
 .page-news-index {
 
-.top .site-news {
+.site-news.top {
   display: inline-block;
   vertical-align: top;
   width: 70%;
 }
 
-.top > .menu {
+> .menu {
   float: right;
   width: 200px;
-  padding-left: 20px;
-  padding-bottom: 20px;
-  margin-left: 20px;
-  margin-bottom: 20px;
+  padding: 0 0 20px 20px;
+  margin: 0 0 20px 20px;
   font-size: 13px;
   font-weight: bold;
-  line-height: 28px;
   border-left: $separator-style;
-  span {
+
+  span, a {
+    display: inline-block;
+    margin-bottom: 10px;
     padding: 4px 7px;
+  }
+
+  span {
     border-radius: 2px;
     background-color: #ff6333;
     color: #ffffff;
   }
-  a {
-    padding-left: 7px;
-  }
 
 }
 
-.top > hr { clear: both; }
+> hr { clear: both; }
 
-.site-2-columns {
-  > hr:nth-of-type(odd) { display: none; }
-  > hr:last-of-type { display: none; }
+.site-2-columns > hr {
+  &:nth-of-type(odd) { display: none; }
+  &:last-of-type { display: none; }
 }
 
 }
@@ -45,7 +45,7 @@
 
 .page-news-index {
 
-.top .site-news { width: 65%; }
+.site-news.top { width: 65%; }
 
 .site-2-columns > hr {
   margin: 30px 0 30px;
@@ -54,7 +54,7 @@
   &:last-of-type { display: none; }
 }
 
-.top > hr { margin-bottom: 30px; }
+> hr { margin-bottom: 30px; }
 
 }
 
@@ -65,21 +65,20 @@
 
 .page-news-index {
 
-.top .site-news { width: 100%; }
+.site-news.top { width: 100%; }
 
-.top > .menu {
+> .menu {
   float: none;
   width: 100%;
   padding-left: 0px;
   margin-left: 0px;
   font-size: 16px;
   font-weight: 600;
-  line-height: 32px;
   border-left: none;
   border-bottom: $separator-style;
-  .item {
-    display: inline;
-    margin-right: 10px;
+  a,
+  span {
+    margin-bottom: 5px;
   }
 }
 
