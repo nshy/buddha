@@ -1,12 +1,6 @@
 @import 'mixins';
 @import 'fotorama';
 
-.clearfix::before {
-  content: " "; /* Older browser do not support empty content */
-  clear: both;
-  display: block;
-}
-
 // .page-header is occupied by bootstrap
 .site-header {
   .title {
