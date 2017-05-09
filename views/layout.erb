@@ -2,26 +2,26 @@
 <html lang="en">
   <%= erb :'partials/layout-head' %>
   <body>
-    <nav>
-    <div class="menu container">
-      <% if session[:login] %>
-      <div class="admin">
-        <%= menu_link('admin', '/admin/', "УПРАВЛЕНИЕ") %>
-      </div>
-      <% end %>
-      <div class="main">
-        <a class="logo" href="/">
-          <img src="<%= digest_url('/site_logo_small.png') %>"/>
-        </a>
-        <% @menu.item.each do |item| %>
-          <%= menu_link(item.name, item.link, item.title) %>
-        <% end %>
-      </div>
-      <a href="#menu" class="menu-link">
-        <img alt="Меню" src="<%= digest_url('/menu.svg') %>"/>
-      </a>
-    </div> <%# container %>
-    </nav>
+<nav>
+<div class="menu container">
+  <% if session[:login] %>
+  <div class="admin">
+    <%= menu_link('admin', '/admin/', "УПРАВЛЕНИЕ") %>
+  </div>
+  <% end %>
+  <div class="main">
+    <a class="logo" href="/">
+      <img src="<%= digest_url('/site_logo_small.png') %>"/>
+    </a>
+    <% @menu.item.each do |item| %>
+      <%= menu_link(item.name, item.link, item.title) %>
+    <% end %>
+  </div>
+  <a href="#menu" class="menu-link">
+    <img alt="Меню" src="<%= digest_url('/menu.svg') %>"/>
+  </a>
+</div> <%# container %>
+</nav>
 
     <div class="container body push">
       <%= yield %>
