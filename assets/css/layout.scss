@@ -16,34 +16,6 @@ font-family: 'Open Sans', sans-serif;
 
 }
 
-.footer .contacts, .panel .contacts {
-  color: #cbd6e2;
-  font-size: 11px;
-  font-weight: 400;
-
-  .copyright, .address, .phone {
-    padding-left: 20px;
-    background-repeat: no-repeat;
-    background-position: left 1px;
-  }
-
-  .copyright {
-    background-image: url(/copyright.svg?v=1);
-  }
-
-  .address {
-    background-image: url(/pin.svg?v=1);
-    margin: 5px 0px 14px;
-  }
-
-  a.phone {
-    background-image: url(/phone.svg?v=1);
-
-    color:#cbd6e2;
-    &:hover { color: $link-color-hover; }
-  }
-}
-
 .donations {
   .yandex-money {
     overflow: auto;
@@ -89,29 +61,52 @@ font-family: 'Open Sans', sans-serif;
     margin-left: 80px;
   }
 
-  .right {
+  > .contacts {
     display: inline-block;
     vertical-align: top;
     width: 380px;
-    margin-left: 80px;
-    margin-right: 20px;
-  }
+    margin: 0 0 0 80px;
+    color: #cbd6e2;
+    font-size: 11px;
+    font-weight: 400;
 
-  .right .contacts {
-    margin-right: 60px;
+    a.facebook {
+      float: right;
+      width: 25px;
+      height: 25px;
+      margin: -3px 0 0 20px;
 
-    $copyright-width: 90px;
-    .copyright {
-      float: left;
-      width: $copyright-width;
+      background-image: url(/facebook.svg?v=1);
+      transition: all ease 0.3s;
+      opacity: 0.8;
+
+      &:hover { opacity: 1; }
     }
 
-    .name {
-      margin-left: $copyright-width;
+    .left {
+      padding-left: 20px;
+      background-repeat: no-repeat;
+      background-position: left 1px;
+    }
+
+    .copyright {
+      float: left;
+      width: 90px;
+      background-image: url(/copyright.svg?v=1);
+    }
+
+    .name { margin-left: 90px; }
+
+    .address {
+      background-image: url(/pin.svg?v=1);
+      margin: 5px 0px 14px;
     }
 
     .phone {
       float: left;
+      background-image: url(/phone.svg?v=1);
+      color:#cbd6e2;
+      &:hover { color: $link-color-hover; }
     }
 
     a.old-site {
@@ -122,22 +117,6 @@ font-family: 'Open Sans', sans-serif;
     }
   }
 
-  .right a.facebook {
-    float: right;
-    width: 25px;
-    height: 25px;
-    margin-top: -3px;
-
-    background-image: url(/facebook.svg?v=1);
-    -webkit-transition: all ease 0.3s;
-       -moz-transition: all ease 0.3s;
-            transition: all ease 0.3s;
-    opacity: 0.8;
-  }
-  .right a.facebook:hover {
-    opacity: 1;
-  }
-
 }
 
 @media (max-width: 1199px) {
@@ -145,13 +124,9 @@ font-family: 'Open Sans', sans-serif;
 .footer {
   > .mail { margin-left: 15px; }
 
-  .right {
+  > .contacts {
     width: 310px;
     margin-left: 15px;
-  }
-
-  .right .contacts {
-    margin-right: 40px;
   }
 
 }
@@ -167,19 +142,16 @@ font-family: 'Open Sans', sans-serif;
     width: 470px;
   }
 
-  .right {
+  > .contacts {
     display: block;
     width: auto;
     padding-top: 20px;
     border-top: 1px solid #5d6d84;
+    margin: 20px 20px 0 20px;
     margin-top: 20px;
     margin-left: 20px;
 
-    .contacts {
-      .address {
-        margin: 18px 0px 18px;
-      }
-    }
+    .address { margin: 18px 0px 18px; }
   }
 
 }
@@ -205,7 +177,7 @@ body {
     margin: 20px 20px 20px;
   }
 
-  .right {
+  > .contacts {
     padding-top: 0;
     border-top: 0px;
   }
@@ -271,16 +243,6 @@ body {
     margin-right: 0;
   }
 
-  .right .contacts {
-    .phone {
-      float: none;
-    }
-
-    a.old-site{
-      margin: 10px 0 0 20px;
-      text-align: left;
-    }
-  }
 }
 
 }
