@@ -1,74 +1,68 @@
 #site-subscription {
-  // so that my lengthy 'nshyrokovskiy@gmail.com' fit
-  padding: 15px;
-  .welcome {
-    color: #c8d7e2;
-    font-size: 13px;
-    font-weight: 400;
-    margin-bottom: 10px;
-    line-height: 1.2;
-  }
-  background-color: #4b6077;
-  border-radius: 4px;
 
-  .subscribe-form.ml-block-success {
-    // to hide initially
-    display: none;
-    font-size: 13px;
+padding: 15px;
+background-color: #4b6077;
+border-radius: 4px;
 
-    color: white;
-  }
-  $button-width: 120px;
-  .subscribe-form {
-    margin: auto;
-    position: relative;
-    .form-section.edit {
-      margin-right: $button-width - 5px;
-      .form-group {
-        margin-bottom: 0;
-        input {
-          border: 0;
-          width: 100%;
-        }
-      }
-      // signalling on invalid email
-      .form-group.ml-error .form-control {
-        border: 2px solid red;
-      }
-    }
-    .form-section.button {
-      width: $button-width;
-      position: absolute;
-      top: 0;
-      right: 0;
-      button {
-        width: 100%;
-      }
-      button.loading {
-        // to hide initially
-        display: none;
-        img {
-          width: 16px;
-          height: 16px;
-        }
-      }
-    }
-  }
-
+.welcome {
+  color: #c8d7e2;
+  font-size: 13px;
+  font-weight: 400;
+  margin-bottom: 10px;
+  line-height: 1.2;
 }
 
+.ml-block-success {
+  // to hide initially
+  display: none;
+
+  font-size: 13px;
+  color: white;
+}
+
+.subscribe-form {
+  margin: auto;
+  position: relative;
+}
+
+.edit { margin-right: 115px; }
+.form-group { margin-bottom: 0; }
+
+input.email {
+  border: 0;
+  width: 100%;
+}
+
+.button {
+  width: 120px;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+// to hide initially
+button.loading { display: none; }
+button { width: 100%; }
+
+img {
+  width: 16px;
+  height: 16px;
+}
+
+}
 
 @media (max-width: 767px) {
 
 #site-subscription {
-  .welcome {
-    width: 430px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  .subscribe-form {
-    width: 430px;
-  }
+
+.welcome {
+  width: 430px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.subscribe-form { width: 430px; }
+
 }
 
 }
@@ -77,23 +71,27 @@
 @media (max-width: 590px) {
 
 #site-subscription {
-  padding: 15px 50px 30px 50px;
-  border-radius: 0;
-  .welcome {
-    width: auto;
-    margin-bottom: 20px;
-  }
-  .subscribe-form {
-    width: auto;
-    .form-section.edit {
-      margin-right: 0;
-      margin-bottom: 15px;
-    }
-    .form-section.button {
-      position: static;
-      width: auto;
-    }
-  }
+
+padding: 15px 50px 30px 50px;
+border-radius: 0;
+
+.welcome {
+  width: auto;
+  margin-bottom: 20px;
+}
+
+.subscribe-form { width: auto; }
+
+.edit {
+  margin-right: 0;
+  margin-bottom: 15px;
+}
+
+.button {
+  position: static;
+  width: auto;
+}
+
 }
 
 }
