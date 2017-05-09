@@ -82,7 +82,7 @@ font-family: 'Open Sans', sans-serif;
     }
   }
 
-  .mail {
+  > .mail {
     display: inline-block;
     width: 380px;
     vertical-align: top;
@@ -143,9 +143,7 @@ font-family: 'Open Sans', sans-serif;
 @media (max-width: 1199px) {
 
 .footer {
-  .mail {
-    margin-left: 15px;
-  }
+  > .mail { margin-left: 15px; }
 
   .right {
     width: 310px;
@@ -164,7 +162,7 @@ font-family: 'Open Sans', sans-serif;
 @media (max-width: 991px) {
 
 .footer {
-  .mail {
+  > .mail {
     margin-left: 40px;
     width: 470px;
   }
@@ -201,7 +199,7 @@ body {
 }
 
 .footer {
-  .mail {
+  > .mail {
     display: block;
     width: auto;
     margin: 20px 20px 20px;
@@ -268,7 +266,7 @@ body {
     text-align: right;
   }
 
-  .mail {
+  > .mail {
     margin-left: 0;
     margin-right: 0;
   }
