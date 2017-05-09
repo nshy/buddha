@@ -1,37 +1,39 @@
-.error {
-  width: 500px;
-  margin: auto;
-  text-align: center;
-  padding: 200px 0 100px;
+.page-error {
 
-  background-image: url(/cloud.png?v=1);
-  background-size: 200px;
-  background-repeat: no-repeat;
-  background-position: center 100px;
+width: 500px;
+margin: auto;
+text-align: center;
+padding: 200px 0 100px;
 
-  .title {
-    font-size: 34px;
-    font-weight: 400;
-    margin-bottom: 20px;
-  }
+background-image: url(/cloud.png?v=1);
+background-size: 200px;
+background-repeat: no-repeat;
+background-position: center 100px;
 
-  .message, .url {
-    font-size: 16px;
-    font-weight: 400;
-  }
+.title {
+  font-size: 34px;
+  font-weight: 400;
+  margin-bottom: 20px;
+}
 
-  .message {
-    margin-bottom: 15px;
-  }
+.message, a {
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.message { margin-bottom: 15px; }
+
 }
 
 
 @media (max-width: 590px) {
 
-.error {
-  width: 100%;
-  padding: 140px 10px 20px;
-  background-position: center 40px;
+.page-error {
+
+width: 100%;
+padding: 140px 10px 20px;
+background-position: center 40px;
+
 }
 
 }
