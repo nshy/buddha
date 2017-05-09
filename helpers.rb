@@ -158,6 +158,12 @@ module CommonHelpers
     path += '?'
     path += query_string
   end
+
+  def menu_link(name, link, title)
+    c = "menu"
+    c += " active" if name == @menu_active.to_s
+    "<a class='#{c}' href='#{link}'>#{title}</a>"
+  end
 end
 
 module NewsHelpers

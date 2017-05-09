@@ -3,35 +3,26 @@
   <%= erb :'partials/layout-head' %>
   <body>
     <nav>
-      <div class="container">
-        <% if session[:login] %>
-        <div class="admin">
-          <a href="/admin/"
-             class="menu <%= "active" if 'admin' == @menu_active.to_s %>">
-            УПРАВЛЕНИЕ
-          </a>
-        </div>
-        <% end %>
-
-        <div class="main">
-          <a class="logo" href="/">
-            <img alt="Московский Буддийский Центр Ламы Цонкапы"
-                 src="<%= digest_url('/site_logo_small.png') %>"/>
-          </a>
-
-          <% @menu.item.each do |item| %>
-            <a href="<%= item.link %>"
-               class="menu <%= "active" if item.name == @menu_active.to_s %>">
-              <%= item.title %>
-            </a>
-          <% end %>
-        </div>
-
-        <a href="#menu" class="menu-link">
-          <img alt="Меню" src="<%= digest_url('/menu.svg') %>"/>
+    <div class="menu container">
+      <% if session[:login] %>
+      <div class="admin">
+        <%= menu_link('admin', '/admin/', "УПРАВЛЕНИЕ") %>
+      </div>
+      <% end %>
+      <div class="main">
+        <a class="logo" href="/">
+          <img src="<%= digest_url('/site_logo_small.png') %>"/>
         </a>
-      </div> <%# container %>
+        <% @menu.item.each do |item| %>
+          <%= menu_link(item.name, item.link, item.title) %>
+        <% end %>
+      </div>
+      <a href="#menu" class="menu-link">
+        <img alt="Меню" src="<%= digest_url('/menu.svg') %>"/>
+      </a>
+    </div> <%# container %>
     </nav>
+
     <div class="container body push">
       <%= yield %>
       <div class="footer row">
