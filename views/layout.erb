@@ -23,45 +23,41 @@
 </div> <%# container %>
 </nav>
 
-    <div class="container body push">
-      <%= yield %>
-      <div class="footer row">
-        <div class="map">
-        <div class="links">
-          <% about = @menu.about %>
-          <a href="<%= about.link %>"> <%= about.title %> </a>
-          <div class="sublinks">
-          <% about.subitem.each do |subitem| %>
-            <a href="<%= subitem.link %>"> <%= subitem.title %> </a>
-          <% end %>
-          </div>
-        </div>
-        <div class="links right-links">
-          <% @menu.others.each do |item| %>
-            <a href="<%= item.link %>"> <%= item.title %> </a>
-          <% end %>
-        </div>
-        </div> <%# map %>
-        <div class="mail">
-          <%= erb :'partials/subscribe' %>
-        </div>
-        <div class="right">
-          <a href="https://www.facebook.com/MoscowBuddhistCenterofLamaTsonkapa/"
-             class="facebook"></a>
-          <%= erb :'partials/contacts' %>
-        </div>
-      </div> <%# footer %>
-    </div> <%# container %>
+<div class="container body push">
+  <%= yield %>
+  <div class="footer row">
+    <div class="links">
+      <% about = @menu.about %>
+      <a class="regular" href="<%= about.link %>"> <%= about.title %> </a>
+      <% about.subitem.each do |subitem| %>
+      <a class="sublink" href="<%= subitem.link %>"> <%= subitem.title %> </a>
+      <% end %>
+    </div>
+    <div class="links second">
+      <% @menu.others.each do |item| %>
+      <a class="regular" href="<%= item.link %>"> <%= item.title %> </a>
+      <% end %>
+    </div>
+    <div class="mail">
+      <%= erb :'partials/subscribe' %>
+    </div>
+    <div class="right">
+      <a href="https://www.facebook.com/MoscowBuddhistCenterofLamaTsonkapa/"
+         class="facebook"></a>
+      <%= erb :'partials/contacts' %>
+    </div>
+  </div> <%# footer %>
+</div> <%# container %>
 
-    <div id="menu" class="panel" role="navigation">
-      <div class="links">
-        <% @menu.item.each do |item| %>
-          <a href="<%= item.link %>"> <%= item.title %> </a>
-        <% end %>
-      </div>
-    </div> <%# menu %>
+<div id="menu" class="panel" role="navigation">
+  <div class="links">
+    <% @menu.item.each do |item| %>
+      <a href="<%= item.link %>"> <%= item.title %> </a>
+    <% end %>
+  </div>
+</div> <%# menu %>
 
-    <%= erb :'partials/ya_metrika' if @ya_metrika %>
+<%= erb :'partials/ya_metrika' if @ya_metrika %>
 
   </body>
 </html>

@@ -57,40 +57,28 @@ font-family: 'Open Sans', sans-serif;
   padding-bottom: 20px;
   border-radius: 0 0 5px 5px;
 
-  .map {
-    display: inline-block;
-    vertical-align: top;
-  }
-
-  .links {
+  > .links {
     display: inline-block;
     vertical-align: top;
     margin-left: 20px;
-    line-height: 25px;
 
     a {
-      color: #d8e0e8;
+      display: block;
+      height: 25px;
+    }
+
+    a.regular {
       font-size: 13px;
       font-weight: 400;
-      display: block;
+      color: #d8e0e8;
+      &:hover { color: $link-color-hover; }
     }
 
-    a:hover {
-      color: $link-color-hover;
-    }
-
-    .sublinks {
-      line-height: 20px;
-      a {
-        color: #99a5b2;
-        font-size: 11px;
-        font-weight: 400;
-        display: block;
-        margin-top: 4px;
-      }
-      a:hover {
-        color: #3fb5ff;
-      }
+    a.sublink {
+      font-size: 11px;
+      font-weight: 400;
+      color: #99a5b2;
+      &:hover { color: #3fb5ff; }
     }
   }
 
@@ -176,15 +164,9 @@ font-family: 'Open Sans', sans-serif;
 @media (max-width: 991px) {
 
 .footer {
-  .map {
-    float: left;
-  }
-
   .mail {
-    display: block;
-    width: auto;
-    margin-left: 260px;
-    margin-right: 20px;
+    margin-left: 40px;
+    width: 470px;
   }
 
   .right {
@@ -219,13 +201,10 @@ body {
 }
 
 .footer {
-  .map {
-    float: none;
-  }
-
   .mail {
-    margin-left: 20px;
-    margin-top: 20px;
+    display: block;
+    width: auto;
+    margin: 20px 20px 20px;
   }
 
   .right {
@@ -282,12 +261,7 @@ body {
 @media (max-width: 590px) {
 
 .footer {
-  .map {
-    display: block;
-    width: auto;
-  }
-
-  .right-links {
+  .links.second {
     float: right;
     margin-right: 20px;
     margin-left: 20px;
