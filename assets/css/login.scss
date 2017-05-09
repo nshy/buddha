@@ -1,28 +1,17 @@
-.login {
-  height: 400px;
-  padding-top: 200px;
-  text-align: center;
-  form {
-    // inline-block trick
-    font-size: 0px;
-    input {
-      width: 150px;
-      margin-right: -5px;
+.page-login {
 
-      border: 1px solid #ccc;
-      &:focus {
-        border: 1px solid #fff;
-      }
+height: 400px;
+padding-top: 200px;
+text-align: center;
 
-      // inline-block trick reset
-      font-size: 14px;
-    }
+input {
+  width: 150px;
+  margin-right: -10px;
 
-    button {
-      width: 100px;
+  border: 1px solid #ccc;
+  &:focus { border: 1px solid #fff; }
+}
 
-      // inline-block trick reset
-      font-size: 14px;
-    }
-  }
+button { width: 100px; }
+
 }

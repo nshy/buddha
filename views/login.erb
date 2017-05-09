@@ -1,6 +1,6 @@
-<div class="login">
+<div class="page-login">
   <% if session[:login] %>
-    <div> Вы уже авторизованы </div>
+  <div> Вы уже авторизованы </div>
   <% else %>
   <form action="/login" method="post">
     <input type="password" placeholder="Введите пароль" name="password"/>
