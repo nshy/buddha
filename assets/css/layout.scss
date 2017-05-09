@@ -83,99 +83,20 @@ font-family: 'Open Sans', sans-serif;
     margin-left: 80px;
   }
 
-  > .contacts {
-    display: inline-block;
-    vertical-align: top;
-    width: 380px;
-    margin: 0 0 0 80px;
-    color: #cbd6e2;
-    font-size: 11px;
-    font-weight: 400;
-
-    a.facebook {
-      float: right;
-      width: 25px;
-      height: 25px;
-      margin: -3px 0 0 20px;
-
-      background-image: url(/facebook.svg?v=1);
-      transition: all ease 0.3s;
-      opacity: 0.8;
-
-      &:hover { opacity: 1; }
-    }
-
-    .left {
-      padding-left: 20px;
-      background-repeat: no-repeat;
-      background-position: left 1px;
-    }
-
-    .copyright {
-      float: left;
-      width: 90px;
-      background-image: url(/copyright.svg?v=1);
-    }
-
-    .name { margin-left: 90px; }
-
-    .address {
-      background-image: url(/pin.svg?v=1);
-      margin: 5px 0px 14px;
-    }
-
-    .phone {
-      float: left;
-      background-image: url(/phone.svg?v=1);
-      color:#cbd6e2;
-      &:hover { color: $link-color-hover; }
-    }
-
-    a.old-site {
-      display: block;
-      text-align: right;
-      color: #99a5b2;
-      &:hover { color: $link-color-hover; }
-    }
-  }
-
 }
 
 @media (max-width: 1199px) {
 
-.footer {
-  > .mail { margin-left: 15px; }
-
-  > .contacts {
-    width: 310px;
-    margin-left: 15px;
-  }
-
-}
+.footer > .mail { margin-left: 15px; }
 
 }
 
 
 @media (max-width: 991px) {
 
-.footer {
-  > .mail {
-    margin-left: 40px;
-    width: 470px;
-  }
-
-  > .contacts {
-    display: block;
-    width: auto;
-    padding-top: 20px;
-    border-top: 1px solid #5d6d84;
-    margin: 20px 20px 0 20px;
-    margin-top: 20px;
-    margin-left: 20px;
-
-    .address { margin: 18px 0px 18px; }
-  }
-
+.footer > .mail {
+  margin-left: 40px;
+  width: 470px;
 }
 
 }
@@ -192,17 +113,10 @@ body {
 
 }
 
-.footer {
-  > .mail {
-    display: block;
-    width: auto;
-    margin: 20px 20px 20px;
-  }
-
-  > .contacts {
-    padding-top: 0;
-    border-top: 0px;
-  }
+.footer > .mail {
+  display: block;
+  width: auto;
+  margin: 20px 20px 20px;
 }
 
 }
