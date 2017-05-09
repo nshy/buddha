@@ -2,35 +2,11 @@
   <div class="site-header">
     <div class="title"> Дхарма центр </div>
   </div>
-  <%
-      menu = [
-        { url: '/about/',
-          title: 'Справка',
-          path: 'about/page.erb'
-        },
-        { url: '/teachers/',
-          title: 'Учителя',
-          path: 'teachers/page.erb'
-        },
-        { url: '/contacts/',
-          title: 'Контакты',
-          path: 'contacts.html'
-        },
-        { url: '/donations/',
-          title: 'Помощь центру',
-          path: 'donations.erb'
-        }
-      ]
-  %>
   <div class="site-tab">
-    <% active = nil %>
-    <% menu.each do |item| %>
-      <% active = item if request.path == item[:url] %>
-      <a class="<%= "active" if active == item %>"
-         href="<%= item[:url] %>">
-         <%= Unicode::upcase(item[:title]) %>
-      </a>
-    <% end %>
+    <%= tab_link('/about/', 'СПРАВКА') %>
+    <%= tab_link('/teachers/', 'УЧИТЕЛЯ') %>
+    <%= tab_link('/contacts/', 'КОНТАКТЫ') %>
+    <%= tab_link('/donations/', 'ПОМОЩЬ ЦЕНТРУ') %>
   </div>
-  <%= load_page(active[:path], active[:url]) %>
+  <%= load_page(@path, request.path) %>
 </div>

@@ -166,6 +166,12 @@ module CommonHelpers
     c += " active" if name == @menu_active.to_s
     "<a class='#{c}' href='#{link}'>#{title}</a>"
   end
+
+  def tab_link(link, title, r = request.path)
+    c = ""
+    c = "class='active'" if r == link
+    "<a #{c} href='#{link}'>#{title}</a>"
+  end
 end
 
 module NewsHelpers
