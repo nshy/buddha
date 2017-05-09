@@ -1,4 +1,4 @@
-.contacts {
+.page-contacts {
 
 #map {
   display: block;
@@ -13,6 +13,7 @@
   border-radius: 2px;
 }
 
+
 @media (max-width: 767px) {
 
 #map {
@@ -22,5 +23,7 @@
   margin-top: 0;
   margin-bottom: 30px;
 }
+
 }
+
 }
