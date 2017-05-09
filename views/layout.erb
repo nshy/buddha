@@ -44,11 +44,9 @@
 </div> <%# container %>
 
 <div id="menu" class="panel" role="navigation">
-  <div class="links">
-    <% @menu.item.each do |item| %>
-      <a href="<%= item.link %>"> <%= item.title %> </a>
-    <% end %>
-  </div>
+  <% @menu.item.each do |item| %>
+  <a href="<%= item.link %>"> <%= item.title %> </a>
+  <% end %>
 </div> <%# menu %>
 
 <%= erb :'partials/ya_metrika' if @ya_metrika %>

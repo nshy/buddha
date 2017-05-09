@@ -196,32 +196,19 @@ body {
 
 .panel {
   position: fixed;
-  right: -15.625em; /*left or right and the width of your navigation panel*/
-  width: 15.625em; /*should match the above value*/
-  background: #2C3E50;
+  right: -220px;
+  width: 220px;
+  background: #2c3e50;
   z-index: 9999;
-  border-radius: 0px;
+  border-radius: 0;
 
-  .links {
-    a {
-      display: block;
-      border-bottom: 1px solid #34495D;
-      padding: 13px;
-      font-size: 12px;
-      letter-spacing: 1px;
-      color: #fff;
-    }
-  }
-
-  .contacts {
-    padding-left: 15px;
-    position: absolute;
-    bottom: 15px;
-
-    .name {
-      padding: 0 21px 0 21px;
-    }
-
+  a {
+    display: block;
+    border-bottom: 1px solid #34495D;
+    padding: 13px;
+    font-size: 12px;
+    letter-spacing: 1px;
+    color: #fff;
   }
 }
 
