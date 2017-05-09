@@ -4,6 +4,7 @@ $(document).ready(function() {
     });
     // order is significant as scroll up has to be pushed too
     $('.menu-link').bigSlide({
-      side: 'right'
+      side: 'right',
+      easyClose: true
     });
 });
