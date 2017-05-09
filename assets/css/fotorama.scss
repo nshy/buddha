@@ -1,17 +1,6 @@
 @import 'mixins';
 
-.fotorama__nav--dots .fotorama__nav__frame {
-  width: 22px;
-}
-
-.fotorama__nav__frame.fotorama__active {
-  .fotorama__dot {
-    width: 8px;
-    height: 8px;
-    background-color: #9aa1af;
-    border-width: 0px;
-  }
-}
+.fotorama__nav--dots .fotorama__nav__frame { width: 22px; }
 
 .fotorama__dot {
   top: 20px;
@@ -21,23 +10,22 @@
   border-radius: 4px;
 }
 
-.fotorama__nav__frame:hover {
-  .fotorama__dot {
-    background-color: #000000;
-    border-color: #000000;
-    @include hover-transition(background-color border-color);
-  }
+.fotorama__nav__frame.fotorama__active .fotorama__dot {
+  border-width: 0px;
+}
+
+.fotorama__nav__frame:hover .fotorama__dot {
+  background-color: #000000;
+  border-color: #000000;
+  @include hover-transition(background-color border-color);
 }
 
 .fotorama__arr {
   background: url(/fotorama.png?v=1) no-repeat;
-  &.fotorama__arr--prev {
-    background-position: 0 0;
-  }
-  &.fotorama__arr--next {
-    background-position: -32px 0;
-  }
 }
+
+.fotorama__arr--prev { background-position: 0 0; }
+.fotorama__arr--next { background-position: -32px 0; }
 
 .fotorama__img,  .fotorama__stage {
   border-radius: 2px !important;
