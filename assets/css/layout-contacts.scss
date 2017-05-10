@@ -16,7 +16,7 @@ a.facebook {
   height: 25px;
   margin: -3px 0 0 20px;
 
-  background-image: url(/facebook.svg?v=1);
+  background-image: url(/images/facebook.svg?v=1);
   transition: all ease 0.3s;
   opacity: 0.8;
 
@@ -32,19 +32,19 @@ a.facebook {
 .copyright {
   float: left;
   width: 90px;
-  background-image: url(/copyright.svg?v=1);
+  background-image: url(/images/copyright.svg?v=1);
 }
 
 .name { margin-left: 90px; }
 
 .address {
-  background-image: url(/pin.svg?v=1);
+  background-image: url(/images/pin.svg?v=1);
   margin: 5px 0px 14px;
 }
 
 .phone {
   float: left;
-  background-image: url(/phone.svg?v=1);
+  background-image: url(/images/phone.svg?v=1);
   color:#cbd6e2;
   &:hover { color: $link-color-hover; }
 }

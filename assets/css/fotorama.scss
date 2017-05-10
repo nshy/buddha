@@ -24,7 +24,7 @@
 }
 
 .fotorama__arr {
-  background: url(/fotorama.png?v=1) no-repeat;
+  background: url(/images/fotorama.png?v=1) no-repeat;
 }
 
 .fotorama__arr--prev { background-position: 0 0; }
@@ -37,7 +37,7 @@
 @media (-webkit-min-device-pixel-ratio: 1.5), (min-resolution: 2dppx) {
 
 .fotorama__arr {
-  background: url(/fotorama-2x.png?v=1) 0 0/96px 160px no-repeat;
+  background: url(/images/fotorama-2x.png?v=1) 0 0/96px 160px no-repeat;
 }
 
 }
