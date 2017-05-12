@@ -118,7 +118,7 @@ class Teaching
         DB[:records].insert(record_date: record.record_date,
                             description: record.description,
                             audio_url: record.audio_url,
-                            audio_size: record.audio_size.to_i,
+                            audio_size: record.audio_size,
                             youtube_id: record.youtube_id,
                             theme_id: theme_id)
       end

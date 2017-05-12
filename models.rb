@@ -1,6 +1,12 @@
 require_relative 'xmldsl'
 require 'date'
 
+class Integer
+  def self.parse(v)
+    v.to_i
+  end
+end
+
 class TeachingsDocument < XDSL::Element
   element :title
   element :year
@@ -11,7 +17,7 @@ class TeachingsDocument < XDSL::Element
       element :description
       element :record_date, Date
       element :audio_url
-      element :audio_size
+      element :audio_size, Integer
       element :video_url
       element :video_size
       element :youtube_id
