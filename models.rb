@@ -37,6 +37,11 @@ class TeachingsDocument < XDSL::Element
   end
 end
 
+def join_no_empty(a)
+  return nil if a.empty?
+  a.join(', ')
+end
+
 class BookDocument < XDSL::Element
   element :title
   elements :author
@@ -49,6 +54,14 @@ class BookDocument < XDSL::Element
   element :contents
   element :added
   element :outer_id
+
+  def translators
+    join_no_empty(translator)
+  end
+
+  def authors
+    join_no_empty(author)
+  end
 end
 
 class BookCategoryDocument < XDSL::Element

@@ -199,8 +199,8 @@ class Book
     book = BookDocument.load(path)
 
     DB[:books].insert(title: book.title,
-                      authors: join_no_empty(book.author),
-                      translators: join_no_empty(book.translator),
+                      authors: book.authors,
+                      translators: book.translators,
                       year: book.year,
                       isbn: book.isbn,
                       publisher: book.publisher,
@@ -222,13 +222,6 @@ class Book
       "#{path}/info.xml"
     end
   end
-
-private
-  def self.join_no_empty(a)
-    return nil if a.empty?
-    a.join(', ')
-  end
-
 end
 
 class BookCategory
