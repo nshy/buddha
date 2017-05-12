@@ -179,26 +179,26 @@ class Book < Sequel::Model
   end
 end
 
-sections = DB[:top_categories].select(Sequel::as(:section, :name)).distinct
+class Section
+  attr_reader :categories, :name
 
-class Section < Sequel::Model(sections)
-  set_primary_key :name
-
-  many_to_many :categories,
-                  left_key: :section,
-                  right_key: :category_id,
-                  join_table: :top_categories,
-                  class: Category,
-                  :select => [:book_categories__id, :name, :count]
+  def initialize(section)
+    @name = section.name
+    cats = Category.where(:book_categories__id => section.category).all
+    cats = cats.map { |c| [ c.id, c ] }.to_h
+    @categories = section.category.map { |id| cats[id] }
+  end
 
   def Section.all
-    eager(:categories).all
+    library = LibraryDocument.load('data/library.xml')
+    library.section.map { |s| Section.new(s) }
   end
 end
 
-# --------------------- books --------------------------
+# --------------------- digests --------------------------
 
 class Digest < Sequel::Model
 end
+
 
 end

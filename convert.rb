@@ -22,44 +22,6 @@ def update_table(klass, updated, added, deleted)
   (added + updated).each { |id| klass.load(id) }
 end
 
-DB.create_table :time_clamper, temp: true do
-  DateTime :time
-end
-DB[:time_clamper].insert(time: nil)
-
-def clamp_time(time)
-  DB[:time_clamper].update(time: time)
-  DB[:time_clamper].first[:time]
-end
-
-def sync_root_table(table, file, &block)
-  url = path_to_id(Pathname.new(file).each_filename.to_a[1])
-  itemdb = DB[:root_docs].where(id: file)
-  item = itemdb.first
-  if File.exists?(file)
-    mtime = clamp_time(File.mtime(file))
-    if item.nil?
-      # add
-      puts "A #{url}"
-      DB[:root_docs].insert(id: file, last_modified: mtime)
-      block.call
-      return
-    end
-
-    return if mtime <= item[:last_modified]
-    # update
-    puts "U #{url}"
-    DB[table].delete
-    block.call
-    itemdb.update(last_modified: mtime)
-  elsif not item.nil?
-    puts "D #{url}"
-    # delete
-    itemdb.delete
-    DB[table].delete
-  end
-end
-
 module Cache
 
 module Cacheable
@@ -260,19 +222,6 @@ class BookCategory
     dir_files('data/book-categories', sorted: true)
   end
 end
-
-def Cache.load_library()
-  library = LibraryDocument.load('data/library.xml')
-
-  library.section.each do |section|
-    section.category.each do |category|
-      DB[:top_categories].
-        insert(section: section.name,
-               category_id: category)
-    end
-  end
-end
-
 
 # --------------------- digests --------------------------
 

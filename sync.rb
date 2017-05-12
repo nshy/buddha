@@ -43,7 +43,4 @@ sync_table(Cache::Teaching)
 sync_table(Cache::News)
 sync_table(Cache::Book)
 sync_table(Cache::BookCategory)
-
-sync_root_table(:top_categories, 'data/library.xml') { Cache.load_library() }
-
 sync_table(Cache::Digest)

@@ -51,6 +51,4 @@ listen(Cache::Book)
 listen(Cache::BookCategory)
 listen(Cache::Digest)
 
-listen_root(:top_categories, 'data/library.xml') { Cache.load_library() }
-
 start
