@@ -31,7 +31,7 @@ class Database
     table.where(id: ids).delete
     (added + updated).each do |p|
       klass.load(@db, p)
-      table[id: klass.path_to_id(p)].update(last_modified: File.mtime(p))
+      table.where(id: klass.path_to_id(p)).update(last_modified: File.mtime(p))
     end
   end
 end
