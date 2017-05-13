@@ -2,7 +2,7 @@ def create
   create_table(:teachings) do
     String :id, primary_key: true
     String :title, null: false
-    DateTime :last_modified, null: false
+    DateTime :last_modified
   end
 
   create_table(:themes) do

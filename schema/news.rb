@@ -8,6 +8,6 @@ def create
     String :ext, null: false
     Boolean :is_dir, null: false
     String :buddha_node
-    DateTime :last_modified, null: false
+    DateTime :last_modified
   end
 end

@@ -2,7 +2,7 @@ def create
   create_table(:book_categories) do
     String :id, primary_key: true
     String :name, null: false
-    DateTime :last_modified, null: false
+    DateTime :last_modified
   end
 
   create_table(:category_books) do

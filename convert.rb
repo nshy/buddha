@@ -18,9 +18,13 @@ def update_table(klass, updated, added, deleted)
   print_modification('A', added)
   print_modification('U', updated)
 
+  table = DB[klass.table]
   ids = (deleted + updated).map { |p| klass.path_to_id(p) }
-  DB[klass.table].where(id: ids).delete
-  (added + updated).each { |p| klass.load(p) }
+  table.where(id: ids).delete
+  (added + updated).each do |p|
+    klass.load(p)
+    table.select(id: path_to_id(p)).update(last_modified: File.mtime(p))
+  end
 end
 
 module Cache
@@ -63,9 +67,7 @@ class Teaching
     teachings = TeachingsDocument.load(path)
     id = path_to_id(path)
 
-    DB[:teachings].insert(title: teachings.title,
-                          id: id,
-                          last_modified: File.mtime(path))
+    DB[:teachings].insert(title: teachings.title, id: id)
 
     teachings.theme.each do |theme|
       theme_id = DB[:themes].insert(title: theme.title,
@@ -128,8 +130,7 @@ class News
                      body: body,
                      ext: ext,
                      is_dir: is_dir,
-                     buddha_node: doc.metadata['buddha_node'],
-                     last_modified: File.mtime(path))
+                     buddha_node: doc.metadata['buddha_node'])
   end
 
   def self.filesets
@@ -168,8 +169,7 @@ class Book
                       contents: book.contents,
                       outer_id: book.outer_id,
                       added: book.added,
-                      id: id,
-                      last_modified: File.mtime(path))
+                      id: id)
   end
 
   def self.filesets
@@ -192,8 +192,7 @@ class BookCategory
 
     DB[:book_categories].
       insert(name: category.name,
-             id: id,
-             last_modified: File.mtime(path))
+             id: id)
 
     category.group.each do |group|
       group.book.each do |book|
@@ -231,8 +230,7 @@ class Digest
 
   def self.load(path)
     DB[:digests].insert(id: path_to_id(path),
-                        digest: ::Digest::SHA1.file(path).hexdigest,
-                        last_modified: File.mtime(path))
+                        digest: ::Digest::SHA1.file(path).hexdigest)
   end
 
   def self.filesets

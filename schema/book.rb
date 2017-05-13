@@ -11,7 +11,7 @@ def create
     String :annotation
     String :contents
     String :outer_id
-    DateTime :last_modified, null: false
+    DateTime :last_modified
     Date :added
   end
 end
