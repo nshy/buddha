@@ -7,30 +7,33 @@ include CommonHelpers
 
 DB.create_table :disk_state, temp: true do
   String :id, primary_key: true
+  String :path, null: false, unique: true
   DateTime :last_modified , null: false
 end
 
 def result_values(set)
-  set.to_a.map { |v| v[:id] }
+  set.to_a.map { |v| v[:path] }
 end
 
 def sync_table(klass)
   klass.files.each do |path|
     DB[:disk_state].insert(id: klass.path_to_id(path),
+                           path: path,
                            last_modified: File.mtime(path))
   end
   table = klass.table
   updated = DB[:disk_state].join_table(:left, table, id: :id).
               where{ Sequel[table][:last_modified] <
                      Sequel[:disk_state][:last_modified] }.
-                select(Sequel[table][:id])
+                select(Sequel[:disk_state][:path])
 
   deleted = DB[table].join_table(:left, :disk_state, id: :id).
               where(Sequel[:disk_state][:id] => nil).
-                select(Sequel[table][:id])
+                select(Sequel[:disk_state][:path])
 
   added = DB[:disk_state].join_table(:left, table, id: :id).
-            where(Sequel[table][:id] => nil).select(Sequel[:disk_state][:id])
+            where(Sequel[table][:id] => nil).
+              select(Sequel[:disk_state][:path])
 
   update_table(klass,
                result_values(updated),

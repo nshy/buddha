@@ -8,9 +8,8 @@ include CommonHelpers
 
 $stdout.sync = true
 
-def convert_paths(paths, fileset, klass)
+def convert_paths(paths, fileset)
   paths = paths.select { |p| fileset.match(p) }
-  paths.map { |p| klass.path_to_id(p) }
 end
 
 Listeners = []
@@ -19,9 +18,9 @@ def listen(klass)
     listener = Listen.to(fileset.dir,
                          relative: true) do |updated, added, deleted|
       update_table(klass,
-                   convert_paths(updated, fileset, klass),
-                   convert_paths(added, fileset, klass),
-                   convert_paths(deleted, fileset, klass))
+                   convert_paths(updated, fileset),
+                   convert_paths(added, fileset),
+                   convert_paths(deleted, fileset))
     end
     listener.only(fileset.only) if not fileset.only.nil?
     Listeners << listener

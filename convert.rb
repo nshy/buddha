@@ -9,17 +9,18 @@ DB = Sequel.connect('sqlite://site.db')
 DB.run('pragma synchronous = off')
 DB.run('pragma foreign_keys = on')
 
-def print_modification(prefix, set, klass)
-  set.each { |id| puts "#{prefix} #{klass.id_to_url(id)}" }
+def print_modification(prefix, set)
+  set.each { |p| puts "#{prefix} #{p}" }
 end
 
 def update_table(klass, updated, added, deleted)
-  print_modification('D', deleted, klass)
-  print_modification('A', added, klass)
-  print_modification('U', updated, klass)
+  print_modification('D', deleted)
+  print_modification('A', added)
+  print_modification('U', updated)
 
-  DB[klass.table].where('id IN ?', deleted + updated).delete
-  (added + updated).each { |id| klass.load(id) }
+  ids = (deleted + updated).map { |p| klass.path_to_id(p) }
+  DB[klass.table].where(id: ids).delete
+  (added + updated).each { |p| klass.load(p) }
 end
 
 module Cache
@@ -27,10 +28,6 @@ module Cache
 module Cacheable
   def table
     to_s.demodulize.tableize.to_sym
-  end
-
-  def id_to_url(id)
-    "/#{table.to_s.dasherize}/#{id}/"
   end
 
   def path_to_id(path)
@@ -62,9 +59,9 @@ end
 class Teaching
   extend Cacheable
 
-  def self.load(id)
-    path = "data/teachings/#{id}.xml"
+  def self.load(path)
     teachings = TeachingsDocument.load(path)
+    id = path_to_id(path)
 
     DB[:teachings].insert(title: teachings.title,
                           id: id,
@@ -108,14 +105,14 @@ class News
     paths.find { |path| File.exists?(path) }
   end
 
-  def self.load(id)
-    is_dir = false
-    path = find_file('data/news', id)
-    if path.nil?
-      is_dir = true
-      path = find_file("data/news/#{id}", 'page')
-    end
+  def self.is_dir(path)
+    p = Pathname.new(path).each_filename.to_a
+    return p.find_index('news') == p.size - 3
+  end
 
+  def self.load(path)
+    is_dir = is_dir(path)
+    id = path_to_id(path)
     cutter = /<!--[\t ]*page-cut[\t ]*-->.*/m
 
     ext = path_to_ext(path)
@@ -156,9 +153,9 @@ end
 class Book
   extend Cacheable
 
-  def self.load(id)
-    path = "data/books/#{id}/info.xml"
+  def self.load(path)
     book = BookDocument.load(path)
+    id = path_to_id(path)
 
     DB[:books].insert(title: book.title,
                       authors: book.authors,
@@ -189,8 +186,8 @@ end
 class BookCategory
   extend Cacheable
 
-  def self.load(id)
-    path = "data/book-categories/#{id}.xml"
+  def self.load(path)
+    id = path_to_id(path)
     category = BookCategoryDocument.load(path)
 
     DB[:book_categories].
@@ -228,18 +225,12 @@ end
 class Digest
   extend Cacheable
 
-  def self.id_to_url(id)
-    return id
-  end
-
   def self.path_to_id(path)
     path.gsub(/^(data|public)/, '')
   end
 
-  def self.load(id)
-    path = "data#{id}"
-    path = "public#{id}" if not File.exists?(path)
-    DB[:digests].insert(id: id,
+  def self.load(path)
+    DB[:digests].insert(id: path_to_id(path),
                         digest: ::Digest::SHA1.file(path).hexdigest,
                         last_modified: File.mtime(path))
   end
