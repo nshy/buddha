@@ -1,6 +1,30 @@
 require_relative 'xmldsl'
 require 'date'
 
+class NewsDocument
+  attr_reader :date, :title, :cut, :body, :ext, :is_dir, :buddha_node
+
+  Cutter = /<!--[\t ]*page-cut[\t ]*-->.*/m
+
+  def initialize(path)
+    @is_dir = path_is_dir(path)
+    @ext = path_to_ext(path)
+    doc = Preamble.load(path)
+    @body = doc.content
+    @cut = body.gsub(Cutter, '')
+    @cut = nil if cut == body
+
+    @date = Date.parse(doc.metadata['publish_date'])
+    @title = doc.metadata['title']
+    @buddha_node = doc.metadata['buddha_node']
+  end
+
+  def path_is_dir(path)
+    p = Pathname.new(path).each_filename.to_a
+    return p.find_index('news') == p.size - 3
+  end
+end
+
 class Integer
   def self.parse(v)
     v.to_i

@@ -37,6 +37,15 @@ module Cacheable
   def path_to_id(path)
     CommonHelpers::path_to_id(Pathname.new(path).each_filename.to_a[2])
   end
+
+  def insert_object(table, object, values = {})
+    cols = table.columns - [:id, :last_modified]
+    cols = cols.select { |c| object.respond_to?(c) }
+    v = cols.collect { |c| [ c, object.send(c) ] }.to_h
+    values = v.merge(values)
+    table.insert(values)
+  end
+
 end
 
 class FileSet
@@ -65,23 +74,13 @@ class Teaching
 
   def self.load(path)
     teachings = TeachingsDocument.load(path)
+
     id = path_to_id(path)
-
-    DB[:teachings].insert(title: teachings.title, id: id)
-
+    insert_object(DB[:teachings], teachings, id: id)
     teachings.theme.each do |theme|
-      theme_id = DB[:themes].insert(title: theme.title,
-                                    begin_date: theme.begin_date,
-                                    buddha_node: theme.buddha_node,
-                                    teaching_id: id)
-
+      theme_id = insert_object(DB[:themes], theme, teaching_id: id)
       theme.record.each do |record|
-        DB[:records].insert(record_date: record.record_date,
-                            description: record.description,
-                            audio_url: record.audio_url,
-                            audio_size: record.audio_size,
-                            youtube_id: record.youtube_id,
-                            theme_id: theme_id)
+        insert_object(DB[:records], record, theme_id: theme_id)
       end
     end
   end
@@ -107,30 +106,9 @@ class News
     paths.find { |path| File.exists?(path) }
   end
 
-  def self.is_dir(path)
-    p = Pathname.new(path).each_filename.to_a
-    return p.find_index('news') == p.size - 3
-  end
-
   def self.load(path)
-    is_dir = is_dir(path)
-    id = path_to_id(path)
-    cutter = /<!--[\t ]*page-cut[\t ]*-->.*/m
-
-    ext = path_to_ext(path)
-    doc = Preamble.load(path)
-    body = doc.content
-    cut = body.gsub(cutter, '')
-    cut = nil if cut == body
-
-    DB[:news].insert(date: Date.parse(doc.metadata['publish_date']),
-                     title: doc.metadata['title'],
-                     id: id,
-                     cut: cut,
-                     body: body,
-                     ext: ext,
-                     is_dir: is_dir,
-                     buddha_node: doc.metadata['buddha_node'])
+    news = NewsDocument.new(path)
+    insert_object(DB[:news], news, id: path_to_id(path))
   end
 
   def self.filesets
@@ -156,20 +134,7 @@ class Book
 
   def self.load(path)
     book = BookDocument.load(path)
-    id = path_to_id(path)
-
-    DB[:books].insert(title: book.title,
-                      authors: book.authors,
-                      translators: book.translators,
-                      year: book.year,
-                      isbn: book.isbn,
-                      publisher: book.publisher,
-                      amount: book.amount,
-                      annotation: book.annotation,
-                      contents: book.contents,
-                      outer_id: book.outer_id,
-                      added: book.added,
-                      id: id)
+    insert_object(DB[:books], book, { id: path_to_id(path) })
   end
 
   def self.filesets
@@ -187,13 +152,10 @@ class BookCategory
   extend Cacheable
 
   def self.load(path)
-    id = path_to_id(path)
     category = BookCategoryDocument.load(path)
 
-    DB[:book_categories].
-      insert(name: category.name,
-             id: id)
-
+    id = path_to_id(path)
+    insert_object(DB[:book_categories], category, id: id)
     category.group.each do |group|
       group.book.each do |book|
         DB[:category_books].
