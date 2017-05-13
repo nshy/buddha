@@ -36,7 +36,8 @@ class Database
   end
 end
 
-Databases = [ Database.new('data', 'sqlite://site.db') ]
+Databases = [ Database.new('data', 'sqlite://site.db'),
+              Database.new('data-edit', 'sqlite://site-edit.db') ]
 def databases_run(method)
   Databases.each { |d| d.send(method) }
 end
