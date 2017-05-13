@@ -27,18 +27,6 @@ def listen(klass)
   end
 end
 
-def listen_root(table, path, &block)
-  Listeners << Listen.to('data',
-                         relative: true) do |updated, added, deleted|
-    # hack, Regexp.escape doesn't help in :only ...
-    if updated.include?(path) ||
-        added.include?(path) ||
-        deleted.include?(path)
-      sync_root_table(table, path) { block.call }
-    end
-  end
-end
-
 def start
   Listeners.each { |l| l.start }
   sleep
