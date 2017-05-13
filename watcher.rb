@@ -2,9 +2,6 @@
 
 require 'listen'
 require_relative 'convert'
-require_relative 'helpers'
-
-include CommonHelpers
 
 $stdout.sync = true
 

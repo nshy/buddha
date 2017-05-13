@@ -1,9 +1,12 @@
 require_relative 'models'
+require_relative 'helpers'
 require 'sequel'
 require 'preamble'
 require 'pathname'
 require 'digest'
 require 'active_support/core_ext/string/inflections'
+
+include CommonHelpers
 
 DB = Sequel.connect('sqlite://site.db')
 DB.run('pragma synchronous = off')
