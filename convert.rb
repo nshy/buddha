@@ -8,26 +8,37 @@ require 'active_support/core_ext/string/inflections'
 
 include CommonHelpers
 
-DB = Sequel.connect('sqlite://site.db')
-DB.run('pragma synchronous = off')
-DB.run('pragma foreign_keys = on')
 
-def print_modification(prefix, set)
-  set.each { |p| puts "#{prefix} #{p}" }
+class Database
+  def initialize(dir, url)
+    @dir = dir
+    @db = Sequel.connect(url)
+    @db.run('pragma synchronous = off')
+    @db.run('pragma foreign_keys = on')
+  end
+
+  def print_modification(prefix, set)
+    set.each { |p| puts "#{prefix} #{p}" }
+  end
+
+  def update_table(klass, updated, added, deleted)
+    print_modification('D', deleted)
+    print_modification('A', added)
+    print_modification('U', updated)
+
+    table = @db[klass.table]
+    ids = (deleted + updated).map { |p| klass.path_to_id(p) }
+    table.where(id: ids).delete
+    (added + updated).each do |p|
+      klass.load(@db, p)
+      table[id: klass.path_to_id(p)].update(last_modified: File.mtime(p))
+    end
+  end
 end
 
-def update_table(klass, updated, added, deleted)
-  print_modification('D', deleted)
-  print_modification('A', added)
-  print_modification('U', updated)
-
-  table = DB[klass.table]
-  ids = (deleted + updated).map { |p| klass.path_to_id(p) }
-  table.where(id: ids).delete
-  (added + updated).each do |p|
-    klass.load(p)
-    table.select(id: path_to_id(p)).update(last_modified: File.mtime(p))
-  end
+Databases = [ Database.new('data', 'sqlite://site.db') ]
+def databases_run(method)
+  Databases.each { |d| d.send(method) }
 end
 
 module Cache
@@ -51,14 +62,7 @@ module Cacheable
 
 end
 
-module CacheDir
-  def split(path)
-    path.split('/')
-  end
-end
-
 class DirFiles
-  include CacheDir
   attr_reader :dir
 
   def initialize(dir)
@@ -70,7 +74,7 @@ class DirFiles
   end
 
   def match(path)
-    p = split(path)
+    p = path_split(path)
     p.size == 3 and p.last =~ /.xml$/
   end
 end
@@ -80,32 +84,32 @@ end
 class Teaching
   extend Cacheable
 
-  def self.load(path)
+  def self.load(db, path)
     teachings = TeachingsDocument.load(path)
 
     id = path_to_id(path)
-    insert_object(DB[:teachings], teachings, id: id)
+    insert_object(db[:teachings], teachings, id: id)
     teachings.theme.each do |theme|
-      theme_id = insert_object(DB[:themes], theme, teaching_id: id)
+      theme_id = insert_object(db[:themes], theme, teaching_id: id)
       theme.record.each do |record|
-        insert_object(DB[:records], record, theme_id: theme_id)
+        insert_object(db[:records], record, theme_id: theme_id)
       end
     end
   end
 
-  def self.dirs
-    [ DirFiles.new('data/teachings') ]
+  def self.dirs(dir)
+    [ DirFiles.new("#{dir}/teachings") ]
   end
 end
 
 # --------------------- news --------------------------
 
 class NewsDir
-  include CacheDir
   Ext = [:html, :erb]
+  attr_reader :dir
 
-  def dir
-    'data/news'
+  def initialize(dir)
+    @dir = "#{dir}/news"
   end
 
   def files
@@ -121,7 +125,7 @@ class NewsDir
   end
 
   def match(path)
-    p = split(path)
+    p = path_split(path)
     (p.size == 3 and p.last =~ /\.(erb|html)$/) or
       (p.size == 4 and p.last =~ /^page\.(erb|html)$/)
   end
@@ -130,22 +134,23 @@ end
 class News
   extend Cacheable
 
-  def self.load(path)
+  def self.load(db, path)
     news = NewsDocument.new(path)
-    insert_object(DB[:news], news, id: path_to_id(path))
+    insert_object(db[:news], news, id: path_to_id(path))
   end
 
-  def self.dirs
-    [ NewsDir.new ]
+  def self.dirs(dir)
+    [ NewsDir.new(dir) ]
   end
 end
 
 # --------------------- books --------------------------
 
 class BookDir
-  include CacheDir
-  def dir
-    'data/books'
+  attr_reader :dir
+
+  def initialize(dir)
+    @dir = "#{dir}/books"
   end
 
   def files
@@ -155,7 +160,7 @@ class BookDir
   end
 
   def match(path)
-    p = split(path)
+    p = path_split(path)
     p.size == 4 and p.last =~ /^info\.xml$/
   end
 end
@@ -163,27 +168,27 @@ end
 class Book
   extend Cacheable
 
-  def self.load(path)
+  def self.load(db, path)
     book = BookDocument.load(path)
-    insert_object(DB[:books], book, { id: path_to_id(path) })
+    insert_object(db[:books], book, { id: path_to_id(path) })
   end
 
-  def self.dirs
-    [ BookDir.new ]
+  def self.dirs(dir)
+    [ BookDir.new(dir) ]
   end
 end
 
 class BookCategory
   extend Cacheable
 
-  def self.load(path)
+  def self.load(db, path)
     category = BookCategoryDocument.load(path)
 
     id = path_to_id(path)
-    insert_object(DB[:book_categories], category, id: id)
+    insert_object(db[:book_categories], category, id: id)
     category.group.each do |group|
       group.book.each do |book|
-        DB[:category_books].
+        db[:category_books].
           insert(group: group.name,
                  book_id: book,
                  category_id: id)
@@ -191,14 +196,14 @@ class BookCategory
     end
 
     category.subcategory.each do |subcategory|
-      DB[:category_subcategories].
+      db[:category_subcategories].
         insert(category_id: id,
                subcategory_id: subcategory)
     end
   end
 
-  def self.dirs
-    [ DirFiles.new('data/book-categories') ]
+  def self.dirs(dir)
+    [ DirFiles.new("#{dir}/book-categories") ]
   end
 end
 
@@ -231,16 +236,18 @@ class Digest
   extend Cacheable
 
   def self.path_to_id(path)
-    path.gsub(/^(data|public)/, '')
+    a = path_split(path)
+    a[0] = nil
+    a.join('/')
   end
 
-  def self.load(path)
-    DB[:digests].insert(id: path_to_id(path),
+  def self.load(db, path)
+    db[:digests].insert(id: path_to_id(path),
                         digest: ::Digest::SHA1.file(path).hexdigest)
   end
 
-  def self.dirs
-    [ DigestDir.new('data', match: /\.(jpg|gif|swf|css|doc|pdf)$/),
+  def self.dirs(dir)
+    [ DigestDir.new(dir, match: /\.(jpg|gif|swf|css|doc|pdf)$/),
       DigestDir.new('public',
         match: /\.(mp3|css|js|ico|png|svg|jpg)$/,
         excludes: [ '3d-party', 'logs', 'css', 'fonts' ] ) ]

@@ -172,6 +172,10 @@ module CommonHelpers
     c = "class='active'" if r == link
     "<a #{c} href='#{link}'>#{title}</a>"
   end
+
+  def path_split(path)
+    path.split('/')
+  end
 end
 
 module NewsHelpers

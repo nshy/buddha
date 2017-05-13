@@ -5,26 +5,32 @@ require_relative 'convert'
 
 $stdout.sync = true
 
-def filter_paths(paths, dir)
-  paths.select { |p| dir.match(p) }
-end
+class Database
+  def filter_paths(paths, dir)
+    paths.select { |p| dir.match(p) }
+  end
 
-def listen(klass)
-  klass.dirs.each do |dir|
-    listener = Listen.to(dir.dir, relative: true) do |updated, added, deleted|
-      update_table(klass,
-                   filter_paths(updated, dir),
-                   filter_paths(added, dir),
-                   filter_paths(deleted, dir))
+  def watch_klass(klass)
+    klass.dirs(@dir).each do |dir|
+      listener = Listen.to(dir.dir, relative: true) do |updated, added, deleted|
+        update_table(klass,
+                     filter_paths(updated, dir),
+                     filter_paths(added, dir),
+                     filter_paths(deleted, dir))
+      end
+      listener.start
     end
-    listener.start
+  end
+
+  def watch
+    watch_klass(Cache::Teaching)
+    watch_klass(Cache::News)
+    watch_klass(Cache::Book)
+    watch_klass(Cache::BookCategory)
+    watch_klass(Cache::Digest)
   end
 end
 
-listen(Cache::Teaching)
-listen(Cache::News)
-listen(Cache::Book)
-listen(Cache::BookCategory)
-listen(Cache::Digest)
+databases_run(:watch)
 
 sleep
