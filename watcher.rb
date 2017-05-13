@@ -5,20 +5,18 @@ require_relative 'convert'
 
 $stdout.sync = true
 
-def convert_paths(paths, fileset)
-  paths = paths.select { |p| fileset.match(p) }
+def filter_paths(paths, dir)
+  paths.select { |p| dir.match(p) }
 end
 
 def listen(klass)
-  klass.filesets.each do |fileset|
-    listener = Listen.to(fileset.dir,
-                         relative: true) do |updated, added, deleted|
+  klass.dirs.each do |dir|
+    listener = Listen.to(dir.dir, relative: true) do |updated, added, deleted|
       update_table(klass,
-                   convert_paths(updated, fileset),
-                   convert_paths(added, fileset),
-                   convert_paths(deleted, fileset))
+                   filter_paths(updated, dir),
+                   filter_paths(added, dir),
+                   filter_paths(deleted, dir))
     end
-    listener.only(fileset.only) if not fileset.only.nil?
     listener.start
   end
 end

@@ -16,7 +16,8 @@ def result_values(set)
 end
 
 def sync_table(klass)
-  klass.files.each do |path|
+  files = klass.dirs.map { |d| d.files }.flatten
+  files.each do |path|
     DB[:disk_state].insert(id: klass.path_to_id(path),
                            path: path,
                            last_modified: File.mtime(path))

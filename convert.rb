@@ -51,22 +51,27 @@ module Cacheable
 
 end
 
-class FileSet
-  attr_reader :dir, :only, :excludes
+module CacheDir
+  def split(path)
+    path.split('/')
+  end
+end
 
-  def initialize(dir, only, excludes = [])
+class DirFiles
+  include CacheDir
+  attr_reader :dir
+
+  def initialize(dir)
     @dir = dir
-    @only = only
-    @excludes = excludes.map { |e| Regexp.new(Regexp.escape("#{@dir}/#{e}")) }
+  end
+
+  def files
+    dir_files(dir, sorted: true)
   end
 
   def match(path)
-    return false if /\.un~$/ =~ path
-    return false if not @only.nil? and not @only =~ path
-    if @excludes
-      @excludes.each { |e| return false if e =~ path }
-    end
-    true
+    p = split(path)
+    p.size == 3 and p.last =~ /.xml$/
   end
 end
 
@@ -88,49 +93,72 @@ class Teaching
     end
   end
 
-  def self.filesets
-    [ FileSet.new('data/teachings', /.xml$/) ]
-  end
-
-  def self.files
-    dir_files('data/teachings', sorted: true)
+  def self.dirs
+    [ DirFiles.new('data/teachings') ]
   end
 end
 
 # --------------------- news --------------------------
 
-class News
-  extend Cacheable
-
+class NewsDir
+  include CacheDir
   Ext = [:html, :erb]
 
-  def self.find_file(dir, name)
-    paths = Ext.map { |ext| "#{dir}/#{name}.#{ext}" }
-    paths.find { |path| File.exists?(path) }
+  def dir
+    'data/news'
   end
+
+  def files
+    files = dir_files(dir, sorted: true).map do |path|
+      if File.directory?(path)
+        paths = Ext.map { |ext| "#{path}/page.#{ext}" }
+        paths.find { |path| File.exists?(path) }
+      elsif Ext.include?(path_to_ext(path).to_sym)
+        path
+      end
+    end
+    files.compact
+  end
+
+  def match(path)
+    p = split(path)
+    (p.size == 3 and p.last =~ /\.(erb|html)$/) or
+      (p.size == 4 and p.last =~ /^page\.(erb|html)$/)
+  end
+end
+
+class News
+  extend Cacheable
 
   def self.load(path)
     news = NewsDocument.new(path)
     insert_object(DB[:news], news, id: path_to_id(path))
   end
 
-  def self.filesets
-    [ FileSet.new('data/news', /.(erb|html)$/) ]
-  end
-
-  def self.files
-    files = dir_files('data/news', sorted: true).map do |path|
-      if File.directory?(path)
-        Cache::News::find_file(path, 'page')
-      elsif Cache::News::Ext.include?(path_to_ext(path).to_sym)
-        path
-      end
-    end
-    files.compact
+  def self.dirs
+    [ NewsDir.new ]
   end
 end
 
 # --------------------- books --------------------------
+
+class BookDir
+  include CacheDir
+  def dir
+    'data/books'
+  end
+
+  def files
+    dir_files(dir, sorted: true).map do |path|
+      "#{path}/info.xml"
+    end
+  end
+
+  def match(path)
+    p = split(path)
+    p.size == 4 and p.last =~ /^info\.xml$/
+  end
+end
 
 class Book
   extend Cacheable
@@ -140,14 +168,8 @@ class Book
     insert_object(DB[:books], book, { id: path_to_id(path) })
   end
 
-  def self.filesets
-    [ FileSet.new('data/books', /info.xml$/) ]
-  end
-
-  def self.files
-    dir_files('data/books', sorted: true).map do |path|
-      "#{path}/info.xml"
-    end
+  def self.dirs
+    [ BookDir.new ]
   end
 end
 
@@ -175,16 +197,35 @@ class BookCategory
     end
   end
 
-  def self.filesets
-    [ FileSet.new('data/book-categories', /.xml$/) ]
-  end
-
-  def self.files
-    dir_files('data/book-categories', sorted: true)
+  def self.dirs
+    [ DirFiles.new('data/book-categories') ]
   end
 end
 
 # --------------------- digests --------------------------
+
+class DigestDir
+  attr_reader :dir
+
+  def initialize(dir, options)
+    @dir = dir
+    @match = options[:match]
+    @excludes = options[:excludes]
+  end
+
+  def files
+    `find #{dir} -type f`.split.select { |path| match(path) }
+  end
+
+  def match(path)
+    if @excludes
+      if @excludes.any? { |e| path.start_with?("#{dir}/#{e}") }
+        return false
+      end
+    end
+    return @match =~ path
+  end
+end
 
 class Digest
   extend Cacheable
@@ -198,23 +239,11 @@ class Digest
                         digest: ::Digest::SHA1.file(path).hexdigest)
   end
 
-  def self.filesets
-    [ FileSet.new('public', nil,
-                   [
-                     '3d-party',
-                     'logs',
-                     'css',
-                     'fonts'
-                   ]),
-      FileSet.new('data', /\.(jpg|gif|swf|css|doc|pdf)$/)
-    ]
-  end
-
-  def self.files
-    files = filesets.map do |fileset|
-      `find #{fileset.dir} -type f`.split.select { |path| fileset.match(path) }
-    end
-    files.flatten
+  def self.dirs
+    [ DigestDir.new('data', match: /\.(jpg|gif|swf|css|doc|pdf)$/),
+      DigestDir.new('public',
+        match: /\.(mp3|css|js|ico|png|svg|jpg)$/,
+        excludes: [ '3d-party', 'logs', 'css', 'fonts' ] ) ]
   end
 end
 
