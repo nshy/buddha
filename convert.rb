@@ -8,43 +8,27 @@ require 'active_support/core_ext/string/inflections'
 
 include CommonHelpers
 
+module Sync
 
-class Database
-  def initialize(dir, url)
-    @dir = dir
-    @db = Sequel.connect(url)
-    @db.run('pragma synchronous = off')
-    @db.run('pragma foreign_keys = on')
-  end
+def self.print_modification(prefix, set)
+  set.each { |p| puts "#{prefix} #{p}" }
+end
 
-  def print_modification(prefix, set)
-    set.each { |p| puts "#{prefix} #{p}" }
-  end
+def self.update_table(db, klass, updated, added, deleted)
+  print_modification('D', deleted)
+  print_modification('A', added)
+  print_modification('U', updated)
 
-  def update_table(klass, updated, added, deleted)
-    print_modification('D', deleted)
-    print_modification('A', added)
-    print_modification('U', updated)
-
-    table = @db[klass.table]
-    ids = (deleted + updated).map { |p| klass.path_to_id(p) }
-    table.where(id: ids).delete
-    (added + updated).each do |p|
-      klass.load(@db, p)
-      table.where(id: klass.path_to_id(p)).update(last_modified: File.mtime(p))
-    end
+  table = db[klass.table]
+  ids = (deleted + updated).map { |p| klass.path_to_id(p) }
+  table.where(id: ids).delete
+  (added + updated).each do |p|
+    klass.load(db, p)
+    table.where(id: klass.path_to_id(p)).update(last_modified: File.mtime(p))
   end
 end
 
-Databases = [ Database.new('data', 'sqlite://site.db'),
-              Database.new('data-edit', 'sqlite://site-edit.db') ]
-def databases_run(method)
-  Databases.each { |d| d.send(method) }
-end
-
-module Cache
-
-module Cacheable
+module Document
   def table
     to_s.demodulize.tableize.to_sym
   end
@@ -83,7 +67,7 @@ end
 # --------------------- teachings --------------------------
 
 class Teaching
-  extend Cacheable
+  extend Document
 
   def self.load(db, path)
     teachings = TeachingsDocument.load(path)
@@ -133,7 +117,7 @@ class NewsDir
 end
 
 class News
-  extend Cacheable
+  extend Document
 
   def self.load(db, path)
     news = NewsDocument.new(path)
@@ -167,7 +151,7 @@ class BookDir
 end
 
 class Book
-  extend Cacheable
+  extend Document
 
   def self.load(db, path)
     book = BookDocument.load(path)
@@ -180,7 +164,7 @@ class Book
 end
 
 class BookCategory
-  extend Cacheable
+  extend Document
 
   def self.load(db, path)
     category = BookCategoryDocument.load(path)
@@ -234,7 +218,7 @@ class DigestDir
 end
 
 class Digest
-  extend Cacheable
+  extend Document
 
   def self.path_to_id(path)
     a = path_split(path)
@@ -254,5 +238,7 @@ class Digest
         excludes: [ '3d-party', 'logs', 'css', 'fonts' ] ) ]
   end
 end
+
+Klasses = [ Teaching, News, Book, BookCategory, Digest ]
 
 end

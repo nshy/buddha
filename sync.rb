@@ -5,56 +5,56 @@ require_relative 'convert'
 
 include CommonHelpers
 
-def result_values(set)
+$stdout.sync = true
+
+module Sync
+
+def self.convert(set)
   set.to_a.map { |v| v[:path] }
 end
 
-$stdout.sync = true
+def self.sync_table(sitedb, klass)
+  db = sitedb[:db]
+  db.create_table :disk_state, temp: true do
+    String :id, primary_key: true
+    String :path, null: false, unique: true
+    DateTime :last_modified , null: false
+  end
 
-class Database
-  def sync_table(klass)
-    @db.create_table :disk_state, temp: true do
-      String :id, primary_key: true
-      String :path, null: false, unique: true
-      DateTime :last_modified , null: false
-    end
+  files = klass.dirs(sitedb[:dir]).map { |d| d.files }.flatten
+  files.each do |path|
+    db[:disk_state].insert(id: klass.path_to_id(path),
+                           path: path,
+                           last_modified: File.mtime(path))
+  end
 
-    files = klass.dirs(@dir).map { |d| d.files }.flatten
-    files.each do |path|
-      @db[:disk_state].insert(id: klass.path_to_id(path),
-                             path: path,
-                             last_modified: File.mtime(path))
-    end
-
-    table = klass.table
-    updated = @db[:disk_state].join_table(:left, table, id: :id).
-                where{ Sequel[table][:last_modified] <
-                       Sequel[:disk_state][:last_modified] }.
-                  select(Sequel[:disk_state][:path])
-
-    deleted = @db[table].join_table(:left, :disk_state, id: :id).
-                where(Sequel[:disk_state][:id] => nil).
-                  select(Sequel[:disk_state][:path])
-
-    added = @db[:disk_state].join_table(:left, table, id: :id).
-              where(Sequel[table][:id] => nil).
+  table = klass.table
+  updated = db[:disk_state].join_table(:left, table, id: :id).
+              where{ Sequel[table][:last_modified] <
+                     Sequel[:disk_state][:last_modified] }.
                 select(Sequel[:disk_state][:path])
 
-    update_table(klass,
-                 result_values(updated),
-                 result_values(added),
-                 result_values(deleted))
+  deleted = db[table].join_table(:left, :disk_state, id: :id).
+              where(Sequel[:disk_state][:id] => nil).
+                select(Sequel[:disk_state][:path])
 
-    @db.drop_table :disk_state
-  end
+  added = db[:disk_state].join_table(:left, table, id: :id).
+            where(Sequel[table][:id] => nil).
+              select(Sequel[:disk_state][:path])
 
-  def sync
-    sync_table(Cache::Teaching)
-    sync_table(Cache::News)
-    sync_table(Cache::Book)
-    sync_table(Cache::BookCategory)
-    sync_table(Cache::Digest)
-  end
+  update_table(db, klass,
+               convert(updated),
+               convert(added),
+               convert(deleted))
+
+  db.drop_table :disk_state
 end
 
-databases_run(:sync)
+def self.sync(db)
+  Klasses.each { |klass| sync_table(db, klass) }
+end
+
+end
+
+Sync.sync(db_open(DbPathsMain))
+Sync.sync(db_open(DbPathsEdit))

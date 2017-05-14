@@ -1,3 +1,6 @@
+DbPathsMain = { db: 'sqlite://site.db', dir: 'data' }
+DbPathsEdit = { db: 'sqlite://edit.db', dir: 'edit' }
+
 module TeachingsHelper
   def load_teachings(options = {})
     teachings = []
@@ -175,6 +178,13 @@ module CommonHelpers
 
   def path_split(path)
     path.split('/')
+  end
+
+  def db_open(paths)
+    db = Sequel.connect(paths[:db])
+    db.run('pragma synchronous = off')
+    db.run('pragma foreign_keys = on')
+    { db: db, dir: paths[:dir] }
   end
 end
 

@@ -2,35 +2,37 @@
 
 require 'listen'
 require_relative 'convert'
+require_relative 'helpers'
+
+include CommonHelpers
 
 $stdout.sync = true
 
-class Database
-  def filter_paths(paths, dir)
-    paths.select { |p| dir.match(p) }
-  end
+module Sync
 
-  def watch_klass(klass)
-    klass.dirs(@dir).each do |dir|
-      listener = Listen.to(dir.dir, relative: true) do |updated, added, deleted|
-        update_table(klass,
-                     filter_paths(updated, dir),
-                     filter_paths(added, dir),
-                     filter_paths(deleted, dir))
-      end
-      listener.start
+def self.filter(paths, dir)
+  paths.select { |p| dir.match(p) }
+end
+
+def self.watch_klass(db, klass)
+  klass.dirs(db[:dir]).each do |dir|
+    listener = Listen.to(dir.dir, relative: true) do |updated, added, deleted|
+      update_table(db[:db], klass,
+                   filter(updated, dir),
+                   filter(added, dir),
+                   filter(deleted, dir))
     end
-  end
-
-  def watch
-    watch_klass(Cache::Teaching)
-    watch_klass(Cache::News)
-    watch_klass(Cache::Book)
-    watch_klass(Cache::BookCategory)
-    watch_klass(Cache::Digest)
+    listener.start
   end
 end
 
-databases_run(:watch)
+def self.watch(db)
+  Klasses.each { |klass| watch_klass(db, klass) }
+end
+
+end
+
+Sync.watch(db_open(DbPathsMain))
+Sync.watch(db_open(DbPathsEdit))
 
 sleep

@@ -1,8 +1,8 @@
 data
-data-edit
+edit
 config.rb
 site.db
-site-edit.db
+edit.db
 dump
 /import/news/tmp
 /import/news-site/tmp
