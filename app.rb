@@ -11,12 +11,14 @@ require 'sinatra/capture'
 require 'set'
 require 'yaml'
 
-DB = Sequel.connect('sqlite://site.db')
+require_relative 'helpers'
+
+DbMain = db_open(DbPathsMain)
+DbEdit = db_open(DbPathsEdit)
 
 require_relative 'models'
 require_relative 'toc'
 require_relative 'timetable'
-require_relative 'helpers'
 require_relative 'cache'
 
 enable :sessions
@@ -39,7 +41,8 @@ I18n.default_locale = :ru
 SiteData = 'data'
 
 before do
-  @menu = MenuDocument.load("data/menu.xml")
+  @db = DbMain
+  @menu = MenuDocument.load(db_path('menu.xml'))
   @ya_metrika = SiteConfig::YA_METRIKA
   @extra_styles = []
 end
@@ -47,7 +50,7 @@ end
 not_found do
   @menu_active = nil
   map = {}
-  File.open("data/compat.yaml") do |file|
+  File.open(db_path('compat.yaml')) do |file|
     map = YAML.load(file.read)
   end
   uri = local_uri(URI::unescape(request.path),
@@ -66,14 +69,14 @@ get /.+\.(jpg|gif|swf|css|ttf)/ do
   if settings.development?
     cache_control :public, max_age: 0
   end
-  send_file "data/#{request.path}"
+  send_file db_path(request.path)
 end
 
 get /.+\.(doc|pdf)/ do
   if settings.development?
     cache_control :public, max_age: 0
   end
-  send_file "data/#{request.path}", disposition: :attachment
+  send_file db_path(request.path), disposition: :attachment
 end
 
 get '/teachings/' do
@@ -83,7 +86,7 @@ get '/teachings/' do
 end
 
 get '/teachings/:id/' do |id|
-  @teachings = TeachingsDocument.load("data/teachings/#{id}.xml")
+  @teachings = TeachingsDocument.load(db_path("teachings/#{id}.xml"))
   halt 404 if @teachings.nil?
   @teachings_slug = id
   @menu_active = :teachings
@@ -102,8 +105,7 @@ get '/news' do
   halt 404 if @news.nil? or @news.empty? or not params.empty?
   @years = Cache::News.years
   @menu_active = :news
-  @extra_styles = @news.map { |n| n.style }
-  @extra_styles.compact!
+  @extra_styles = news_styles(@news)
   @context_url = '/news/'
   erb :'news-index'
 end
@@ -111,8 +113,7 @@ end
 get '/news/:id/' do |id|
   @news = Cache::News.by_id(id)
   halt 404 if @news.nil?
-  @extra_styles = [ @news.style ]
-  @extra_styles.compact!
+  @extra_styles = news_styles([ @news ])
   @menu_active = :news
   erb :'news-single'
 end
@@ -132,14 +133,14 @@ get '/book-categories/:id/' do |id|
 end
 
 get '/library/' do
-  @sections = Cache::Section.all
+  @sections = Cache::Section.load(db_path('library.xml'))
   @books = Cache::Book.recent(5)
   @menu_active = :library
   erb :library
 end
 
 get '/timetable' do
-  @timetable = TimetableDocument.load('data/timetable/timetable.xml')
+  @timetable = TimetableDocument.load(db_path('timetable/timetable.xml'))
   @menu_active = :timetable
   show = params.delete('show')
   @skip = params.delete('skip') || 0
@@ -194,10 +195,9 @@ end
 
 get '/' do
   @news = Cache::News.latest(3)
-  @extra_styles = @news.map { |n| n.style }
-  @extra_styles.compact!
-  @timetable = TimetableDocument.load('data/timetable/timetable.xml')
-  @quotes = QuotesDocument.load('data/quotes.xml')
+  @extra_styles = news_styles(@news)
+  @timetable = TimetableDocument.load(db_path('timetable/timetable.xml'))
+  @quotes = QuotesDocument.load(db_path('quotes.xml'))
   @records = Cache::Record.latest(5)
   erb :index
 end

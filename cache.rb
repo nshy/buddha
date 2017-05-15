@@ -2,6 +2,8 @@
 
 module Cache
 
+DB = DbMain[:db]
+
 archive = DB[:teachings].
             join(:themes, teaching_id: :id).
             join(:records, theme_id: :id).
@@ -53,13 +55,6 @@ end
 #
 class News < Sequel::Model
   alias_method :cut_plain, :cut
-
-  def style
-    return nil if not is_dir
-    path = "data/news/#{id}/style.css"
-    return nil if not File.exists?(path)
-    "/news/#{id}/style.css"
-  end
 
   def has_more
     not cut_plain.nil?
@@ -189,8 +184,8 @@ class Section
     @categories = section.category.map { |id| cats[id] }
   end
 
-  def Section.all
-    library = LibraryDocument.load('data/library.xml')
+  def Section.load(path)
+    library = LibraryDocument.load(path)
     library.section.map { |s| Section.new(s) }
   end
 end

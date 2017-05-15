@@ -1,6 +1,13 @@
 DbPathsMain = { db: 'sqlite://site.db', dir: 'data' }
 DbPathsEdit = { db: 'sqlite://edit.db', dir: 'edit' }
 
+def db_open(paths)
+  db = Sequel.connect(paths[:db])
+  db.run('pragma synchronous = off')
+  db.run('pragma foreign_keys = on')
+  { db: db, dir: paths[:dir] }
+end
+
 module TeachingsHelper
   def load_teachings(options = {})
     teachings = []
@@ -121,7 +128,7 @@ module CommonHelpers
 
   def load_page(path, url)
     @url = url
-    Tilt.new("data/#{path}").render(self)
+    Tilt.new(db_path(path)).render(self)
   end
 
   def digest_url(url, base = nil, context = nil)
@@ -180,11 +187,8 @@ module CommonHelpers
     path.split('/')
   end
 
-  def db_open(paths)
-    db = Sequel.connect(paths[:db])
-    db.run('pragma synchronous = off')
-    db.run('pragma foreign_keys = on')
-    { db: db, dir: paths[:dir] }
+  def db_path(path)
+    "#{@db[:dir]}/#{path}"
   end
 end
 
@@ -204,6 +208,17 @@ module NewsHelpers
     c = "site-news"
     c += " short" if not news.has_more
     c
+  end
+
+  def news_styles(news)
+    styles = news.map do |n|
+      if n.is_dir and File.exists?(db_path("news/#{n.id}/style.css"))
+        "/news/#{n.id}/style.css"
+      else
+        nil
+      end
+    end
+    styles.compact
   end
 end
 
