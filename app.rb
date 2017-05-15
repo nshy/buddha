@@ -41,7 +41,7 @@ I18n.default_locale = :ru
 SiteData = 'data'
 
 before do
-  @db = DbMain
+  @db = session[:login] ? DbEdit : DbMain
   @menu = MenuDocument.load(db_path('menu.xml'))
   @ya_metrika = SiteConfig::YA_METRIKA
   @extra_styles = []
