@@ -286,4 +286,8 @@ module TimetableHelper
     events = timetable.events(day..day)
     erb :'partials/week_day_places', locals: { events: events }
   end
+
+  def timetable_enhanced?
+    settings.development? or session[:login]
+  end
 end

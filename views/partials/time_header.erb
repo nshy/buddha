@@ -1,12 +1,12 @@
 <div class="site-header">
   <div class="title">
-    <% if settings.development? and @skip > 0 %>
+    <% if timetable_enhanced? and @skip > 0 %>
       <a href="<%= timetable_link(selected, @skip - 1) %>"> &larr; </a>
     <% end %>
 
     Расписание занятий
 
-    <% if settings.development? %>
+    <% if timetable_enhanced? %>
       <a href="<%= timetable_link(selected, @skip + 1) %>"> &rarr; </a>
     <% end %>
   </div>
