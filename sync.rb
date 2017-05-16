@@ -36,7 +36,7 @@ def self.sync_table(sitedb, klass)
 
   deleted = db[table].join_table(:left, :disk_state, id: :id).
               where(Sequel[:disk_state][:id] => nil).
-                select(Sequel[:disk_state][:path])
+                select(Sequel[table][:path])
 
   added = db[:disk_state].join_table(:left, table, id: :id).
             where(Sequel[table][:id] => nil).

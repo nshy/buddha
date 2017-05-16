@@ -24,7 +24,8 @@ def self.update_table(db, klass, updated, added, deleted)
   table.where(id: ids).delete
   (added + updated).each do |p|
     klass.load(db, p)
-    table.where(id: klass.path_to_id(p)).update(last_modified: File.mtime(p))
+    table.where(id: klass.path_to_id(p)).
+      update(path: p, last_modified: File.mtime(p))
   end
 end
 

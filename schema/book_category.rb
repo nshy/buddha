@@ -1,6 +1,7 @@
 def create
   create_table(:book_categories) do
     String :id, primary_key: true
+    String :path, unique: true
     String :name, null: false
     DateTime :last_modified
   end

@@ -1,6 +1,7 @@
 def create
   create_table(:books) do
     String :id, primary_key: true
+    String :path, unique: true
     String :title, null: false
     String :authors
     String :translators
