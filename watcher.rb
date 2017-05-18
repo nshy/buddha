@@ -26,13 +26,53 @@ def self.watch_klass(db, klass)
   end
 end
 
-def self.watch(db)
+def self.watch_db(db)
   Klasses.each { |klass| watch_klass(db, klass) }
 end
 
+def self.sync_watch_paths(updated, added, deleted, dest)
+  deleted.each do |p|
+    puts "a D #{p}"
+    css = dest.call(p)
+    File.delete(css) if File.exists?(css)
+  end
+  added.each do |p|
+    puts "a A #{p}"
+    compile(p, dest.call(p))
+  end
+  updated.each do |p|
+    puts "a U #{p}"
+    compile(p, dest.call(p))
+  end
 end
 
-Sync.watch(db_open(DbPathsMain))
-Sync.watch(db_open(DbPathsEdit))
+def self.watch_news(d)
+  listener = Listen.to("#{d}/news", relative: true) do |*a|
+    sync_watch_paths(*a, method(:dest_news))
+  end
+  listener.only /\.scss$/
+  listener.start
+end
+
+def self.watch_main
+  listener = Listen.to('assets/css', relative: true) do |updated, added, deleted|
+    if updated.include?('assets/css/_mixins.scss')
+      sync_all
+    else
+      sync_watch_paths(updated, added, deleted, method(:dest_man))
+    end
+    concat
+  end
+  listener.only /\.scss$/
+  listener.start
+end
+
+end
+
+Sync.watch_main
+[ DbPathsMain, DbPathsEdit ].each do |p|
+  Sync.watch_news(p[:dir])
+  Sync.watch_db(db_open(p))
+end
 
 sleep

@@ -50,11 +50,59 @@ def self.sync_table(sitedb, klass)
   db.drop_table :disk_state
 end
 
-def self.sync(db)
+def self.sync_db(db)
   Klasses.each { |klass| sync_table(db, klass) }
 end
 
+def self.sync_path(s, d)
+  if File.exists?(s)
+    if not File.exists?(d)
+      puts "a A #{s}"
+      compile(s, d)
+    elsif File.mtime(s) > File.mtime(d)
+      puts "a U #{s}"
+      compile(s, d)
+    end
+  elsif File.exists?(d)
+    puts "a D #{s}"
+    File.delete(d)
+  end
 end
 
-Sync.sync(db_open(DbPathsMain))
-Sync.sync(db_open(DbPathsEdit))
+def self.sync_news(d)
+  Dir.entries("#{d}/news").each do |e|
+    p = "#{d}/news/#{e}"
+    next if not File.directory?(p) or e == '.' or e == '..'
+    sync_path("#{p}/style.scss", "#{p}/style.css")
+  end
+end
+
+def self.assets_changed?
+  buntime = File.mtime(Bundle)
+  each_style(:css) { |s, d| return true if File.mtime(d) > buntime }
+  false
+end
+
+def self.mixin_changed?
+  mixtime = File.mtime(Mixins)
+  each_style(:css) { |s, d| return true if File.mtime(d) < mixtime }
+  false
+end
+
+def self.sync_main
+  each_style(:css) { |s, d| sync_path(s, d) }
+  if mixin_changed?
+    sync_all
+  else
+    each_style(:scss) { |s, d| sync_path(s, d) }
+  end
+  concat if File.mtime(StyleDst) > File.mtime(Bundle) or assets_changed?
+end
+
+end
+
+Sync.sync_main
+[ DbPathsMain, DbPathsEdit ].each do |p|
+  Sync.sync_news(p[:dir])
+  Sync.sync_db(db_open(p))
+end

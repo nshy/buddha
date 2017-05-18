@@ -4,6 +4,7 @@ require 'sequel'
 require 'preamble'
 require 'pathname'
 require 'digest'
+require 'sassc'
 require 'active_support/core_ext/string/inflections'
 
 include CommonHelpers
@@ -15,9 +16,9 @@ def self.print_modification(prefix, set)
 end
 
 def self.update_table(db, klass, updated, added, deleted)
-  print_modification('D', deleted)
-  print_modification('A', added)
-  print_modification('U', updated)
+  print_modification('b D', deleted)
+  print_modification('b A', added)
+  print_modification('b U', updated)
 
   table = db[klass.table]
   ids = (deleted + updated).map { |p| klass.path_to_id(p) }
@@ -241,5 +242,50 @@ class Digest
 end
 
 Klasses = [ Teaching, News, Book, BookCategory, Digest ]
+
+def self.compile(spath, dpath)
+  src = File.read(spath)
+  options = { style: :expanded, load_paths: [ 'assets/css/' ] }
+  dst = SassC::Engine.new(src, options).render
+  File.write(dpath, dst)
+end
+
+
+StyleSrc = 'assets/css'
+StyleDst = 'public/css'
+Bundle = 'public/bundle.css'
+Mixins = "#{StyleSrc}/_mixins.scss"
+
+def self.each_style(sel, &block)
+  opts = { scss: { dir: StyleSrc, ext: 'scss' },
+           css: { dir: StyleDst, ext: 'css' } }[sel]
+  dir = opts[:dir]
+  ext = opts[:ext]
+  Dir.entries(dir).each do |e|
+    next if sel == :scss and e == '_mixins.scss'
+    next if not /\.#{ext}$/ =~ e
+    n = e.gsub(/\.#{ext}$/, '')
+    yield "#{StyleSrc}/#{n}.scss", "#{StyleDst}/#{n}.css"
+  end
+end
+
+def self.concat
+  bundle = ""
+  each_style(:css) { |s, d| bundle += File.read(d) }
+  File.write(Bundle, bundle)
+end
+
+def self.dest_news(path)
+  path.gsub(/\.scss$/, '.css')
+end
+
+def self.dest_man(path)
+  path.gsub(/\.scss$/, '.css').gsub(/^assets/, 'public')
+end
+
+def self.sync_all
+  puts "a U #{Mixins}"
+  each_style(:scss) { |s, d| compile(s, d) }
+end
 
 end
