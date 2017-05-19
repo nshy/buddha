@@ -1,6 +1,9 @@
 require_relative 'xmldsl'
 require 'date'
 
+class ModelException < RuntimeError
+end
+
 class NewsDocument
   attr_reader :date, :title, :cut, :body, :ext, :is_dir, :buddha_node
 
@@ -10,13 +13,23 @@ class NewsDocument
     @is_dir = path_is_dir(path)
     @ext = path_to_ext(path)
     doc = Preamble.load(path)
+    if not doc.metadata
+      raise ModelException.new("Не найден заголовок новости #{path}")
+    end
     @body = doc.content
     @cut = body.gsub(Cutter, '')
     @cut = nil if cut == body
 
-    @date = Date.parse(doc.metadata['publish_date'])
+    @date = doc.metadata['publish_date']
+    if not @date
+      raise ModelException.new("Не указана дата публикации новости #{path}")
+    end
     @title = doc.metadata['title']
+    if not @title
+      raise ModelException.new("Не указано заглавие новости #{path}")
+    end
     @buddha_node = doc.metadata['buddha_node']
+    @date = Date.parse(@date)
   end
 
   def path_is_dir(path)

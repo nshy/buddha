@@ -17,10 +17,14 @@ end
 def self.watch_klass(db, klass)
   klass.dirs(db[:dir]).each do |dir|
     listener = Listen.to(dir.dir, relative: true) do |updated, added, deleted|
+      begin
       update_table(db[:db], klass,
                    filter(updated, dir),
                    filter(added, dir),
                    filter(deleted, dir))
+      rescue ModelException => e
+        puts "Ошибка: #{e}"
+      end
     end
     listener.start
   end
