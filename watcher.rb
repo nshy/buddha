@@ -52,7 +52,11 @@ end
 
 def self.watch_news(d)
   listener = Listen.to("#{d}/news", relative: true) do |*a|
-    sync_watch_paths(*a, method(:dest_news))
+    begin
+      sync_watch_paths(*a, method(:dest_news))
+    rescue SassC::SyntaxError => e
+      puts e
+    end
   end
   listener.only /\.scss$/
   listener.start
