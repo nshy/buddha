@@ -34,29 +34,10 @@
   <link  href="http://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.css" rel="stylesheet"> <!-- 3 KB -->
   <link  href="http://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css" rel="stylesheet">
   <% if settings.development? %>
-    <link rel="stylesheet" href="/css/global.css">
-    <link rel="stylesheet" href="/css/global-library.css">
-    <link rel="stylesheet" href="/css/layout.css">
-    <link rel="stylesheet" href="/css/layout-menu.css">
-    <link rel="stylesheet" href="/css/layout-contacts.css">
-    <link rel="stylesheet" href="/css/fotorama.css">
-    <link rel="stylesheet" href="/css/archive.css">
-    <link rel="stylesheet" href="/css/teachings.css">
-    <link rel="stylesheet" href="/css/news-index.css">
-    <link rel="stylesheet" href="/css/news-single.css">
-    <link rel="stylesheet" href="/css/books.css">
-    <link rel="stylesheet" href="/css/book-category.css">
-    <link rel="stylesheet" href="/css/library.css">
-    <link rel="stylesheet" href="/css/index.css">
-    <link rel="stylesheet" href="/css/timetable.css">
-    <link rel="stylesheet" href="/css/classes.css">
-    <link rel="stylesheet" href="/css/subscription.css">
-    <link rel="stylesheet" href="/css/teachers.css">
-    <link rel="stylesheet" href="/css/contacts.css">
-    <link rel="stylesheet" href="/css/about.css">
-    <link rel="stylesheet" href="/css/fonts.css">
-    <link rel="stylesheet" href="/css/error.css">
-    <link rel="stylesheet" href="/css/login.css">
+    <% Dir.entries('public/css').each do |e| %>
+    <%   next if e == '.' or e == '..' or not /\.css$/ =~ e %>
+      <link rel="stylesheet" href="/css/<%= e %>">
+    <% end %>
   <% else %>
     <link rel="stylesheet" href="<%= digest_url('/bundle.css') %>">
   <% end %>
