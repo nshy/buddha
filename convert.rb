@@ -21,7 +21,7 @@ def self.update_table(db, klass, updated, added, deleted)
   print_modification('b U', updated)
 
   table = db[klass.table]
-  ids = (deleted + updated).map { |p| klass.path_to_id(p) }
+  ids = (deleted + updated + added).map { |p| klass.path_to_id(p) }
   table.where(id: ids).delete
   (added + updated).each do |p|
     klass.load(db, p)
