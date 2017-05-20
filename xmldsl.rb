@@ -102,7 +102,14 @@ private
   def add_parser(name, options, &block)
     @parsers[name] = lambda do |element|
       e = element.at_xpath(name.to_s)
-      v = e.nil? ? nil : block.call(e)
+      v = nil
+      begin
+        v = block.call(e) if e
+      rescue ArgumentError
+        raise ModelException.new \
+          "Подэлемент #{name} в элементе #{element.path}" \
+          " имеет недопустимое значение '#{e.inner_html}'"
+      end
       if not v and options[:required]
         raise ModelException.new \
           "Подэлемент #{name} в элементе #{element.path}" \
