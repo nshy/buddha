@@ -24,6 +24,9 @@ def self.watch_klass(db, klass)
                    filter(deleted, dir))
       rescue ModelException => e
         puts "Ошибка: #{e}"
+      rescue StandardError=> e
+        puts e.class
+        puts e.backtrace.join("\n")
       end
     end
     listener.start
