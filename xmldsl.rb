@@ -8,7 +8,7 @@ module XDSL
 
 module ElementClass
 
-  attr_reader :parsers
+  attr_reader :parsers, :checker
 
   def element(name, scalar_klass = nil, options = {}, &block)
     @parsers ||= {}
@@ -75,6 +75,10 @@ module ElementClass
     doc
   end
 
+  def check(&block)
+    @checker = block
+  end
+
 private
 
   def define_klass(name, &block)
@@ -133,6 +137,14 @@ class Element
     element.elements.each do |c|
       if not self.class.parsers.has_key?(c.name.to_sym)
         raise ModelException.new "Неизвестный элемент #{c.path}"
+      end
+    end
+    if self.class.checker
+      begin
+        self.class.checker.call(self)
+      rescue ModelException => e
+        raise ModelException.new \
+          "Не выполнено соглашение для элемента #{element.path}: #{e}"
       end
     end
   end
