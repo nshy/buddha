@@ -105,7 +105,8 @@ private
       v = e.nil? ? nil : block.call(e)
       if not v and options[:required]
         raise ModelException.new \
-          "Элемент #{name} должен присутствовать и иметь непустое значение"
+          "Подэлемент #{name} в элементе #{element.path}" \
+          " должен присутствовать и иметь непустое значение"
       end
       v
     end
