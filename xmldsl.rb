@@ -51,6 +51,10 @@ module ElementClass
     add_accessors(name)
   end
 
+  def root(root)
+    @root = root
+  end
+
   def load(path)
     return nil if not File.exists?(path)
     p = path.split('/')[1..-1].join('/')
@@ -60,6 +64,9 @@ module ElementClass
       raise ModelException.new("Нарушение xml синтаксиса в файле '#{p}': #{e}")
     end
     begin
+      if n.root.name != @root.to_s
+        raise ModelException.new "Неправильный корневой элемент #{n.root.path}"
+      end
       doc = new(n.root)
     rescue ModelException => e
       raise ModelException.new("Нарушение формата в файле '#{p}': #{e}")
@@ -115,6 +122,11 @@ class Element
     @values = {}
     self.class.parsers.each do |name, parser|
       @values[name] = parser.call(element)
+    end
+    element.elements.each do |c|
+      if not self.class.parsers.has_key?(c.name.to_sym)
+        raise ModelException.new "Неизвестный элемент #{c.path}"
+      end
     end
   end
 
