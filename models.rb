@@ -37,7 +37,7 @@ end
 
 class Integer
   def self.parse(v)
-    v.to_i
+    Integer(v)
   end
 end
 
