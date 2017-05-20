@@ -22,10 +22,8 @@ module ElementClass
         t = e.text.strip
         if not scalar_klass.nil?
           scalar_klass.parse(t)
-        elsif not t.empty?
-          e.inner_html
         else
-          nil
+          String.parse(e.inner_html)
         end
       end
     end

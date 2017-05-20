@@ -41,8 +41,18 @@ class Integer
   end
 end
 
+class String
+  def self.parse(v)
+    if v.empty?
+      nil
+    else
+      v
+    end
+  end
+end
+
 class TeachingsDocument < XDSL::Element
-  element :title
+  element :title, String
   element :year
   elements :theme do
     element :title
