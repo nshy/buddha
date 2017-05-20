@@ -61,22 +61,31 @@ end
 
 class TeachingsDocument < XDSL::Element
   root :teachings
-  element :title, String
+  element :title, String, required: true
   element :year
   elements :theme do
-    element :title
+    element :title, String, required: true
     element :buddha_node
     element :geshe_node
     element :annotation
     elements :record do
       element :description
-      element :record_date, ModelDate
+      element :record_date, ModelDate, required: true
       element :audio_url
       element :audio_size, Integer
       element :video_url
-      element :video_size
+      element :video_size, Integer
       element :youtube_id
+
+      check do |r|
+        if r.audio_url and r.audio_size.nil?
+          raise ModelException.new \
+            "Если указана ссылка на аудио-файл, то " \
+            "нужно указать и размер файла."
+        end
+      end
     end
+
   end
 
   def begin_date
