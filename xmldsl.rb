@@ -10,15 +10,15 @@ module ElementClass
 
   attr_reader :parsers
 
-  def element(name, scalar_klass = nil, &block)
+  def element(name, scalar_klass = nil, options = {}, &block)
     @parsers ||= {}
 
     if block_given?
       throw "klass and block cannot be set both" if not scalar_klass.nil?
       klass = define_klass(name, &block)
-      add_parser(name) { |e| klass.new(e) }
+      add_parser(name, options) { |e| klass.new(e) }
     else
-      add_parser(name) do |e|
+      add_parser(name, options) do |e|
         t = e.text.strip
         if not scalar_klass.nil?
           scalar_klass.parse(t)
@@ -53,13 +53,17 @@ module ElementClass
 
   def load(path)
     return nil if not File.exists?(path)
+    p = path.split('/')[1..-1].join('/')
     begin
       n = Nokogiri::XML(File.open(path)) { |config| config.strict }
     rescue Nokogiri::XML::SyntaxError => e
-      p = path.split('/')[1..-1].join('/')
       raise ModelException.new("Нарушение xml синтаксиса в файле '#{p}': #{e}")
     end
-    doc = new(n.root)
+    begin
+      doc = new(n.root)
+    rescue ModelException => e
+      raise ModelException.new("Нарушение формата в файле '#{p}': #{e}")
+    end
     doc.on_load if doc.respond_to? :on_load
     doc
   end
@@ -88,10 +92,15 @@ private
     end
   end
 
-  def add_parser(name, &block)
+  def add_parser(name, options, &block)
     @parsers[name] = lambda do |element|
       e = element.at_xpath(name.to_s)
-      e.nil? ? nil : block.call(e)
+      v = e.nil? ? nil : block.call(e)
+      if not v and options[:required]
+        raise ModelException.new \
+          "Элемент #{name} должен присутствовать и иметь непустое значение"
+      end
+      v
     end
   end
 
