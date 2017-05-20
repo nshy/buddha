@@ -58,6 +58,8 @@ class TeachingsDocument < XDSL::Element
   elements :theme do
     element :title
     element :buddha_node
+    element :geshe_node
+    element :annotation
     elements :record do
       element :description
       element :record_date, Date
@@ -100,6 +102,9 @@ class BookDocument < XDSL::Element
   element :contents
   element :added
   element :outer_id
+  elements :links
+  elements :links
+  elements :attachments
 
   def translators
     join_no_empty(translator)
