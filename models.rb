@@ -1,9 +1,6 @@
 require_relative 'xmldsl'
 require 'date'
 
-class ModelException < RuntimeError
-end
-
 class NewsDocument
   attr_reader :date, :title, :cut, :body, :ext, :is_dir, :buddha_node
 

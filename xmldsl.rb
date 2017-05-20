@@ -1,5 +1,9 @@
 require 'nokogiri'
 
+class ModelException < RuntimeError
+  attr_accessor :document
+end
+
 module XDSL
 
 module ElementClass
@@ -51,10 +55,13 @@ module ElementClass
 
   def load(path)
     return nil if not File.exists?(path)
-    doc = nil
-    File.open(path) do |file|
-      doc = new(Nokogiri::XML(file).root)
+    begin
+      n = Nokogiri::XML(File.open(path)) { |config| config.strict }
+    rescue Nokogiri::XML::SyntaxError => e
+      p = path.split('/')[1..-1].join('/')
+      raise ModelException.new("Нарушение xml синтаксиса в файле '#{p}': #{e}")
     end
+    doc = new(n.root)
     doc.on_load if doc.respond_to? :on_load
     doc
   end
