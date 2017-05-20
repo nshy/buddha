@@ -52,6 +52,7 @@ class String
 end
 
 class TeachingsDocument < XDSL::Element
+  root :teachings
   element :title, String
   element :year
   elements :theme do
@@ -87,6 +88,7 @@ def join_no_empty(a)
 end
 
 class BookDocument < XDSL::Element
+  root :book
   element :title
   elements :author
   elements :translator
@@ -109,6 +111,7 @@ class BookDocument < XDSL::Element
 end
 
 class BookCategoryDocument < XDSL::Element
+  root :category
   element :name
   elements :subcategory
   elements :group do
@@ -118,6 +121,7 @@ class BookCategoryDocument < XDSL::Element
 end
 
 class LibraryDocument < XDSL::Element
+  root :library
   elements :section do
     element :name
     elements :category
@@ -243,6 +247,7 @@ class Event
 end
 
 class TimetableDocument < XDSL::Element
+  root :timetable
 
   class ClassesSingleTime
     include Comparable
@@ -711,6 +716,7 @@ class TimetableDocument < XDSL::Element
 end
 
 class MenuDocument < XDSL::Element
+  root :menu
   elements :item do
     element :name
     element :title
@@ -731,6 +737,7 @@ class MenuDocument < XDSL::Element
 end
 
 class QuotesDocument < XDSL::Element
+  root :quotes
   elements :begin, Date
   elements :quote
 
