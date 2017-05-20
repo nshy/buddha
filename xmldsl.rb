@@ -103,17 +103,16 @@ private
     @parsers[name] = lambda do |element|
       e = element.at_xpath(name.to_s)
       v = nil
+      p = "#{element.path}/#{name}"
       begin
         v = block.call(e) if e
       rescue ArgumentError
         raise ModelException.new \
-          "Подэлемент #{name} в элементе #{element.path}" \
-          " имеет недопустимое значение '#{e.inner_html}'"
+          "Элемент #{p} имеет недопустимое значение '#{e.inner_html}'"
       end
       if not v and options[:required]
         raise ModelException.new \
-          "Подэлемент #{name} в элементе #{element.path}" \
-          " должен присутствовать и иметь непустое значение"
+          "Элемент #{p} должен присутствовать и иметь непустое значение"
       end
       v
     end
