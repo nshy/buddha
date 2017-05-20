@@ -41,6 +41,14 @@ class Integer
   end
 end
 
+class ModelDate < Date
+  def self.parse(v)
+    d = Date.parse(v)
+    raise ArgumentError.new if d.strftime("%Y-%m-%d") != v
+    d
+  end
+end
+
 class String
   def self.parse(v)
     if v.empty?
@@ -62,7 +70,7 @@ class TeachingsDocument < XDSL::Element
     element :annotation
     elements :record do
       element :description
-      element :record_date, Date
+      element :record_date, ModelDate
       element :audio_url
       element :audio_size, Integer
       element :video_url
@@ -502,8 +510,8 @@ class TimetableDocument < XDSL::Element
 
 
   element :banner do
-    element :begin, Date
-    element :end, Date
+    element :begin, ModelDate
+    element :end, ModelDate
     element :message
   end
   element :annual
@@ -516,8 +524,8 @@ class TimetableDocument < XDSL::Element
       element :timeshort
       element :announce
       elements :day, ClassesDay
-      element :begin, Date
-      element :end, Date
+      element :begin, ModelDate
+      element :end, ModelDate
       elements :date, ClassesDate
     end
 
@@ -525,8 +533,8 @@ class TimetableDocument < XDSL::Element
 
     elements :changes do
       element :announce
-      element :begin, Date
-      element :end, Date
+      element :begin, ModelDate
+      element :end, ModelDate
       elements :day, ClassesDay
       elements :date, ClassesDate
     end
@@ -743,7 +751,7 @@ end
 
 class QuotesDocument < XDSL::Element
   root :quotes
-  elements :begin, Date
+  elements :begin, ModelDate
   elements :quote
 
   def current_quotes
