@@ -8,15 +8,13 @@ module XDSL
 
 module ElementClass
 
-  attr_reader :parsers, :checker
-
   def add_element(name, multi, scalar_klass, options = {}, &block)
     if block_given?
       throw "klass and block cannot be set both" if not scalar_klass.nil?
       klass = Class.new(Element)
       const_set(name.capitalize, klass)
       klass.instance_eval(&block)
-      scalar_parser = lambda { |e| klass.new(e) }
+      scalar_parser = lambda { |e| klass.parse(e) }
     else
       scalar_parser = lambda do |e|
         t = e.inner_html.strip
@@ -86,7 +84,7 @@ module ElementClass
       if n.root.name != @root.to_s
         raise ModelException.new "Неправильный корневой элемент #{n.root.path}"
       end
-      doc = new(n.root)
+      doc = parse(n.root)
     rescue ModelException => e
       raise ModelException.new("Нарушение формата в файле '#{p}': #{e}")
     end
@@ -97,6 +95,28 @@ module ElementClass
   def check(&block)
     @checker = block
   end
+
+  def parse(element)
+    values = {}
+    @parsers.each do |name, parser|
+      values[name] = parser.call(element)
+    end
+    element.elements.each do |c|
+      if not @parsers.has_key?(c.name.to_sym)
+        raise ModelException.new "Неизвестный элемент #{c.path}"
+      end
+    end
+    r = new(values)
+    if @checker
+      begin
+        @checker.call(r)
+      rescue ModelException => e
+        raise ModelException.new \
+          "Не выполнено соглашение для элемента #{element.path}: #{e}"
+      end
+    end
+    r
+  end
 end
 
 class Element
@@ -104,26 +124,9 @@ class Element
 
   attr_reader :values
 
-  def initialize(element)
-    @values = {}
-    self.class.parsers.each do |name, parser|
-      @values[name] = parser.call(element)
-    end
-    element.elements.each do |c|
-      if not self.class.parsers.has_key?(c.name.to_sym)
-        raise ModelException.new "Неизвестный элемент #{c.path}"
-      end
-    end
-    if self.class.checker
-      begin
-        self.class.checker.call(self)
-      rescue ModelException => e
-        raise ModelException.new \
-          "Не выполнено соглашение для элемента #{element.path}: #{e}"
-      end
-    end
+  def initialize(values)
+    @values = values
   end
-
 end
 
 end # module XDSL
