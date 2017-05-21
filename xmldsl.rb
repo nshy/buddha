@@ -10,45 +10,64 @@ module ElementClass
 
   attr_reader :parsers, :checker
 
-  def element(name, scalar_klass = nil, options = {}, &block)
-    @parsers ||= {}
-
+  def add_element(name, multi, scalar_klass, options = {}, &block)
     if block_given?
       throw "klass and block cannot be set both" if not scalar_klass.nil?
-      klass = define_klass(name, &block)
-      add_parser(name, options) { |e| klass.new(e) }
+      klass = Class.new(Element)
+      const_set(name.capitalize, klass)
+      klass.instance_eval(&block)
+      scalar_parser = lambda { |e| klass.new(e) }
     else
-      add_parser(name, options) do |e|
-        t = e.text.strip
-        if not scalar_klass.nil?
+      scalar_parser = lambda do |e|
+        t = e.inner_html.strip
+        return nil if t.empty?
+        return t if not scalar_klass
+        begin
           scalar_klass.parse(t)
-        else
-          String.parse(e.inner_html.strip)
+        rescue ArgumentError
+          raise ModelException.new \
+            "Элемент #{e.path}/#{name} имеет недопустимое значение '#{t}'"
         end
       end
     end
 
-    add_accessors(name)
+    if multi
+      parser = lambda do |e|
+        p = "#{e.path}/#{name}"
+        a = e.xpath(name.to_s).map { |c| scalar_parser.call(c) }
+        a.select { |v| v }
+      end
+    else
+      parser = lambda do |e|
+        c = e.at_xpath(name.to_s)
+        v = nil
+        v = scalar_parser.call(c) if c
+        if not v and options[:required]
+          raise ModelException.new \
+            "Элемент #{e.path}/#{name} должен присутствовать " \
+            "и иметь непустое значение"
+        end
+        v
+      end
+    end
+
+    @parsers ||= {}
+    @parsers[name] = parser
+
+    define_method(name) do
+      @values[name]
+    end
+    define_method("#{name}=".to_sym) do |v|
+      @values[name] = v
+    end
+  end
+
+  def element(name, scalar_klass = nil, options = {}, &block)
+    add_element(name, false, scalar_klass, options, &block)
   end
 
   def elements(name, scalar_klass = nil, &block)
-    @parsers ||= {}
-
-    if block_given?
-      throw "klass and block cannot be set both" if not scalar_klass.nil?
-      klass = define_klass(name, &block)
-      add_set_parser(name) { |c| klass.new(c) }
-    else
-      add_set_parser(name) do |c|
-        if not scalar_klass.nil?
-          scalar_klass.parse(c.text.strip)
-        else
-          c.text
-        end
-      end
-    end
-
-    add_accessors(name)
+    add_element(name, true, scalar_klass, nil, &block)
   end
 
   def root(root)
@@ -78,50 +97,6 @@ module ElementClass
   def check(&block)
     @checker = block
   end
-
-private
-
-  def define_klass(name, &block)
-    klass = Class.new(Element)
-    const_set(name.capitalize, klass)
-    klass.instance_eval(&block)
-    klass
-  end
-
-  def add_accessors(name)
-    define_method(name) do
-      @values[name]
-    end
-    define_method("#{name}=".to_sym) do |v|
-      @values[name] = v
-    end
-  end
-
-  def add_set_parser(name, &block)
-    @parsers[name] = lambda do |element|
-      element.xpath(name.to_s).map { |c| block.call(c) }
-    end
-  end
-
-  def add_parser(name, options, &block)
-    @parsers[name] = lambda do |element|
-      e = element.at_xpath(name.to_s)
-      v = nil
-      p = "#{element.path}/#{name}"
-      begin
-        v = block.call(e) if e
-      rescue ArgumentError
-        raise ModelException.new \
-          "Элемент #{p} имеет недопустимое значение '#{e.inner_html}'"
-      end
-      if not v and options[:required]
-        raise ModelException.new \
-          "Элемент #{p} должен присутствовать и иметь непустое значение"
-      end
-      v
-    end
-  end
-
 end
 
 class Element

@@ -51,11 +51,7 @@ end
 
 class String
   def self.parse(v)
-    if v.empty?
-      nil
-    else
-      v
-    end
+    v
   end
 end
 
