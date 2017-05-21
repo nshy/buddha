@@ -110,11 +110,8 @@ end
 class LibraryDocument < XDSL::Element
   root :library
   elements :section do
-    element :name
+    element :name, String, required: true
     elements :category
-  end
-  element :recent do
-    elements :book
   end
 end
 
