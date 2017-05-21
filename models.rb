@@ -99,10 +99,10 @@ end
 
 class BookCategoryDocument < XDSL::Element
   root :category
-  element :name
+  element :name, String, required: true
   elements :subcategory
   elements :group do
-    element :name
+    element :name, String, required: true
     elements :book
   end
 end
