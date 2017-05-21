@@ -17,7 +17,7 @@ DbMain = db_open(DbPathsMain)
 DbEdit = db_open(DbPathsEdit)
 
 require_relative 'models'
-require_relative 'toc'
+require_relative 'book'
 require_relative 'timetable'
 require_relative 'cache'
 

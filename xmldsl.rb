@@ -23,7 +23,7 @@ module ElementClass
         if not scalar_klass.nil?
           scalar_klass.parse(t)
         else
-          String.parse(e.inner_html)
+          String.parse(e.inner_html.strip)
         end
       end
     end

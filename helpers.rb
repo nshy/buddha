@@ -237,9 +237,9 @@ module BookHelpers
     TOC::Heading::parse(text.nil? ? '' : text)
   end
 
-  def headings_div(heading)
-    return if heading.children.empty?
-    erb :'partials/headings', locals: { headings: heading.children }
+  def headings_div(headings)
+    return if headings.empty?
+    erb :'partials/headings', locals: { headings: headings }
   end
 
   def book_cover_url(id, size)

@@ -101,37 +101,6 @@ class TeachingsDocument < XDSL::Element
   end
 end
 
-def join_no_empty(a)
-  return nil if a.empty?
-  a.join(', ')
-end
-
-class BookDocument < XDSL::Element
-  root :book
-  element :title, String, required: true
-  elements :author
-  elements :translator
-  element :year
-  element :isbn
-  element :publisher
-  element :amount
-  element :annotation
-  element :contents
-  element :added
-  element :outer_id
-  elements :links
-  elements :links
-  elements :attachments
-
-  def translators
-    join_no_empty(translator)
-  end
-
-  def authors
-    join_no_empty(author)
-  end
-end
-
 class BookCategoryDocument < XDSL::Element
   root :category
   element :name

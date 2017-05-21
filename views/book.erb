@@ -29,6 +29,6 @@
   <% end %>
   <div class="title"> Cодержание </div>
   <div class="headings">
-    <%= headings_div(parse_toc(@book.contents)) %>
+    <%= headings_div(BookHeadings.parse(@book.contents)) %>
   </div>
 </div>

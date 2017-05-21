@@ -1,4 +1,5 @@
 require_relative 'models'
+require_relative 'book'
 require_relative 'helpers'
 require 'sequel'
 require 'preamble'

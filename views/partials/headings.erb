@@ -1,6 +1,6 @@
 <% headings.each do |heading| %>
 <div class="heading">
-  <div><%= heading.name %></div>
-  <div><%= headings_div(heading) %></div>
+  <div><%= heading[:name] %></div>
+  <div><%= headings_div(heading[:children]) %></div>
 </div>
 <% end %>
