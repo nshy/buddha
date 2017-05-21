@@ -108,7 +108,7 @@ end
 
 class BookDocument < XDSL::Element
   root :book
-  element :title
+  element :title, String, required: true
   elements :author
   elements :translator
   element :year
