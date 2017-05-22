@@ -15,7 +15,7 @@ module TeachingsHelper
       File.open(path) do |file|
         teachings << {
           id: path_to_id(path),
-          document: TeachingsDocument.load(file)
+          document: Teachings::Document.load(file)
         }
       end
     end

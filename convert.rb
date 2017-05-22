@@ -1,4 +1,5 @@
 require_relative 'models'
+require_relative 'timetable'
 require_relative 'book'
 require_relative 'helpers'
 require 'sequel'
@@ -73,7 +74,7 @@ class Teaching
   extend Document
 
   def self.load(db, path)
-    teachings = TeachingsDocument.load(path)
+    teachings = ::Teachings::Document.load(path)
 
     id = path_to_id(path)
     insert_object(db[:teachings], teachings, id: id)
@@ -157,7 +158,7 @@ class Book
   extend Document
 
   def self.load(db, path)
-    book = BookDocument.load(path)
+    book = ::Book::Document.load(path)
     insert_object(db[:books], book, { id: path_to_id(path) })
   end
 
@@ -170,7 +171,7 @@ class BookCategory
   extend Document
 
   def self.load(db, path)
-    category = BookCategoryDocument.load(path)
+    category = ::BookCategory::Document.load(path)
 
     id = path_to_id(path)
     insert_object(db[:book_categories], category, id: id)

@@ -12,7 +12,8 @@ module ElementClass
     if block_given?
       throw "klass and block cannot be set both" if not scalar_klass.nil?
       klass = Class.new(Element)
-      const_set(name.capitalize, klass)
+      @module.const_set(name.capitalize, klass)
+      klass.instance_exec(@module) { |m| @module = m }
       klass.instance_eval(&block)
       scalar_parser = lambda { |e| klass.parse(e) }
     else
@@ -64,12 +65,14 @@ module ElementClass
     add_element(name, false, scalar_klass, options, &block)
   end
 
-  def elements(name, scalar_klass = nil, &block)
-    add_element(name, true, scalar_klass, nil, &block)
+  def elements(name, scalar_klass = nil, options = {}, &block)
+    add_element(name, true, scalar_klass, options, &block)
   end
 
   def root(root)
     @root = root
+    # this little magic get the module/class in which caller is defined
+    @module = class_eval(self.name.split("::")[-2])
   end
 
   def load(path)

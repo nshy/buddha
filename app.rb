@@ -42,7 +42,7 @@ SiteData = 'data'
 
 before do
   @db = session[:login] ? DbEdit : DbMain
-  @menu = MenuDocument.load(db_path('menu.xml'))
+  @menu = Menu::Document.load(db_path('menu.xml'))
   @ya_metrika = SiteConfig::YA_METRIKA
   @extra_styles = []
 end
@@ -86,7 +86,7 @@ get '/teachings/' do
 end
 
 get '/teachings/:id/' do |id|
-  @teachings = TeachingsDocument.load(db_path("teachings/#{id}.xml"))
+  @teachings = Teachings::Document.load(db_path("teachings/#{id}.xml"))
   halt 404 if @teachings.nil?
   @teachings_slug = id
   @menu_active = :teachings
@@ -140,7 +140,7 @@ get '/library/' do
 end
 
 get '/timetable' do
-  @timetable = TimetableDocument.load(db_path('timetable/timetable.xml'))
+  @timetable = Timetable::Document.load(db_path('timetable/timetable.xml'))
   @menu_active = :timetable
   show = params.delete('show')
   @skip = params.delete('skip') || 0
@@ -196,8 +196,8 @@ end
 get '/' do
   @news = Cache::News.latest(3)
   @extra_styles = news_styles(@news)
-  @timetable = TimetableDocument.load(db_path('timetable/timetable.xml'))
-  @quotes = QuotesDocument.load(db_path('quotes.xml'))
+  @timetable = Timetable::Document.load(db_path('timetable/timetable.xml'))
+  @quotes = Quotes::Document.load(db_path('quotes.xml'))
   @records = Cache::Record.latest(5)
   erb :index
 end

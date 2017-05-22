@@ -185,7 +185,7 @@ class Section
   end
 
   def Section.load(path)
-    library = LibraryDocument.load(path)
+    library = Library::Document.load(path)
     library.section.map { |s| Section.new(s) }
   end
 end

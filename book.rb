@@ -46,7 +46,9 @@ class BookHeadings
   end
 end
 
-class BookDocument < XDSL::Element
+module Book
+
+class Document < XDSL::Element
   root :book
   element :title, String, required: true
   elements :author
@@ -72,3 +74,5 @@ class BookDocument < XDSL::Element
     join_no_empty(author)
   end
 end
+
+end # module Book
