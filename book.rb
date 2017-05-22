@@ -64,7 +64,9 @@ class Document < XDSL::Element
   elements :links
   elements :attachments
 
-  check { |book| BookHeadings.parse(book.contents) }
+  def doc_check
+    BookHeadings.parse(contents)
+  end
 
   def translators
     join_no_empty(translator)

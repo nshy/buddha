@@ -95,10 +95,6 @@ module ElementClass
     doc
   end
 
-  def check(&block)
-    @checker = block
-  end
-
   def parse(element)
     values = {}
     @parsers.each do |name, parser|
@@ -110,9 +106,9 @@ module ElementClass
       end
     end
     r = new(values)
-    if @checker
+    if r.respond_to? :doc_check
       begin
-        @checker.call(r)
+        r.doc_check
       rescue ModelException => e
         raise ModelException.new \
           "Не выполнено соглашение для элемента #{element.path}: #{e}"

@@ -75,16 +75,7 @@ class Document < XDSL::Element
       element :video_url
       element :video_size, Integer
       element :youtube_id
-
-      check do |r|
-        if r.audio_url and r.audio_size.nil?
-          raise ModelException.new \
-            "Если указана ссылка на аудио-файл, то " \
-            "нужно указать и размер файла."
-        end
-      end
     end
-
   end
 
   def begin_date
@@ -97,6 +88,16 @@ class Theme
   def begin_date
     r = record.min { |a, b| a.record_date <=> b.record_date }
     r.record_date
+  end
+end
+
+class Record
+  def doc_check
+    if audio_url and audio_size.nil?
+      raise ModelException.new \
+	"Если указана ссылка на аудио-файл, то " \
+	"нужно указать и размер файла."
+    end
   end
 end
 
