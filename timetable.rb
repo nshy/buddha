@@ -53,7 +53,7 @@ class Document < XDSL::Element
   def events(r)
     res = classes.collect { |c| c.events(r) }.flatten
     res += event.collect { |e| e.events(r) }.flatten
-    res.sort { |a, b| a.time.begin <=> b.time.begin }
+    res.sort { |a, b| a.period.begin <=> b.period.begin }
   end
 
   def on_load
@@ -90,9 +90,15 @@ class OpenRange
 end
 
 class EventLine
-  attr_accessor :title, :date, :time, :place
+  attr_accessor :title, :date, :period, :place
 
   attr_writer :conflict, :cancelled, :temporary
+
+  def initialize(date, period, place)
+    @date = date
+    @period = period
+    @place = place
+  end
 
   def conflict?
     @conflict
@@ -106,18 +112,8 @@ class EventLine
     @temporary
   end
 
-  def date
-    time.begin.to_date
-  end
-
-  def ==(other)
-    @title == other.title and
-    @time == other.time and
-    @place == other.place
-  end
-
   def to_s
-    "#{@time} #{@title} #{@place}"
+    "#{@date} #{@time} #{@title} #{@place}"
   end
 end
 
@@ -140,45 +136,12 @@ class Time
     new(d.hour, d.minute)
   end
 
-  def self.from_datetime(t)
-    new(t.hour, t.minute)
-  end
-
   def <=>(time)
     to_minutes <=> time.to_minutes
   end
 
   def to_minutes
     @hour * 24 + @minute
-  end
-end
-
-class EventTime
-  attr_reader :begin, :end
-
-  def initialize(b, e)
-    @begin = b
-    @end = e
-  end
-
-  def cross(t)
-    not (t.begin > @end or t.end < @begin)
-  end
-
-  def classes_time
-    Period.new(Time.from_datetime(@begin), Time.from_datetime(@end))
-  end
-
-  def date
-    @begin.to_date
-  end
-
-  def ==(other)
-    @begin == other.begin and @end == other.end
-  end
-
-  def to_s
-    "#{@begin} - #{@end}"
   end
 end
 
@@ -213,39 +176,25 @@ class Period
     new(b, e, temp)
   end
 
+  def cross(p)
+    not (p.begin > @end or p.end < @begin)
+  end
+
   def to_s
     "#{@begin} - #{@end}"
-  end
-
-  def event_time(date)
-    d = date
-    d = date + 1 if @end <= @begin
-    b = DateTime.new(date.year, date.month, date.day,
-                     @begin.hour, @begin.minute)
-    e = DateTime.new(d.year, d.month, d.day,
-                     @end.hour, @end.minute)
-    EventTime.new(b, e)
-  end
-
-  def event(date, place)
-    e = EventLine.new
-    e.time = event_time(date)
-    e.place = place
-    e.temporary = temp
-    e
   end
 end
 
 module ParseHelper
-  def parse_times(a)
-    times = []
+  def parse_periods(a)
+    periods = []
     while a.first
-      time = Period.parse(a.first)
-      break if time.nil?
-      times << time
+      period = Period.parse(a.first)
+      break if period.nil?
+      periods << period
       a.shift
     end
-    times
+    periods
   end
 
   def parse_place(a)
@@ -266,11 +215,11 @@ class ClassesDay
 
   attr_reader :day, :place
 
-  def initialize(day, mul, start, times, place)
+  def initialize(day, mul, start, periods, place)
     @day = day
     @mul = mul
     @start = start
-    @times = times
+    @periods = periods
     @place = place
   end
 
@@ -287,14 +236,14 @@ class ClassesDay
       start = Date.parse(d.shift)
     end
 
-    times = parse_times(a)
+    periods = parse_periods(a)
     # for luck
-    raise "Time must be specified" if times.empty?
+    raise "Time must be specified" if periods.empty?
 
     place = parse_place(a)
     parse_check_tail(a)
 
-    new(day, mul, start, times, place)
+    new(day, mul, start, periods, place)
   end
 
   def events(r)
@@ -306,7 +255,7 @@ class ClassesDay
       weeks = weeks.select { |w| (s - w) % @mul == 0 }
     end
     events = weeks.collect do |w|
-      @times.collect { |t| t.event(w.day(@day), @place) }
+      @periods.collect { |p| EventLine.new(w.day(@day), p, @place) }
     end
     events.flatten.select { |e| r.cover?(e.date) }
   end
@@ -315,11 +264,11 @@ end
 class ClassesDate
   extend ParseHelper
 
-  attr_reader :date, :times, :place
+  attr_reader :date, :periods, :place
 
-  def initialize(date, times, place)
+  def initialize(date, periods, place)
     @date = date
-    @times = times
+    @periods = periods
     @place = place
   end
 
@@ -328,15 +277,15 @@ class ClassesDate
 
     date = Date.parse(a.shift.strip)
 
-    times = parse_times(a)
+    periods = parse_periods(a)
     place = parse_place(a)
     parse_check_tail(a)
 
-    new(date, times, place)
+    new(date, periods, place)
   end
 
   def events(r)
-    events = @times.collect { |t| t.event(@date, @place) }
+    events = @periods.collect { |p| EventLine.new(@date, p, @place) }
     events.select { |e| r.cover?(e.date) }
   end
 end
@@ -344,10 +293,10 @@ end
 class Cancel
   extend ParseHelper
 
-  attr_reader :date, :times
+  attr_reader :date, :periods
 
-  def initialize(date, times)
-    @times = times.collect { |t| t.event_time(date) }
+  def initialize(date, periods)
+    @periods = periods
     @date = date
   end
 
@@ -355,14 +304,15 @@ class Cancel
     a = value.split(',')
 
     date = Date.parse(a.shift.strip)
-    times = parse_times(a)
+    periods = parse_periods(a)
     parse_check_tail(a)
 
-    new(date, times)
+    new(date, periods)
   end
 
   def affect?(e)
-    @times.any? { |t| t.cross(e) } || e.date == date
+    @date == e.date && \
+      (@periods.empty? || @periods.any? { |p| p.cross(e.period) })
   end
 end
 
@@ -429,7 +379,7 @@ end
 
 module Utils
   def self.mark_cancels(events, cancels)
-    events.each { |e| e.cancelled = cancels.any? { |c| c.affect?(e.time) } }
+    events.each { |e| e.cancelled = cancels.any? { |c| c.affect?(e) } }
   end
 end
 
@@ -487,7 +437,7 @@ class Classes
     events = schedule.collect { |s| s.events(r) }.flatten
     changes.each { |c| events = c.apply(events, r) }
     Utils.mark_cancels(events, cancel)
-    events = events.select { |e| not hide.any? { |h| h.affect?(e.time) } }
+    events = events.select { |e| not hide.any? { |h| h.affect?(e) } }
     events.each { |e| e.title = title }
   end
 
@@ -537,25 +487,14 @@ end
 
 end # module Timetable
 
-def event_each_conflict(events)
-  events.each_with_index do |event, index|
-    next if event.cancelled?
-    succ_events = events.drop(index + 1)
-    conflicts = succ_events.take_while do |succ_event|
-      event.time.end > succ_event.time.begin
-    end
-    conflicts = conflicts.select do |candidate|
-      (not candidate.cancelled?) and (candidate.place == event.place)
-    end
-    next if conflicts.empty?
-    yield event, conflicts
-  end
-end
-
 def mark_event_conflicts(events)
-  events.each { |event| event.conflict = false }
-  event_each_conflict(events) do |event, conflicts|
-    event.conflict = true
-    conflicts.each { |event| event.conflict = true }
+  events.each_index do |i|
+    p = events[i].period
+    j = i + 1
+    while j < events.size and events[j].period.cross(p)
+      events[j].conflict = true
+      events[i].conflict = true
+      j += 1
+    end
   end
 end

@@ -7,7 +7,7 @@
     <% clazz += " conflict" if event.conflict? %>
     <% clazz += " cancel" if event.cancelled? %>
     <div class="<%= clazz %>">
-      <div class="time"> <%= event.time.classes_time %> </div>
+      <div class="time"> <%= event.period %> </div>
       <div class="title">
       <% if /href/ =~ event.title %>
         <%= event.title %>
