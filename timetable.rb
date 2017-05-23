@@ -121,7 +121,7 @@ class EventLine
   end
 end
 
-class ClassesSingleTime
+class Time
   include Comparable
 
   attr_reader :hour, :minute
@@ -166,8 +166,7 @@ class EventTime
   end
 
   def classes_time
-    ClassesTime.new(ClassesSingleTime.from_datetime(@begin),
-                    ClassesSingleTime.from_datetime(@end))
+    Period.new(Time.from_datetime(@begin), Time.from_datetime(@end))
   end
 
   def date
@@ -183,7 +182,7 @@ class EventTime
   end
 end
 
-class ClassesTime
+class Period
   REGEXP = /\d{2}:\d{2}/
 
   attr_reader :begin, :end, :temp
@@ -203,13 +202,13 @@ class ClassesTime
     a = value.strip.split('-')
     bs = a.shift
     return nil if not REGEXP.match(bs)
-    b = ClassesSingleTime.parse(bs)
+    b = Time.parse(bs)
     es = a.shift
     if es
       return nil if not REGEXP.match(es)
-      e = ClassesSingleTime.parse(es)
+      e = Time.parse(es)
     else
-      e = ClassesSingleTime.new((b.hour + 2) % 24, b.minute)
+      e = Time.new((b.hour + 2) % 24, b.minute)
     end
     new(b, e, temp)
   end
@@ -241,7 +240,7 @@ module ParseHelper
   def parse_times(a)
     times = []
     while a.first
-      time = ClassesTime.parse(a.first)
+      time = Period.parse(a.first)
       break if time.nil?
       times << time
       a.shift
