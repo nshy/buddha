@@ -428,11 +428,9 @@ public
   end
 end
 
-module Cancelable
-  def mark_cancels(events)
-    events.each do |e|
-      e.cancelled = cancel.any? { |c| c.affect?(e.time) }
-    end
+module Utils
+  def self.mark_cancels(events, cancels)
+    events.each { |e| e.cancelled = cancels.any? { |c| c.affect?(e.time) } }
   end
 end
 
@@ -481,7 +479,6 @@ end
 class Classes
   include WeekBorders
   include TimePosition
-  include Cancelable
 
   def range
     OpenRange.new(schedule.first.range.begin, schedule.last.range.end)
@@ -490,7 +487,7 @@ class Classes
   def events(r)
     events = schedule.collect { |s| s.events(r) }.flatten
     changes.each { |c| events = c.apply(events, r) }
-    mark_cancels(events)
+    Utils.mark_cancels(events, cancel)
     events = events.select { |e| not hide.any? { |h| h.affect?(e.time) } }
     events.each { |e| e.title = title }
   end
@@ -526,12 +523,10 @@ class Classes
 end
 
 class Event
-  include Cancelable
-
   def events(r)
     events = date.collect { |d| d.events(r) }.flatten
     events.each { |e| e.title = title }
-    mark_cancels(events)
+    Utils.mark_cancels(events, cancel)
   end
 end
 
