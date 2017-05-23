@@ -13,7 +13,7 @@
         <%= event.title %>
       <% else %>
       <a href="/timetable?show=schedule#<%= slug(Russian::transliterate(event.title)) %>">
-        <%= "#{event.title}" %><% if event.temporary? %><sup>*</sup><% end %>
+        <%= "#{event.title}" %>
       </a>
       <% end %>
       </div>

@@ -92,7 +92,7 @@ end
 class EventLine
   attr_accessor :title, :date, :period, :place
 
-  attr_writer :conflict, :cancelled, :temporary
+  attr_writer :conflict, :cancelled
 
   def initialize(date, period, place)
     @date = date
@@ -106,10 +106,6 @@ class EventLine
 
   def cancelled?
     @cancelled
-  end
-
-  def temporary?
-    @temporary
   end
 
   def to_s
@@ -148,20 +144,14 @@ end
 class Period
   REGEXP = /\d{2}:\d{2}/
 
-  attr_reader :begin, :end, :temp
+  attr_reader :begin, :end
 
-  def initialize(b, e, temp = false)
+  def initialize(b, e)
     @begin = b
     @end = e
-    @temp = temp
   end
 
   def self.parse(value)
-    # parse *
-    value.strip!
-    temp = value.end_with?('*')
-    value.chop! if temp
-
     a = value.strip.split('-')
     bs = a.shift
     return nil if not REGEXP.match(bs)
@@ -173,7 +163,7 @@ class Period
     else
       e = Time.new((b.hour + 2) % 24, b.minute)
     end
-    new(b, e, temp)
+    new(b, e)
   end
 
   def cross(p)
@@ -199,6 +189,7 @@ module ParseHelper
 
   def parse_place(a)
     place = a.shift || 'Спартаковская'
+    place.strip!
     if not ['Спартаковская', 'Мытная'].include?(place)
       raise "address must be Спартаковская either or Мытная"
     end
@@ -404,12 +395,7 @@ class Changes
   end
 
 private
-  def mark_changes(changes, filtered)
-    changes.each { |c| c.temporary = !filtered.include?(c) }
-  end
-
   def apply_change(events, filtered, changes)
-    mark_changes(changes, filtered)
     events - filtered + changes
   end
 
