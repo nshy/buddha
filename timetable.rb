@@ -170,6 +170,10 @@ class EventTime
                     ClassesSingleTime.from_datetime(@end))
   end
 
+  def date
+    @begin.to_date
+  end
+
   def ==(other)
     @begin == other.begin and @end == other.end
   end
@@ -181,8 +185,6 @@ end
 
 class ClassesTime
   REGEXP = /\d{2}:\d{2}/
-  DayBegin = ClassesSingleTime.new(0, 0)
-  DayEnd = ClassesSingleTime.new(0, 0)
 
   attr_reader :begin, :end, :temp
 
@@ -233,8 +235,6 @@ class ClassesTime
     e.temporary = temp
     e
   end
-
-  WholeDay = new(DayBegin, DayEnd)
 end
 
 module ParseHelper
@@ -349,7 +349,7 @@ class Cancel
 
   def initialize(date, times)
     @times = times.collect { |t| t.event_time(date) }
-    @times << ClassesTime::WholeDay.event_time(date) if @times.empty?
+    @date = date
   end
 
   def self.parse(value)
@@ -363,7 +363,7 @@ class Cancel
   end
 
   def affect?(e)
-    @times.any? { |t| t.cross(e) }
+    @times.any? { |t| t.cross(e) } || e.date == date
   end
 end
 
