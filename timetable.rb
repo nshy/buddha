@@ -33,6 +33,7 @@ class Document < XDSL::Element
     end
 
     elements :cancel, Cancel
+    elements :hide, Cancel
 
     elements :changes do
       element :announce
@@ -490,6 +491,7 @@ class Classes
     events = schedule.collect { |s| s.events(r) }.flatten
     changes.each { |c| events = c.apply(events, r) }
     mark_cancels(events)
+    events = events.select { |e| not hide.any? { |h| h.affect?(e.time) } }
     events.each { |e| e.title = title }
   end
 
