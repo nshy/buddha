@@ -45,7 +45,7 @@ class Document < XDSL::Element
 
   elements :event do
     element :title
-    element :date, ClassesDate
+    elements :date, ClassesDate
     elements :cancel, Cancel
   end
 
@@ -527,7 +527,8 @@ class Event
   include Cancelable
 
   def events(r)
-    events = date.events(r).each { |e| e.title = title }
+    events = date.collect { |d| d.events(r) }.flatten
+    events.each { |e| e.title = title }
     mark_cancels(events)
   end
 end
