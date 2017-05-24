@@ -1,38 +1,29 @@
 <%= erb :'partials/time_header',
-    locals: {
-      selected: :week,
-      banner: @timetable.banner
-    }
-%>
+    locals: { selected: :week, banner: @timetable.banner } %>
 
 <div class="page-timetable">
-  <% week = Week.new + @skip; next_week = week + 1 %>
-  <% events_cur = @timetable.events(week.monday..week.sunday) %>
-  <% events_next = @timetable.events(next_week.monday..next_week.sunday) %>
-  <div class="months"> <%= timetable_months(week) %></div>
+  <% cur = Week.new + @skip; nex = cur + 1 %>
+  <div class="months"> <%= timetable_months(cur) %></div>
   <div class="two-weeks">
     <% Week.cwdays.each do |day| %>
     <div class="day-line">
-      <%= week_day(week.day(day), events_cur) %>
-      <%= week_day(next_week.day(day), events_next) %>
+      <%= week_day(cur.day(day)) %>
+      <%= week_day(nex.day(day)) %>
     </div>
     <% end %>
   </div>
   <div class="one-week">
-    <% week.dates.each do |date| %>
-    <%= week_day(date, events_cur) %>
+    <% cur.dates.each do |date| %>
+      <%= week_day(date) %>
     <% end %>
   </div>
   <div class="one-week">
-    <% next_week.dates.each do |date| %>
-    <%= week_day(date, events_next) %>
+    <% nex.dates.each do |date| %>
+      <%= week_day(date) %>
     <% end %>
   </div>
 
-  <% events = @timetable.events(week.monday..next_week.sunday) %>
-
-  <% mytnaya = events.select { |e| e.place == 'Мытная' } %>
-  <% if not mytnaya.empty? %>
+  <% if timetable_mytnaya? %>
   <div class="footnote">
     <div class="marker color">&nbsp;</div>
     <div class="text">

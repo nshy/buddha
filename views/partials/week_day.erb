@@ -5,5 +5,5 @@
     <div class="month-day"> <%= date.day %> </div>
     <div class="week-day"> <%= Russian::strftime(date, "%a") %> </div>
   </div>
-  <%= erb :'partials/week_day_places', locals: { events: events } %>
+  <%= erb :'partials/week_day_places', locals: { events: @timetable.events(date) } %>
 </div> <%# day %>

@@ -50,9 +50,9 @@ class Document < XDSL::Element
     elements :cancel, Cancel
   end
 
-  def events(r)
-    res = classes.collect { |c| c.events(r) }.flatten
-    res += event.collect { |e| e.events(r) }.flatten
+  def events(d)
+    res = classes.collect { |c| c.events(d) }.flatten
+    res += event.collect { |e| e.events(d) }.flatten
     res.sort { |a, b| a.period.begin <=> b.period.begin }
   end
 
@@ -90,12 +90,11 @@ class OpenRange
 end
 
 class EventLine
-  attr_accessor :title, :date, :period, :place
+  attr_accessor :title, :period, :place
 
   attr_writer :conflict, :cancelled
 
-  def initialize(date, period, place)
-    @date = date
+  def initialize(period, place)
     @period = period
     @place = place
   end
@@ -109,7 +108,7 @@ class EventLine
   end
 
   def to_s
-    "#{@date} #{@time} #{@title} #{@place}"
+    "#{@time} #{@title} #{@place}"
   end
 end
 
@@ -204,7 +203,7 @@ end
 class ClassesDay
   extend ParseHelper
 
-  attr_reader :day, :place
+  attr_reader :day, :place, :periods
 
   def initialize(day, mul, start, periods, place)
     @day = day
@@ -237,18 +236,17 @@ class ClassesDay
     new(day, mul, start, periods, place)
   end
 
-  def events(r)
-    b = Week.new(r.begin)
-    e = Week.new(r.end)
-    weeks = b..e
-    if @mul
-      s = Week.new(@start)
-      weeks = weeks.select { |w| (s - w) % @mul == 0 }
-    end
-    events = weeks.collect do |w|
-      @periods.collect { |p| EventLine.new(w.day(@day), p, @place) }
-    end
-    events.flatten.select { |e| r.cover?(e.date) }
+  def include?(d)
+    d.cwday == @day and (not @mul or (Week.new(d) - Week.new(@start)) % @mul == 0)
+  end
+
+  def events
+     @periods.collect { |p| EventLine.new(p, @place) }
+  end
+
+  def to_s
+    p = @periods.join(' ')
+    @mul ?  "#{@day}/#{@mul}#/#{@start} #{p}" : "#{@day} #{p}"
   end
 end
 
@@ -275,9 +273,12 @@ class ClassesDate
     new(date, periods, place)
   end
 
-  def events(r)
-    events = @periods.collect { |p| EventLine.new(@date, p, @place) }
-    events.select { |e| r.cover?(e.date) }
+  def include?(d)
+    @date == d
+  end
+
+  def events
+    @periods.collect { |p| EventLine.new(p, @place) }
   end
 end
 
@@ -302,8 +303,7 @@ class Cancel
   end
 
   def affect?(e)
-    @date == e.date && \
-      (@periods.empty? || @periods.any? { |p| p.cross(e.period) })
+    @periods.empty? || @periods.any? { |p| p.cross(e.period) }
   end
 end
 
@@ -328,49 +328,22 @@ module TimePosition
 end
 
 module DayDates
-private
-  def begin_full
-    day.empty? ?  date.map { |d| d.date }.min : self.begin
-  end
-
-  def end_full
-    day.empty? ? date.map { |d| d.date }.max : self.end
-  end
-
-public
   def range
-    OpenRange.new(begin_full, end_full)
+    OpenRange.new(self.begin, self.end)
   end
 
-  def day_events(r)
-    r = days_range(r)
-    return [] if r.nil?
-    day.collect { |d| d.events(r) }.flatten
-  end
-
-  def date_events(r)
-    date.collect { |d| d.events(r) }.flatten
-  end
-
-  def days_range(r)
-    cb = self.begin
-    ce = self.end
-    b = r.begin
-    e = r.end
-    b = cb if cb and cb > b
-    e = ce if ce and ce < e
-    return nil if b > e
-    b..e
-  end
-
-  def include_date?(d)
-    date.any? { |cd| cd.date == d }
+  def events(d)
+    return nil if not range.cover?(d)
+    a = day.select { |x| x.include?(d) }.collect { |x| x.events }
+    b = date.select { |x| x.include?(d) }.collect { |x| x.events }
+    (a + b).flatten
   end
 end
 
 module Utils
-  def self.mark_cancels(events, cancels)
-    events.each { |e| e.cancelled = cancels.any? { |c| c.affect?(e) } }
+  def self.mark_cancels(date, events, cancels)
+    cans = cancels.select { |c| c.date == date }
+    events.each { |e| e.cancelled = cans.any? { |c| c.affect?(e) } }
   end
 end
 
@@ -378,37 +351,12 @@ class Schedule
   include WeekBorders
   include TimePosition
   include DayDates
-
-  def events(r)
-    date_events(r) + day_events(r)
-  end
 end
 
 class Changes
   include DayDates
   include WeekBorders
   include TimePosition
-
-  def apply(events, r)
-    events = apply_change(events, days_filter(events, r), day_events(r))
-    apply_change(events, date_filter(events), date_events(r))
-  end
-
-private
-  def apply_change(events, filtered, changes)
-    events - filtered + changes
-  end
-
-  def days_filter(events, r)
-    return [] if day.empty?
-    dr = days_range(r)
-    return [] if dr.nil?
-    events.select { |e| dr.cover?(e.date) }
-  end
-
-  def date_filter(events)
-    events.select { |e| include_date?(e.date) }
-  end
 end
 
 class Classes
@@ -419,11 +367,14 @@ class Classes
     OpenRange.new(schedule.first.range.begin, schedule.last.range.end)
   end
 
-  def events(r)
-    events = schedule.collect { |s| s.events(r) }.flatten
-    changes.each { |c| events = c.apply(events, r) }
-    Utils.mark_cancels(events, cancel)
-    events = events.select { |e| not hide.any? { |h| h.affect?(e) } }
+  def events(d)
+    events = changes.reverse.collect { |c| c.events(d) }.find { |e| e }
+    events = schedule.collect { |s| s.events(d) }.compact.flatten if not events
+    return [] if not events
+
+    Utils.mark_cancels(d, events, cancel)
+    hides = hide.select { |h| h.date == d }
+    events = events.select { |e| not hides.any? { |h| h.affect?(e) } }
     events.each { |e| e.title = title }
   end
 
@@ -458,10 +409,10 @@ class Classes
 end
 
 class Event
-  def events(r)
-    events = date.collect { |d| d.events(r) }.flatten
+  def events(d)
+    events = date.select { |x| x.include?(d) }.collect { |x| x.events }.flatten
     events.each { |e| e.title = title }
-    Utils.mark_cancels(events, cancel)
+    Utils.mark_cancels(d, events, cancel)
   end
 end
 

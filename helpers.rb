@@ -269,10 +269,8 @@ module TimetableHelper
     end
   end
 
-  def week_day(date, events)
-    locals = { date: date,
-               events: events.select { |e| e.date == date } }
-    erb :'partials/week_day', locals: locals
+  def week_day(date)
+    erb :'partials/week_day', locals: { date: date }
   end
 
   def timetable_link(selected, skip)
@@ -289,5 +287,12 @@ module TimetableHelper
 
   def timetable_enhanced?
     settings.development? or session[:login]
+  end
+
+  def timetable_mytnaya?
+    cur = Week.new + @skip
+    nex = cur + 1
+    events = (cur.monday..nex.sunday).collect { |d| @timetable.events(d) }.flatten
+    events.any? { |e| e.place == 'Мытная' }
   end
 end
