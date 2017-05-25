@@ -153,7 +153,7 @@ class Period
   end
 
   def self.parse(v)
-    a = v.strip.split('-')
+    a = v.split('-')
     b = Time.parse(a[0]); e = nil
     return nil if not b
     if a.size == 1
@@ -175,6 +175,10 @@ class Period
 end
 
 module ParseHelper
+  def parse_values(v)
+    v.split(',').map { |v| v.strip }
+  end
+
   def parse_periods(a)
     periods = []
     while a.first
@@ -188,15 +192,14 @@ module ParseHelper
 
   def parse_place(a)
     place = a.shift || 'Спартаковская'
-    place.strip!
     if not ['Спартаковская', 'Мытная'].include?(place)
-      raise "address must be Спартаковская either or Мытная"
+      raise ArgumentError.new
     end
     place
   end
 
   def parse_check_tail(a)
-    raise "unparsed tail" if not a.empty?
+    raise ArgumentError.new if not a.empty?
   end
 end
 
@@ -268,9 +271,9 @@ class Day
   end
 
   def self.parse(value, daytype)
-    a = value.split(',')
+    a = parse_values(value)
 
-    day = daytype.parse(a.shift.strip)
+    day = daytype.parse(a.shift)
     periods = parse_periods(a)
     raise ArgumentError.new if periods.empty?
 
@@ -300,9 +303,9 @@ class Cancel
   end
 
   def self.parse(value)
-    a = value.split(',')
+    a = parse_values(value)
 
-    date = Date.parse(a.shift.strip)
+    date = Date.parse(a.shift)
     periods = parse_periods(a)
     parse_check_tail(a)
 
