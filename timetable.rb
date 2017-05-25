@@ -4,8 +4,8 @@ require_relative 'models'
 
 module Timetable
 
-class ClassesDay; end
-class ClassesDate; end
+class DayParser; end
+class DateParser; end
 class Cancel; end
 
 class Document < XDSL::Element
@@ -26,10 +26,10 @@ class Document < XDSL::Element
     elements :schedule do
       element :timeshort
       element :announce
-      elements :day, ClassesDay
+      elements :day, DayParser
       element :begin, ModelDate
       element :end, ModelDate
-      elements :date, ClassesDate
+      elements :date, DateParser
     end
 
     elements :cancel, Cancel
@@ -39,20 +39,19 @@ class Document < XDSL::Element
       element :announce
       element :begin, ModelDate
       element :end, ModelDate
-      elements :day, ClassesDay
-      elements :date, ClassesDate
+      elements :day, DayParser
+      elements :date, DateParser
     end
   end
 
   elements :event do
     element :title
-    elements :date, ClassesDate
+    elements :date, DateParser
     elements :cancel, Cancel
   end
 
   def events(d)
-    res = classes.collect { |c| c.events(d) }.flatten
-    res += event.collect { |e| e.events(d) }.flatten
+    res = (classes + event).collect { |x| x.events(d) }.flatten
     res.sort { |a, b| a.period.begin <=> b.period.begin }
   end
 
@@ -197,44 +196,84 @@ module ParseHelper
   end
 end
 
-class ClassesDay
+class DayWeekly
+  Days = [ 'Monday', 'Tuesday', 'Wednesday', 'Thursday',
+           'Friday', 'Saturday', 'Sunday' ]
+
+  def initialize(cwday, mul = nil, start = nil)
+    @cwday = cwday
+    @mul = mul
+    @start = start
+  end
+
+  def include?(d)
+    d.cwday == @cwday and (not @mul or (Week.new(d) - Week.new(@start)) % @mul == 0)
+  end
+
+  def self.parse(v)
+    a = v.split('/')
+    cwday = Days.index(a[0])
+    raise ArgumentError.new if not cwday
+    cwday += 1
+    return new(cwday) if a.size == 1
+    raise ArgumentError.new if a.size != 3
+    new(cwday, Integer(a[1]), ModelDate.parse(a[2]))
+  end
+
+  def to_s
+    @mul ? "#{@cwday}/#{@mul}/#{@start}" : "#{@cwday}"
+  end
+end
+
+class DayDate
+  def initialize(date)
+    @date = date
+  end
+
+  def self.parse(v)
+    new(ModelDate.parse(v))
+  end
+
+  def include?(d)
+    @date == d
+  end
+
+  def to_s
+    @date.to_s
+  end
+end
+
+
+def DateParser.parse(v)
+  Day.parse(v, DayDate)
+end
+
+def DayParser.parse(v)
+  Day.parse(v, DayWeekly)
+end
+
+class Day
   extend ParseHelper
 
   attr_reader :day, :place, :periods
 
-  def initialize(day, mul, start, periods, place)
-    @day = day
-    @mul = mul
-    @start = start
+  def initialize(day, periods, place)
     @periods = periods
     @place = place
+    @day = day
   end
 
-  def self.parse(value)
-    mul = nil
-    start = nil
-
+  def self.parse(value, daytype)
     a = value.split(',')
 
-    d = a.shift.strip.split('/')
-    day = Date.parse(d.shift.strip).cwday
-    if not d.empty?
-      mul = d.shift.to_i
-      start = Date.parse(d.shift)
-    end
-
+    day = daytype.parse(a.shift.strip)
     periods = parse_periods(a)
-    # for luck
-    raise "Time must be specified" if periods.empty?
+    raise ArgumentError.new if periods.empty?
 
     place = parse_place(a)
     parse_check_tail(a)
 
-    new(day, mul, start, periods, place)
-  end
-
-  def include?(d)
-    d.cwday == @day and (not @mul or (Week.new(d) - Week.new(@start)) % @mul == 0)
+    new(day, periods, place)
   end
 
   def events
@@ -242,40 +281,7 @@ class ClassesDay
   end
 
   def to_s
-    p = @periods.join(' ')
-    @mul ?  "#{@day}/#{@mul}#/#{@start} #{p}" : "#{@day} #{p}"
-  end
-end
-
-class ClassesDate
-  extend ParseHelper
-
-  attr_reader :date, :periods, :place
-
-  def initialize(date, periods, place)
-    @date = date
-    @periods = periods
-    @place = place
-  end
-
-  def self.parse(value)
-    a = value.split(',')
-
-    date = Date.parse(a.shift.strip)
-
-    periods = parse_periods(a)
-    place = parse_place(a)
-    parse_check_tail(a)
-
-    new(date, periods, place)
-  end
-
-  def include?(d)
-    @date == d
-  end
-
-  def events
-    @periods.collect { |p| EventLine.new(p, @place) }
+    "#{@day} #{@periods.join(' ')} #{@place}"
   end
 end
 
@@ -331,9 +337,7 @@ module DayDates
 
   def events(d)
     return nil if not range.cover?(d)
-    a = day.select { |x| x.include?(d) }.collect { |x| x.events }
-    b = date.select { |x| x.include?(d) }.collect { |x| x.events }
-    (a + b).flatten
+    Utils::events(day + date, d)
   end
 end
 
@@ -341,6 +345,10 @@ module Utils
   def self.mark_cancels(date, events, cancels)
     cans = cancels.select { |c| c.date == date }
     events.each { |e| e.cancelled = cans.any? { |c| c.affect?(e) } }
+  end
+
+  def self.events(days, d)
+    days.select { |x| x.day.include?(d) }.collect { |x| x.events }.flatten
   end
 end
 
@@ -407,7 +415,7 @@ end
 
 class Event
   def events(d)
-    events = date.select { |x| x.include?(d) }.collect { |x| x.events }.flatten
+    events = Utils::events(date, d)
     events.each { |e| e.title = title }
     Utils.mark_cancels(d, events, cancel)
   end
