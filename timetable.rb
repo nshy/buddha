@@ -371,6 +371,10 @@ class Changes
         "Изменения должны иметь начало и конец"
     end
   end
+
+  def visible?(week)
+    week_range.cover?(week) or week_range.cover?(week.next)
+  end
 end
 
 class Classes
@@ -392,7 +396,7 @@ class Classes
   end
 
   def announces(week)
-    a = changes.select { |c| c.actual?(week) or c.future?(week) } +
+    a = changes.select { |c| c.visible?(week) } +
         schedule.select { |s| s.future?(week) }
     a.sort! { |a, b| a.range.begin <=> b.range.begin }
     a.collect { |a| a.announce }.join(' ')
