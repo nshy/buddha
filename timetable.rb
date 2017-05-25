@@ -342,6 +342,10 @@ module DayDates
     return nil if not range.cover?(d)
     Utils::events(day + date, d)
   end
+
+  def visible2weeks?(b)
+    week_range.cover?(b) or week_range.cover?(b.next)
+  end
 end
 
 module Utils
@@ -364,6 +368,10 @@ end
 class Schedule
   include WeekBorders
   include DayDates
+
+  def visible?(week)
+    not actual?(week) and visible2weeks?(week)
+  end
 end
 
 class Changes
@@ -379,7 +387,7 @@ class Changes
   end
 
   def visible?(week)
-    week_range.cover?(week) or week_range.cover?(week.next)
+    visible2weeks?(week)
   end
 end
 
@@ -402,9 +410,7 @@ class Classes
   end
 
   def announces(week)
-    a = changes.select { |c| c.visible?(week) } +
-        schedule.select { |s| s.future?(week) }
-    a.sort! { |a, b| a.range.begin <=> b.range.begin }
+    a = (changes + schedule).select { |c| c.visible?(week) }
     a.collect { |a| a.announce }.join(' ')
   end
 
