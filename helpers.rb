@@ -279,10 +279,8 @@ module TimetableHelper
       base
   end
 
-  def timetable_day_event(timetable)
-    day = Date.today
-    events = timetable.events(day..day)
-    erb :'partials/week_day_places', locals: { events: events }
+  def timetable_day_events(date)
+    erb :'partials/week_day_places', locals: { events: @timetable.events(date) }
   end
 
   def timetable_enhanced?
