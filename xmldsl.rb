@@ -38,13 +38,17 @@ module ElementClass
       end
     else
       parser = lambda do |e|
-        c = e.at_xpath(name.to_s)
+        p = "#{e.path}/#{name}"
+        c = e.xpath(name.to_s)
+        if c.size > 1
+          raise ModelException.new \
+            "Элемент #{p} должен присутствовать в одном экземпляре"
+        end
         v = nil
-        v = scalar_parser.call(c) if c
+        v = scalar_parser.call(c[0]) if not c.empty?
         if not v and options[:required]
           raise ModelException.new \
-            "Элемент #{e.path}/#{name} должен присутствовать " \
-            "и иметь непустое значение"
+            "Элемент #{p} должен присутствовать и иметь непустое значение"
         end
         v
       end
