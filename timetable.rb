@@ -317,7 +317,6 @@ class Cancel
   end
 end
 
-
 module WeekBorders
   def week_range
     r = range
@@ -325,9 +324,7 @@ module WeekBorders
     we = r.end ? Week.new(r.end) : nil
     OpenRange.new(wb, we)
   end
-end
 
-module TimePosition
   def future?(week)
     week_range.left?(week)
   end
@@ -361,19 +358,16 @@ end
 
 class Schedule
   include WeekBorders
-  include TimePosition
   include DayDates
 end
 
 class Changes
   include DayDates
   include WeekBorders
-  include TimePosition
 end
 
 class Classes
   include WeekBorders
-  include TimePosition
 
   def range
     OpenRange.new(schedule.first.range.begin, schedule.last.range.end)
