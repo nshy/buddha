@@ -95,7 +95,6 @@ module ElementClass
     rescue ModelException => e
       raise ModelException.new("Нарушение формата в файле '#{p}': #{e}")
     end
-    doc.on_load if doc.respond_to? :on_load
     doc
   end
 
