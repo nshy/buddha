@@ -36,7 +36,7 @@ class Document < XDSL::Element
     elements :hide, Cancel
 
     elements :changes do
-      element :announce
+      element :announce, String, required: true
       element :begin, ModelDate
       element :end, ModelDate
       elements :day, DayParser
@@ -364,6 +364,13 @@ end
 class Changes
   include DayDates
   include WeekBorders
+
+  def doc_check
+    if not self.begin or not self.end
+      raise ModelException.new \
+        "Изменения должны иметь начало и конец"
+    end
+  end
 end
 
 class Classes
@@ -410,6 +417,18 @@ class Classes
         p.end = s.week_range.begin.prev.sunday
       end
       p = s
+    end
+  end
+
+  def doc_check
+    if changes.size > 1
+      p = changes.clone; p.pop
+      n = changes.clone; n.shift
+      if p.zip(n).any? { |v| not v[0].range.right?(v[1].begin) }
+        raise ModelException.new \
+          "Изменения не должны перекрываться по времени и " \
+          "более поздние должны идти ниже более ранних"
+      end
     end
   end
 end
