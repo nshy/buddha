@@ -14,17 +14,17 @@ class Document < XDSL::Element
   element :banner do
     element :begin, ModelDate
     element :end, ModelDate
-    element :message
+    element :message, String, required: true
   end
 
   element :annual
   elements :classes do
-    element :image
-    element :title
-    element :info
+    element :image, String, required: true
+    element :title, String, required: true
+    element :info, String, required: true
 
     elements :schedule do
-      element :timeshort
+      element :timeshort, String, required: true
       element :announce
       elements :day, DayParser
       element :begin, ModelDate
@@ -45,7 +45,7 @@ class Document < XDSL::Element
   end
 
   elements :event do
-    element :title
+    element :title, String, required: true
     elements :date, DateParser
     elements :cancel, Cancel
   end
