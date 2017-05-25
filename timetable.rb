@@ -54,12 +54,7 @@ class Document < XDSL::Element
     res = (classes + event).collect { |x| x.events(d) }.flatten
     res.sort { |a, b| a.period.begin <=> b.period.begin }
   end
-
-  def on_load
-    classes.each { |c| c.on_load }
-  end
 end
-
 
 class OpenRange
   attr_reader :begin, :end
@@ -358,6 +353,12 @@ module Utils
   def self.events(days, d)
     days.select { |x| x.day.include?(d) }.collect { |x| x.events }.flatten
   end
+
+  def self.neighbours(a)
+    p = a.clone; p.pop
+    n = a.clone; n.shift
+    p.zip(n)
+  end
 end
 
 class Schedule
@@ -419,24 +420,36 @@ class Classes
     schedule.detect { |s| s.week_range.cover?(week) }
   end
 
-  def on_load
-    p = nil
-    schedule.each do |s|
-      if p and p.week_range.cover?(s.week_range.begin)
-        p.end = s.week_range.begin.prev.sunday
-      end
-      p = s
-    end
-  end
-
   def doc_check
     if changes.size > 1
-      p = changes.clone; p.pop
-      n = changes.clone; n.shift
-      if p.zip(n).any? { |v| not v[0].range.right?(v[1].begin) }
+      if Utils::neighbours(changes).any? { |v| not v[0].range.right?(v[1].begin) }
         raise ModelException.new \
           "Изменения не должны перекрываться по времени и " \
           "более поздние должны идти ниже более ранних"
+      end
+    end
+
+    if schedule.size > 1
+      Utils::neighbours(schedule).each do |v|
+        p = v[0]; n = v[1]
+        if not n.begin
+          raise ModelException.new \
+            "План расписания начиная со второго должен иметь дату начала"
+        end
+        if not n.announce
+          raise ModelException.new \
+            "План расписания начиная со второго должен иметь "\
+            "объявление изменений"
+        end
+        if p.end
+          raise ModelException.new \
+            "План расписания кроме последнего не должен иметь даты окончания"
+        end
+        if p.begin and n.begin <= p.begin
+          raise ModelException.new \
+            "Более поздние расписания должны идти ниже более ранних"
+        end
+        p.end = n.begin - 1
       end
     end
   end
