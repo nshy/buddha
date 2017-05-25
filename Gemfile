@@ -9,6 +9,7 @@ gem 'unicode'
 gem 'russian'
 gem 'sqlite3'
 gem 'sequel'
+gem 'sassc'
 
 gem 'sinatra-contrib'
 
