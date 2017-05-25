@@ -65,6 +65,10 @@ class OpenRange
   attr_reader :begin, :end
 
   def initialize(b, e)
+    if b and e and e <= b
+      raise ModelException.new \
+        "Дата окончания должна быть позднее даты начала"
+    end
     @begin = b
     @end = e
   end
@@ -370,6 +374,7 @@ class Changes
       raise ModelException.new \
         "Изменения должны иметь начало и конец"
     end
+    range
   end
 
   def visible?(week)
