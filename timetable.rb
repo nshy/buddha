@@ -17,7 +17,7 @@ class Document < XDSL::Element
     element :message, String, required: true
   end
 
-  element :annual
+  element :annual, String, require: true
   elements :classes do
     element :image, String, required: true
     element :title, String, required: true
