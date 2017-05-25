@@ -147,6 +147,7 @@ class Period
   attr_reader :begin, :end
 
   def initialize(b, e)
+    raise ArgumentError if e <= b
     @begin = b
     @end = e
   end
