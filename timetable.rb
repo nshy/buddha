@@ -117,6 +117,9 @@ class Time
   attr_reader :hour, :minute
 
   def initialize(hour, minute)
+    if hour < 0 or hour > 23 or minute < 0 or minute > 59
+      raise ArgumentError.new
+    end
     @hour = hour
     @minute = minute
   end
@@ -128,7 +131,7 @@ class Time
   def self.parse(v)
     m = /^(\d{2}):(\d{2})$/.match(v)
     return nil if not m
-    new(m[1].to_i, m[2].to_i)
+    new(Integer(m[1]), Integer(m[2]))
   end
 
   def <=>(time)
