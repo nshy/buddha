@@ -126,9 +126,10 @@ class Time
     "%02d:%02d" % [ @hour, @minute ]
   end
 
-  def self.parse(value)
-    d = DateTime.parse(value)
-    new(d.hour, d.minute)
+  def self.parse(v)
+    m = /^(\d{2}):(\d{2})$/.match(v)
+    return nil if not m
+    new(m[1].to_i, m[2].to_i)
   end
 
   def <=>(time)
@@ -141,8 +142,6 @@ class Time
 end
 
 class Period
-  REGEXP = /\d{2}:\d{2}/
-
   attr_reader :begin, :end
 
   def initialize(b, e)
@@ -150,18 +149,16 @@ class Period
     @end = e
   end
 
-  def self.parse(value)
-    a = value.strip.split('-')
-    bs = a.shift
-    return nil if not REGEXP.match(bs)
-    b = Time.parse(bs)
-    es = a.shift
-    if es
-      return nil if not REGEXP.match(es)
-      e = Time.parse(es)
-    else
-      e = Time.new((b.hour + 2) % 24, b.minute)
+  def self.parse(v)
+    a = v.strip.split('-')
+    b = Time.parse(a[0]); e = nil
+    return nil if not b
+    if a.size == 1
+      e = Time.new(b.hour + 2, b.minute)
+    elsif a.size == 2
+      e = Time.parse(a[1])
     end
+    return nil if not e
     new(b, e)
   end
 
