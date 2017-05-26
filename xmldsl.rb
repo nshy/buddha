@@ -25,7 +25,7 @@ module ElementClass
           scalar_klass.parse(t)
         rescue ArgumentError
           raise ModelException.new \
-            "Элемент #{e.path}/#{name} имеет недопустимое значение '#{t}'"
+            "Элемент #{e.path} имеет недопустимое значение '#{t}'"
         end
       end
     end
