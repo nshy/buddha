@@ -186,6 +186,11 @@ module ParseHelper
       periods << period
       a.shift
     end
+    b = periods.collect { |p| p.begin }
+    if b.sort != b
+      raise ModelException.new \
+        "Часы должны быть упорядочены. Более позднее должны идти правее"
+    end
     periods
   end
 
