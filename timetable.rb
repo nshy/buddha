@@ -128,9 +128,11 @@ class Time
   end
 
   def self.parse(v)
-    m = /^(\d{2}):(\d{2})$/.match(v)
+    m = /^(\d{1,2}):(\d{1,2})$/.match(v)
     return nil if not m
-    new(Integer(m[1]), Integer(m[2]))
+    t = new(Integer(m[1]), Integer(m[2]))
+    raise ArgumentError if t.to_s != v
+    t
   end
 
   def <=>(time)
@@ -222,6 +224,7 @@ class DayWeekly
   attr_reader :cwday
 
   def initialize(cwday, mul = nil, start = nil)
+    raise ArgumentError.new if mul and mul <= 1
     @cwday = cwday
     @mul = mul
     @start = start
