@@ -26,6 +26,8 @@ module ElementClass
         rescue ArgumentError
           raise ModelException.new \
             "#{spec(e)}: недопустимое значение '#{t}'"
+        rescue ModelException => err
+          raise ModelException.new "#{spec(e)}: #{err}"
         end
       end
     end
