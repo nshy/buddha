@@ -53,6 +53,19 @@ class Document < XDSL::Element
   def events(d)
     res = (classes + event).collect { |x| x.events(d) }.flatten
     res.sort { |a, b| a.period.begin <=> b.period.begin }
+    mark_conflicts(res)
+  end
+
+  def mark_conflicts(events)
+    events.each_index do |i|
+      p = events[i].period
+      j = i + 1
+      while j < events.size and events[j].period.cross(p)
+        events[j].conflict = true
+        events[i].conflict = true
+        j += 1
+      end
+    end
   end
 end
 
@@ -537,15 +550,3 @@ class Banner
 end
 
 end # module Timetable
-
-def mark_event_conflicts(events)
-  events.each_index do |i|
-    p = events[i].period
-    j = i + 1
-    while j < events.size and events[j].period.cross(p)
-      events[j].conflict = true
-      events[i].conflict = true
-      j += 1
-    end
-  end
-end
