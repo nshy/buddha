@@ -152,16 +152,21 @@ class Period
   end
 
   def self.parse(v)
-    a = v.split('-')
-    b = Time.parse(a[0]); e = nil
-    return nil if not b
-    if a.size == 1
-      e = Time.new(b.hour + 2, b.minute)
-    elsif a.size == 2
-      e = Time.parse(a[1])
+    begin
+      a = v.split('-')
+      b = Time.parse(a[0]); e = nil
+      return nil if not b
+      if a.size == 1
+        e = Time.new(b.hour + 2, b.minute)
+      elsif a.size == 2
+        e = Time.parse(a[1])
+      end
+      return nil if not e
+      new(b, e)
+    rescue ArgumentError
+      raise ModelException.new \
+        "Неправильный формат времени проведения: #{v}"
     end
-    return nil if not e
-    new(b, e)
   end
 
   def cross(p)
@@ -197,13 +202,16 @@ module ParseHelper
   def parse_place(a)
     place = a.shift || 'Спартаковская'
     if not ['Спартаковская', 'Мытная'].include?(place)
-      raise ArgumentError.new
+      raise ModelException.new \
+        "Место проведения должно быть либо 'Спартаковская' либо 'Мытная'"
     end
     place
   end
 
   def parse_check_tail(a)
-    raise ArgumentError.new if not a.empty?
+    if not a.empty?
+      raise ModelException.new "Лишние символы после места проведения"
+    end
   end
 end
 
@@ -224,13 +232,17 @@ class DayWeekly
   end
 
   def self.parse(v)
-    a = v.split('/')
-    cwday = Days.index(a[0])
-    raise ArgumentError.new if not cwday
-    cwday += 1
-    return new(cwday) if a.size == 1
-    raise ArgumentError.new if a.size != 3
-    new(cwday, Integer(a[1]), ModelDate.parse(a[2]))
+    begin
+      a = v.split('/')
+      cwday = Days.index(a[0])
+      raise ArgumentError.new if not cwday
+      cwday += 1
+      return new(cwday) if a.size == 1
+      raise ArgumentError.new if a.size != 3
+      new(cwday, Integer(a[1]), ModelDate.parse(a[2]))
+    rescue ArgumentError
+      raise ModelException.new "Неправильный формат дня проведения: #{v}"
+    end
   end
 
   def to_s
@@ -246,7 +258,11 @@ class DayDate
   end
 
   def self.parse(v)
-    new(ModelDate.parse(v))
+    begin
+      new(ModelDate.parse(v))
+    rescue ArgumentError
+      raise ModelException.new 'Неправильный формат даты проведения'
+    end
   end
 
   def include?(d)
@@ -283,7 +299,10 @@ class Day
 
     day = daytype.parse(a.shift)
     periods = parse_periods(a)
-    raise ArgumentError.new if periods.empty?
+    if periods.empty?
+      raise ModelException.new \
+        "Нет ни одного времени проведения занятий"
+    end
 
     place = parse_place(a)
     parse_check_tail(a)
@@ -381,7 +400,7 @@ module Utils
   def self.check_order(d)
     if d.sort != d
       raise ModelException.new \
-        "Элементы с датами и днями недели должны быть упорядочены." \
+        "Элементы с датами и днями недели должны быть упорядочены. " \
         "Более поздние должны идти ниже"
     end
   end
