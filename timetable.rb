@@ -206,6 +206,8 @@ class DayWeekly
   Days = [ 'Monday', 'Tuesday', 'Wednesday', 'Thursday',
            'Friday', 'Saturday', 'Sunday' ]
 
+  attr_reader :cwday
+
   def initialize(cwday, mul = nil, start = nil)
     @cwday = cwday
     @mul = mul
@@ -232,6 +234,8 @@ class DayWeekly
 end
 
 class DayDate
+  attr_reader :date
+
   def initialize(date)
     @date = date
   end
@@ -346,6 +350,11 @@ module DayDates
   def visible2weeks?(b)
     week_range.cover?(b) or week_range.cover?(b.next)
   end
+
+  def check_date_order
+    Utils::check_order(date.collect { |d| d.day.date })
+    Utils::check_order(day.collect { |d| d.day.cwday })
+  end
 end
 
 module Utils
@@ -363,6 +372,14 @@ module Utils
     n = a.clone; n.shift
     p.zip(n)
   end
+
+  def self.check_order(d)
+    if d.sort != d
+      raise ModelException.new \
+        "Элементы с датами и днями недели должны быть упорядочены." \
+        "Более поздние должны идти ниже"
+    end
+  end
 end
 
 class Schedule
@@ -372,6 +389,10 @@ class Schedule
   def visible?(week)
     not actual?(week) and visible2weeks?(week)
   end
+
+  def doc_check
+    check_date_order
+  end
 end
 
 class Changes
@@ -379,11 +400,16 @@ class Changes
   include WeekBorders
 
   def doc_check
+    check_range_finite
+    check_date_order
+    range
+  end
+
+  def check_range_finite
     if not self.begin or not self.end
       raise ModelException.new \
         "Изменения должны иметь начало и конец"
     end
-    range
   end
 
   def visible?(week)
@@ -458,6 +484,9 @@ class Classes
         p.end = n.begin - 1
       end
     end
+
+    Utils::check_order(cancel.collect { |c| c.date })
+    Utils::check_order(hide.collect { |h| h.date })
   end
 end
 
@@ -466,6 +495,11 @@ class Event
     events = Utils::events(date, d)
     events.each { |e| e.title = title }
     Utils.mark_cancels(d, events, cancel)
+  end
+
+  def doc_check
+    Utils::check_order(cancel.collect { |c| c.date })
+    Utils::check_order(date.collect { |d| d.day.date })
   end
 end
 
