@@ -65,7 +65,12 @@ class Document < XDSL::Element
   elements :attachments
 
   def doc_check
-    BookHeadings.parse(contents)
+    begin
+      BookHeadings.parse(contents)
+    rescue ModelException => e
+      raise ModelException.new \
+        "Элемент content содержит ошибки: #{e}"
+    end
   end
 
   def translators
