@@ -1,12 +1,6 @@
-<% spartakovskaya = events.select { |e| e.place == 'Спартаковская' } %>
-<% if not spartakovskaya.empty? %>
-  <%= erb :'partials/week_day_short', locals: { events: spartakovskaya, style: nil } %>
-<% end %>
-<% mytnaya = events.select { |e| e.place == 'Мытная' } %>
-<% if not mytnaya.empty? %>
-  <%= erb :'partials/week_day_short', locals: { events: mytnaya, style: 'mytnaya' } %>
-<% end %>
-<% if spartakovskaya.empty? and mytnaya.empty? %>
+<%= timetable_place_events(events, 'Спартаковская') %>
+<%= timetable_place_events(events, 'Мытная') %>
+<% if events.empty? %>
 <div class="site-events">
   <div class="event">
     <div class="time"> </div>

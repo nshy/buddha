@@ -293,4 +293,11 @@ module TimetableHelper
     events = (cur.monday..nex.sunday).collect { |d| @timetable.events(d) }.flatten
     events.any? { |e| e.place == 'Мытная' }
   end
+
+  def timetable_place_events(events, place)
+    e = events.select { |e| e.place == place }
+    return if e.empty?
+    erb :'partials/week_day_short',
+      locals: { events: e, style: (place == 'Мытная') ? 'mytnaya' : nil }
+  end
 end
