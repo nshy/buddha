@@ -25,7 +25,7 @@ module ElementClass
           scalar_klass.parse(t)
         rescue ArgumentError
           raise ModelException.new \
-            "Элемент #{e.path} имеет недопустимое значение '#{t}'"
+            "#{spec(e)}: недопустимое значение '#{t}'"
         end
       end
     end
@@ -38,17 +38,18 @@ module ElementClass
       end
     else
       parser = lambda do |e|
-        p = "#{e.path}/#{name}"
         c = e.xpath(name.to_s)
         if c.size > 1
           raise ModelException.new \
-            "Элемент #{p} должен присутствовать в одном экземпляре"
+            "#{spec(e)}: элемент #{name} должен присутствовать " \
+            "в одном экземпляре"
         end
         v = nil
         v = scalar_parser.call(c[0]) if not c.empty?
         if not v and options[:required]
           raise ModelException.new \
-            "Элемент #{p} должен присутствовать и иметь непустое значение"
+            "#{spec(e)}: элемент #{name} должен присутствовать " \
+            "и иметь непустое значение"
         end
         v
       end
@@ -105,7 +106,7 @@ module ElementClass
     end
     element.elements.each do |c|
       if not @parsers.has_key?(c.name.to_sym)
-        raise ModelException.new "Неизвестный элемент #{c.path}"
+        raise ModelException.new "Неизвестный элемент, #{spec(c)}"
       end
     end
     r = new(values)
@@ -114,10 +115,14 @@ module ElementClass
         r.doc_check
       rescue ModelException => e
         raise ModelException.new \
-          "Не выполнено соглашение для элемента #{element.path}: #{e}"
+          "Не выполнено соглашение, #{spec(element)}: #{e}"
       end
     end
     r
+  end
+
+  def spec(e)
+    "элемент #{e.path}, строка #{e.line}"
   end
 end
 
