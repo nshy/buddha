@@ -26,7 +26,14 @@ def self.update_table(db, klass, updated, added, deleted)
   ids = (deleted + updated + added).map { |p| klass.path_to_id(p) }
   table.where(id: ids).delete
   (added + updated).each do |p|
-    klass.load(db, p)
+    x = path_from_db(p)
+    db[:errors].where(path: x).delete if db
+    begin
+      klass.load(db, p)
+    rescue ModelException => e
+      puts e
+      db[:errors].insert(path: x, message: e.to_s) if db
+    end
     table.where(id: klass.path_to_id(p)).
       update(path: p, last_modified: File.mtime(p))
   end
