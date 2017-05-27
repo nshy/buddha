@@ -42,12 +42,12 @@ class Integer
   end
 end
 
-class ModelDate < Date
-  def self.parse(v)
-    d = Date.parse(v)
-    raise ArgumentError.new if d.strftime("%Y-%m-%d") != v
-    d
-  end
+class ModelDate; end
+
+def ModelDate.parse(v)
+  d = Date.parse(v)
+  raise ArgumentError.new if d.strftime("%Y-%m-%d") != v
+  d
 end
 
 class String
