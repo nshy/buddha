@@ -81,22 +81,22 @@ end
 
 def self.assets_changed?
   buntime = File.mtime(Bundle)
-  each_style(:css) { |s, d| return true if File.mtime(d) > buntime }
+  each_css { |p| return true if File.mtime(p) > buntime }
   false
 end
 
 def self.mixin_changed?
   mixtime = File.mtime(Mixins)
-  each_style(:css) { |s, d| return true if File.mtime(d) < mixtime }
+  each_css { |p| return true if File.mtime(p) < mixtime }
   false
 end
 
 def self.sync_main
-  each_style(:css) { |s, d| sync_path(s, d) }
+  each_css { |p| sync_path(src_main(p), p) }
   if mixin_changed?
     sync_all
   else
-    each_style(:scss) { |s, d| sync_path(s, d) }
+    each_scss { |s, d| sync_path(s, d) }
   end
   concat if File.mtime(StyleDst) > File.mtime(Bundle) or assets_changed?
 end

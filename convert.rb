@@ -265,22 +265,24 @@ StyleDst = 'public/css'
 Bundle = 'public/bundle.css'
 Mixins = "#{StyleSrc}/_mixins.scss"
 
-def self.each_style(sel, &block)
-  opts = { scss: { dir: StyleSrc, ext: 'scss' },
-           css: { dir: StyleDst, ext: 'css' } }[sel]
-  dir = opts[:dir]
-  ext = opts[:ext]
-  Dir.entries(dir).each do |e|
-    next if sel == :scss and e == '_mixins.scss'
-    next if not /\.#{ext}$/ =~ e
-    n = e.gsub(/\.#{ext}$/, '')
+def self.each_css(&block)
+  Dir.entries(StyleDst).each do |e|
+    next if not /\.css$/ =~ e
+    yield "#{StyleDst}/#{e}"
+  end
+end
+
+def self.each_scss(&block)
+  Dir.entries(StyleSrc).each do |e|
+    next if e == '_mixins.scss' or (not /\.scss$/ =~ e)
+    n = e.gsub(/\.scss$/, '')
     yield "#{StyleSrc}/#{n}.scss", "#{StyleDst}/#{n}.css"
   end
 end
 
 def self.concat
   bundle = ""
-  each_style(:css) { |s, d| bundle += File.read(d) }
+  each_css { |p| bundle += File.read(p) }
   File.write(Bundle, bundle)
 end
 
@@ -292,9 +294,13 @@ def self.dest_man(path)
   path.gsub(/\.scss$/, '.css').gsub(/^assets/, 'public')
 end
 
+def self.src_main(path)
+  path.gsub(/\.css$/, '.scss').gsub(/^public/, 'assets')
+end
+
 def self.sync_all
   puts "a U #{Mixins}"
-  each_style(:scss) { |s, d| compile(s, d) }
+  each_scss { |s, d| compile(s, d) }
 end
 
 end
