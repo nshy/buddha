@@ -50,10 +50,8 @@ def ModelDate.parse(v)
   d
 end
 
-class String
-  def self.parse(v)
-    v
-  end
+def String.parse(v)
+  v
 end
 
 module Teachings
