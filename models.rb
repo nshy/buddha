@@ -177,6 +177,26 @@ class Document < XDSL::Element
     wb += 1 if not b.monday?
     (quote + quote.slice(0, num)).slice((w - wb) % quote.length, num)
   end
+
+  def doc_check
+    if self.begin.empty?
+      raise ModelException.new \
+        "Не указно начало отсчета цитат"\
+        "(начало нового года по лунному календарю)"
+    end
+
+    if quote.size < 5
+      raise ModelException.new \
+        "Должно быть по крайней мере 5 цитат"
+    end
+
+    b = self.begin
+    if b != b.sort
+      raise ModelException.new \
+        "Даты первых дней лунных лет должны быть упорядочены. " \
+        "Более поздние должны идти ниже"
+    end
+  end
 end
 
 end # module Quotes
