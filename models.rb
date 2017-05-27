@@ -141,12 +141,12 @@ module Menu
 class Document < XDSL::Element
   root :menu
   elements :item do
-    element :name
-    element :title
-    element :link
+    element :name, String, required: true
+    element :title, String, required: true
+    element :link, String, required: true
     elements :subitem do
-      element :title
-      element :link
+      element :title, String, required: true
+      element :link, String, required: true
     end
   end
 
