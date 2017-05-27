@@ -200,3 +200,17 @@ class Document < XDSL::Element
 end
 
 end # module Quotes
+
+module Index
+
+class Document < XDSL::Element
+  root :index
+  element :welcome, String, required: true
+  element :announce do
+    element :image, String, required: true
+    element :link, String, required: true
+    element :end, ModelDate
+  end
+end
+
+end # module Index

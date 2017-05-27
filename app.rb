@@ -199,6 +199,7 @@ get '/' do
   @timetable = Timetable::Document.load(db_path('timetable/timetable.xml'))
   @quotes = Quotes::Document.load(db_path('quotes.xml'))
   @records = Cache::Record.latest(5)
+  @index = Index::Document.load(db_path('index/index.xml'))
   erb :index
 end
 

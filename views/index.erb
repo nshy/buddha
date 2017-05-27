@@ -6,19 +6,16 @@
     <div class="title"> МОСКОВСКИЙ<br/> БУДДИЙСКИЙ ЦЕНТР<br/> ЛАМЫ ЦОНКАПЫ </div>
   </div>
   <hr/>
-  <p>Московский буддийский Центр Ламы Цонкапы — религиозная организация,
-  объединяющая последователей традиционного буддизма Махаяны в городе Москве.
-  Центр создан группой учеников постоянно живущего в России тибетского ламы
-  (наставника) геше Джампа Тинлея, который является духовным руководителем этой
-  организации. Центр носит имя Ламы Цонкапы – основателя школы Гелуг, выдающегося
-  ученого и практика тибетского буддизма, который почитается наравне с Буддой
-  Шакьямуни.</p>
+  <%= @index.welcome %>
   <a href="/about/">ПОДРОБНЕЕ О ЦЕНТРЕ&nbsp;&rarr;</a>
 </div>
-<%# <%= slideshow_class('about/photos', 'photos') %1> %>
-<a href="/news/2017-05-16/">
-  <img class="photos" src="<%= digest_url('/index/mandala-2017.jpg') %>"/>
+<% if @index.announce and @index.announce.end >= Date.today %>
+<a href="<%= @index.announce.link %>">
+  <img class="photos" src="<%= digest_url("/index/#{@index.announce.image}") %>"/>
 </a>
+<% else %>
+<%= slideshow_class('about/photos', 'photos') %>
+<% end %>
 <hr/>
 <a class="teachers" href="/teachers/">
   <div class="title"> Учителя </div>
