@@ -54,14 +54,15 @@ def self.sync_db(db)
   Klasses.each { |klass| sync_table(db, klass) }
 end
 
-def self.sync_path(s, d)
+def self.sync_path(s, d, db = nil)
+  db[:errors].where(path: path_from_db(s)).delete if db
   if File.exists?(s)
     if not File.exists?(d)
       puts "a A #{s}"
-      compile(s, d)
+      compile(s, d, db)
     elsif File.mtime(s) > File.mtime(d)
       puts "a U #{s}"
-      compile(s, d)
+      compile(s, d, db)
     end
   elsif File.exists?(d)
     puts "a D #{s}"
@@ -69,11 +70,12 @@ def self.sync_path(s, d)
   end
 end
 
-def self.sync_news(d)
-  Dir.entries("#{d}/news").each do |e|
-    p = "#{d}/news/#{e}"
+def self.sync_news(db)
+  dir = "#{db[:dir]}/news"
+  Dir.entries(dir).each do |e|
+    p = "#{dir}/#{e}"
     next if not File.directory?(p) or e == '.' or e == '..'
-    sync_path("#{p}/style.scss", "#{p}/style.css")
+    sync_path("#{p}/style.scss", "#{p}/style.css", db[:db])
   end
 end
 
@@ -103,6 +105,7 @@ end
 
 Sync.sync_main
 [ DbPathsMain, DbPathsEdit ].each do |p|
-  Sync.sync_news(p[:dir])
-  Sync.sync_db(db_open(p))
+  db = db_open(p)
+  Sync.sync_news(db)
+  Sync.sync_db(db)
 end

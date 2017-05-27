@@ -1,5 +1,9 @@
 require 'nokogiri'
 
+def path_from_db(path)
+  path.split('/')[1..-1].join('/')
+end
+
 class ModelException < RuntimeError
   attr_accessor :document
 end
@@ -84,7 +88,7 @@ module ElementClass
 
   def load(path)
     return nil if not File.exists?(path)
-    p = path.split('/')[1..-1].join('/')
+    p = path_from_db(path)
     begin
       n = Nokogiri::XML(File.open(path)) { |config| config.strict }
     rescue Nokogiri::XML::SyntaxError => e

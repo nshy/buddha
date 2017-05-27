@@ -245,11 +245,18 @@ end
 
 Klasses = [ Teaching, News, Book, BookCategory, Digest ]
 
-def self.compile(spath, dpath)
+def self.compile(spath, dpath, db = nil)
   src = File.read(spath)
   options = { style: :expanded, load_paths: [ 'assets/css/' ] }
-  dst = SassC::Engine.new(src, options).render
-  File.write(dpath, dst)
+  begin
+    dst = SassC::Engine.new(src, options).render
+    File.write(dpath, dst)
+  rescue SassC::SyntaxError => e
+    p = path_from_db(spath)
+    msg = "Ошибка компиляции файла #{p}: #{e}"
+    db[:errors].insert(path: spath, message: msg) if db
+    puts msg
+  end
 end
 
 

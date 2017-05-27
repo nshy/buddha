@@ -37,7 +37,12 @@ def self.watch_db(db)
   Klasses.each { |klass| watch_klass(db, klass) }
 end
 
-def self.sync_watch_paths(updated, added, deleted, dest)
+def self.sync_watch_paths(updated, added, deleted, dest, db = nil)
+  if db
+    (deleted + added + updated).each do |p|
+      db[:errors].where(path: path_from_db(p)).delete
+    end
+  end
   deleted.each do |p|
     puts "a D #{p}"
     css = dest.call(p)
@@ -53,13 +58,9 @@ def self.sync_watch_paths(updated, added, deleted, dest)
   end
 end
 
-def self.watch_news(d)
-  listener = Listen.to("#{d}/news", relative: true) do |*a|
-    begin
-      sync_watch_paths(*a, method(:dest_news))
-    rescue SassC::SyntaxError => e
-      puts e
-    end
+def self.watch_news(db)
+  listener = Listen.to("#{db[:dir]}/news", relative: true) do |*a|
+    sync_watch_paths(*a, method(:dest_news), db[:db])
   end
   listener.only /\.scss$/
   listener.start
@@ -82,8 +83,9 @@ end
 
 Sync.watch_main
 [ DbPathsMain, DbPathsEdit ].each do |p|
-  Sync.watch_news(p[:dir])
-  Sync.watch_db(db_open(p))
+  db = db_open(p)
+  Sync.watch_news(db)
+  Sync.watch_db(db)
 end
 
 sleep
