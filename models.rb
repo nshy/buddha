@@ -87,6 +87,15 @@ class Theme
     r = record.min { |a, b| a.record_date <=> b.record_date }
     r.record_date
   end
+
+  def doc_check
+    r = record.collect { |r| r.record_date }
+    if r != r.sort
+      raise ModelException.new \
+        "Записи должны быть упорядочены по дате записи. " \
+        "Более поздние должны идти ниже"
+    end
+  end
 end
 
 class Record
