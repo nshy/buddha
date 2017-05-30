@@ -84,7 +84,11 @@ error ModelException do
 end
 
 error do
-  erb :error
+  if settings.development?
+    env['sinatra.error'].message
+  else
+    erb :error
+  end
 end
 
 get /.+\.(jpg|gif|swf|css|ttf)/ do
