@@ -48,7 +48,9 @@ before do
   @menu = Menu::Document.load(db_path('menu.xml'))
   @ya_metrika = SiteConfig::YA_METRIKA
   @extra_styles = []
-  raise DbExeption.new if not Cache::Error.all.empty?
+  if not Cache::Error.all.empty? and request.path != '/logout'
+    raise DbExeption.new
+  end
 end
 
 not_found do
