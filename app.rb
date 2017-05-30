@@ -40,11 +40,15 @@ helpers TimetableHelper
 I18n.default_locale = :ru
 SiteData = 'data'
 
+class DbExeption < RuntimeError
+end
+
 before do
   @db = session[:login] ? DbEdit : DbMain
   @menu = Menu::Document.load(db_path('menu.xml'))
   @ya_metrika = SiteConfig::YA_METRIKA
   @extra_styles = []
+  raise DbExeption.new if not Cache::Error.all.empty?
 end
 
 not_found do
@@ -59,6 +63,22 @@ not_found do
   redirect to(goto) if not goto.nil?
   @redirection = "#{SiteConfig::OLD_SITE}#{uri}"
   erb :'try-old-site'
+end
+
+error DbExeption do
+  if session[:login] or settings.development?
+    Cache::Error.all.collect { |e| e.message }.join("\n\n")
+  else
+    erb :error
+  end
+end
+
+error ModelException do
+  if session[:login] or settings.development?
+    env['sinatra.error'].message
+  else
+    erb :error
+  end
 end
 
 error do

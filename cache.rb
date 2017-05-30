@@ -195,5 +195,9 @@ end
 class Digest < Sequel::Model
 end
 
+# --------------------- error --------------------------
+
+class Error < Sequel::Model
+end
 
 end
