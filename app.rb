@@ -244,3 +244,8 @@ post '/login' do
     redirect to('/login')
   end
 end
+
+get '/logout/?' do
+  session[:login] = false
+  redirect to('/')
+end
