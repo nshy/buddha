@@ -155,7 +155,7 @@ class Time
   end
 
   def to_minutes
-    @hour * 24 + @minute
+    @hour * 60 + @minute
   end
 end
 
