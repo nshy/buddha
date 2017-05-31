@@ -18,8 +18,8 @@ class NewsDocument
     @cut = body.gsub(Cutter, '')
     @cut = nil if cut == body
 
-    @date = doc.metadata['publish_date']
-    if not @date
+    ds = doc.metadata['publish_date']
+    if not ds
       raise ModelException.new("Не указана дата публикации новости #{path}")
     end
     @title = doc.metadata['title']
@@ -27,7 +27,17 @@ class NewsDocument
       raise ModelException.new("Не указано заглавие новости #{path}")
     end
     @buddha_node = doc.metadata['buddha_node']
-    @date = Date.parse(@date)
+    d = DateTime.parse(ds)
+    if d.hour == 0 and d.minute == 0
+      if d.strftime("%Y-%m-%d") != ds
+        raise ModelException.new("Неправильный формат даты #{ds}")
+      end
+    else
+      if d.strftime("%Y-%m-%d %H:%M") != ds
+        raise ModelException.new("Неправильный формат даты и времени #{ds}")
+      end
+    end
+    @date = d
   end
 
   def path_is_dir(path)

@@ -2,7 +2,7 @@ def create
   create_table(:news) do
     String :id, primary_key: true
     String :path, unique: true
-    Date :date, null: false
+    DateTime :date, null: false
     String :title, null: false
     String :cut
     String :body, null: false
