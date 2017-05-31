@@ -52,7 +52,7 @@ class Document < XDSL::Element
 
   def events(d)
     res = (classes + event).collect { |x| x.events(d) }.flatten
-    res.sort { |a, b| a.period.begin <=> b.period.begin }
+    res = res.sort { |a, b| a.period.begin <=> b.period.begin }
     mark_conflicts(res)
   end
 
