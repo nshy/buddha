@@ -58,9 +58,11 @@ class Document < XDSL::Element
 
   def mark_conflicts(events)
     events.each_index do |i|
+      next if events[i].cancelled?
       p = events[i].period
       j = i + 1
       while j < events.size and events[j].period.cross(p)
+        not events[j].cancelled?
         events[j].conflict = true
         events[i].conflict = true
         j += 1
