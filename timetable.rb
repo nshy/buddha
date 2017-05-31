@@ -75,7 +75,7 @@ class OpenRange
   attr_reader :begin, :end
 
   def initialize(b, e)
-    if b and e and e <= b
+    if b and e and e < b
       raise ModelException.new \
         "Дата окончания должна быть позднее даты начала"
     end
