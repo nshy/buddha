@@ -1,6 +1,6 @@
 <div class="<%= fotorama_class(extra_class) %>" data-allowfullscreen="native">
   <% options = { full_path: false, sorted: true } %>
-  <% each_file("data#{url}#{directory}", options) do |name| %>
-  <a href="<%= digest_url("#{directory}/#{name}", url) %>"></a>
+  <% each_file("data#{get_full_url(directory)}", options) do |name| %>
+  <a href="<%= digest_url("#{directory}/#{name}") %>"></a>
   <% end %>
 </div>
