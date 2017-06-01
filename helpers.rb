@@ -150,10 +150,6 @@ module CommonHelpers
     "#{output_url}?sha1=#{digest[:digest]}"
   end
 
-  def digest_local_url(url)
-    digest_url(url)
-  end
-
   def slideshow(dir)
     erb :'partials/slideshow', locals: { extra_class: nil, directory: dir }
   end
