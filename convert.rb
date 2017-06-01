@@ -252,11 +252,17 @@ end
 
 Klasses = [ Teaching, News, Book, BookCategory, Digest ]
 
-def self.compile(spath, dpath, db = nil)
-  src = File.read(spath)
+def self.compile_str(src)
   options = { style: :expanded, load_paths: [ 'assets/css/' ] }
+  dst = SassC::Engine.new(src, options).render
+end
+
+def self.compile_news(spath, dpath, db = nil)
+  id = News::path_to_id(spath)
+  src = File.read(spath)
+  src = "#news-#{id} {\n\n#{src}\n}"
   begin
-    dst = SassC::Engine.new(src, options).render
+    dst = compile_str(src)
     File.write(dpath, dst)
   rescue SassC::SyntaxError => e
     p = path_from_db(spath)
@@ -264,6 +270,12 @@ def self.compile(spath, dpath, db = nil)
     db[:errors].insert(path: spath, message: msg) if db
     puts msg
   end
+end
+
+def self.compile(spath, dpath, db = nil)
+  src = File.read(spath)
+  dst = compile_str(src)
+  File.write(dpath, dst)
 end
 
 
