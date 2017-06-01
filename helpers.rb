@@ -227,7 +227,7 @@ module BookHelpers
   end
 
   def headings_div(headings)
-    return if headings.empty?
+    return if not headings or headings.empty?
     erb :'partials/headings', locals: { headings: headings }
   end
 
