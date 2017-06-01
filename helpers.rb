@@ -131,11 +131,11 @@ module CommonHelpers
     Tilt.new(db_path(path)).render(self)
   end
 
-  def digest_url(url, base = nil, context = nil)
+  def digest_url(url, base = nil)
     full_url = url
     full_url = "#{base}#{url}" if not base.nil?
     output_url = url
-    output_url = full_url if not context.nil? and context != base
+    output_url = full_url if request.path != base
     return output_url if settings.development?
     digest = Cache::Digest[full_url]
     return output_url if digest.nil?
@@ -143,20 +143,18 @@ module CommonHelpers
   end
 
   def digest_local_url(url)
-    digest_url(url, @url, @context_url)
+    digest_url(url, @url)
   end
 
-  def slideshow(dir, url = (@url or '/'), context_url = @context_url)
+  def slideshow(dir, url = (@url or '/'))
     erb :'partials/slideshow',
-        locals: { url: url, extra_class: nil,
-                  context_url: context_url, directory: dir }
+        locals: { url: url, extra_class: nil, directory: dir }
   end
 
   def slideshow_class(dir, extra_class,
-                      url = (@url or '/'), context_url = @context_url)
+                      url = (@url or '/'))
     erb :'partials/slideshow',
-        locals: { url: url, extra_class: extra_class,
-                  context_url: context_url, directory: dir }
+        locals: { url: url, extra_class: extra_class, directory: dir }
   end
 
   def fotorama_class(extra_class)

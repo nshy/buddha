@@ -132,7 +132,6 @@ get '/news' do
   @years = Cache::News.years
   @menu_active = :news
   @extra_styles = news_styles(@news)
-  @context_url = '/news/'
   erb :'news-index'
 end
 
