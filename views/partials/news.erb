@@ -1,6 +1,6 @@
 <div class="date"> <%= Russian::strftime(news.date, "%d %B") %> </div>
 <div class="title"> <%= news.title %> </div>
-<div class="body"> <%= render_news(news, index) %> </div>
+<div id="<%= "url-#{news.id}" %>" class="body"> <%= render_news(news, index) %> </div>
 <% if index and news.has_more %>
 <a class="site-button" href="<%= "news/#{news.id}/" %>"> Подробнее </a>
 <% end %>
