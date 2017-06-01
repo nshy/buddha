@@ -34,16 +34,11 @@ overflow: auto;
 
 > hr { clear: both }
 
-> .photos , > a img.photos {
+> a.photos img {
   display: block;
   margin-left: 40%;
   width: 60%;
   padding-top: 20px;
-
-  // reduces flickering on page open
-  .fotorama__stage {
-    height: 400px;
-  }
 }
 
 > a.teachers {
@@ -155,7 +150,7 @@ overflow: auto;
   }
 }
 
-> .photos , > a img.photos {
+> a.photos img {
   width: 100%;
   padding-top: 0;
   margin-left: 0;

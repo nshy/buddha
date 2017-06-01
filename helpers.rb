@@ -151,17 +151,7 @@ module CommonHelpers
   end
 
   def slideshow(dir)
-    erb :'partials/slideshow', locals: { extra_class: nil, directory: dir }
-  end
-
-  def slideshow_class(dir, extra_class)
-    erb :'partials/slideshow', locals: { extra_class: extra_class, directory: dir }
-  end
-
-  def fotorama_class(extra_class)
-    c = "fotorama"
-    c += " #{extra_class}" if extra_class
-    c
+    erb :'partials/slideshow', locals: { directory: dir }
   end
 
   def local_uri(path, query_string)

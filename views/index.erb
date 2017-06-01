@@ -10,11 +10,11 @@
   <a href="/about/">ПОДРОБНЕЕ О ЦЕНТРЕ&nbsp;&rarr;</a>
 </div>
 <% if @index.announce and @index.announce.end >= Date.today %>
-<a href="<%= @index.announce.link %>">
-  <img class="photos" src="<%= digest_url("/index/#{@index.announce.image}") %>"/>
+<a class="photos" href="<%= @index.announce.link %>">
+  <img src="<%= digest_url("/index/#{@index.announce.image}") %>"/>
 </a>
 <% else %>
-<%= slideshow_class('about/photos', 'photos') %>
+<%= slideshow('about/photos') %>
 <% end %>
 <hr/>
 <a class="teachers" href="/teachers/">
