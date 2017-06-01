@@ -127,7 +127,7 @@ module CommonHelpers
   end
 
   def load_page(path, url)
-    @url = url
+    @base_url = url
     Tilt.new(db_path(path)).render(self)
   end
 
@@ -143,16 +143,16 @@ module CommonHelpers
   end
 
   def digest_local_url(url)
-    digest_url(url, @url)
+    digest_url(url, @base_url)
   end
 
-  def slideshow(dir, url = (@url or '/'))
+  def slideshow(dir, url = (@base_url or '/'))
     erb :'partials/slideshow',
         locals: { url: url, extra_class: nil, directory: dir }
   end
 
   def slideshow_class(dir, extra_class,
-                      url = (@url or '/'))
+                      url = (@base_url or '/'))
     erb :'partials/slideshow',
         locals: { url: url, extra_class: extra_class, directory: dir }
   end
@@ -192,7 +192,7 @@ end
 
 module NewsHelpers
   def render_news(news, cut)
-    @url = "/news/#{news.id}/"
+    @base_url = "/news/#{news.id}/"
     doc = cut ? news.cut : news.body
     return doc if news.ext == 'html'
     Tilt::ERBTemplate.new { doc }.render(self)
