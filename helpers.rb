@@ -1,4 +1,4 @@
-DbPathsMain = { db: 'sqlite://site.db', dir: 'data' }
+DbPathsMain = { db: 'sqlite://main.db', dir: 'main' }
 DbPathsEdit = { db: 'sqlite://edit.db', dir: 'edit' }
 
 def db_open(paths)

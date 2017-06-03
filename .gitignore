@@ -1,7 +1,7 @@
-data
+main
 edit
 config.rb
-site.db
+main.db
 edit.db
 dump
 /import/news/tmp
