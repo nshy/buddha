@@ -5,7 +5,8 @@ require 'date'
 class NewsDocument
   attr_reader :date, :title, :cut, :body, :ext, :is_dir, :buddha_node
 
-  Cutter = /<!--[\t ]*page-cut[\t ]*-->.*/m
+  PageCut = /(.*)<!--[\t ]*page-cut[\t ]*-->(.*)/m
+  PageCutSimple = /(.*)<!--[\t ]*page-cut-simple[\t ]*-->/m
 
   def initialize(path)
     @is_dir = path_is_dir(path)
@@ -14,9 +15,16 @@ class NewsDocument
     if not doc.metadata
       raise ModelException.new("Не найден заголовок новости #{path}")
     end
-    @body = doc.content
-    @cut = body.gsub(Cutter, '')
-    @cut = nil if cut == body
+    if m = PageCut.match(doc.content)
+      @cut = m[1]
+      @body = m[2]
+    elsif m = PageCutSimple.match(doc.content)
+      @cut = m[1]
+      @body = doc.content
+    else
+      @body = doc.content
+      @cut = nil
+    end
 
     ds = doc.metadata['publish_date']
     if not ds
