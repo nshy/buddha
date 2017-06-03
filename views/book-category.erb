@@ -25,7 +25,7 @@
     <% end %>
   </div>
   <% books_by_group.each do |group, books| %>
-  <div id="<%= group %>" class="group">
+  <div id="<%= group %>" class="group site-anchor">
     <div class="title"> <%= group %> </div>
     <% books.each do |book| %>
     <%= book_thumb(book) %>
