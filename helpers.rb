@@ -185,8 +185,18 @@ module NewsHelpers
   def render_news(news, cut)
     @base_url = "/news/#{news.id}/"
     doc = cut ? news.cut : news.body
-    return doc if news.ext == 'html'
+    return render_html(doc) if news.ext == 'html'
     Tilt::ERBTemplate.new { doc }.render(self)
+  end
+
+  def render_html(doc)
+    d = Nokogiri::HTML(doc)
+    d.xpath('//a').each do |a|
+      h = a.attribute('href')
+      next if not h
+      h.content = digest_url(h.content)
+    end
+    d.to_xml
   end
 
   def news_item(news, index = false)
