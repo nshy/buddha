@@ -195,6 +195,15 @@ module NewsHelpers
       h = a.attribute('href')
       next if not h
       h.content = digest_url(h.content)
+
+      h = a.attribute('data-full')
+      next if not h
+      h.content = digest_url(h.content)
+    end
+    d.xpath('//img').each do |a|
+      h = a.attribute('src')
+      next if not h
+      h.content = digest_url(h.content)
     end
     d.to_xml
   end
