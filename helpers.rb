@@ -201,7 +201,9 @@ module NewsHelpers
       next if not dir
       dir = dir.content
       options = { full_path: false, sorted: true }
-      each_file(db_path("#{request.path}/#{dir}"), options) do |name|
+      p = db_path("#{request.path}/#{dir}")
+      next if not File.directory?(p)
+      each_file(p, options) do |name|
         a = doc.create_element('a', href: digest_url("#{dir}/#{name}"))
         div.add_child(a)
         div.add_child("\n")
