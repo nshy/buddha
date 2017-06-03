@@ -7,4 +7,8 @@ $(document).ready(function() {
       side: 'right',
       easyClose: true
     });
+    // set fotorama defaults
+    $('.fotorama').fotorama({
+      allowfullscreen: 'native'
+    });
 });

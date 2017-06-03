@@ -1,4 +1,4 @@
-<div class="fotorama" data-allowfullscreen="native">
+<div class="fotorama">
   <% options = { full_path: false, sorted: true } %>
   <% each_file("data#{get_full_url(directory)}", options) do |name| %>
   <a href="<%= digest_url("#{directory}/#{name}") %>"></a>
