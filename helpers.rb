@@ -111,24 +111,13 @@ module CommonHelpers
     path.gsub(/^[^.]+\./, '')
   end
 
-  def yandex_money_url(target, title, sum, redirect)
-    r = /[^a-zA-Z0-9*-._]/
-    link = "#{SiteConfig::DOMAIN}#{redirect}"
-    "https://money.yandex.ru/embed/shop.xml?"\
-      "account=#{target}"\
-      "&quickpay=shop&writer=seller"\
-      "&targets=#{URI.escape(title, r)}"\
-      "&default-sum=#{sum}&button-text=03"\
-      "&successURL=#{URI.escape(link, r)}"
-  end
-
   def slug(title)
     title.downcase.strip.gsub(' ', '-').gsub(/[^\w-]/, '')
   end
 
   def load_page(path, url)
     @base_url = url
-    Tilt.new(db_path(path)).render(self)
+    html_render(File.read(db_path(path)))
   end
 
   def get_full_url(url)
@@ -185,11 +174,11 @@ module NewsHelpers
   def render_news(news, cut)
     @base_url = "/news/#{news.id}/"
     doc = cut ? news.cut : news.body
-    return render_html(doc) if news.ext == 'html'
+    return html_render(doc) if news.ext == 'html'
     Tilt::ERBTemplate.new { doc }.render(self)
   end
 
-  def news_digest_urls(doc)
+  def html_digest_urls(doc)
     doc.xpath('//a').each do |a|
       h = a.attribute('href')
       next if not h
@@ -206,7 +195,7 @@ module NewsHelpers
     end
   end
 
-  def news_expand_slideshow(doc)
+  def html_expand_slideshow(doc)
     doc.css('div.fotorama').each do |div|
       dir = div.attribute('data-dir')
       next if not dir
@@ -220,10 +209,10 @@ module NewsHelpers
     end
   end
 
-  def render_html(str)
+  def html_render(str)
     d = Nokogiri::HTML(str)
-    news_digest_urls(d)
-    news_expand_slideshow(d)
+    html_digest_urls(d)
+    html_expand_slideshow(d)
     d.to_xml
   end
 

@@ -193,7 +193,7 @@ get '/teachers/:teacher/' do |teacher|
 end
 
 get '/yoga/' do
-  erb "<%= load_page('yoga/page.erb', '/yoga/') %>"
+  erb "<%= load_page('yoga/page.html', '/yoga/') %>"
 end
 
 def about_page(path)
@@ -203,11 +203,11 @@ def about_page(path)
 end
 
 get /about/ do
-  about_page('about/page.erb')
+  about_page('about/page.html')
 end
 
 get /teachers/ do
-  about_page('teachers/page.erb')
+  about_page('teachers/page.html')
 end
 
 get /contacts/ do
@@ -215,7 +215,7 @@ get /contacts/ do
 end
 
 get /donations/ do
-  about_page('donations.erb')
+  about_page('donations.html')
 end
 
 get '/' do
