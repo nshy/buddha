@@ -189,9 +189,8 @@ module NewsHelpers
     Tilt::ERBTemplate.new { doc }.render(self)
   end
 
-  def render_html(doc)
-    d = Nokogiri::HTML(doc)
-    d.xpath('//a').each do |a|
+  def news_digest_urls(doc)
+    doc.xpath('//a').each do |a|
       h = a.attribute('href')
       next if not h
       h.content = digest_url(h.content)
@@ -200,11 +199,31 @@ module NewsHelpers
       next if not h
       h.content = digest_url(h.content)
     end
-    d.xpath('//img').each do |a|
+    doc.xpath('//img').each do |a|
       h = a.attribute('src')
       next if not h
       h.content = digest_url(h.content)
     end
+  end
+
+  def news_expand_slideshow(doc)
+    doc.css('div.fotorama').each do |div|
+      dir = div.attribute('data-dir')
+      next if not dir
+      dir = dir.content
+      options = { full_path: false, sorted: true }
+      each_file(db_path("#{request.path}/#{dir}"), options) do |name|
+        a = doc.create_element('a', href: digest_url("#{dir}/#{name}"))
+        div.add_child(a)
+        div.add_child("\n")
+      end
+    end
+  end
+
+  def render_html(str)
+    d = Nokogiri::HTML(str)
+    news_digest_urls(d)
+    news_expand_slideshow(d)
     d.to_xml
   end
 
