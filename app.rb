@@ -193,7 +193,7 @@ get '/teachers/:teacher/' do |teacher|
 end
 
 get '/yoga/' do
-  erb "<%= load_page('yoga/page.html', '/yoga/') %>"
+  erb "<%= load_page('yoga/page.html') %>"
 end
 
 def about_page(path)

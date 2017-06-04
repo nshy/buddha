@@ -115,8 +115,7 @@ module CommonHelpers
     title.downcase.strip.gsub(' ', '-').gsub(/[^\w-]/, '')
   end
 
-  def load_page(path, url)
-    @base_url = url
+  def load_page(path)
     html_render(File.read(db_path(path)))
   end
 
