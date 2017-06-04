@@ -196,6 +196,10 @@ get '/yoga/' do
   erb "<%= load_page('yoga/page.html') %>"
 end
 
+get '/mantras/' do
+  erb "<%= load_page('mantras.html') %>"
+end
+
 def about_page(path)
   @menu_active = :about
   @path = path
