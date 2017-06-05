@@ -11,4 +11,7 @@ $(document).ready(function() {
     $('.fotorama').fotorama({
       allowfullscreen: 'native'
     });
+    $('.fotorama.quotes').fotorama({
+      allowfullscreen: false
+    });
 });
