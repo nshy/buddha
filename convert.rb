@@ -11,33 +11,71 @@ require 'active_support/core_ext/string/inflections'
 
 include CommonHelpers
 
-module Sync
+class Site
+  attr_reader :database, :site_dir
 
-def self.print_modification(prefix, set)
+  def initialize(address)
+    db = db_open(address)
+    @database = db[:db]
+    @site_dir = db[:dir]
+  end
+
+  def execute(&b)
+    instance_eval &b
+  end
+
+  def site_path(path)
+    "#{@site_dir}/#{path}"
+  end
+end
+
+def insert_object(table, object, values = {})
+  cols = table.columns - [:id, :last_modified]
+  cols = cols.select { |c| object.respond_to?(c) }
+  v = cols.collect { |c| [ c, object.send(c) ] }.to_h
+  values = v.merge(values)
+  table.insert(values)
+end
+
+def print_modification(prefix, set)
   set.each { |p| puts "#{prefix} #{p}" }
 end
 
-def self.update_table(db, klass, updated, added, deleted)
+def klass_execute(klass, name, *args)
+  klass.instance_method(name).bind(self).call(*args)
+end
+
+def klass_dirs(klass)
+  klass_execute(klass, :dirs)
+end
+
+def klass_load(klass, path, id)
+  klass_execute(klass, :load, path, id)
+end
+
+def update_table(klass, updated, added, deleted)
   print_modification('b D', deleted)
   print_modification('b A', added)
   print_modification('b U', updated)
 
-  table = db[klass.table]
+  table = database[klass.table]
   ids = (deleted + updated + added).map { |p| klass.path_to_id(p) }
   table.where(id: ids).delete
   (added + updated).each do |p|
     x = path_from_db(p)
-    db[:errors].where(path: x).delete if db
+    database[:errors].where(path: x).delete
     begin
-      klass.load(db, p)
+      klass_load(klass, p, klass.path_to_id(p))
     rescue ModelException => e
       puts e
-      db[:errors].insert(path: x, message: e.to_s) if db
+      database[:errors].insert(path: x, message: e.to_s)
     end
     table.where(id: klass.path_to_id(p)).
       update(path: p, last_modified: File.mtime(p))
   end
 end
+
+module Sync
 
 module Document
   def table
@@ -47,15 +85,6 @@ module Document
   def path_to_id(path)
     CommonHelpers::path_to_id(Pathname.new(path).each_filename.to_a[2])
   end
-
-  def insert_object(table, object, values = {})
-    cols = table.columns - [:id, :last_modified]
-    cols = cols.select { |c| object.respond_to?(c) }
-    v = cols.collect { |c| [ c, object.send(c) ] }.to_h
-    values = v.merge(values)
-    table.insert(values)
-  end
-
 end
 
 class DirFiles
@@ -77,24 +106,23 @@ end
 
 # --------------------- teachings --------------------------
 
-class Teaching
+module Teaching
   extend Document
 
-  def self.load(db, path)
+  def load(path, id)
     teachings = ::Teachings::Document.load(path)
 
-    id = path_to_id(path)
-    insert_object(db[:teachings], teachings, id: id)
+    insert_object(database[:teachings], teachings, id: id)
     teachings.theme.each do |theme|
-      theme_id = insert_object(db[:themes], theme, teaching_id: id)
+      theme_id = insert_object(database[:themes], theme, teaching_id: id)
       theme.record.each do |record|
-        insert_object(db[:records], record, theme_id: theme_id)
+        insert_object(database[:records], record, theme_id: theme_id)
       end
     end
   end
 
-  def self.dirs(dir)
-    [ DirFiles.new("#{dir}/teachings") ]
+  def dirs
+    [ DirFiles.new(site_path("teachings")) ]
   end
 end
 
@@ -127,16 +155,16 @@ class NewsDir
   end
 end
 
-class News
+module News
   extend Document
 
-  def self.load(db, path)
+  def load(path, id)
     news = NewsDocument.new(path)
-    insert_object(db[:news], news, id: path_to_id(path))
+    insert_object(database[:news], news, id: id)
   end
 
-  def self.dirs(dir)
-    [ NewsDir.new(dir) ]
+  def dirs
+    [ NewsDir.new(site_dir) ]
   end
 end
 
@@ -161,30 +189,29 @@ class BookDir
   end
 end
 
-class Book
+module Book
   extend Document
 
-  def self.load(db, path)
+  def load(path, id)
     book = ::Book::Document.load(path)
-    insert_object(db[:books], book, { id: path_to_id(path) })
+    insert_object(database[:books], book, id: id)
   end
 
-  def self.dirs(dir)
-    [ BookDir.new(dir) ]
+  def dirs
+    [ BookDir.new(site_dir) ]
   end
 end
 
-class BookCategory
+module BookCategory
   extend Document
 
-  def self.load(db, path)
+  def load(path, id)
     category = ::BookCategory::Document.load(path)
 
-    id = path_to_id(path)
-    insert_object(db[:book_categories], category, id: id)
+    insert_object(database[:book_categories], category, id: id)
     category.group.each do |group|
       group.book.each do |book|
-        db[:category_books].
+        database[:category_books].
           insert(group: group.name,
                  book_id: book,
                  category_id: id)
@@ -192,14 +219,14 @@ class BookCategory
     end
 
     category.subcategory.each do |subcategory|
-      db[:category_subcategories].
+      database[:category_subcategories].
         insert(category_id: id,
                subcategory_id: subcategory)
     end
   end
 
-  def self.dirs(dir)
-    [ DirFiles.new("#{dir}/book-categories") ]
+  def dirs
+    [ DirFiles.new(site_path("book-categories")) ]
   end
 end
 
@@ -228,7 +255,7 @@ class DigestDir
   end
 end
 
-class Digest
+module Digest
   extend Document
 
   def self.path_to_id(path)
@@ -237,13 +264,12 @@ class Digest
     a.join('/')
   end
 
-  def self.load(db, path)
-    db[:digests].insert(id: path_to_id(path),
-                        digest: ::Digest::SHA1.file(path).hexdigest)
+  def load(path, id)
+    database[:digests].insert(id: id, digest: ::Digest::SHA1.file(path).hexdigest)
   end
 
-  def self.dirs(dir)
-    [ DigestDir.new(dir, match: /\.(jpg|gif|swf|css|doc|pdf)$/),
+  def dirs
+    [ DigestDir.new(site_dir, match: /\.(jpg|gif|swf|css|doc|pdf)$/),
       DigestDir.new('public',
         match: /\.(mp3|css|js|ico|png|svg|jpg)$/,
         excludes: [ '3d-party', 'logs', 'css', 'fonts' ] ) ]
@@ -252,13 +278,16 @@ end
 
 Klasses = [ Teaching, News, Book, BookCategory, Digest ]
 
-def self.compile_str(src)
+end
+
+
+def compile_str(src)
   options = { style: :expanded, load_paths: [ 'assets/css/' ] }
   dst = SassC::Engine.new(src, options).render
 end
 
-def self.compile_news(spath, dpath, db = nil)
-  id = News::path_to_id(spath)
+def compile_news(spath, dpath)
+  id = Sync::News::path_to_id(spath)
   src = File.read(spath)
   src = "#news-#{id} {\n\n#{src}\n}"
   begin
@@ -267,12 +296,12 @@ def self.compile_news(spath, dpath, db = nil)
   rescue SassC::SyntaxError => e
     p = path_from_db(spath)
     msg = "Ошибка компиляции файла #{p}: #{e}"
-    db[:errors].insert(path: spath, message: msg) if db
+    database[:errors].insert(path: spath, message: msg)
     puts msg
   end
 end
 
-def self.compile(spath, dpath, db = nil)
+def compile(spath, dpath)
   src = File.read(spath)
   dst = compile_str(src)
   File.write(dpath, dst)
@@ -284,14 +313,14 @@ StyleDst = 'public/css'
 Bundle = 'public/bundle.css'
 Mixins = "#{StyleSrc}/_mixins.scss"
 
-def self.each_css(&block)
+def each_css(&block)
   Dir.entries(StyleDst).each do |e|
     next if not /\.css$/ =~ e
     yield "#{StyleDst}/#{e}"
   end
 end
 
-def self.each_scss(&block)
+def each_scss(&block)
   Dir.entries(StyleSrc).each do |e|
     next if e == '_mixins.scss' or (not /\.scss$/ =~ e)
     n = e.gsub(/\.scss$/, '')
@@ -299,27 +328,25 @@ def self.each_scss(&block)
   end
 end
 
-def self.concat
+def concat
   bundle = ""
   each_css { |p| bundle += File.read(p) }
   File.write(Bundle, bundle)
 end
 
-def self.dest_news(path)
+def dest_news(path)
   path.gsub(/\.scss$/, '.css')
 end
 
-def self.dest_man(path)
+def dest_man(path)
   path.gsub(/\.scss$/, '.css').gsub(/^assets/, 'public')
 end
 
-def self.src_main(path)
+def src_main(path)
   path.gsub(/\.css$/, '.scss').gsub(/^public/, 'assets')
 end
 
-def self.sync_all
+def sync_all
   puts "a U #{Mixins}"
   each_scss { |s, d| compile(s, d) }
-end
-
 end
