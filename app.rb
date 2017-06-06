@@ -197,8 +197,9 @@ get '/yoga/' do
   erb "<%= load_page('yoga/page.html') %>"
 end
 
-get '/mantras/' do
-  erb "<%= load_page('mantras.html') %>"
+get '/texts/' do
+  @menu_active = :library
+  erb "<%= load_page('texts.html') %>"
 end
 
 def about_page(path)
