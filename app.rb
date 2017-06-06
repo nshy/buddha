@@ -193,6 +193,7 @@ get '/teachers/:teacher/' do |teacher|
 end
 
 get '/yoga/' do
+  @menu_active = :timetable
   erb "<%= load_page('yoga/page.html') %>"
 end
 
