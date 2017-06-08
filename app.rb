@@ -247,7 +247,7 @@ get '/login/?' do
 end
 
 post '/login' do
-  if params[:password] == SiteConfig::ADMIN_CONFIG
+  if params[:password] == SiteConfig::ADMIN_SECRET
     session[:login] = true
     redirect to('/')
   else
