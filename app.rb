@@ -12,9 +12,13 @@ require 'set'
 require 'yaml'
 
 require_relative 'helpers'
+helpers TeachingsHelper, CommonHelpers
+helpers NewsHelpers, BookHelpers
+helpers TimetableHelper, LibraryHelper
+helpers SiteHelpers, AppSites
 
-DbMain = db_open(DbPathsMain)
-DbEdit = db_open(DbPathsEdit)
+DB = AppSites.connect
+Sequel::Model.plugin :sharding
 
 require_relative 'models'
 require_relative 'book'
@@ -33,22 +37,17 @@ if settings.development?
   set :static_cache_control, [ :public, max_age: 0 ]
 end
 
-helpers TeachingsHelper, CommonHelpers
-helpers NewsHelpers, BookHelpers
-helpers TimetableHelper
 
 I18n.default_locale = :ru
-SiteData = 'data'
 
 class DbExeption < RuntimeError
 end
 
 before do
-  @db = session[:login] ? DbEdit : DbMain
-  @menu = Menu::Document.load(db_path('menu.xml'))
+  @menu = Menu::Document.load(site_path('menu.xml'))
   @ya_metrika = SiteConfig::YA_METRIKA
   @extra_styles = []
-  if not Cache::Error.all.empty? and request.path != '/logout'
+  if not site_model(Cache::Error).all.empty? and request.path != '/logout'
     raise DbExeption.new
   end
 end
@@ -56,7 +55,7 @@ end
 not_found do
   @menu_active = nil
   map = {}
-  File.open(db_path('compat.yaml')) do |file|
+  File.open(site_path('compat.yaml')) do |file|
     map = YAML.load(file.read)
   end
   uri = local_uri(URI::unescape(request.path),
@@ -69,7 +68,7 @@ end
 
 error DbExeption do
   if session[:login] or settings.development?
-    Cache::Error.all.collect { |e| e.message }.join("\n\n")
+    site_model(Cache::Error).all.collect { |e| e.message }.join("\n\n")
   else
     erb :error
   end
@@ -95,24 +94,24 @@ get /.+\.(jpg|gif|swf|css|ttf)/ do
   if settings.development?
     cache_control :public, max_age: 0
   end
-  send_file db_path(request.path)
+  send_file site_path(request.path)
 end
 
 get /.+\.(doc|pdf)/ do
   if settings.development?
     cache_control :public, max_age: 0
   end
-  send_file db_path(request.path), disposition: :attachment
+  send_file site_path(request.path), disposition: :attachment
 end
 
 get '/teachings/' do
-  @teachings = Cache::Teaching.archive
+  @teachings = site_model(Cache::Teaching).archive
   @menu_active = :teachings
   erb :'teachings-index'
 end
 
 get '/teachings/:id/' do |id|
-  @teachings = Teachings::Document.load(db_path("teachings/#{id}.xml"))
+  @teachings = Teachings::Document.load(site_path("teachings/#{id}.xml"))
   halt 404 if @teachings.nil?
   @teachings_slug = id
   @menu_active = :teachings
@@ -122,21 +121,21 @@ end
 get '/news' do
   @params = params
   if params['top'] == 'true'
-    @news = Cache::News.latest(10)
+    @news = site_model(Cache::News).latest(10)
     params.delete('top')
   elsif not params['year'].nil?
     @year = params.delete('year')
-    @news = Cache::News.by_year(@year)
+    @news = site_model(Cache::News).by_year(@year)
   end
   halt 404 if @news.nil? or @news.empty? or not params.empty?
-  @years = Cache::News.years
+  @years = site_model(Cache::News).years
   @menu_active = :news
   @extra_styles = news_styles(@news)
   erb :'news-index'
 end
 
 get '/news/:id/' do |id|
-  @news = Cache::News.by_id(id)
+  @news = site_model(Cache::News).by_id(id)
   halt 404 if @news.nil?
   @extra_styles = news_styles([ @news ])
   @menu_active = :news
@@ -144,28 +143,28 @@ get '/news/:id/' do |id|
 end
 
 get '/books/:id/' do |id|
-  @book = Cache::Book.find(id)
+  @book = site_model(Cache::Book).find(id)
   halt 404 if @book.nil?
   @menu_active = :library
   erb :book
 end
 
 get '/book-categories/:id/' do |id|
-  @category = Cache::Category.find(id)
+  @category = site_model(Cache::Category).find(id)
   halt 404 if @category.nil?
   @menu_active = :library
   erb :'book-category'
 end
 
 get '/library/' do
-  @sections = Cache::Section.load(db_path('library.xml'))
-  @books = Cache::Book.recent(5)
+  @sections = load_sections
+  @books = site_model(Cache::Book).recent(5)
   @menu_active = :library
   erb :library
 end
 
 get '/timetable' do
-  @timetable = Timetable::Document.load(db_path('timetable/timetable.xml'))
+  @timetable = Timetable::Document.load(site_path('timetable/timetable.xml'))
   @menu_active = :timetable
   show = params.delete('show')
   @skip = params.delete('skip') || 0
@@ -225,12 +224,12 @@ get /donations/ do
 end
 
 get '/' do
-  @news = Cache::News.latest(3)
+  @news = site_model(Cache::News).latest(3)
   @extra_styles = news_styles(@news)
-  @timetable = Timetable::Document.load(db_path('timetable/timetable.xml'))
-  @quotes = Quotes::Document.load(db_path('quotes.xml'))
-  @records = Cache::Record.latest(5)
-  @index = Index::Document.load(db_path('index/index.xml'))
+  @timetable = Timetable::Document.load(site_path('timetable/timetable.xml'))
+  @quotes = Quotes::Document.load(site_path('quotes.xml'))
+  @records = site_model(Cache::Record).latest(5)
+  @index = Index::Document.load(site_path('index/index.xml'))
   erb :index
 end
 

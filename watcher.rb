@@ -65,8 +65,8 @@ def watch_main
   listener.start
 end
 
-[ DbPathsMain, DbPathsEdit ].each do |p|
-  Site.new(p).execute do
+Sites.each do |s|
+  Site.new(s).execute do
     watch_main
     watch_news
     Sync::Klasses.each { |k| watch_klass(k) }

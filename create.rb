@@ -4,9 +4,10 @@ require 'sequel'
 require_relative 'helpers'
 
 include CommonHelpers
+include SiteHelpers
 
-def create_db(paths)
-  db = db_open(paths)[:db]
+def create_db(s)
+  db = SiteHelpers.open(s)
   file = ARGV[0]
   if file
     load file
@@ -20,5 +21,4 @@ def create_db(paths)
   end
 end
 
-create_db(DbPathsMain)
-create_db(DbPathsEdit)
+Sites.each { |s| create_db(s) }

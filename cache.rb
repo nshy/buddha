@@ -2,8 +2,6 @@
 
 module Cache
 
-DB = DbMain[:db]
-
 archive = DB[:teachings].
             join(:themes, teaching_id: :id).
             join(:records, theme_id: :id).
@@ -32,8 +30,10 @@ class Teaching < Sequel::Model(archive)
     Date.parse(begin_date())
   end
 
-  def Teaching.archive()
-    eager(:themes).all
+  dataset_module do
+    def archive()
+      eager(:themes).all
+    end
   end
 end
 
@@ -45,8 +45,10 @@ end
 
 class Record < Sequel::Model
 
-  def Record.latest(num)
-    order(:record_date).reverse.limit(num).all
+  dataset_module do
+    def latest(num)
+      order(:record_date).reverse.limit(num).all
+    end
   end
 end
 
@@ -64,20 +66,23 @@ class News < Sequel::Model
     cut_plain.nil? ? body : cut_plain
   end
 
-  def News.years
-    select{strftime('%Y', date).as(:year)}.distinct.map(:year).reverse
-  end
 
-  def News.latest(num)
-    order(:date).limit(num).reverse.all
-  end
+  dataset_module do
+    def years
+      select{strftime('%Y', date).as(:year)}.distinct.map(:year).reverse
+    end
 
-  def News.by_id(id)
-    where(id: id).first
-  end
+    def latest(num)
+      order(:date).limit(num).reverse.all
+    end
 
-  def News.by_year(year)
-    where{{strftime('%Y', date) => year}}.order(:date).reverse.all
+    def by_id(id)
+      where(id: id).first
+    end
+
+    def by_year(year)
+      where{{strftime('%Y', date) => year}}.order(:date).reverse.all
+    end
   end
 end
 
@@ -147,9 +152,11 @@ class Category < Sequel::Model(book_categories_sizes)
     books.group_by { |b| b.group }
   end
 
-  def Category.find(id)
-    Category.eager(:children, :parents, :books).
-              where(:book_categories__id => id).first
+  dataset_module do
+    def find(id)
+      eager(:children, :parents, :books).
+                where(:book_categories__id => id).first
+    end
   end
 end
 
@@ -165,28 +172,14 @@ class Book < Sequel::Model
     self[:group]
   end
 
-  def Book.recent(num)
-    order(:added).reverse.limit(num)
-  end
+  dataset_module do
+    def recent(num)
+      order(:added).reverse.limit(num)
+    end
 
-  def Book.find(id)
-    eager(:categories).where(:id => id).first
-  end
-end
-
-class Section
-  attr_reader :categories, :name
-
-  def initialize(section)
-    @name = section.name
-    cats = Category.where(:book_categories__id => section.category).all
-    cats = cats.map { |c| [ c.id, c ] }.to_h
-    @categories = section.category.map { |id| cats[id] }
-  end
-
-  def Section.load(path)
-    library = Library::Document.load(path)
-    library.section.map { |s| Section.new(s) }
+    def find(id)
+      eager(:categories).where(:id => id).first
+    end
   end
 end
 

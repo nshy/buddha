@@ -12,20 +12,16 @@ require 'active_support/core_ext/string/inflections'
 include CommonHelpers
 
 class Site
-  attr_reader :database, :site_dir
+  attr_reader :database, :site
+  include SiteHelpers
 
-  def initialize(address)
-    db = db_open(address)
-    @database = db[:db]
-    @site_dir = db[:dir]
+  def initialize(site)
+    @site = site
+    @database = SiteHelpers.open(site)
   end
 
   def execute(&b)
     instance_eval &b
-  end
-
-  def site_path(path)
-    "#{@site_dir}/#{path}"
   end
 end
 

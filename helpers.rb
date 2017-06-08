@@ -1,11 +1,56 @@
-DbPathsMain = { db: 'sqlite://main.db', dir: 'main' }
-DbPathsEdit = { db: 'sqlite://edit.db', dir: 'edit' }
+Sites = [ :main, :edit ]
 
-def db_open(paths)
-  db = Sequel.connect(paths[:db])
-  db.run('pragma synchronous = off')
-  db.run('pragma foreign_keys = on')
-  { db: db, dir: paths[:dir] }
+module SiteHelpers
+  def SiteHelpers.file(site)
+    "#{site}.db"
+  end
+
+  def SiteHelpers.open(site)
+    db = Sequel.connect("sqlite://#{SiteHelpers.file(site)}")
+    db.run('pragma synchronous = off')
+    db.run('pragma foreign_keys = on')
+    db
+  end
+
+  def site_dir
+    site.to_s
+  end
+
+  def site_path(path)
+    "#{site_dir}/#{path}"
+  end
+end
+
+module AppSites
+  def self.connect
+    servers = Sites.map { |n| [n, { database: SiteHelpers.file(n) }] }.to_h
+
+    Sequel.connect(adapter: 'sqlite',
+                   database: SiteHelpers.file(:main),
+                   servers: servers)
+  end
+
+  def site
+    session[:login] ? :edit : :main
+  end
+
+  def site_model(klass)
+    klass.server(site)
+  end
+end
+
+module LibraryHelper
+  Section = Struct.new(:name, :categories)
+
+  def load_sections
+    library = Library::Document.load(site_path('library.xml'))
+    library.section.map do |s|
+      a = site_model(Cache::Category).
+              where(:book_categories__id => s.category).all
+      h = a.map { |c| [ c.id, c ] }.to_h
+      Section.new(s.name, s.category.map { |id| h[id] })
+    end
+  end
 end
 
 module TeachingsHelper
@@ -116,7 +161,7 @@ module CommonHelpers
   end
 
   def load_page(path)
-    html_render(File.read(db_path(path)))
+    html_render(File.read(site_path(path)))
   end
 
   def get_full_url(url)
@@ -133,7 +178,7 @@ module CommonHelpers
     output_url = (@base_url and @base_url != request.path) ? full_url : url
 
     return output_url if settings.development?
-    digest = Cache::Digest[full_url]
+    digest = site_model(Cache::Digest).where(id: full_url).first
     return output_url if digest.nil?
     "#{output_url}?sha1=#{digest[:digest]}"
   end
@@ -162,10 +207,6 @@ module CommonHelpers
 
   def path_split(path)
     path.split('/')
-  end
-
-  def db_path(path)
-    "#{@db[:dir]}/#{path}"
   end
 end
 
@@ -200,7 +241,7 @@ module NewsHelpers
       next if not dir
       dir = dir.content
       options = { full_path: false, sorted: true }
-      p = db_path(get_full_url(dir))
+      p = site_path(get_full_url(dir))
       next if not File.directory?(p)
       each_file(p, options) do |name|
         a = doc.create_element('a', href: digest_url("#{dir}/#{name}"))
@@ -229,7 +270,7 @@ module NewsHelpers
 
   def news_styles(news)
     styles = news.map do |n|
-      if n.is_dir and File.exists?(db_path("news/#{n.id}/style.css"))
+      if n.is_dir and File.exists?(site_path("news/#{n.id}/style.css"))
         "/news/#{n.id}/style.css"
       else
         nil

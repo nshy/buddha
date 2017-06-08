@@ -97,8 +97,8 @@ def sync_main
   concat if File.mtime(StyleDst) > File.mtime(Bundle) or assets_changed?
 end
 
-[ DbPathsMain, DbPathsEdit ].each do |p|
-  Site.new(p).execute do
+Sites.each do |s|
+  Site.new(s).execute do
     sync_main
     sync_news
     Sync::Klasses.each { |k| sync_klass(k) }
