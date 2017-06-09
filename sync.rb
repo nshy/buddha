@@ -49,16 +49,16 @@ def sync_klass(klass)
 end
 
 
-def sync_path(s, d, compile = :compile)
-  database[:errors].where(path: path_from_db(s)).delete
-  m = method(compile)
+def sync_path(s, d, assets)
+  d = assets.dst(s) if not d
+  s = assets.src(d) if not s
   if File.exists?(s)
     if not File.exists?(d)
       puts "a A #{s}"
-      m.call(s, d)
+      compile(assets, s)
     elsif File.mtime(s) > File.mtime(d)
       puts "a U #{s}"
-      m.call(s, d)
+      compile(assets, s)
     end
   elsif File.exists?(d)
     puts "a D #{s}"
@@ -71,7 +71,7 @@ def sync_news
   Dir.entries(dir).each do |e|
     p = "#{dir}/#{e}"
     next if not File.directory?(p) or e == '.' or e == '..'
-    sync_path("#{p}/style.scss", "#{p}/style.css", :compile_news)
+    sync_path("#{p}/style.scss", nil, Assets::News)
   end
 end
 
@@ -88,11 +88,12 @@ def mixin_changed?
 end
 
 def sync_main
-  each_css { |p| sync_path(src_main(p), p) }
+  each_css { |p| sync_path(nil, p, Assets::Public) }
   if mixin_changed?
-    sync_all
+    puts "a U #{Mixins}"
+    compile_all
   else
-    each_scss { |s, d| sync_path(s, d) }
+    each_scss { |s| sync_path(s, nil, Assets::Public) }
   end
   concat if File.mtime(StyleDst) > File.mtime(Bundle) or assets_changed?
 end

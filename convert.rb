@@ -276,52 +276,90 @@ Klasses = [ Teaching, News, Book, BookCategory, Digest ]
 
 end
 
+module Assets
 
-def compile_str(src)
-  options = { style: :expanded, load_paths: [ 'assets/css/' ] }
-  dst = SassC::Engine.new(src, options).render
-end
+module Extensions
+  def css(path)
+    path.gsub(/\.scss$/, '.css')
+  end
 
-def compile_news(spath, dpath)
-  id = Sync::News::path_to_id(spath)
-  src = File.read(spath)
-  src = "#news-#{id} {\n\n#{src}\n}"
-  begin
-    dst = compile_str(src)
-    File.write(dpath, dst)
-  rescue SassC::SyntaxError => e
-    p = path_from_db(spath)
-    msg = "Ошибка компиляции файла #{p}: #{e}"
-    database[:errors].insert(path: spath, message: msg)
-    puts msg
+  def scss(path)
+    path.gsub(/\.css$/, '.scss')
   end
 end
 
-def compile(spath, dpath)
-  src = File.read(spath)
-  dst = compile_str(src)
-  File.write(dpath, dst)
+class News
+  extend Extensions
+
+  def self.dst(path)
+    css(path)
+  end
+
+  def self.src(path)
+    scss(path)
+  end
+
+  def self.preprocess(path, input)
+    id = Sync::News::path_to_id(path)
+    "#news-#{id} {\n\n#{input}\n}"
+  end
+
+  def self.shorten(path)
+    path_from_db(path)
+  end
 end
 
+class Public
+  extend Extensions
+
+  def self.dst(path)
+    css(path.gsub(/^assets/, 'public'))
+  end
+
+  def self.src(path)
+    scss(path.gsub(/^public/, 'assets'))
+  end
+
+  def self.shorten(path)
+    path
+  end
+end
+
+end
+
+def compile(assets, path)
+  input = File.read(path)
+  input = assets.preprocess(path, input) if assets.respond_to?(:preprocess)
+  options = { style: :expanded, load_paths: [ 'assets/css/' ] }
+  database[:errors].where(path: path).delete
+  begin
+    res = SassC::Engine.new(input, options).render
+    File.write(assets.dst(path), res)
+  rescue SassC::SyntaxError => e
+    msg = "Ошибка компиляции файла #{assets.shorten(path)}: #{e}"
+    database[:errors].insert(path: path, message: msg)
+    puts msg
+  end
+end
 
 StyleSrc = 'assets/css'
 StyleDst = 'public/css'
 Bundle = 'public/bundle.css'
 Mixins = "#{StyleSrc}/_mixins.scss"
 
-def each_css(&block)
-  Dir.entries(StyleDst).each do |e|
-    next if not /\.css$/ =~ e
-    yield "#{StyleDst}/#{e}"
+def list_files(dir, ext, skip = [])
+  Dir.entries(dir).each do |e|
+    next if not /\.#{ext}$/ =~ e or skip.include?(e)
+    yield "#{dir}/#{e}"
   end
 end
 
+def each_css(&block)
+  list_files(StyleDst, 'css', &block)
+end
+
 def each_scss(&block)
-  Dir.entries(StyleSrc).each do |e|
-    next if e == '_mixins.scss' or (not /\.scss$/ =~ e)
-    n = e.gsub(/\.scss$/, '')
-    yield "#{StyleSrc}/#{n}.scss", "#{StyleDst}/#{n}.css"
-  end
+  list_files(StyleSrc, 'scss', [ '_mixins.scss'], &block)
 end
 
 def concat
@@ -330,19 +368,6 @@ def concat
   File.write(Bundle, bundle)
 end
 
-def dest_news(path)
-  path.gsub(/\.scss$/, '.css')
-end
-
-def dest_man(path)
-  path.gsub(/\.scss$/, '.css').gsub(/^assets/, 'public')
-end
-
-def src_main(path)
-  path.gsub(/\.css$/, '.scss').gsub(/^public/, 'assets')
-end
-
-def sync_all
-  puts "a U #{Mixins}"
-  each_scss { |s, d| compile(s, d) }
+def compile_all
+  each_scss { |s| compile(Assets::Public, s) }
 end
