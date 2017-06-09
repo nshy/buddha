@@ -49,8 +49,8 @@ def watch_news
 end
 
 def watch_main
-  listener = Listen.to('assets/css', relative: true) do |updated, added, deleted|
-    if updated.include?('assets/css/_mixins.scss')
+  listener = Listen.to(StyleSrc, relative: true) do |updated, added, deleted|
+    if updated.include?(Mixins)
     puts "a U #{Mixins}"
       compile_all
     else
