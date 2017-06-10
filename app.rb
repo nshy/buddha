@@ -53,7 +53,7 @@ before do
 
   p = find_page
   if p
-    check_url_nice(request.path, p)
+    check_url_nice(p)
     halt simple_page(p)
     return
   end

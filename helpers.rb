@@ -117,8 +117,10 @@ module CommonHelpers
     erb "<%= html_render(@html) %>"
   end
 
-  def check_url_nice(url, path)
-    if path_split(url).any? { |p| not /^[a-zA-Z0-9-]+$/ =~ p }
+  def check_url_nice(path)
+    s = path_split(path)
+    s.last.sub!(/\..+$/, '')
+    if s.any? { |p| not /^[a-zA-Z0-9-]+$/ =~ p }
       raise ModelException.new \
         "Неправильный формат имени в пути #{path_from_db(path)}. " \
         "Имя должно состоять только из латинских строчных и заглавных букв, " \

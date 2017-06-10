@@ -61,9 +61,8 @@ def update_table(klass, updated, added, deleted)
   (added + updated).each do |p|
     database[:errors].where(path: p).delete
     begin
-      id = klass.path_to_id(p)
-      check_url_nice(id, p)
-      klass_load(klass, p, id)
+      check_url_nice(p)
+      klass_load(klass, p, klass.path_to_id(p))
     rescue ModelException => e
       puts e
       database[:errors].insert(path: p, message: e.to_s)
