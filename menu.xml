@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu>
+  <item>
+    <title>О ЦЕНТРЕ</title>
+    <link>/about/</link>
+    <subitem>
+      <title>Учителя</title>
+      <link>/teachers/</link>
+    </subitem>
+    <subitem>
+      <title>Контакты</title>
+      <link>/contacts/</link>
+    </subitem>
+    <subitem>
+      <title>Помощь центру</title>
+      <link>/donations/</link>
+    </subitem>
+  </item>
+  <item>
+    <title>УЧЕНИЯ</title>
+    <link>/teachings/</link>
+  </item>
+  <item>
+    <title>НОВОСТИ</title>
+    <link>/news?top=true</link>
+  </item>
+  <item>
+    <title>ЗАНЯТИЯ</title>
+    <link>/timetable?show=week</link>
+  </item>
+  <item>
+    <title>БИБЛИОТЕКА</title>
+    <link>/texts/</link>
+  </item>
+</menu>

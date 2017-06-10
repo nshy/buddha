@@ -44,7 +44,7 @@ class DbExeption < RuntimeError
 end
 
 before do
-  @menu = Menu::Document.load(site_path('menu.xml'))
+  @menu = Menu::Document.load('menu.xml')
   @ya_metrika = SiteConfig::YA_METRIKA
   @extra_styles = []
   if not site_model(Cache::Error).all.empty? and request.path != '/logout'
