@@ -50,12 +50,22 @@ before do
   if not site_model(Cache::Error).all.empty? and request.path != '/logout'
     raise DbExeption.new
   end
+
+  p = find_page
+  if p
+    if not valid_url?(request.path)
+      raise ModelException.new \
+        "Неправильный формат имени в пути #{path_from_db(p)}. " \
+        "Имя должно состоять только из латинских строчных и заглавных букв, " \
+        "цифр и тире, если не считать точки перед расширением файла."
+
+    end
+    halt simple_page(p)
+    return
+  end
 end
 
 not_found do
-  p = find_page
-  return simple_page(p) if p
-
   @menu_active = nil
   map = {}
   File.open(site_path('compat.yaml')) do |file|

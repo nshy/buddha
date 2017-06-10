@@ -117,6 +117,10 @@ module CommonHelpers
     erb "<%= html_render(@html) %>"
   end
 
+  def valid_url?(url)
+    not path_split(url).any? { |p| not /^[a-zA-Z0-9-]+$/ =~ p }
+  end
+
   def dir_files(dir, options={})
     default_options = {
       full_path: true,
@@ -224,7 +228,7 @@ module CommonHelpers
   end
 
   def path_split(path)
-    path.split('/')
+    path.sub(/^\//, '').split('/')
   end
 end
 
