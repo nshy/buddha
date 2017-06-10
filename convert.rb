@@ -125,7 +125,6 @@ end
 # --------------------- news --------------------------
 
 class NewsDir
-  Ext = [:html, :erb]
   attr_reader :dir
 
   def initialize(dir)
@@ -134,11 +133,13 @@ class NewsDir
 
   def files
     files = dir_files(dir, sorted: true).map do |path|
-      if File.directory?(path)
-        paths = Ext.map { |ext| "#{path}/page.#{ext}" }
-        paths.find { |path| File.exists?(path) }
-      elsif Ext.include?(path_to_ext(path).to_sym)
+      dirpath = "#{path}/page.html"
+      if File.file?(path) and path =~ /\.html$/
         path
+      elsif File.exists?(dirpath)
+        dirpath
+      else
+        nil
       end
     end
     files.compact
@@ -146,8 +147,8 @@ class NewsDir
 
   def match(path)
     p = path_split(path)
-    (p.size == 3 and p.last =~ /\.(erb|html)$/) or
-      (p.size == 4 and p.last =~ /^page\.(erb|html)$/)
+    (p.size == 3 and p.last =~ /\.html$/) or
+      (p.size == 4 and p.last == 'page.html')
   end
 end
 
