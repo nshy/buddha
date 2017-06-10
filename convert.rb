@@ -57,14 +57,14 @@ def update_table(klass, updated, added, deleted)
   table = database[klass.table]
   ids = (deleted + updated + added).map { |p| klass.path_to_id(p) }
   table.where(id: ids).delete
+  database[:errors].where(path: deleted).delete
   (added + updated).each do |p|
-    x = path_from_db(p)
-    database[:errors].where(path: x).delete
+    database[:errors].where(path: p).delete
     begin
       klass_load(klass, p, klass.path_to_id(p))
     rescue ModelException => e
       puts e
-      database[:errors].insert(path: x, message: e.to_s)
+      database[:errors].insert(path: p, message: e.to_s)
     end
     table.where(id: klass.path_to_id(p)).
       update(path: p, last_modified: File.mtime(p))
