@@ -50,16 +50,19 @@ before do
   if not site_model(Cache::Error).all.empty? and request.path != '/logout'
     raise DbExeption.new
   end
-
-  p = find_page
-  if p
-    check_url_nice(p)
-    halt simple_page(p)
-    return
-  end
 end
 
 not_found do
+  p = find_page
+  if p
+    begin
+      check_url_nice(p)
+    rescue ModelException => e
+      return show_error(e.message)
+    end
+    return simple_page(p)
+  end
+
   @menu_active = nil
   map = {}
   File.open(site_path('compat.yaml')) do |file|
@@ -81,12 +84,16 @@ error DbExeption do
   end
 end
 
-error ModelException do
+def show_error(msg)
   if session[:login] or settings.development?
-    env['sinatra.error'].message
+    msg
   else
     erb :error
   end
+end
+
+error ModelException do
+  show_error(env['sinatra.error'].message)
 end
 
 error do
