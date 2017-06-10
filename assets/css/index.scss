@@ -19,6 +19,7 @@ overflow: auto;
   }
 
   .title {
+    color: $site-header-color;
     display: inline-block;
     vertical-align: middle;
     font-size: 20px;
@@ -77,6 +78,7 @@ overflow: auto;
 
 > .block > .header {
   div {
+    color: $site-header-color;
     font-size: 28px;
     font-weight: 300;
     margin-bottom: 4px;

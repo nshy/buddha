@@ -99,6 +99,7 @@ a {
 }
 
 h1 {
+  color: $site-header-color;
   font-size: 26px;
   font-weight: 300;
   margin-top: 30px;
@@ -106,12 +107,14 @@ h1 {
 }
 
 h2 {
+  color: $site-header-color;
   margin-top: 30px;
   margin-bottom: 20px;
   font-size: 20px;
 }
 
 h3 {
+  color: $site-header-color;
   margin-top: 20px;
   font-size: 16px;
   font-weight: 600;

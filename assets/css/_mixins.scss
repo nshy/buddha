@@ -1,6 +1,7 @@
 $separator-style: 1px solid #dedede;
 $link-color-hover: #3fb5ff;
 $site-navbar-height: 44px;
+$site-header-color: #333;
 
 @mixin hover-images {
   a:hover {
@@ -30,16 +31,19 @@ $site-navbar-height: 44px;
 }
 
 @mixin site-element-level-1 {
+  color: $site-header-color;
   font-size: 36px;
   font-weight: 300;
 }
 
 @mixin site-element-level-2 {
+  color: $site-header-color;
   font-size: 26px;
   font-weight: 300;
 }
 
 @mixin site-element-level-2-480px {
+  color: $site-header-color;
   font-size: 20px;
   font-weight: 400;
 }

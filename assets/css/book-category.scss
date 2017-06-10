@@ -5,6 +5,7 @@
 hr:last-child { display: none; }
 
 .group > .title {
+  color: $site-header-color;
   font-size: 18px;
   margin-bottom: 20px;
 }
@@ -24,6 +25,7 @@ hr:last-child { display: none; }
 }
 
 .menu .title {
+  color: $site-header-color;
   font-weight: 500;
   font-size: 18px;
   padding: 14px 0 10px;
