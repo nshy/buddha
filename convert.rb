@@ -156,6 +156,13 @@ module News
   extend Document
 
   def load(path, id)
+    size = path_split(path).size
+    if size == 3 and File.exists?(site_path("news/#{id}/page.html")) or \
+       size == 4 and File.exists?(site_path("news/#{id}.html"))
+       raise ModelException.new \
+         "Два варианта для новости #{id}. " \
+         "Используйте либо директорию либо файл."
+    end
     news = NewsDocument.new(path)
     insert_object(database[:news], news, id: id)
   end
