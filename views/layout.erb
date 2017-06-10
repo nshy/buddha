@@ -13,8 +13,8 @@
     <a class="logo" href="/">
       <img src="<%= digest_url('/images/site_logo_small.png') %>"/>
     </a>
-    <% @menu.item.each do |item| %>
-      <%= menu_link(item.name, item.link, item.title) %>
+    <% @menu.item.each do |i| %>
+      <%= menu_link(i) %>
     <% end %>
   </div>
   <a href="#menu" class="menu-link">

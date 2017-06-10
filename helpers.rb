@@ -209,10 +209,10 @@ module CommonHelpers
     path += query_string
   end
 
-  def menu_link(name, link, title)
+  def menu_link(item)
     c = "menu"
-    c += " active" if name == @menu_active.to_s
-    "<a class='#{c}' href='#{link}'>#{title}</a>"
+    c += " active" if item.title == @menu_active
+    "<a class='#{c}' href='#{item.link}'>#{item.title}</a>"
   end
 
   def tab_link(link, title, r = request.path)

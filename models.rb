@@ -159,7 +159,6 @@ module Menu
 class Document < XDSL::Element
   root :menu
   elements :item do
-    element :name, String, required: true
     element :title, String, required: true
     element :link, String, required: true
     elements :subitem do
@@ -169,11 +168,11 @@ class Document < XDSL::Element
   end
 
   def about
-    item.select { |i| i.name == 'about' }.first
+    item.select { |i| i.title == 'О ЦЕНТРЕ' }.first
   end
 
   def others
-    item.select { |i| i.name != 'about' }
+    item.select { |i| i.title != 'О ЦЕНТРЕ' }
   end
 end
 

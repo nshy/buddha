@@ -106,7 +106,7 @@ end
 
 get '/teachings/' do
   @teachings = site_model(Cache::Teaching).archive
-  @menu_active = :teachings
+  @menu_active = 'УЧЕНИЯ'
   erb :'teachings-index'
 end
 
@@ -114,7 +114,7 @@ get '/teachings/:id/' do |id|
   @teachings = Teachings::Document.load(site_path("teachings/#{id}.xml"))
   halt 404 if @teachings.nil?
   @teachings_slug = id
-  @menu_active = :teachings
+  @menu_active = 'УЧЕНИЯ'
   erb :teachings
 end
 
@@ -129,7 +129,7 @@ get '/news' do
   end
   halt 404 if @news.nil? or @news.empty? or not params.empty?
   @years = site_model(Cache::News).years
-  @menu_active = :news
+  @menu_active = 'НОВОСТИ'
   @extra_styles = news_styles(@news)
   erb :'news-index'
 end
@@ -138,34 +138,34 @@ get '/news/:id/' do |id|
   @news = site_model(Cache::News).by_id(id)
   halt 404 if @news.nil?
   @extra_styles = news_styles([ @news ])
-  @menu_active = :news
+  @menu_active = 'НОВОСТИ'
   erb :'news-single'
 end
 
 get '/books/:id/' do |id|
   @book = site_model(Cache::Book).find(id)
   halt 404 if @book.nil?
-  @menu_active = :library
+  @menu_active = 'БИБЛИОТЕКА'
   erb :book
 end
 
 get '/book-categories/:id/' do |id|
   @category = site_model(Cache::Category).find(id)
   halt 404 if @category.nil?
-  @menu_active = :library
+  @menu_active = 'БИБЛИОТЕКА'
   erb :'book-category'
 end
 
 get '/library/' do
   @sections = load_sections
   @books = site_model(Cache::Book).recent(5)
-  @menu_active = :library
+  @menu_active = 'БИБЛИОТЕКА'
   erb :library
 end
 
 get '/timetable' do
   @timetable = Timetable::Document.load(site_path('timetable/timetable.xml'))
-  @menu_active = :timetable
+  @menu_active = 'ЗАНЯТИЯ'
   show = params.delete('show')
   @skip = params.delete('skip') || 0
   @skip = @skip.to_i
@@ -180,37 +180,37 @@ get '/timetable' do
 end
 
 get '/teachers/:teacher/' do |teacher|
-  @menu_active = :about
+  @menu_active = 'О ЦЕНТРЕ'
   simple_page
 end
 
 get '/yoga/' do
-  @menu_active = :timetable
+  @menu_active = 'ЗАНЯТИЯ'
   simple_page
 end
 
 get '/texts/' do
-  @menu_active = :library
+  @menu_active = 'БИБЛИОТЕКА'
   simple_page
 end
 
 get /about/ do
-  @menu_active = :about
+  @menu_active = 'О ЦЕНТРЕ'
   simple_page
 end
 
 get /teachers/ do
-  @menu_active = :about
+  @menu_active = 'О ЦЕНТРЕ'
   simple_page
 end
 
 get /contacts/ do
-  @menu_active = :about
+  @menu_active = 'О ЦЕНТРЕ'
   simple_page
 end
 
 get /donations/ do
-  @menu_active = :about
+  @menu_active = 'О ЦЕНТРЕ'
   simple_page
 end
 
