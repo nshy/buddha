@@ -60,6 +60,7 @@ not_found do
     rescue ModelException => e
       return show_error(e.message)
     end
+    status 200
     return simple_page(p)
   end
 
