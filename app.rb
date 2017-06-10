@@ -53,6 +53,9 @@ before do
 end
 
 not_found do
+  p = find_page
+  return simple_page(p) if p
+
   @menu_active = nil
   map = {}
   File.open(site_path('compat.yaml')) do |file|
@@ -177,34 +180,6 @@ get '/timetable' do
   else
     halt 404
   end
-end
-
-get '/teachers/:teacher/' do |teacher|
-  simple_page
-end
-
-get '/yoga/' do
-  simple_page
-end
-
-get '/texts/' do
-  simple_page
-end
-
-get /about/ do
-  simple_page
-end
-
-get /teachers/ do
-  simple_page
-end
-
-get /contacts/ do
-  simple_page
-end
-
-get /donations/ do
-  simple_page
 end
 
 get '/' do

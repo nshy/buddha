@@ -99,7 +99,10 @@ module TeachingsHelper
 end
 
 module CommonHelpers
-  def find_page(p)
+  def find_page
+    url = request.path
+    p = url.sub(/^\//, '').sub(/\/$/, '')
+    p = site_path(p)
     c = "#{p}.html"
     return c if File.exist?(c)
     c = "#{p}/page.html"
@@ -107,11 +110,7 @@ module CommonHelpers
     nil
   end
 
-  def simple_page
-    url = request.path
-    p = url.sub(/^\//, '').sub(/\/$/, '')
-    p = find_page(site_path(p))
-    raise "Can not find url #{url}" if not p
+  def simple_page(p)
     doc = Preamble.load(p)
     @menu_active = doc.metadata['menu']
     @html = doc.content
