@@ -180,47 +180,38 @@ get '/timetable' do
 end
 
 get '/teachers/:teacher/' do |teacher|
-  teachers = {
-  'geshela' => 'Досточтимый Геше Джампа Тинлей',
-  'hh-bogdo-gegen-9' => 'Его Святейшество Богдо-геген IX',
-  'hh-dalai-lama-14' => 'Его Святейшество Далай-лама XIV'
-  }
-  @teacher = teacher
-  @teacher_title = teachers[teacher]
-  halt 404 if @teacher_title.nil?
-  erb :teacher
+  @menu_active = :about
+  simple_page
 end
 
 get '/yoga/' do
   @menu_active = :timetable
-  erb "<%= load_page('yoga/page.html') %>"
+  simple_page
 end
 
 get '/texts/' do
   @menu_active = :library
-  erb "<%= load_page('texts.html') %>"
-end
-
-def about_page(path)
-  @menu_active = :about
-  @path = path
-  erb :center
+  simple_page
 end
 
 get /about/ do
-  about_page('about/page.html')
+  @menu_active = :about
+  simple_page
 end
 
 get /teachers/ do
-  about_page('teachers/page.html')
+  @menu_active = :about
+  simple_page
 end
 
 get /contacts/ do
-  about_page('contacts.html')
+  @menu_active = :about
+  simple_page
 end
 
 get /donations/ do
-  about_page('donations.html')
+  @menu_active = :about
+  simple_page
 end
 
 get '/' do

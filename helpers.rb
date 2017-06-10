@@ -99,6 +99,22 @@ module TeachingsHelper
 end
 
 module CommonHelpers
+  def find_page(p)
+    c = "#{p}.html"
+    return c if File.exist?(c)
+    c = "#{p}/page.html"
+    return c if File.exist?(c)
+    nil
+  end
+
+  def simple_page
+    url = request.path
+    p = url.sub(/^\//, '').sub(/\/$/, '')
+    @path = find_page(site_path(p))
+    raise "Can not find url #{url}" if not @path
+    erb "<%= html_render(File.read(@path)) %>"
+  end
+
   def dir_files(dir, options={})
     default_options = {
       full_path: true,
