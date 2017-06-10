@@ -53,13 +53,7 @@ before do
 
   p = find_page
   if p
-    if not valid_url?(request.path)
-      raise ModelException.new \
-        "Неправильный формат имени в пути #{path_from_db(p)}. " \
-        "Имя должно состоять только из латинских строчных и заглавных букв, " \
-        "цифр и тире, если не считать точки перед расширением файла."
-
-    end
+    check_url_nice(request.path, p)
     halt simple_page(p)
     return
   end
