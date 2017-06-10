@@ -110,9 +110,12 @@ module CommonHelpers
   def simple_page
     url = request.path
     p = url.sub(/^\//, '').sub(/\/$/, '')
-    @path = find_page(site_path(p))
-    raise "Can not find url #{url}" if not @path
-    erb "<%= html_render(File.read(@path)) %>"
+    p = find_page(site_path(p))
+    raise "Can not find url #{url}" if not p
+    doc = Preamble.load(p)
+    @menu_active = doc.metadata['menu']
+    @html = doc.content
+    erb "<%= html_render(@html) %>"
   end
 
   def dir_files(dir, options={})

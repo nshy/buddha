@@ -180,37 +180,30 @@ get '/timetable' do
 end
 
 get '/teachers/:teacher/' do |teacher|
-  @menu_active = 'О ЦЕНТРЕ'
   simple_page
 end
 
 get '/yoga/' do
-  @menu_active = 'ЗАНЯТИЯ'
   simple_page
 end
 
 get '/texts/' do
-  @menu_active = 'БИБЛИОТЕКА'
   simple_page
 end
 
 get /about/ do
-  @menu_active = 'О ЦЕНТРЕ'
   simple_page
 end
 
 get /teachers/ do
-  @menu_active = 'О ЦЕНТРЕ'
   simple_page
 end
 
 get /contacts/ do
-  @menu_active = 'О ЦЕНТРЕ'
   simple_page
 end
 
 get /donations/ do
-  @menu_active = 'О ЦЕНТРЕ'
   simple_page
 end
 
