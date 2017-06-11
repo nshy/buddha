@@ -24,6 +24,7 @@ require_relative 'models'
 require_relative 'book'
 require_relative 'timetable'
 require_relative 'cache'
+require_relative 'diff'
 
 enable :sessions
 set :session_secret, SiteConfig::SESSION_SECRET
@@ -231,4 +232,9 @@ end
 get '/logout/?' do
   session[:login] = false
   redirect to('/')
+end
+
+get '/admin/' do
+  @diff = `cd edit; git diff`
+  erb :admin
 end

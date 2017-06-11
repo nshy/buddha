@@ -1,0 +1,33 @@
+.page-admin {
+
+.file {
+  border: 1px solid #333;
+  margin-bottom: 40px;
+  border-radius: 3px;
+}
+
+.path {
+  font-size: 23px;
+  padding: 5px 0 5px 20px;
+  color: #333;
+  border-bottom: 1px solid #333;
+}
+
+.line {
+  background-color: #eee;
+  padding: 5px 0 5px 20px;
+}
+
+pre {
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  margin: 0;
+  background-color: #fff;
+  &.del { background-color: #fee8e9; }
+  &.add { background-color: #ded; }
+  &:last-of-type { border-radius: 3px; }
+}
+
+
+}
