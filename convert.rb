@@ -162,7 +162,12 @@ module News
          "Два варианта для новости #{id}. " \
          "Используйте либо директорию либо файл."
     end
+    begin
     news = NewsDocument.new(path)
+    rescue ModelException => e
+      raise ModelException.new \
+        "Нарушение формата в файле #{path_from_db(path)}:\n#{e}"
+    end
     insert_object(database[:news], news, id: id)
   end
 
@@ -343,7 +348,7 @@ def compile(assets, path)
     res = SassC::Engine.new(input, options).render
     File.write(assets.dst(path), res)
   rescue SassC::SyntaxError => e
-    msg = "Ошибка компиляции файла #{assets.shorten(path)}: #{e}"
+    msg = "Ошибка компиляции файла #{assets.shorten(path)}:\n #{e}"
     database[:errors].insert(path: path, message: msg)
     puts msg
   end

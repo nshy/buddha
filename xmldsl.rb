@@ -29,9 +29,9 @@ module ElementClass
           scalar_klass.parse(t)
         rescue ArgumentError
           raise ModelException.new \
-            "#{spec(e)}: недопустимое значение '#{t}'"
+            "#{spec(e)}:\nНедопустимое значение '#{t}'"
         rescue ModelException => err
-          raise ModelException.new "#{spec(e)}: #{err}"
+          raise ModelException.new "#{spec(e)}:\n#{err}"
         end
       end
     end
@@ -47,14 +47,14 @@ module ElementClass
         c = e.xpath(name.to_s)
         if c.size > 1
           raise ModelException.new \
-            "#{spec(e)}: элемент #{name} должен присутствовать " \
+            "#{spec(e)}:\nЭлемент #{name} должен присутствовать " \
             "в одном экземпляре"
         end
         v = nil
         v = scalar_parser.call(c[0]) if not c.empty?
         if not v and options[:required]
           raise ModelException.new \
-            "#{spec(e)}: элемент #{name} должен присутствовать " \
+            "#{spec(e)}:\ Элемент #{name} должен присутствовать " \
             "и иметь непустое значение"
         end
         v
@@ -92,7 +92,7 @@ module ElementClass
     begin
       n = Nokogiri::XML(File.open(path)) { |config| config.strict }
     rescue Nokogiri::XML::SyntaxError => e
-      raise ModelException.new("Нарушение xml синтаксиса в файле '#{p}': #{e}")
+      raise ModelException.new("Нарушение xml синтаксиса в файле #{p}:\n#{e}")
     end
     begin
       if n.root.name != @root.to_s
@@ -100,7 +100,7 @@ module ElementClass
       end
       doc = parse(n.root)
     rescue ModelException => e
-      raise ModelException.new("Нарушение формата в файле '#{p}': #{e}")
+      raise ModelException.new("Нарушение формата в файле #{p}:\n#{e}")
     end
     doc
   end
@@ -112,7 +112,7 @@ module ElementClass
     end
     element.elements.each do |c|
       if not @parsers.has_key?(c.name.to_sym)
-        raise ModelException.new "Неизвестный элемент, #{spec(c)}"
+        raise ModelException.new "#{spec(c)}:\nНеизвестный элемент"
       end
     end
     r = new(values)
@@ -121,14 +121,14 @@ module ElementClass
         r.doc_check
       rescue ModelException => e
         raise ModelException.new \
-          "Не выполнено соглашение, #{spec(element)}: #{e}"
+          "#{spec(element)}:\n#{e}"
       end
     end
     r
   end
 
   def spec(e)
-    "элемент #{e.path}, строка #{e.line}"
+    "По пути: элемент #{e.path}, строка #{e.line}"
   end
 end
 

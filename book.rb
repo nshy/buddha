@@ -16,7 +16,7 @@ class BookHeadings
       indent = line.index(/[^ ]/)
       if line[indent] == "\t"
         raise ModelException.new \
-          "Строка:\n #{original}Табуляция не допускается, только пробелы."
+          "Строка:\n#{original}Табуляция не допускается, только пробелы."
       end
       line = line.strip
       level = stack.size - 1
@@ -69,7 +69,7 @@ class Document < XDSL::Element
       BookHeadings.parse(contents)
     rescue ModelException => e
       raise ModelException.new \
-        "Элемент content содержит ошибки: #{e}"
+        "Элемент content содержит ошибки:\n#{e}"
     end
   end
 

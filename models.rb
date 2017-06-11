@@ -11,9 +11,10 @@ class NewsDocument
   def initialize(path)
     @is_dir = path_is_dir(path)
     @ext = path_to_ext(path)
-    doc = Preamble.load(path)
-    if not doc.metadata
-      raise ModelException.new("Не найден заголовок новости #{path}")
+    begin
+      doc = Preamble.load(path)
+    rescue StandardError
+      raise ModelException.new("Ошибочное форматирование заголовка новости")
     end
     if m = PageCut.match(doc.content)
       @cut = m[1]
@@ -28,11 +29,11 @@ class NewsDocument
 
     ds = doc.metadata['publish_date']
     if not ds
-      raise ModelException.new("Не указана дата публикации новости #{path}")
+      raise ModelException.new("Не указана дата публикации новости")
     end
     @title = doc.metadata['title']
     if not @title
-      raise ModelException.new("Не указано заглавие новости #{path}")
+      raise ModelException.new("Не указано заглавие новости")
     end
     @buddha_node = doc.metadata['buddha_node']
     d = DateTime.parse(ds)
