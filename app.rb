@@ -79,7 +79,8 @@ end
 
 error DbExeption do
   if session[:login] or settings.development?
-    site_model(Cache::Error).all.collect { |e| e.message }.join("\n\n")
+    @errors = site_model(Cache::Error).all.collect { |e| e.message }
+    erb :'error-editor'
   else
     erb :error
   end
@@ -87,7 +88,8 @@ end
 
 def show_error(msg)
   if session[:login] or settings.development?
-    msg
+    @errors = [ msg ]
+    erb :'error-editor'
   else
     erb :error
   end
