@@ -284,7 +284,7 @@ module NewsHelpers
     d = Nokogiri::HTML(str)
     html_digest_urls(d)
     html_expand_slideshow(d)
-    d.to_xml
+    d.at_xpath('/html/body').inner_html
   end
 
   def news_item(news, index = false)
