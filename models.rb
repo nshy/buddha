@@ -3,14 +3,13 @@ require_relative 'utils'
 require 'date'
 
 class NewsDocument
-  attr_reader :date, :title, :cut, :body, :ext, :is_dir, :buddha_node
+  attr_reader :date, :title, :cut, :body, :is_dir, :buddha_node
 
   PageCut = /(.*)<!--[\t ]*page-cut[\t ]*-->(.*)/m
   PageCutSimple = /(.*)<!--[\t ]*page-cut-simple[\t ]*-->/m
 
   def initialize(path)
     @is_dir = path_is_dir(path)
-    @ext = path_to_ext(path)
     begin
       doc = Preamble.load(path)
     rescue StandardError

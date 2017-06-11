@@ -248,8 +248,7 @@ module NewsHelpers
   def render_news(news, cut)
     @base_url = "/news/#{news.id}/"
     doc = cut ? news.cut : news.body
-    return html_render(doc) if news.ext == 'html'
-    Tilt::ERBTemplate.new { doc }.render(self)
+    html_render(doc)
   end
 
   def html_digest_urls(doc)
