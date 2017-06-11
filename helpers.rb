@@ -117,14 +117,19 @@ module CommonHelpers
     erb "<%= html_render(@html) %>"
   end
 
-  def check_url_nice(path)
+  def check_url_nice(path, assets = false)
     s = path_split(path)
     s.last.sub!(/\..+$/, '')
-    if s.any? { |p| not /^[a-zA-Z0-9-]+$/ =~ p }
+    a = "-a-zA-Z0-9"
+    a += "_" if assets
+    r = Regexp.new("^[#{a}]+$")
+    if s.any? { |p| not r =~ p }
       raise ModelException.new \
         "Неправильный формат имени в пути #{path_from_db(path)}. " \
         "Имя должно состоять только из латинских строчных и заглавных букв, " \
-        "цифр и тире, если не считать точки перед расширением файла."
+        "цифр и тире, если не считать точки перед расширением файла. " \
+        "В имени аудио файлов, изображений и проч. также можно использовать " \
+        "подчеркивание."
     end
   end
 

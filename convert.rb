@@ -61,7 +61,7 @@ def update_table(klass, updated, added, deleted)
   (added + updated).each do |p|
     database[:errors].where(path: p).delete
     begin
-      check_url_nice(p)
+      check_url_nice(p, klass == Sync::Digest)
       klass_load(klass, p, klass.path_to_id(p))
     rescue ModelException => e
       puts e
