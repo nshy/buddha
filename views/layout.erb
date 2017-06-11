@@ -6,7 +6,7 @@
 <div class="menu container">
   <% if session[:login] %>
   <div class="admin">
-    <%= menu_link('admin', '/admin/', "УПРАВЛЕНИЕ") %>
+    <%= menu_link('/admin/', "УПРАВЛЕНИЕ") %>
   </div>
   <% end %>
   <div class="main">
@@ -14,7 +14,7 @@
       <img src="<%= digest_url('/images/site_logo_small.png') %>"/>
     </a>
     <% @menu.item.each do |i| %>
-      <%= menu_link(i) %>
+      <%= menu_link(i.link, i.title) %>
     <% end %>
   </div>
   <a href="#menu" class="menu-link">
