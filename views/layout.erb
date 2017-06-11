@@ -24,7 +24,9 @@
 </nav>
 
 <div class="container body push">
-  <%= yield %>
+  <div class="content">
+    <%= yield %>
+  </div>
   <div class="site-footer row">
     <div class="links">
       <% about = @menu.about %>

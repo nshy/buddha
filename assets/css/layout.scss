@@ -41,6 +41,7 @@ font-family: 'Open Sans', sans-serif;
   padding-top: $site-navbar-height;
   background-color: #ffffff;
   border-radius: 0 0 6px 6px;
+  > .content { min-height: 500px; }
 }
 
 }
