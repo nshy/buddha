@@ -15,6 +15,7 @@ end
 def watch_klass(klass)
   klass_dirs(klass).each do |dir|
     listener = Listen.to(dir.dir, relative: true) do |updated, added, deleted|
+      database[:errors].where(path: (updated + added + deleted)).delete
       update_table(klass,
                    filter(updated, dir),
                    filter(added, dir),

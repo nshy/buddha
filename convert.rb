@@ -57,9 +57,7 @@ def update_table(klass, updated, added, deleted)
   table = database[klass.table]
   ids = (deleted + updated + added).map { |p| klass.path_to_id(p) }
   table.where(id: ids).delete
-  database[:errors].where(path: deleted).delete
   (added + updated).each do |p|
-    database[:errors].where(path: p).delete
     begin
       check_url_nice(p, klass == Sync::Digest)
       klass_load(klass, p, klass.path_to_id(p))

@@ -100,6 +100,7 @@ end
 
 Sites.each do |s|
   Site.new(s).execute do
+    database[:errors].delete
     sync_main
     sync_news
     Sync::Klasses.each { |k| sync_klass(k) }
