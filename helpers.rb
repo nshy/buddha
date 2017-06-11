@@ -194,10 +194,6 @@ module CommonHelpers
     title.downcase.strip.gsub(' ', '-').gsub(/[^\w-]/, '')
   end
 
-  def load_page(path)
-    html_render(File.read(site_path(path)))
-  end
-
   def get_full_url(url)
     if url[0] == '/'
       full_url = url
