@@ -30,5 +30,22 @@ pre {
   &:last-of-type { border-radius: 3px; }
 }
 
+input {
+  padding: 4px 7px 4px;
+  width: 700px;
+  margin-right: -10px;
+  font-family: monospace;
+
+  border: 1px solid #ccc;
+  &:focus { border: 1px solid #fff; }
+}
+
+form {
+  margin-bottom: 20px;
+}
+
+pre.messages {
+  font-size: 14px;
+}
 
 }
