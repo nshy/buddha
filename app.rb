@@ -235,6 +235,6 @@ get '/logout/?' do
 end
 
 get '/admin/' do
-  @diff = `cd edit; git diff`
+  @diff = `cd edit; git add .; git diff --staged --no-renames`
   erb :admin
 end
