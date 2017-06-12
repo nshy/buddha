@@ -11,6 +11,7 @@
   padding: 5px 0 5px 20px;
   color: #333;
   border-bottom: 1px solid #333;
+  &.binary { border-bottom: none; }
 }
 
 .line {
