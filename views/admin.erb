@@ -6,6 +6,13 @@
 
 <%= diff_to_html(@diff) %>
 
+<% if session[:notice] %>
+<div id="notice" class="<%= session[:result] ? 'success' : 'error' %>">
+  <%= session[:notice] %>
+  <% session[:notice] = nil %>
+</div>
+<% end %>
+
 <form action="/commit" method="post">
   <input placeholder="Введите описание изменения"
          name="message" maxlength="70"/>

@@ -30,6 +30,17 @@ pre {
   &:last-of-type { border-radius: 3px; }
 }
 
+#notice {
+  margin-bottom: 20px;
+  padding: 10px;
+  border-radius: 3px;
+  color: #333;
+  &.error { background-color: #faa; }
+  &.success { background-color: #afa; }
+  font-size: 20px;
+  font-weight: 300;
+}
+
 input {
   padding: 4px 7px 4px;
   width: 700px;

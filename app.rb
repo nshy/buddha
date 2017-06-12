@@ -238,3 +238,29 @@ get '/admin/' do
   @diff = `cd edit; git add .; git diff --staged --no-renames`
   erb :admin
 end
+
+post '/commit' do
+  session[:result] = false
+  if params[:message].empty?
+    session[:notice] = 'Описание изменения не должно быть пустым'
+    redirect to('/admin/#notice')
+  end
+  script = <<-END
+    set -xe
+    cd edit
+    git add
+    git commit -m '#{params[:message]}'
+    cd ../main
+    git pull --ff-only edit master || (cd ../edit; git reset HEAD~1; false)
+  END
+  if not system(script)
+    session[:notice] = <<-END
+      Невозможно опубликовать изменения из за непредвиденной ошибки.
+      Обратитесь к администратору сайта.
+    END
+    redirect to('/admin/#notice')
+  end
+  session[:result] = true
+  session[:notice] = 'Изменения успешно опубликованы'
+  redirect to('/admin/#notice')
+end
