@@ -1,6 +1,6 @@
 <div class="fotorama">
   <% options = { full_path: false, sorted: true } %>
-  <% each_file("main#{get_full_url(directory)}", options) do |name| %>
+  <% each_file(site_path(get_full_url(directory)), options) do |name| %>
   <a href="<%= digest_url("#{directory}/#{name}") %>"></a>
   <% end %>
 </div>
