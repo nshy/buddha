@@ -144,6 +144,7 @@ get '/news' do
     @year = params.delete('year')
     @news = site_model(Cache::News).by_year(@year)
   end
+  params.delete('captures')
   halt 404 if @news.nil? or @news.empty? or not params.empty?
   @years = site_model(Cache::News).years
   @menu_active = 'НОВОСТИ'
@@ -186,6 +187,7 @@ get '/timetable' do
   show = params.delete('show')
   @skip = params.delete('skip') || 0
   @skip = @skip.to_i
+  params.delete('captures')
   halt 404 if not params.empty?
   if show == 'week'
     erb :timetable
