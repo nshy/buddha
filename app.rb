@@ -245,6 +245,14 @@ post '/commit' do
     session[:notice] = 'Описание изменения не должно быть пустым'
     redirect to('/admin/#notice')
   end
+  diff = `cd edit; git add .; git diff --staged --no-renames`
+  if diff.empty?
+    session[:notice] = <<-END
+      Нет изменений для публикации. Вероятно, вы не обновили страницу
+      управления перед публикацией.
+    END
+    redirect to('/admin/#notice')
+  end
   script = <<-END
     set -xe
     cd edit
