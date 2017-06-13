@@ -6,6 +6,10 @@
 
 <%= diff_to_html(@diff) %>
 
+<% if not session[:notice] and @diff.empty? %>
+  <div id="notice" class="success"> Нет изменений </div>
+<% end %>
+
 <% if session[:notice] %>
 <div id="notice" class="<%= session[:result] ? 'success' : 'error' %>">
   <%= session[:notice] %>
@@ -13,6 +17,7 @@
 </div>
 <% end %>
 
+<% if not @diff.empty? %>
 <form action="/commit" method="post">
   <input placeholder="Введите описание изменения"
          name="message" maxlength="70"/>
@@ -32,5 +37,6 @@
 библиотека: добавить длинную мантру Будды Медицины
 все: унифицировать написание названия Дхарма-центра
 о центре: обновить фотографии с Мытной на Спартаковскую</pre>
+<% end %>
 
 </div>
