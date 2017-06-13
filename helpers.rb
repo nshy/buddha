@@ -238,6 +238,16 @@ module CommonHelpers
   def path_split(path)
     path.sub(/^\//, '').split('/')
   end
+
+  def site_errors
+    site_model(Cache::Error).all.collect { |e| e.message }
+  end
+
+  def site_errors_html
+    site_errors.map { |e|
+      "<pre class='site-error'>#{e}</pre>"
+    }.join("\n")
+  end
 end
 
 module NewsHelpers

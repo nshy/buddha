@@ -1,11 +1,5 @@
-<div class="page-error-editor">
-
 <div class="site-header">
   <div class="title"> Ошибки </div>
 </div>
 
-<% @errors.each do |e| %>
-  <pre><%= e %></pre>
-<% end %>
-
-</div>
+<%= site_errors_html %>

@@ -1,5 +1,10 @@
 @import 'mixins';
 
+pre.site-error {
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+}
+
 .site-anchor {
   padding-top: 60px;
   margin-top: -60px;

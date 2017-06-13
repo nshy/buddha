@@ -1,5 +1,13 @@
 <div class="page-admin">
 
+<% if not site_errors.empty? %>
+  <div class="site-header">
+    <div class="title"> Ошибки </div>
+  </div>
+
+  <%= site_errors_html %>
+<% end %>
+
 <div class="site-header">
   <div class="title"> Изменения </div>
 </div>

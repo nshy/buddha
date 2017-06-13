@@ -48,7 +48,7 @@ before do
   @menu = Menu::Document.load('menu.xml')
   @ya_metrika = SiteConfig::YA_METRIKA
   @extra_styles = []
-  if not site_model(Cache::Error).all.empty? and request.path != '/logout'
+  if not site_errors.empty? and request.path != '/admin/'
     raise DbExeption.new
   end
 end
@@ -80,7 +80,6 @@ end
 
 error DbExeption do
   if session[:login] or settings.development?
-    @errors = site_model(Cache::Error).all.collect { |e| e.message }
     erb :'error-editor'
   else
     erb :error

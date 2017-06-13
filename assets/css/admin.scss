@@ -19,12 +19,15 @@
   padding: 5px 0 5px 20px;
 }
 
-pre {
+.file pre, pre.messages {
   border: none;
   border-radius: 0;
   padding: 0;
   margin: 0;
   background-color: #fff;
+}
+
+.file pre {
   &.del { background-color: #fee8e9; }
   &.add { background-color: #ded; }
   &:last-of-type { border-radius: 3px; }
