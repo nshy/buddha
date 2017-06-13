@@ -5,23 +5,23 @@ module Cache
 archive = DB[:teachings].
             join(:themes, teaching_id: :id).
             join(:records, theme_id: :id).
-              select_group(:teachings__id).
-              select_append(:teachings__title).
+              select_group(Sequel[:teachings][:id]).
+              select_append(Sequel[:teachings][:title]).
               select_append{ min(record_date).as(begin_date) }.
                 order(:begin_date).reverse
 
 themes = DB[:themes].
             join(:records, theme_id: :id).
-              select_group(:themes__id).
-              select_append(:themes__title, :teaching_id).
-              select_append{ count(records__id).as(count) }.
+              select_group(Sequel[:themes][:id]).
+              select_append(Sequel[:themes][:title], :teaching_id).
+              select_append{ count(records[:id]).as(count) }.
               select_append{ min(record_date).as(begin_date) }.
                 order(:begin_date)
 
 
 # --------------------- teachings --------------------------
 
-class Teaching < Sequel::Model(archive)
+class Teaching < Sequel::Model(archive.from_self)
   set_primary_key :id
 
   one_to_many :themes
@@ -37,7 +37,7 @@ class Teaching < Sequel::Model(archive)
   end
 end
 
-class Theme < Sequel::Model(themes)
+class Theme < Sequel::Model(themes.from_self)
   set_primary_key :id
 
   many_to_one :teaching
@@ -92,10 +92,10 @@ end
 # direct means only books of category itself are counted
 category_sizes =
   DB[:book_categories].
-  join(:category_books, category_id: :book_categories__id).
-  join(:books, id: :category_books__book_id).
+  join(:category_books, category_id: Sequel[:book_categories][:id]).
+  join(:books, id: Sequel[:category_books][:book_id]).
     select_group(:category_id).
-    select_append{ count(:books__id).as(:count) }
+    select_append{ count(Sequel[:books][:id]).as(:count) }
 
 # extra construction to calculate full size of category
 # creates table 'id, child id' so that for every
@@ -106,9 +106,9 @@ sources = DB[:sources].with_recursive(
             DB[:book_categories].
               select(:id, Sequel::as(:id, :source_id)),
             DB[:category_subcategories].
-              join(:sources, source_id: :category_subcategories__category_id).
-                select(:category_subcategories__category_id,
-                       :category_subcategories__subcategory_id),
+              join(:sources, source_id: Sequel[:category_subcategories][:category_id]).
+                select(Sequel[:category_subcategories][:category_id],
+                       Sequel[:category_subcategories][:subcategory_id]),
             union_all: false)
 
 # this table is 'id, count' with full sizes of categories
@@ -122,8 +122,9 @@ category_sizes_full =
 # so all tech columnts are filtered out and count column is added
 book_categories_sizes =
   DB[:book_categories].
-    join(category_sizes_full, id: :book_categories__id).
-      select(:book_categories__id, :name, :count)
+    join(category_sizes_full, id: Sequel[:book_categories][:id]).
+      select(Sequel[:book_categories][:id], :name, :count).
+        from_self(alias: :book_categories)
 
 class Category < Sequel::Model(book_categories_sizes)
   set_primary_key :id
@@ -132,21 +133,21 @@ class Category < Sequel::Model(book_categories_sizes)
                   right_key: :category_id,
                   join_table: :category_subcategories,
                   :class => self,
-                  :select => [:book_categories__id, :name, :count]
+                  :select => [Sequel[:book_categories][:id], :name, :count]
 
   many_to_many :children,
                   left_key: :category_id,
                   right_key: :subcategory_id,
                   join_table: :category_subcategories,
                   :class => self,
-                  :select => [:book_categories__id, :name, :count]
+                  :select => [Sequel[:book_categories][:id], :name, :count]
 
   many_to_many :books,
                   left_key: :category_id,
                   right_key: :book_id,
                   join_table: :category_books,
                   class: '::Cache::Book',
-                  :select => [:id, :title, :authors, :category_books__group]
+                  :select => [:id, :title, :authors, Sequel[:category_books][:group]]
 
   def books_by_group
     books.group_by { |b| b.group }
@@ -155,7 +156,7 @@ class Category < Sequel::Model(book_categories_sizes)
   dataset_module do
     def find(id)
       eager(:children, :parents, :books).
-                where(:book_categories__id => id).first
+                where(Sequel[:book_categories][:id] => id).first
     end
   end
 end
@@ -166,7 +167,7 @@ class Book < Sequel::Model
                   right_key: :category_id,
                   join_table: :category_books,
                   class: Category,
-                  :select => [:book_categories__id, :name, :count]
+                  :select => [Sequel[:book_categories][:id], :name, :count]
 
   def group
     self[:group]

@@ -46,7 +46,7 @@ module LibraryHelper
     library = Library::Document.load(site_path('library.xml'))
     library.section.map do |s|
       a = site_model(Cache::Category).
-              where(:book_categories__id => s.category).all
+              where(Sequel[:book_categories][:id] => s.category).all
       h = a.map { |c| [ c.id, c ] }.to_h
       Section.new(s.name, s.category.map { |id| h[id] })
     end
