@@ -252,15 +252,15 @@ post '/commit' do
     END
     redirect to('/admin/#notice')
   end
-  script = <<-END
+  logger.info `
     set -xe
     cd edit
     git add
     git commit -m '#{params[:message]}'
     cd ../main
     git pull --ff-only edit master || (cd ../edit; git reset HEAD~1; false)
-  END
-  if not system(script)
+  `
+  if $? != 0
     session[:notice] = <<-END
       Невозможно опубликовать изменения из за непредвиденной ошибки.
       Обратитесь к администратору сайта.
