@@ -26,6 +26,10 @@ class NewsDocument
       @cut = nil
     end
 
+    if not doc.metadata
+      raise ModelException.new("Отсутствует заголовок новости")
+    end
+
     ds = doc.metadata['publish_date']
     if not ds
       raise ModelException.new("Не указана дата публикации новости")
