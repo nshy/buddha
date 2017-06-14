@@ -204,6 +204,7 @@ module CommonHelpers
   end
 
   def digest_url(url)
+    return url if URI(url).absolute?
     full_url = get_full_url(url)
     output_url = (@base_url and @base_url != request.path) ? full_url : url
 
