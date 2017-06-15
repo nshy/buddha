@@ -258,20 +258,20 @@ module NewsHelpers
     html_render(doc)
   end
 
-  def html_digest_urls(doc)
+  def news_urls(doc)
     doc.xpath('//a').each do |a|
-      h = a.attribute('href')
-      next if not h
-      h.content = digest_url(h.content)
-
-      h = a.attribute('data-full')
-      next if not h
-      h.content = digest_url(h.content)
+      yield a.attribute('href')
+      yield a.attribute('data-full')
     end
     doc.xpath('//img').each do |a|
-      h = a.attribute('src')
-      next if not h
-      h.content = digest_url(h.content)
+      yield a.attribute('src')
+    end
+  end
+
+  def html_digest_urls(doc)
+    news_urls(doc) do |url|
+      next if not url
+      url.content = digest_url(url.content)
     end
   end
 
