@@ -63,15 +63,15 @@ overflow: auto;
   margin-left: 0px;
 }
 
+}
+
+}
+
+
+@media (max-width: 1199px) and (min-width: 992px) {
 // so that 3 book columns can fit
-.book-thumb:nth-of-type(3n) {
-  margin-right: 0px;
+.book-thumb:nth-of-type(3n) { margin-right: 0px; }
 }
-
-}
-
-}
-
 
 @media (max-width: 991px) {
 
@@ -82,15 +82,6 @@ background-position: 96% 50px;
 .recent {
   width: 100%;
   float: none;
-}
-
-// undo above
-.book-thumb:nth-of-type(3n) {
-  margin-right: 20px;
-}
-// so that 4 book columns can fit
-.book-thumb:nth-of-type(4n) {
-  margin-right: 0px;
 }
 
 .recent.widescreen {
@@ -108,17 +99,9 @@ background-position: 96% 50px;
 }
 
 
-@media (max-width: 767px) {
-
-.page-library {
-
-// undo above
-.book-thumb:nth-of-type(4n) {
-  margin-right: 20px;
-}
-
-}
-
+@media (max-width: 991px) and (min-width: 768px) {
+// so that 4 book columns can fit
+.book-thumb:nth-of-type(4n) { margin-right: 0px; }
 }
 
 
