@@ -7,7 +7,7 @@
 </div>
 <div class="page-library">
   <div class="recent widescreen">
-    <div class="title"> Последние добавленные </div>
+    <span class="title"> Последние добавленные </span>
     <% @books.each do |book| %>
       <%= book_thumb(book) %>
     <% end %>
@@ -23,7 +23,7 @@
   <% end %>
 
   <div class="recent tabletscreen">
-    <div class="title"> Последние добавленные </div>
+    <span class="title"> Последние добавленные </span>
     <% @books.each do |book| %>
       <%= book_thumb(book) %>
     <% end %>

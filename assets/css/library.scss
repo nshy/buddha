@@ -18,6 +18,7 @@ background-repeat: no-repeat;
 }
 
 .recent > .title {
+  display: block;
   @include site-element-level-2;
   margin-bottom: 15px;
 }
@@ -63,7 +64,7 @@ overflow: auto;
 }
 
 // so that 3 book columns can fit
-.book-thumb:nth-child(3n) {
+.book-thumb:nth-of-type(3n) {
   margin-right: 0px;
 }
 
@@ -84,11 +85,11 @@ background-position: 96% 50px;
 }
 
 // undo above
-.book-thumb:nth-child(3n) {
+.book-thumb:nth-of-type(3n) {
   margin-right: 20px;
 }
 // so that 4 book columns can fit
-.book-thumb:nth-child(4n) {
+.book-thumb:nth-of-type(4n) {
   margin-right: 0px;
 }
 
@@ -112,7 +113,7 @@ background-position: 96% 50px;
 .page-library {
 
 // undo above
-.book-thumb:nth-child(4n) {
+.book-thumb:nth-of-type(4n) {
   margin-right: 20px;
 }
 
