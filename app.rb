@@ -242,11 +242,19 @@ post '/logout' do
 end
 
 get '/admin/' do
+  if not session[:login]
+    redirect to('/login')
+    return
+  end
   @diff = `cd edit; git add .; git diff --staged --no-renames`
   erb :admin
 end
 
 post '/commit' do
+  if not session[:login]
+    redirect to('/login')
+    return
+  end
   session[:result] = false
   if params[:message].empty?
     session[:notice] = 'Описание изменения не должно быть пустым'
