@@ -46,7 +46,6 @@ end
 
 before do
   @menu = Menu::Document.load('menu.xml')
-  @ya_metrika = SiteConfig::YA_METRIKA
   @extra_styles = []
   if not site_errors.empty? \
      and request.path != '/admin/' \

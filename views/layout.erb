@@ -51,7 +51,9 @@
   <% end %>
 </div> <%# menu %>
 
-<%= erb :'partials/ya_metrika' if @ya_metrika %>
+<% if request.host == 'buddha.ru' and not session[:login] %>
+  <%= erb :'partials/ya_metrika' %>
+<% end %>
 
   </body>
 </html>
