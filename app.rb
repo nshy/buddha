@@ -275,7 +275,7 @@ post '/commit' do
   logger.info `
     set -xe
     cd edit
-    git add
+    git add .
     git commit -m '#{params[:message]}'
     cd ../main
     git pull --ff-only edit master || (cd ../edit; git reset HEAD~1; false)
