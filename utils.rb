@@ -54,6 +54,13 @@ class Week
   end
 end
 
+class ModelException < RuntimeError
+end
+
+def path_from_db(path)
+  path.split('/')[1..-1].join('/')
+end
+
 def format_file_error(path, msg)
   ModelException.new("Нарушение формата в файле #{path_from_db(path)}:\n#{msg}")
 end

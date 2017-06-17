@@ -1,12 +1,5 @@
 require 'nokogiri'
-
-def path_from_db(path)
-  path.split('/')[1..-1].join('/')
-end
-
-class ModelException < RuntimeError
-  attr_accessor :document
-end
+require_relative 'utils'
 
 module XDSL
 
@@ -88,19 +81,18 @@ module ElementClass
 
   def load(path)
     return nil if not File.exists?(path)
-    p = path_from_db(path)
     begin
       n = Nokogiri::XML(File.open(path)) { |config| config.strict }
     rescue Nokogiri::XML::SyntaxError => e
-      raise ModelException.new("Нарушение xml синтаксиса в файле #{p}:\n#{e}")
+      raise format_file_error(path, "Нарушение синтаксиса XML: #{e}")
+    end
+    if n.root.name != @root.to_s
+      raise format_file_error(path, "Неправильный корневой элемент #{n.root.path}")
     end
     begin
-      if n.root.name != @root.to_s
-        raise ModelException.new "Неправильный корневой элемент #{n.root.path}"
-      end
       doc = parse(n.root)
     rescue ModelException => e
-      raise ModelException.new("Нарушение формата в файле #{p}:\n#{e}")
+      raise format_file_error(path, e)
     end
     doc
   end
