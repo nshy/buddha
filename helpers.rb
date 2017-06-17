@@ -244,8 +244,8 @@ module CommonHelpers
     site_model(Cache::Error).all.collect { |e| e.message }
   end
 
-  def site_errors_html
-    site_errors.map { |e|
+  def site_errors_html(errors)
+    errors.map { |e|
       "<pre class='site-error'>#{e}</pre>"
     }.join("\n")
   end

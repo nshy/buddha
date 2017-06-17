@@ -83,6 +83,7 @@ end
 
 error DbExeption do
   if session[:login] or settings.development?
+    @errors = site_errors
     erb :'error-editor'
   else
     erb :error
