@@ -25,7 +25,7 @@
 </div>
 <% end %>
 
-<% if not @diff.empty? %>
+<% if not @diff.empty? and site_errors.empty? %>
 <form action="/commit" method="post">
   <input placeholder="Введите описание изменения"
          name="message" maxlength="70"/>
