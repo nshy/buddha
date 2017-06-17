@@ -64,11 +64,12 @@ table {
   color:  #a0a0a0;
 }
 
-.headings > .heading {
-  padding-left: 0;
+.heading > .self {
+  padding-left: 2em;
+  text-indent: -2em;
 }
 
-.heading {
+.heading > .children {
   padding-left: 1em;
 }
 
