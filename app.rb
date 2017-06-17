@@ -73,7 +73,10 @@ not_found do
   uri = local_uri(URI::unescape(request.path),
                   URI::unescape(request.query_string))
   goto = map[uri]
-  redirect to(goto) if not goto.nil?
+  if goto
+    redirect to(goto)
+    return
+  end
   @redirection = "#{SiteConfig::OLD_SITE}#{uri}"
   erb :'try-old-site'
 end
@@ -245,6 +248,7 @@ post '/commit' do
   if params[:message].empty?
     session[:notice] = 'Описание изменения не должно быть пустым'
     redirect to('/admin/#notice')
+    return
   end
   diff = `cd edit; git add .; git diff --staged --no-renames`
   if diff.empty?
@@ -253,6 +257,7 @@ post '/commit' do
       управления перед публикацией.
     END
     redirect to('/admin/#notice')
+    return
   end
   logger.info `
     set -xe
@@ -268,6 +273,7 @@ post '/commit' do
       Обратитесь к администратору сайта.
     END
     redirect to('/admin/#notice')
+    return
   end
   session[:result] = true
   session[:notice] = 'Изменения успешно опубликованы'
