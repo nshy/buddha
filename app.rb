@@ -32,6 +32,9 @@ set :sessions, :domain => SiteConfig::DOMAIN
 set :sessions, :path => '/'
 set :sessions, :key => 'session'
 
+set :cookie_options, :domain => SiteConfig::DOMAIN
+set :cookie_options, :path => '/'
+
 set :show_exceptions, false
 set :bind, '0.0.0.0'
 if settings.development?
@@ -230,6 +233,7 @@ end
 post '/login' do
   if params[:password] == SiteConfig::ADMIN_SECRET
     session[:login] = true
+    cookies[:nocache] = 1
     redirect to('/')
   else
     redirect to('/login')
@@ -238,6 +242,7 @@ end
 
 post '/logout' do
   session[:login] = false
+  cookies[:nocache] = 0
   redirect to('/')
 end
 
