@@ -1,5 +1,9 @@
 <div class="page-admin">
 
+<form action="/logout" method="post" class="logout">
+  <button class="site-button logout" type="submit"> Выйти </button>
+</form>
+
 <% if not site_errors.empty? %>
   <div class="site-header">
     <div class="title"> Ошибки </div>
@@ -26,7 +30,7 @@
 <% end %>
 
 <% if not @diff.empty? and site_errors.empty? %>
-<form action="/commit" method="post">
+<form action="/commit" method="post" class="commit">
   <input placeholder="Введите описание изменения"
          name="message" maxlength="70"/>
   <button class="site-button" type="submit">Опубликовать</button>

@@ -237,7 +237,7 @@ post '/login' do
   end
 end
 
-get '/logout/?' do
+post '/logout' do
   session[:login] = false
   redirect to('/')
 end

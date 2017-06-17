@@ -1,5 +1,10 @@
 .page-admin {
 
+form.logout {
+  float: right;
+  margin-top: 30px;
+}
+
 .file {
   border: 1px solid #333;
   margin-bottom: 40px;
@@ -54,7 +59,7 @@ input {
   &:focus { border: 1px solid #fff; }
 }
 
-form {
+form.commit {
   margin-bottom: 20px;
 }
 
