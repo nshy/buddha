@@ -57,12 +57,13 @@ not_found do
   p = find_page
   if p
     begin
+      status 200
       check_url_nice(p)
+      return simple_page(p)
     rescue ModelException => e
+      status 500
       return show_error(e.message)
     end
-    status 200
-    return simple_page(p)
   end
 
   @menu_active = nil

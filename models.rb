@@ -10,43 +10,29 @@ class NewsDocument
 
   def initialize(path)
     @is_dir = path_is_dir(path)
-    begin
-      doc = Preamble.load(path)
-    rescue StandardError
-      raise ModelException.new("Ошибочное форматирование заголовка новости")
-    end
-    if m = PageCut.match(doc.content)
+    doc, header = load_preamble(path, [ 'publish_date', 'title' ])
+    if m = PageCut.match(doc)
       @cut = m[1]
       @body = m[2]
-    elsif m = PageCutSimple.match(doc.content)
+    elsif m = PageCutSimple.match(doc)
       @cut = m[1]
-      @body = doc.content
+      @body = doc
     else
-      @body = doc.content
+      @body = doc
       @cut = nil
     end
 
-    if not doc.metadata
-      raise ModelException.new("Отсутствует заголовок новости")
-    end
-
-    ds = doc.metadata['publish_date']
-    if not ds
-      raise ModelException.new("Не указана дата публикации новости")
-    end
-    @title = doc.metadata['title']
-    if not @title
-      raise ModelException.new("Не указано заглавие новости")
-    end
-    @buddha_node = doc.metadata['buddha_node']
+    ds = header['publish_date']
+    @title = header['title']
+    @buddha_node = header['buddha_node']
     d = DateTime.parse(ds)
     if d.hour == 0 and d.minute == 0
       if d.strftime("%Y-%m-%d") != ds
-        raise ModelException.new("Неправильный формат даты #{ds}")
+        raise format_file_error(path, "Неправильный формат даты #{ds}")
       end
     else
       if d.strftime("%Y-%m-%d %H:%M") != ds
-        raise ModelException.new("Неправильный формат даты и времени #{ds}")
+        raise format_file_error(path, "Неправильный формат даты и времени #{ds}")
       end
     end
     @date = d

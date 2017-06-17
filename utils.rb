@@ -53,3 +53,28 @@ class Week
     "start at #{@monday}"
   end
 end
+
+def format_file_error(path, msg)
+  ModelException.new("Нарушение формата в файле #{path_from_db(path)}:\n#{msg}")
+end
+
+def load_preamble(path, required)
+  begin
+    doc = Preamble.load(path)
+  rescue StandardError
+    raise format_file_error(path, "Ошибочное форматирование заголовка страницы")
+  end
+
+  if required
+    if not doc.metadata
+      raise format_file_error(path, "Отсутствует заголовок страницы")
+    end
+    required.each do |r|
+      if not doc.metadata.has_key?(r)
+        raise format_file_error(path, "Отсутствует обязательное поле заголовка #{r}")
+      end
+    end
+  end
+
+  [ doc.content, doc.metadata ]
+end

@@ -162,12 +162,7 @@ module News
          "Два варианта для новости #{id}. " \
          "Используйте либо директорию либо файл."
     end
-    begin
     news = NewsDocument.new(path)
-    rescue ModelException => e
-      raise ModelException.new \
-        "Нарушение формата в файле #{path_from_db(path)}:\n#{e}"
-    end
     insert_object(database[:news], news, id: id)
   end
 

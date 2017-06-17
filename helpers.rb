@@ -111,9 +111,8 @@ module CommonHelpers
   end
 
   def simple_page(p)
-    doc = Preamble.load(p)
-    @menu_active = doc.metadata['menu']
-    @html = doc.content
+    @html, header = load_preamble(p, ['menu'])
+    @menu_active = header['menu']
     erb "<%= html_render(@html) %>"
   end
 
