@@ -48,7 +48,9 @@ before do
   @menu = Menu::Document.load('menu.xml')
   @ya_metrika = SiteConfig::YA_METRIKA
   @extra_styles = []
-  if not site_errors.empty? and request.path != '/admin/'
+  if not site_errors.empty? \
+     and request.path != '/admin/' \
+     and request.path != '/commit'
     raise DbExeption.new
   end
 end
@@ -256,6 +258,15 @@ post '/commit' do
   if diff.empty?
     session[:notice] = <<-END
       Нет изменений для публикации. Вероятно, вы не обновили страницу
+      управления перед публикацией.
+    END
+    redirect to('/admin/#notice')
+    return
+  end
+  if not site_errors.empty?
+    session[:notice] = <<-END
+      Во внесенных изменениях есть ошибки, поэтому результат не может
+      быть опубликован. Вероятно, вы не обновили страницу
       управления перед публикацией.
     END
     redirect to('/admin/#notice')
