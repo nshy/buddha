@@ -251,7 +251,12 @@ get '/admin/' do
     redirect to('/login')
     return
   end
-  @diff = `cd edit; git add .; git diff --staged --no-renames`
+  @diff = `
+    export GIT_DIR='../.git-edit'
+    cd edit
+    git add .
+    git diff --staged --no-renames
+  `
   erb :admin
 end
 
@@ -266,7 +271,12 @@ post '/commit' do
     redirect to('/admin/#notice')
     return
   end
-  diff = `cd edit; git add .; git diff --staged --no-renames`
+  diff = `
+    export GIT_DIR='../.git-edit'
+    cd edit
+    git add .
+    git diff --staged --no-renames
+  `
   if diff.empty?
     session[:notice] = <<-END
       Нет изменений для публикации. Вероятно, вы не обновили страницу
@@ -287,10 +297,11 @@ post '/commit' do
   logger.info `
     set -xe
     cd edit
-    git add .
-    git commit -m '#{params[:message]}'
+    git --git-dir=../.git-edit add .
+    git --git-dir=../.git-edit commit -m '#{params[:message]}'
     cd ../main
-    git pull --ff-only edit master || (cd ../edit; git reset HEAD~1; false)
+    git pull --ff-only edit master || \
+      (cd ../edit; git --git-dir=../.git-edit reset HEAD~1; false)
   `
   if $? != 0
     session[:notice] = <<-END
