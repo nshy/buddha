@@ -16,7 +16,7 @@ def watch_klass(k)
   klass = site_class(k)
   klass.dirs.each do |dir|
     listener = Listen.to(dir.dir, relative: true) do |updated, added, deleted|
-      database[:errors].where(path: (updated + added + deleted)).delete
+      database[:errors].where(path: updated + added + deleted).delete
       table_add(klass, dir, filter(added, dir))
       table_update(klass, dir, filter(updated, dir))
       table_delete(klass, filter(deleted, dir))
@@ -44,8 +44,9 @@ def sync_watch_paths(updated, added, deleted, assets)
 end
 
 def watch_news
-  listener = Listen.to(site_path("news"), relative: true) do |*a|
-    sync_watch_paths(*a, Assets::News)
+  listener = Listen.to(site_path("news"), relative: true) do |updated, added, deleted|
+    database[:errors].where(path: updated + added + deleted).delete
+    sync_watch_paths(updated, added, deleted, Assets::News)
   end
   listener.only /\.scss$/
   listener.start
@@ -53,6 +54,7 @@ end
 
 def watch_main
   listener = Listen.to(StyleSrc, relative: true) do |updated, added, deleted|
+    database[:errors].where(path: updated + added + deleted).delete
     if updated.include?(Mixins)
     puts "a U #{Mixins}"
       compile_all
