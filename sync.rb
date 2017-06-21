@@ -12,40 +12,35 @@ def convert(set)
 end
 
 
-def sync_klass(klass)
-  database.create_table :disk_state, temp: true do
-    String :id, primary_key: true
-    String :path, null: false, unique: true
-    DateTime :last_modified , null: false
-  end
-
-  files = klass_dirs(klass).map { |d| d.files }.flatten
-  files.each do |path|
-    database[:disk_state].insert(id: klass.path_to_id(path),
-                                 path: path,
-                                 last_modified: File.mtime(path))
-  end
-
+def sync_klass(k)
+  klass = site_class(k)
   table = klass.table
-  updated = database[:disk_state].join_table(:left, table, id: :id).
-              where{ Sequel[table][:last_modified] <
-                     Sequel[:disk_state][:last_modified] }.
+  klass.dirs.map do |dir|
+    dir.files.each do |path|
+      database[:disk_state].insert(path: path,
+                                   last_modified: File.mtime(path))
+    end
+
+    updated = database[:disk_state].join_table(:left, table, path: :path).
+                where{ Sequel[table][:last_modified] <
+                       Sequel[:disk_state][:last_modified] }.
+                  select(Sequel[:disk_state][:path])
+
+    added = database[:disk_state].join_table(:left, table, path: :path).
+              where(Sequel[table][:path] => nil).
                 select(Sequel[:disk_state][:path])
 
-  deleted = database[table].join_table(:left, :disk_state, id: :id).
-              where(Sequel[:disk_state][:id] => nil).
+    table_add(klass, dir, convert(added))
+    table_update(klass, dir, convert(updated))
+  end
+
+  deleted = database[table].join_table(:left, :disk_state, path: :path).
+              where(Sequel[:disk_state][:path] => nil).
                 select(Sequel[table][:path])
 
-  added = database[:disk_state].join_table(:left, table, id: :id).
-            where(Sequel[table][:id] => nil).
-              select(Sequel[:disk_state][:path])
+  table_delete(klass, convert(deleted))
 
-  update_table(klass,
-               convert(updated),
-               convert(added),
-               convert(deleted))
-
-  database.drop_table :disk_state
+  database[:disk_state].delete
 end
 
 
@@ -107,6 +102,11 @@ Sites.each do |s|
   Site.for(s).instance_eval do
     Dir.mkdir(build_dir) if not File.exists?(build_dir)
     database[:errors].delete
+    database.create_table :disk_state, temp: true do
+      String :path, primary_key: true
+      DateTime :last_modified , null: false
+    end
+
     sync_main
     sync_news
     Sync::Klasses.each { |k| sync_klass(k) }

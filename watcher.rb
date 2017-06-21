@@ -12,14 +12,14 @@ def filter(paths, dir)
   paths.select { |p| dir.match(p) }
 end
 
-def watch_klass(klass)
-  klass_dirs(klass).each do |dir|
+def watch_klass(k)
+  klass = site_class(k)
+  klass.dirs.each do |dir|
     listener = Listen.to(dir.dir, relative: true) do |updated, added, deleted|
       database[:errors].where(path: (updated + added + deleted)).delete
-      update_table(klass,
-                   filter(updated, dir),
-                   filter(added, dir),
-                   filter(deleted, dir))
+      table_add(klass, dir, filter(added, dir))
+      table_update(klass, dir, filter(updated, dir))
+      table_delete(klass, filter(deleted, dir))
     end
     listener.start
   end
