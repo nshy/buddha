@@ -15,13 +15,17 @@ class Site
   attr_reader :database, :site
   include SiteHelpers
 
-  def initialize(site)
+  def initialize(site, database)
     @site = site
-    @database = SiteHelpers.open(site)
+    @database = database
   end
 
-  def execute(&b)
-    instance_eval &b
+  def clone
+    Site.new(@site, @database)
+  end
+
+  def self.for(site)
+    new(site, SiteHelpers.open(site))
   end
 end
 
@@ -295,39 +299,41 @@ module Extensions
   end
 end
 
-class News
-  extend Extensions
+module News
+  include Extensions
 
-  def self.dst(path)
-    css(path)
+  def dst(path)
+    id = path_split(path)[2]
+    site_build_path("news/#{id}.css")
   end
 
-  def self.src(path)
-    scss(path)
+  def src(path)
+    id = CommonHelpers::path_to_id(path)
+    site_path("news/#{id}/style.scss")
   end
 
-  def self.preprocess(path, input)
+  def preprocess(path, input)
     id = Sync::News::path_to_id(path)
     "#news-#{id} {\n\n#{input}\n}"
   end
 
-  def self.shorten(path)
+  def shorten(path)
     path_from_db(path)
   end
 end
 
-class Public
-  extend Extensions
+module Public
+  include Extensions
 
-  def self.dst(path)
+  def dst(path)
     css(path.gsub(/^assets/, 'public'))
   end
 
-  def self.src(path)
+  def src(path)
     scss(path.gsub(/^public/, 'assets'))
   end
 
-  def self.shorten(path)
+  def shorten(path)
     path
   end
 end

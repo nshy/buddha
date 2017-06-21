@@ -1,9 +1,9 @@
-main
-edit
-config.rb
-main.db
-edit.db
-dump
+/main
+/edit
+/config.rb
+/main.db
+/edit.db
+/build
 /import/news/tmp
 /import/news-site/tmp
 /import/old-news/tmp

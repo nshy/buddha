@@ -50,15 +50,17 @@ end
 
 
 def sync_path(s, d, assets)
-  d = assets.dst(s) if not d
-  s = assets.src(d) if not s
+  a = clone
+  a.extend(assets)
+  d = a.dst(s) if not d
+  s = a.src(d) if not s
   if File.exists?(s)
     if not File.exists?(d)
       puts "a A #{s}"
-      compile(assets, s)
+      compile(a, s)
     elsif File.mtime(s) > File.mtime(d)
       puts "a U #{s}"
-      compile(assets, s)
+      compile(a, s)
     end
   elsif File.exists?(d)
     puts "a D #{s}"
@@ -68,6 +70,8 @@ end
 
 def sync_news
   dir = site_path("news")
+  build = site_build_path("news")
+  Dir.mkdir(build) if not File.exists?(build)
   Dir.entries(dir).each do |e|
     p = "#{dir}/#{e}"
     next if not File.directory?(p) or e == '.' or e == '..'
@@ -98,8 +102,10 @@ def sync_main
   concat if File.mtime(StyleDst) > File.mtime(Bundle) or assets_changed?
 end
 
+Dir.mkdir("build") if not File.exists?("build")
 Sites.each do |s|
-  Site.new(s).execute do
+  Site.for(s).instance_eval do
+    Dir.mkdir(build_dir) if not File.exists?(build_dir)
     database[:errors].delete
     sync_main
     sync_news

@@ -16,8 +16,16 @@ module SiteHelpers
     site.to_s
   end
 
+  def build_dir
+    "build/#{site}"
+  end
+
   def site_path(path)
     "#{site_dir}/#{path}"
+  end
+
+  def site_build_path(path)
+    "#{build_dir}/#{path}"
   end
 end
 
@@ -315,8 +323,9 @@ module NewsHelpers
 
   def news_styles(news)
     styles = news.map do |n|
-      if n.is_dir and File.exists?(site_path("news/#{n.id}/style.css"))
-        "/news/#{n.id}/style.css"
+      p = "/news/#{n.id}.css"
+      if n.is_dir and File.exists?(site_build_path(p))
+        p
       else
         nil
       end

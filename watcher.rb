@@ -26,18 +26,20 @@ def watch_klass(klass)
 end
 
 def sync_watch_paths(updated, added, deleted, assets)
+  a = clone
+  a.extend(assets)
   deleted.each do |p|
     puts "a D #{p}"
-    css = assets.dst(p)
+    css = a.dst(p)
     File.delete(css) if File.exists?(css)
   end
   added.each do |p|
     puts "a A #{p}"
-    compile(assets, p)
+    compile(a, p)
   end
   updated.each do |p|
     puts "a U #{p}"
-    compile(assets, p)
+    compile(a, p)
   end
 end
 
@@ -64,7 +66,7 @@ def watch_main
 end
 
 Sites.each do |s|
-  Site.new(s).execute do
+  Site.for(s).instance_eval do
     watch_main
     watch_news
     Sync::Klasses.each { |k| watch_klass(k) }

@@ -120,7 +120,13 @@ get /.+\.(jpg|gif|swf|css|ttf)/ do
   if settings.development?
     cache_control :public, max_age: 0
   end
-  send_file site_path(request.path)
+  if File.exist?(site_build_path(request.path))
+    send_file site_build_path(request.path)
+  elsif File.exist?(site_path(request.path))
+    send_file site_path(request.path)
+  else
+    halt 404
+  end
 end
 
 get /.+\.(doc|pdf)/ do
