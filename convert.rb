@@ -352,7 +352,6 @@ def compile(assets, path)
   input = File.read(path)
   input = assets.preprocess(path, input) if assets.respond_to?(:preprocess)
   options = { style: :expanded, load_paths: [ StyleSrc ] }
-  database[:errors].where(path: path).delete
   begin
     res = SassC::Engine.new(input, options).render
     File.write(assets.dst(path), res)
