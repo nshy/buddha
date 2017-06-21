@@ -52,7 +52,8 @@ before do
   @extra_styles = []
   if not site_errors.empty? \
      and request.path != '/admin/' \
-     and request.path != '/commit'
+     and request.path != '/commit' \
+     and request.path != '/logout'
     raise DbExeption.new
   end
 end
