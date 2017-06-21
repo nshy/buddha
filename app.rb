@@ -71,6 +71,12 @@ not_found do
     end
   end
 
+  r = request.path
+  p = site_build_path(r)
+  return send_app_file(p) if File.exist?(p)
+  p = site_path(r)
+  return send_app_file(p) if File.exist?(p)
+
   @menu_active = nil
   map = {}
   File.open(site_path('compat.yaml')) do |file|
@@ -115,26 +121,6 @@ error do
   else
     erb :error
   end
-end
-
-get /.+\.(jpg|gif|swf|css|ttf)/ do
-  if settings.development?
-    cache_control :public, max_age: 0
-  end
-  if File.exist?(site_build_path(request.path))
-    send_file site_build_path(request.path)
-  elsif File.exist?(site_path(request.path))
-    send_file site_path(request.path)
-  else
-    halt 404
-  end
-end
-
-get /.+\.(doc|pdf)/ do
-  if settings.development?
-    cache_control :public, max_age: 0
-  end
-  send_file site_path(request.path), disposition: :attachment
 end
 
 get '/teachings/' do

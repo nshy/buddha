@@ -107,6 +107,12 @@ module TeachingsHelper
 end
 
 module CommonHelpers
+  def send_app_file(p)
+    cache_control :public, max_age: 0 if settings.development?
+    d = :attachment if /\.(doc|pdf)$/ =~ p
+    send_file p, disposition: d
+  end
+
   def find_page
     url = request.path
     p = url.sub(/^\//, '').sub(/\/$/, '')
