@@ -107,12 +107,17 @@ class DirFiles
   end
 
   def files
-    dir_files(dir, sorted: true)
+    dir_files(dir, sorted: true).select { |p| convention?(p) }
   end
 
   def match(path)
     p = path_split(path)
-    p.size == 3 and p.last =~ /.xml$/
+    p.size == 3 and convention?(path)
+  end
+
+ private
+  def convention?(path)
+    path =~ /.xml$/ and File.file?(path)
   end
 end
 
@@ -189,6 +194,7 @@ end
 
 class BookDir
   include DirId
+  Page = "info.xml"
   attr_reader :dir
 
   def initialize(dir)
@@ -196,14 +202,13 @@ class BookDir
   end
 
   def files
-    dir_files(dir, sorted: true).map do |path|
-      "#{path}/info.xml"
-    end
+    l = dir_files(dir, sorted: true).map { |p| "#{p}/#{Page}" }
+    l.select { |p| File.file?(p) }
   end
 
   def match(path)
     p = path_split(path)
-    p.size == 4 and p.last =~ /^info\.xml$/
+    p.size == 4 and p.last == Page and File.file?(path)
   end
 end
 
