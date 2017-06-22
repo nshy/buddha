@@ -73,9 +73,9 @@ not_found do
 
   r = request.path
   p = site_build_path(r)
-  return send_app_file(p) if File.exist?(p)
+  return send_app_file(p) if File.file?(p)
   p = site_path(r)
-  return send_app_file(p) if File.exist?(p)
+  return send_app_file(p) if File.file?(p)
 
   @menu_active = nil
   map = {}
