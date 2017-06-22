@@ -11,7 +11,7 @@
 </div>
 <% if @index.announce and @index.announce.end >= Date.today %>
 <a class="photos" href="<%= @index.announce.link %>">
-  <img src="<%= digest_url("/index/#{@index.announce.image}") %>"/>
+  <img src="<%= digest_url("#{@index.announce.image}") %>"/>
 </a>
 <% else %>
 <%= slideshow('about/photos') %>
