@@ -199,10 +199,6 @@ module CommonHelpers
     File.basename(path).gsub(/\.[^.]+$/, '')
   end
 
-  def path_to_ext(path)
-    path.gsub(/^[^.]+\./, '')
-  end
-
   def slug(title)
     title.downcase.strip.gsub(' ', '-').gsub(/[^\w-]/, '')
   end
