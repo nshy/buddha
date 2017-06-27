@@ -59,9 +59,13 @@ def prepare_dirs(files)
   end
 end
 
+def dir_empty(path)
+  (Dir.entries(path) - [ '.', '..' ]).empty?
+end
+
 def cleanup_dirs(files)
   dirs_trace(files).reverse.each do |d|
-    Dir.unlink(d) if Dir.exist?(d) and Dir.entries(d).empty?
+    Dir.unlink(d) if Dir.exist?(d) and dir_empty(d)
   end
 end
 
@@ -100,7 +104,7 @@ def sync_update
   add.each { |p| File.link(path_add(p, 'edit'), path_add(p, 'main')) }
 
   delete.each { |p| File.unlink(path_add(p, 'main')) }
-  cleanup_dirs(prepend_path(delete, 'edit'))
+  cleanup_dirs(prepend_path(delete, 'main'))
 end
 
 def print_status(files, prefix)
