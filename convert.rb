@@ -46,6 +46,7 @@ def table_insert(klass, dir, p)
   id = dir.path_to_id(p)
   begin
     check_url_nice(p, klass.table == :digests)
+    dir.check(p) if dir.respond_to?(:check)
     klass.load(p, id)
   rescue ModelException => e
     puts e
@@ -91,21 +92,30 @@ end
 
 module Sync
 
-module DirId
-  def path_to_id(path)
-    CommonHelpers::path_to_id(Pathname.new(path).each_filename.to_a[2])
-  end
-end
-
 class DirFiles
-  include DirId
-
   attr_reader :dir
 
   def initialize(dir, ext)
     @dir = dir
     @ext = ext
     @size = path_split(dir).size
+  end
+
+  def path_to_id(path)
+    name = path_split(path)[@size]
+    CommonHelpers::path_to_id(name)
+  end
+
+  def check(path)
+    id = path_to_id(path)
+    short = "#{dir}/#{id}/page.#{@ext}"
+    long = "#{dir}/#{id}.#{@ext}"
+    if File.exists?(short) and File.exists?(long)
+       raise ModelException.new \
+         "Присутствуют оба варианта #{long} и #{short} " \
+         "Используйте либо вариант с директорией и файлом внутри " \
+         "либо только файл."
+    end
   end
 
   def files
@@ -154,13 +164,6 @@ end
 
 module News
   def load(path, id)
-    size = path_split(path).size
-    if size == 3 and File.exists?(site_path("news/#{id}/page.html")) or \
-       size == 4 and File.exists?(site_path("news/#{id}.html"))
-       raise ModelException.new \
-         "Два варианта для новости #{id}. " \
-         "Используйте либо директорию либо файл."
-    end
     news = NewsDocument.new(path)
     insert_object(database[:news], news, id: id)
   end
