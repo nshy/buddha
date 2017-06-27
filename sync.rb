@@ -15,12 +15,21 @@ end
 def sync_klass(k)
   klass = site_class(k)
   table = klass.table
+
   klass.dirs.map do |dir|
     dir.files.each do |path|
       database[:disk_state].insert(path: path,
                                    last_modified: File.mtime(path))
     end
+  end
 
+  deleted = database[table].join_table(:left, :disk_state, path: :path).
+              where(Sequel[:disk_state][:path] => nil).
+                select(Sequel[table][:path])
+
+  table_delete(klass, convert(deleted))
+
+  klass.dirs.map do |dir|
     updated = database[:disk_state].join_table(:left, table, path: :path).
                 where{ Sequel[table][:last_modified] <
                        Sequel[:disk_state][:last_modified] }.
@@ -33,12 +42,6 @@ def sync_klass(k)
     table_add(klass, dir, convert(added))
     table_update(klass, dir, convert(updated))
   end
-
-  deleted = database[table].join_table(:left, :disk_state, path: :path).
-              where(Sequel[:disk_state][:path] => nil).
-                select(Sequel[table][:path])
-
-  table_delete(klass, convert(deleted))
 
   database[:disk_state].delete
 end
