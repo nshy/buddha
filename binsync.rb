@@ -107,11 +107,30 @@ def print_status(files, prefix)
   files.each { |p| puts "#{prefix} #{p}" }
 end
 
+def extract_rename(add, delete)
+  map = delete.map { |p| [ File.stat(path_add(p, 'main')).ino, p ] }.to_h
+  rename = add.map do |a|
+    d = map[File.stat(path_add(a, 'edit')).ino]
+    d ? [d, a] : nil
+  end
+  rename = rename.compact
+  if rename.empty?
+    dd = da = []
+  else
+    dd, da = rename.transpose
+  end
+  add = add - da
+  delete = delete - dd
+  [ add, delete, rename ]
+end
+
 def sync_status
   update, add, delete = sync_diff
+  add, delete, rename = extract_rename(add, delete)
   print_status(update, 'U')
   print_status(add, 'A')
   print_status(delete, 'D')
+  rename.each { |r| puts "R #{r[0]} #{r[1]}" }
 end
 
 USAGE = <<USAGE
