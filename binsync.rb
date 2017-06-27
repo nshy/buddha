@@ -61,7 +61,7 @@ end
 
 def cleanup_dirs(files)
   dirs_trace(files).reverse.each do |d|
-    Dir.unlink(d) if Dir.exist?d) and Dir.entries(d).empty?
+    Dir.unlink(d) if Dir.exist?(d) and Dir.entries(d).empty?
   end
 end
 
