@@ -89,18 +89,14 @@ def sync_update
   cleanup_dirs(prepend_path(delete, 'edit'))
 end
 
+def print_status(files, prefix)
+  files.each { |p| puts "#{prefix} #{p}" }
+end
+
 def sync_status
   add, delete = sync_diff
-  if not add.empty?
-    puts 'Extra in edit:'
-    puts '--------------'
-    puts add
-  end
-  if not delete.empty?
-    puts 'Extra in main:'
-    puts '--------------'
-    puts delete
-  end
+  print_status(add, 'A')
+  print_status(delete, 'D')
 end
 
 USAGE = <<USAGE
