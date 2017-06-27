@@ -135,8 +135,8 @@ class DirFiles
   def match(path)
     p = path_split(path)
     d = p.size - @size
-    (d == 2 and p.last =~ /\.#{@ext}$/) or
-      (d == 3 and p.last == "page.#{@ext}")
+    (d == 1 and p.last =~ /\.#{@ext}$/) or
+      (d == 2 and p.last == "page.#{@ext}")
   end
 end
 
