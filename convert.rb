@@ -102,22 +102,31 @@ class DirFiles
 
   attr_reader :dir
 
-  def initialize(dir)
+  def initialize(dir, ext)
     @dir = dir
+    @ext = ext
+    @size = path_split(dir).size
   end
 
   def files
-    dir_files(dir, sorted: true).select { |p| convention?(p) }
+    files = dir_files(dir, sorted: true).map do |path|
+      dirpath = "#{path}/page.#{@ext}"
+      if File.file?(path) and path =~ /\.#{@ext}$/
+        path
+      elsif File.exists?(dirpath)
+        dirpath
+      else
+        nil
+      end
+    end
+    files.compact
   end
 
   def match(path)
     p = path_split(path)
-    p.size == 3 and convention?(path)
-  end
-
- private
-  def convention?(path)
-    path =~ /.xml$/ and File.file?(path)
+    d = p.size - @size
+    (d == 2 and p.last =~ /\.#{@ext}$/) or
+      (d == 3 and p.last == "page.#{@ext}")
   end
 end
 
@@ -137,40 +146,11 @@ module Teaching
   end
 
   def dirs
-    [ DirFiles.new(site_path("teachings")) ]
+    [ DirFiles.new(site_path("teachings"), "xml") ]
   end
 end
 
 # --------------------- news --------------------------
-
-class NewsDir
-  include DirId
-  attr_reader :dir
-
-  def initialize(dir)
-    @dir = "#{dir}/news"
-  end
-
-  def files
-    files = dir_files(dir, sorted: true).map do |path|
-      dirpath = "#{path}/page.html"
-      if File.file?(path) and path =~ /\.html$/
-        path
-      elsif File.exists?(dirpath)
-        dirpath
-      else
-        nil
-      end
-    end
-    files.compact
-  end
-
-  def match(path)
-    p = path_split(path)
-    (p.size == 3 and p.last =~ /\.html$/) or
-      (p.size == 4 and p.last == 'page.html')
-  end
-end
 
 module News
   def load(path, id)
@@ -186,31 +166,11 @@ module News
   end
 
   def dirs
-    [ NewsDir.new(site_dir) ]
+    [ DirFiles.new(site_path("news"), "html") ]
   end
 end
 
 # --------------------- books --------------------------
-
-class BookDir
-  include DirId
-  Page = "info.xml"
-  attr_reader :dir
-
-  def initialize(dir)
-    @dir = "#{dir}/books"
-  end
-
-  def files
-    l = dir_files(dir, sorted: true).map { |p| "#{p}/#{Page}" }
-    l.select { |p| File.file?(p) }
-  end
-
-  def match(path)
-    p = path_split(path)
-    p.size == 4 and p.last == Page and File.file?(path)
-  end
-end
 
 module Book
   def load(path, id)
@@ -219,7 +179,7 @@ module Book
   end
 
   def dirs
-    [ BookDir.new(site_dir) ]
+    [ DirFiles.new(site_path("books"), "xml") ]
   end
 end
 
@@ -245,7 +205,7 @@ module BookCategory
   end
 
   def dirs
-    [ DirFiles.new(site_path("book-categories")) ]
+    [ DirFiles.new(site_path("book-categories"), "xml") ]
   end
 end
 
