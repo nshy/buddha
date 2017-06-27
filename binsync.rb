@@ -71,16 +71,30 @@ def sync_init
   files.each { |p| File.link(path_add(p, 'main'), path_add(p, 'edit')) }
 end
 
+def find_update(files)
+  files.select do |p|
+    e = File.stat(path_add(p, 'edit')).ino
+    m = File.stat(path_add(p, 'main')).ino
+    m != e
+  end
+end
+
 def sync_diff
   main = list_dir_local('main')
   edit = list_dir_local('edit')
   add = edit - main
   delete =  main - edit
-  [ add, delete ]
+  update = find_update(main - delete)
+  [ update, add, delete ]
 end
 
 def sync_update
-  add, delete = sync_diff
+  update, add, delete = sync_diff
+
+  update.each do |p|
+    File.unlink(path_add(p, 'main'))
+    File.link(path_add(p, 'edit'), path_add(p, 'main'))
+  end
 
   prepare_dirs(prepend_path(add, 'main'))
   add.each { |p| File.link(path_add(p, 'edit'), path_add(p, 'main')) }
@@ -94,7 +108,8 @@ def print_status(files, prefix)
 end
 
 def sync_status
-  add, delete = sync_diff
+  update, add, delete = sync_diff
+  print_status(update, 'U')
   print_status(add, 'A')
   print_status(delete, 'D')
 end
