@@ -113,13 +113,17 @@ module CommonHelpers
     send_file p, disposition: d
   end
 
-  def find_page
+  def find_simple_page
     url = request.path
     p = url.sub(/^\//, '').sub(/\/$/, '')
-    p = site_path(p)
-    c = "#{p}.html"
+    find_page(p, 'html')
+  end
+
+  def find_page(url, ext)
+    p = site_path(url)
+    c = "#{p}.#{ext}"
     return c if File.exist?(c)
-    c = "#{p}/page.html"
+    c = "#{p}/page.#{ext}"
     return c if File.exist?(c)
     nil
   end

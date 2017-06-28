@@ -59,7 +59,7 @@ before do
 end
 
 not_found do
-  p = find_page
+  p = find_simple_page
   if p
     begin
       status 200
@@ -130,7 +130,7 @@ get '/teachings/' do
 end
 
 get '/teachings/:id/' do |id|
-  @teachings = Teachings::Document.load(site_path("teachings/#{id}.xml"))
+  @teachings = Teachings::Document.load(find_page("teachings/#{id}", 'xml'))
   halt 404 if @teachings.nil?
   @teachings_slug = id
   @menu_active = 'УЧЕНИЯ'
