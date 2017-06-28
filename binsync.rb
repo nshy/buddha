@@ -4,47 +4,13 @@ require_relative 'helpers'
 
 include CommonHelpers
 
-def full_path(dir, name)
-  "#{dir}/#{name}"
-end
-
-def list_dir(dir)
-  files = Dir.entries(dir).select do |e|
-    not e =~ /^\./ \
-      and File.file?(full_path(dir, e)) \
-      and e =~ /\.(jpg|gif|pdf|doc|swf)$/
-  end
-  dirs = Dir.entries(dir).select do |e|
-    not e =~ /^\./ and File.directory?(full_path(dir, e))
-  end
-  files = files.map { |e| full_path(dir, e) }
-  dirs = dirs.map { |e| list_dir(full_path(dir, e)) }.flatten
-  files + dirs
-end
-
-def list_dir_local(dir)
-  strip_path(list_dir(dir))
-end
-
 def path_steps(path)
   s = path_split(path)
   (1..s.size).to_a.map { |l| s.slice(0, l).join('/') }
 end
 
-def path_conversion(path)
-  n = path.sub(/^main/, 'edit')
-end
-
-def strip_path(files)
-  files.map { |p| path_split(p).slice(1..-1).join('/') }
-end
-
-def prepend_path(files, prefix)
-  files.map { |p| path_add(p, prefix) }
-end
-
-def path_add(path, prefix)
-  "#{prefix}/#{path}"
+def prepend_path(files, site)
+  files.map { |p| site.path(p) }
 end
 
 def dirs_trace(files)
@@ -69,42 +35,28 @@ def cleanup_dirs(files)
   end
 end
 
-def sync_init
-  files = list_dir_local('main')
-  prepare_dirs(prepend_path(files, 'edit'))
-  files.each { |p| File.link(path_add(p, 'main'), path_add(p, 'edit')) }
-end
-
-def find_update(files)
-  files.select do |p|
-    e = File.stat(path_add(p, 'edit')).ino
-    m = File.stat(path_add(p, 'main')).ino
-    m != e
-  end
-end
-
 def sync_diff
-  main = list_dir_local('main')
-  edit = list_dir_local('edit')
-  add = edit - main
-  delete =  main - edit
-  update = find_update(main - delete)
+  d = dst.list
+  s = src.list
+  add = s - d
+  delete =  d - s
+  update = (d - delete).select { |p| src.inode(p) != dst.inode(p) }
   [ update, add, delete ]
 end
 
-def sync_update
+def copy
   update, add, delete = sync_diff
 
   update.each do |p|
-    File.unlink(path_add(p, 'main'))
-    File.link(path_add(p, 'edit'), path_add(p, 'main'))
+    File.unlink(dst.path(p))
+    File.link(src.path(p), dst.path(p))
   end
 
-  prepare_dirs(prepend_path(add, 'main'))
-  add.each { |p| File.link(path_add(p, 'edit'), path_add(p, 'main')) }
+  prepare_dirs(prepend_path(add, dst))
+  add.each { |p| File.link(src.path(p), dst.path(p)) }
 
-  delete.each { |p| File.unlink(path_add(p, 'main')) }
-  cleanup_dirs(prepend_path(delete, 'main'))
+  delete.each { |p| File.unlink(dst.path(p)) }
+  cleanup_dirs(prepend_path(delete, dst))
 end
 
 def print_status(files, prefix)
@@ -112,9 +64,9 @@ def print_status(files, prefix)
 end
 
 def extract_rename(add, delete)
-  map = delete.map { |p| [ File.stat(path_add(p, 'main')).ino, p ] }.to_h
+  map = delete.map { |p| [ dst.inode(p), p ] }.to_h
   rename = add.map do |a|
-    d = map[File.stat(path_add(a, 'edit')).ino]
+    d = map[src.inode(a)]
     d ? [d, a] : nil
   end
   rename = rename.compact
@@ -128,7 +80,7 @@ def extract_rename(add, delete)
   [ add, delete, rename ]
 end
 
-def sync_status
+def status
   update, add, delete = sync_diff
   add, delete, rename = extract_rename(add, delete)
   print_status(update, 'U')
@@ -142,7 +94,8 @@ usage: binsync <command>
 
 Commands:
   status    show main and edit diff
-  update    copy diff from edit to main
+  pull      copy diff from edit to main
+  push      copy diff from main to edit
 USAGE
 
 def usage
@@ -150,13 +103,72 @@ def usage
   exit
 end
 
+class Site
+  def initialize(dir)
+    @dir = dir
+  end
+
+  def path(p)
+    "#{@dir}/#{p}"
+  end
+
+  def inode(p)
+    File.stat(path(p)).ino
+  end
+
+  def list
+    strip(list_(@dir))
+  end
+
+ private
+  def full_path(dir, name)
+    "#{dir}/#{name}"
+  end
+
+  def list_(dir)
+    files = Dir.entries(dir).select do |e|
+      not e =~ /^\./ \
+        and File.file?(full_path(dir, e)) \
+        and e =~ /\.(jpg|gif|pdf|doc|swf)$/
+    end
+    dirs = Dir.entries(dir).select do |e|
+      not e =~ /^\./ and File.directory?(full_path(dir, e))
+    end
+    files = files.map { |e| full_path(dir, e) }
+    dirs = dirs.map { |e| list_(full_path(dir, e)) }.flatten
+    files + dirs
+  end
+
+  def strip(files)
+    files.map { |p| path_split(p).slice(1..-1).join('/') }
+  end
+end
+
+class Direction
+  attr_reader :src, :dst
+
+  def initialize(src, dst)
+    @src = src
+    @dst = dst
+  end
+
+  def reverse
+    Direction.new(dst, src)
+  end
+end
+
+PULL = Direction.new(Site.new('edit'), Site.new('main'))
+PUSH = PULL.reverse
+
 usage if ARGV.size < 1
 cmd = ARGV.shift
 case cmd
   when 'status'
-    sync_status
-  when 'update'
-    sync_update
+    PULL.instance_eval { status }
+  when 'pull'
+    PULL.instance_eval { copy }
+  when 'push'
+    PUSH.instance_eval { copy }
   else
     usage
 end
