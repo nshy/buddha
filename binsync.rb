@@ -129,7 +129,7 @@ class Site
     files = Dir.entries(dir).select do |e|
       not e =~ /^\./ \
         and File.file?(full_path(dir, e)) \
-        and e =~ /\.(jpg|gif|pdf|doc|swf)$/
+        and e =~ /\.(mp3|jpg|gif|pdf|doc|swf)$/
     end
     dirs = Dir.entries(dir).select do |e|
       not e =~ /^\./ and File.directory?(full_path(dir, e))
