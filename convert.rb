@@ -112,7 +112,7 @@ class DirFiles
     long = "#{dir}/#{id}.#{@ext}"
     if File.exists?(short) and File.exists?(long)
        raise ModelException.new \
-         "Присутствуют оба варианта #{long} и #{short} " \
+         "Присутствуют оба варианта #{path_from_db(long)} и #{path_from_db(short)} " \
          "Используйте либо вариант с директорией и файлом внутри " \
          "либо только файл."
     end
