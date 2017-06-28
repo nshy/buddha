@@ -254,7 +254,7 @@ module Digest
     [ DigestDir.new(site_dir, match: /\.(jpg|gif|swf|doc|pdf)$/),
       DigestDir.new(build_dir, match: /\.(css)$/),
       DigestDir.new('public',
-        match: /\.(mp3|css|js|ico|png|svg|jpg)$/,
+        match: /\.(css|js|ico|png|svg|jpg)$/,
         excludes: [ '3d-party', 'logs', 'css', 'fonts' ] ) ]
   end
 end
