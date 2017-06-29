@@ -162,6 +162,7 @@ class Category < Sequel::Model(book_categories_sizes)
 end
 
 class Book < Sequel::Model
+  set_primary_key :id
   many_to_many :categories,
                   left_key: :book_id,
                   right_key: :category_id,
