@@ -46,14 +46,13 @@ def table_insert(klass, dir, p)
   id = dir.path_to_id(p)
   begin
     check_url_nice(p, klass.table == :digests)
-    dir.check(p) if dir.respond_to?(:check)
     klass.load(p, id)
   rescue ModelException => e
     puts e
     database[:errors].insert(path: p, message: e.to_s)
   end
-  table.where(id: id).
-    update(path: p, last_modified: File.mtime(p))
+  table.where(path: p).
+    update(id: id, last_modified: File.mtime(p))
 end
 
 def table_add(klass, dir, paths)
@@ -146,7 +145,7 @@ module Teaching
   def load(path, id)
     teachings = ::Teachings::Document.load(path)
 
-    insert_object(database[:teachings], teachings, id: id)
+    insert_object(database[:teachings], teachings, path: path)
     teachings.theme.each do |theme|
       theme_id = insert_object(database[:themes], theme, teaching_id: id)
       theme.record.each do |record|
@@ -165,7 +164,7 @@ end
 module News
   def load(path, id)
     news = NewsDocument.new(path)
-    insert_object(database[:news], news, id: id)
+    insert_object(database[:news], news, path: path)
   end
 
   def dirs
@@ -178,7 +177,7 @@ end
 module Book
   def load(path, id)
     book = ::Book::Document.load(path)
-    insert_object(database[:books], book, id: id)
+    insert_object(database[:books], book, path: path)
   end
 
   def dirs
@@ -190,7 +189,7 @@ module BookCategory
   def load(path, id)
     category = ::BookCategory::Document.load(path)
 
-    insert_object(database[:book_categories], category, id: id)
+    insert_object(database[:book_categories], category, path: path)
     category.group.each do |group|
       group.book.each do |book|
         database[:category_books].
@@ -247,7 +246,7 @@ end
 module Digest
 
   def load(path, id)
-    database[:digests].insert(id: id, digest: ::Digest::SHA1.file(path).hexdigest)
+    database[:digests].insert(path: path, digest: ::Digest::SHA1.file(path).hexdigest)
   end
 
   def dirs
