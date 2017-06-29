@@ -47,22 +47,26 @@ def sync_klass(k)
 end
 
 
-def sync_path(s, d, assets)
+def clean_path(d, assets)
   a = clone
   a.extend(assets)
-  d = a.dst(s) if not d
-  s = a.src(d) if not s
-  if File.exists?(s)
-    if not File.exists?(d)
-      puts "a A #{s}"
-      compile(a, s)
-    elsif File.mtime(s) > File.mtime(d)
-      puts "a U #{s}"
-      compile(a, s)
-    end
-  elsif File.exists?(d)
+  s = a.src(d)
+  if not File.exists?(s)
     puts "a D #{s}"
-    File.delete(d)
+    File.delete(s)
+  end
+end
+
+def sync_path(s, assets)
+  a = clone
+  a.extend(assets)
+  d = a.dst(s)
+  if not File.exists?(d)
+    puts "a A #{s}"
+    compile(a, s)
+  elsif File.mtime(s) > File.mtime(d)
+    puts "a U #{s}"
+    compile(a, s)
   end
 end
 
@@ -70,10 +74,13 @@ def sync_news
   dir = site_path("news")
   build = site_build_path("news")
   Dir.mkdir(build) if not File.exists?(build)
+  list_files(build, 'css') { |p| clean_path(p, Assets::News) }
   Dir.entries(dir).each do |e|
     p = "#{dir}/#{e}"
     next if not File.directory?(p) or e == '.' or e == '..'
-    sync_path("#{p}/style.scss", nil, Assets::News)
+    f = "#{p}/style.scss"
+    next if not File.exists?(f)
+    sync_path(f, Assets::News)
   end
 end
 
@@ -90,12 +97,12 @@ def mixin_changed?
 end
 
 def sync_main
-  each_css { |p| sync_path(nil, p, Assets::Public) }
+  each_css { |p| clean_path(p, Assets::Public) }
   if mixin_changed?
     puts "a U #{Mixins}"
     compile_all
   else
-    each_scss { |s| sync_path(s, nil, Assets::Public) }
+    each_scss { |s| sync_path(s, Assets::Public) }
   end
   concat if File.mtime(StyleDst) > File.mtime(Bundle) or assets_changed?
 end
