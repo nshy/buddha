@@ -145,9 +145,10 @@ module Teaching
   def load(path, id)
     teachings = ::Teachings::Document.load(path)
 
-    insert_object(database[:teachings], teachings, path: path)
+    insert_object(database[:teachings], teachings, path: path, id: id)
     teachings.theme.each do |theme|
-      theme_id = insert_object(database[:themes], theme, teaching_id: id)
+      theme_id = insert_object(database[:themes], theme,
+                               teaching_id: id, teaching_path: path)
       theme.record.each do |record|
         insert_object(database[:records], record, theme_id: theme_id)
       end
@@ -189,19 +190,22 @@ module BookCategory
   def load(path, id)
     category = ::BookCategory::Document.load(path)
 
-    insert_object(database[:book_categories], category, path: path)
+    insert_object(database[:book_categories],category,
+                  path: path, id: id)
     category.group.each do |group|
       group.book.each do |book|
         database[:category_books].
           insert(group: group.name,
                  book_id: book,
+                 category_path: path,
                  category_id: id)
       end
     end
 
     category.subcategory.each do |subcategory|
       database[:category_subcategories].
-        insert(category_id: id,
+        insert(category_path: path,
+               category_id: id,
                subcategory_id: subcategory)
     end
   end

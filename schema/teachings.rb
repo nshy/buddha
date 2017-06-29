@@ -11,7 +11,9 @@ def create
     String :title, null: false
     String :buddha_node
     Date :begin_date, null: false
-    foreign_key :teaching_id, :teachings, type: String, on_delete: :cascade
+    foreign_key :teaching_path, :teachings,
+      key: :path, type: String, on_delete: :cascade
+    String :teaching_id, null: false
   end
 
   create_table(:records) do

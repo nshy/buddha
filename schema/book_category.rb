@@ -8,12 +8,16 @@ def create
 
   create_table(:category_books) do
     String :book_id, null: false
-    foreign_key :category_id, :book_categories, type: String, on_delete: :cascade
-    String :group, null:false
+    foreign_key :category_path, :book_categories,
+      key: :path, type: String, on_delete: :cascade
+    String :category_id, null: false
+    String :group, null: false
   end
 
   create_table(:category_subcategories) do
-    foreign_key :category_id, :book_categories, type: String, on_delete: :cascade
+    foreign_key :category_path, :book_categories,
+      key: :path, type: String, on_delete: :cascade
+    String :category_id, null: false
     String :subcategory_id, null: false
   end
 end
