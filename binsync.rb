@@ -169,14 +169,20 @@ Edit = Site.new('edit')
 Main = Site.new('main')
 Base = Site.new('.binbase')
 
+def parse_repo
+  usage if ARGV.size < 1
+  repo = ARGV.shift
+  usage if repo != Main.dir and repo != Edit.dir
+  repo
+end
+
 usage if ARGV.size < 1
 cmd = ARGV.shift
 case cmd
   when 'status'
-    usage if ARGV.size < 1
-    repo = ARGV.shift
-    usage if repo != Main.dir and repo != Edit.dir
-    Direction.new(Site.new(repo), Base).instance_eval { status }
+    Direction.new(Site.new(parse_repo), Base).instance_eval { status }
+  when 'reset'
+    Direction.new(Base, Site.new(parse_repo)).instance_eval { copy }
   when 'pull'
     Direction.new(Edit, Main).instance_eval { copy }
   when 'push'
