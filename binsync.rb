@@ -189,21 +189,33 @@ def parse_repo
   repo
 end
 
+def sync_copy(src, dst)
+  Direction.new(src, dst).instance_eval { copy }
+end
+
+def sync_check(src, dst)
+  Direction.new(src, dst).instance_eval { check }
+end
+
+def sync_status(src, dst)
+  Direction.new(src, dst).instance_eval { status }
+end
+
 usage if ARGV.size < 1
 cmd = ARGV.shift
 case cmd
   when 'status'
-    Direction.new(Site.new(parse_repo), Base).instance_eval { status }
+    sync_status(Site.new(parse_repo), Base)
   when 'reset'
-    Direction.new(Base, Site.new(parse_repo)).instance_eval { copy }
+    sync_copy(Base, Site.new(parse_repo))
   when 'pull'
-    Direction.new(Main, Base).instance_eval { check }
-    Direction.new(Edit, Main).instance_eval { copy }
-    Direction.new(Edit, Base).instance_eval { copy }
+    sync_check(Main, Base)
+    sync_copy(Edit, Main)
+    sync_copy(Edit, Base)
   when 'push'
-    Direction.new(Edit, Base).instance_eval { check }
-    Direction.new(Main, Edit).instance_eval { copy }
-    Direction.new(Main, Base).instance_eval { copy }
+    sync_check(Edit, Base)
+    sync_copy(Main, Edit)
+    sync_copy(Main, Base)
   else
     usage
 end
