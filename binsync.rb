@@ -93,9 +93,15 @@ USAGE = <<USAGE
 usage: binsync <command>
 
 Commands:
-  status    show main and edit diff
+
+  status    show repo difference
   pull      copy diff from edit to main
   push      copy diff from main to edit
+
+Per command syntax:
+
+  status <repo>
+    show difference between given and base repo
 USAGE
 
 def usage
@@ -104,6 +110,8 @@ def usage
 end
 
 class Site
+  attr_reader :dir
+
   def initialize(dir)
     @dir = dir
   end
@@ -157,18 +165,22 @@ class Direction
   end
 end
 
-PULL = Direction.new(Site.new('edit'), Site.new('main'))
-PUSH = PULL.reverse
+Edit = Site.new('edit')
+Main = Site.new('main')
+Base = Site.new('.binbase')
 
 usage if ARGV.size < 1
 cmd = ARGV.shift
 case cmd
   when 'status'
-    PULL.instance_eval { status }
+    usage if ARGV.size < 1
+    repo = ARGV.shift
+    usage if repo != Main.dir and repo != Edit.dir
+    Direction.new(Site.new(repo), Base).instance_eval { status }
   when 'pull'
-    PULL.instance_eval { copy }
+    Direction.new(Edit, Main).instance_eval { copy }
   when 'push'
-    PUSH.instance_eval { copy }
+    Direction.new(Main, Edit).instance_eval { copy }
   else
     usage
 end
