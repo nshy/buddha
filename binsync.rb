@@ -89,6 +89,19 @@ def status
   rename.each { |r| puts "R #{r[0]} #{r[1]}" }
 end
 
+CONFLICT = <<END
+Peer repo has changes. Either reset them or merge changes into
+source repo manually.
+END
+
+def check
+  update, add, delete = sync_diff
+  if not (update.empty? and add.empty? and delete.empty?)
+    puts CONFLICT
+    exit
+  end
+end
+
 USAGE = <<USAGE
 usage: binsync <command>
 
@@ -184,9 +197,13 @@ case cmd
   when 'reset'
     Direction.new(Base, Site.new(parse_repo)).instance_eval { copy }
   when 'pull'
+    Direction.new(Main, Base).instance_eval { check }
     Direction.new(Edit, Main).instance_eval { copy }
+    Direction.new(Edit, Base).instance_eval { copy }
   when 'push'
+    Direction.new(Edit, Base).instance_eval { check }
     Direction.new(Main, Edit).instance_eval { copy }
+    Direction.new(Main, Base).instance_eval { copy }
   else
     usage
 end
