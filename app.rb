@@ -59,16 +59,16 @@ before do
 end
 
 not_found do
-  p = find_simple_page
-  if p
-    begin
+  begin
+    p = find_simple_page
+    if p
       status 200
       check_url_nice(p)
       return simple_page(p)
-    rescue ModelException => e
-      status 500
-      return show_error(e.message)
     end
+  rescue ModelException => e
+    status 500
+    return show_error(e.message)
   end
 
   r = request.path

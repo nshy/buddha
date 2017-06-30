@@ -125,11 +125,17 @@ module CommonHelpers
 
   def find_page(url, ext)
     p = site_path(url)
-    c = "#{p}.#{ext}"
-    return c if File.exist?(c)
-    c = "#{p}/page.#{ext}"
-    return c if File.exist?(c)
-    nil
+    s = "#{p}.#{ext}"
+    l = "#{p}/page.#{ext}"
+    if File.exist?(s) and File.exist?(l)
+      raise ModelException.new(collision_error(s, l))
+    elsif File.exists?(s)
+      s
+    elsif File.exists?(l)
+      l
+    else
+      nil
+    end
   end
 
   def simple_page(p)
@@ -265,6 +271,13 @@ module CommonHelpers
     site_model(Cache::Error).all.collect { |e| e.message }
   end
 
+  def collision_error(short, long)
+    "Присутствуют оба варианта #{path_from_db(short)} и " \
+    "#{path_from_db(long)} " \
+    "Используйте либо вариант с директорией и файлом внутри " \
+    "либо только файл."
+  end
+
   def collision_errors
     collisions = [ :teachings, :news, :books, :book_categories ].map do |t|
       site_table(t).
@@ -274,12 +287,7 @@ module CommonHelpers
         all
     end
     collisions.flatten!
-    collisions.map do |c|
-      "Присутствуют оба варианта #{path_from_db(c[:path])} и " \
-      "#{path_from_db(c[:path_alias])} " \
-      "Используйте либо вариант с директорией и файлом внутри " \
-      "либо только файл."
-    end
+    collisions.map { |c| collision_error(c[:path], c[:path_alias]) }
   end
 
   def site_errors
