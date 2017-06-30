@@ -5,6 +5,7 @@
 /edit.db
 /build
 /.git-edit
+/.binbase
 /import/news/tmp
 /import/news-site/tmp
 /import/old-news/tmp
