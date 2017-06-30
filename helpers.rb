@@ -45,6 +45,10 @@ module AppSites
   def site_model(klass)
     klass.server(site)
   end
+
+  def site_table(table)
+    DB[table].server(site)
+  end
 end
 
 module LibraryHelper
@@ -257,8 +261,29 @@ module CommonHelpers
     path.sub(/^\//, '').split('/')
   end
 
-  def site_errors
+  def model_errors
     site_model(Cache::Error).all.collect { |e| e.message }
+  end
+
+  def collision_errors
+    collisions = [ :teachings, :news, :books, :book_categories ].map do |t|
+      site_table(t).
+        join(Sequel[t].as(:table_alias), id: :id).
+          where{ length(Sequel[t][:path]) < length(Sequel[:table_alias][:path]) }.
+            select(Sequel[t][:path], Sequel[:table_alias][:path].as(:path_alias)).
+        all
+    end
+    collisions.flatten!
+    collisions.map do |c|
+      "Присутствуют оба варианта #{path_from_db(c[:path])} и " \
+      "#{path_from_db(c[:path_alias])} " \
+      "Используйте либо вариант с директорией и файлом внутри " \
+      "либо только файл."
+    end
+  end
+
+  def site_errors
+    model_errors + collision_errors
   end
 
   def site_errors_html(errors)

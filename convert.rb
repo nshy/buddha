@@ -105,18 +105,6 @@ class DirFiles
     CommonHelpers::path_to_id(name)
   end
 
-  def check(path)
-    id = path_to_id(path)
-    short = "#{dir}/#{id}/page.#{@ext}"
-    long = "#{dir}/#{id}.#{@ext}"
-    if File.exists?(short) and File.exists?(long)
-       raise ModelException.new \
-         "Присутствуют оба варианта #{path_from_db(long)} и #{path_from_db(short)} " \
-         "Используйте либо вариант с директорией и файлом внутри " \
-         "либо только файл."
-    end
-  end
-
   def files
     files = dir_files(dir, sorted: true).map do |path|
       dirpath = "#{path}/page.#{@ext}"
