@@ -59,6 +59,12 @@ before do
 end
 
 not_found do
+  r = request.path
+  p = site_build_path(r)
+  return send_app_file(p) if File.file?(p)
+  p = site_path(r)
+  return send_app_file(p) if File.file?(p)
+
   begin
     p = find_simple_page
     if p
@@ -70,12 +76,6 @@ not_found do
     status 500
     return show_error(e.message)
   end
-
-  r = request.path
-  p = site_build_path(r)
-  return send_app_file(p) if File.file?(p)
-  p = site_path(r)
-  return send_app_file(p) if File.file?(p)
 
   @menu_active = nil
   map = {}
