@@ -4,6 +4,35 @@ require_relative 'helpers'
 
 include CommonHelpers
 
+GitIgnore = 'data-exclude'
+
+FormatError = <<-END
+Неправильный формат файла #{GitIgnore}. Пример правильного файла:
+
+*
+!*.xml
+!*.html
+!*.scss
+!*.yaml
+
+END
+
+def format_error
+  puts FormatError
+  exit
+end
+
+def parse_excludes
+  # skip first line which is ignore all
+  ignore = File.read(GitIgnore).split
+  f = ignore.shift
+  format_error if f != '*'
+  ignore.each { |i| format_error if not i.start_with?('!*.') }
+  ignore.map { |i| i.sub('!*', '').strip }
+end
+
+Excludes = parse_excludes
+
 def path_steps(path)
   s = path_split(path)
   (1..s.size).to_a.map { |l| s.slice(0, l).join('/') }
@@ -150,7 +179,7 @@ class Site
     files = Dir.entries(dir).select do |e|
       not e =~ /^\./ \
         and File.file?(full_path(dir, e)) \
-        and e =~ /\.(mp3|jpg|gif|pdf|doc|swf)$/
+        and not Excludes.include?(File.extname(e))
     end
     dirs = Dir.entries(dir).select do |e|
       not e =~ /^\./ and File.directory?(full_path(dir, e))
