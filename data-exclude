@@ -1,6 +1,5 @@
-*.jpg
-*.gif
-*.pdf
-*.doc
-*.swf
-*.mp3
+*
+!*.xml
+!*.html
+!*.scss
+!*.yaml
