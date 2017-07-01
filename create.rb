@@ -43,6 +43,13 @@ def sync_schema(s)
     load p
     DbFile.new(db, p).instance_eval { create }
   end
+
+  d.each do |p|
+    e = db[:file_tables].where(path: p)
+    names = e.map { |i| i[:name].to_sym }
+    names.each { |n| db.drop_table(n) }
+    db[:schema_files].where(path: p).delete
+  end
 end
 
 Sites.each { |s| sync_schema(s) }
