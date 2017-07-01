@@ -12,18 +12,19 @@ def filter(paths, dir)
   paths.select { |p| dir.match(p) }
 end
 
-def listen_to(dir, options)
+def listen_to(dir, options = {})
   l = Listen.to(dir, relative: true) do |u, a, d|
     database[:errors].where(path: u + a + d).delete
     yield u, a, d
   end
+  l.only(options[:only]) if options[:only]
   l.start
 end
 
 def watch_klass(k)
   klass = site_class(k)
   klass.dirs.each do |dir|
-    listen_to(dir.dir, relative: true) do |u, a, d|
+    listen_to(dir.dir) do |u, a, d|
       table_add(klass, dir, filter(a, dir))
       table_update(klass, dir, filter(u, dir))
       table_delete(klass, filter(d, dir))
@@ -50,13 +51,13 @@ def sync_watch_paths(updated, added, deleted, assets)
 end
 
 def watch_news
-  listen_to(site_path("news"), relative: true, only: /\.scss$/) do |u, a, d|
+  listen_to(site_path("news"), only: /\.scss$/) do |u, a, d|
     sync_watch_paths(u, a, d, Assets::News)
   end
 end
 
 def watch_main
-  listen_to(StyleSrc, relative: true, only: /\.scss$/) do |u, a, d|
+  listen_to(StyleSrc, only: /\.scss$/) do |u, a, d|
     if u.include?(Mixins)
     puts "a U #{Mixins}"
       compile_all
