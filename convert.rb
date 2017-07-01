@@ -102,7 +102,7 @@ class DirFiles
 
   def path_to_id(path)
     name = path_split(path)[@size]
-    CommonHelpers::path_to_id(name)
+    File.basename(name, '.*')
   end
 
   def files
@@ -281,7 +281,7 @@ module News
   end
 
   def src(path)
-    id = CommonHelpers::path_to_id(path)
+    id = File.basename(path, '.*')
     site_path("news/#{id}/style.scss")
   end
 

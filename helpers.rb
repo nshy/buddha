@@ -71,7 +71,7 @@ module TeachingsHelper
     each_file("#{SiteData}/teachings", options) do |path|
       File.open(path) do |file|
         teachings << {
-          id: path_to_id(path),
+          id: File.basename(path, '.*'),
           document: Teachings::Document.load(file)
         }
       end
@@ -207,10 +207,6 @@ module CommonHelpers
   def div_if(condition, c, content)
     return if not condition
     "<div class='#{c}'>#{content}</div>"
-  end
-
-  def path_to_id(path)
-    File.basename(path).gsub(/\.[^.]+$/, '')
   end
 
   def slug(title)
