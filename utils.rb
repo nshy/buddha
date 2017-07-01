@@ -108,6 +108,7 @@ module BinaryFile
 Неправильный формат файла #{GitIgnore}. Пример правильного файла:
 
 *
+!*/
 !*.xml
 !*.html
 !*.scss
@@ -122,8 +123,8 @@ module BinaryFile
   def self.parse
     # skip first line which is ignore all
     ignore = File.read(GitIgnore).split
-    f = ignore.shift
-    error if f != '*'
+    error if ignore.shift != '*'
+    error if ignore.shift != '!*/'
     ignore.each { |i| error if not i.start_with?('!*.') }
     ignore.map { |i| i.sub('!*', '').strip }
   end
