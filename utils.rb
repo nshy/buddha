@@ -134,3 +134,34 @@ module BinaryFile
     not Excludes.include?(File.extname(path))
   end
 end
+
+module Cache
+  def self.diff(db, table, files)
+    db.create_table :disk_state, temp: true do
+      String :path, primary_key: true
+      DateTime :mtime , null: false
+    end
+
+    files.each { |p| db[:disk_state].insert(path: p, mtime: File.mtime(p)) }
+
+    d = db[table].join_table(:left, :disk_state, path: :path).
+          where(Sequel[:disk_state][:path] => nil).
+            select(Sequel[table][:path])
+
+    u = db[:disk_state].join_table(:left, table, path: :path).
+          where{ Sequel[table][:mtime] < Sequel[:disk_state][:mtime] }.
+            select(Sequel[:disk_state][:path])
+
+    a = db[:disk_state].join_table(:left, table, path: :path).
+          where(Sequel[table][:path] => nil).
+            select(Sequel[:disk_state][:path])
+
+    r = [ convert(u), convert(a), convert(d) ]
+    db[:disk_state].delete
+    r
+  end
+
+  def self.convert(set)
+    set.to_a.map { |v| v[:path] }
+  end
+end

@@ -2,23 +2,47 @@
 
 require 'sequel'
 require_relative 'helpers'
+require_relative 'utils'
 
 include CommonHelpers
 include SiteHelpers
 
-def create_db(s)
-  db = SiteHelpers.open(s)
-  file = ARGV[0]
-  if file
-    load file
-    db.instance_eval { create }
-  else
-    Dir.entries('schema').each do |file|
-      next if file == 'schema/create.rb' or (not /\.rb$/ =~ file) or /^\./ =~ file
-      load "schema/#{file}"
-      db.instance_eval { create }
-    end
+class DbFile
+  def initialize(db, path)
+    @db = db
+    @path = path
+    @db[:schema_files].insert(path: path, mtime: File.mtime(path))
+  end
+
+  def create_table(name, &b)
+    @db[:file_tables].insert(name: name.to_s, path: @path)
+    @db.create_table(name, &b)
   end
 end
 
-Sites.each { |s| create_db(s) }
+def sync_schema(s)
+  db = SiteHelpers.open(s)
+
+  db.create_table?(:schema_files) do
+    String :path, primary_key: true
+    DateTime :mtime, null: false
+  end
+
+  db.create_table?(:file_tables) do
+    primary_key :id
+    String :name, null: false
+    foreign_key :path, :schema_files, key: :path,
+      type: String, on_delete: :cascade
+  end
+
+  files = dir_files('schema').select { |f| File.extname(f) == '.rb' }
+
+  u, a, d = Cache.diff(db, :schema_files, files)
+
+  a.each do |p|
+    load p
+    DbFile.new(db, p).instance_eval { create }
+  end
+end
+
+Sites.each { |s| sync_schema(s) }
