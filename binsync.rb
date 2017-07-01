@@ -140,7 +140,7 @@ class Site
 
   def list
     l = Utils.list_recursively(@dir)
-    l = l.select { |p| not BinaryFile::Excludes.include?(File.extname(p)) }
+    l = l.select { |p| BinaryFile.match(p) }
     # remove first dir in path sequence
     l.map { |p| path_split(p).slice(1..-1).join('/') }
   end

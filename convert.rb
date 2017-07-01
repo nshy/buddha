@@ -208,11 +208,11 @@ end
 class DigestDir
   attr_reader :dir
 
-  def initialize(dir, options)
+  def initialize(dir, options = {})
     @dir = dir
     @dir_sz = path_split(dir).size
     @match = options[:match]
-    @excludes = options[:excludes]
+    @exclude = options[:exclude]
   end
 
   def files
@@ -220,12 +220,10 @@ class DigestDir
   end
 
   def match(path)
-    if @excludes
-      if @excludes.any? { |e| path.start_with?("#{dir}/#{e}") }
-        return false
-      end
-    end
-    return @match =~ path
+    return false if path_split(path).any? { |e| /^\./ =~ e }
+    return false if @exclude and @exclude.call(dir, path)
+    return false if @match and not @match.call(path)
+    true
   end
 
   def path_to_id(path)
@@ -242,11 +240,19 @@ module Digest
   end
 
   def dirs
-    [ DigestDir.new(site_dir, match: /\.(jpg|gif|swf|doc|pdf)$/),
-      DigestDir.new(build_dir, match: /\.(css)$/),
-      DigestDir.new('public',
-        match: /\.(css|js|ico|png|svg|jpg)$/,
-        excludes: [ '3d-party', 'logs', 'css', 'fonts' ] ) ]
+    [ DigestDir.new(site_dir, match: BinaryFile.method(:match),
+                              exclude: Digest.method(:data_exclude)),
+      DigestDir.new(build_dir),
+      DigestDir.new('public', exclude: Digest.method(:public_exclude)) ]
+  end
+
+  def self.data_exclude(dir, path)
+    File.extname(path) == '.mp3'
+  end
+
+  def self.public_exclude(dir, path)
+    ex = [ '3d-party', 'logs', 'css', 'fonts' ]
+    ex.any? { |e| path.start_with?("#{dir}/#{e}") }
   end
 end
 

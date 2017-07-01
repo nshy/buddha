@@ -129,4 +129,8 @@ module BinaryFile
   end
 
   Excludes = self.parse
+
+  def self.match(path)
+    not Excludes.include?(File.extname(path))
+  end
 end
