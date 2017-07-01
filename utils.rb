@@ -100,3 +100,33 @@ module Utils
     files + dirs
   end
 end
+
+module BinaryFile
+  GitIgnore = 'data-exclude'
+
+  Message = <<-END
+Неправильный формат файла #{GitIgnore}. Пример правильного файла:
+
+*
+!*.xml
+!*.html
+!*.scss
+!*.yaml
+  END
+
+  def self.error
+    puts Message
+    exit
+  end
+
+  def self.parse
+    # skip first line which is ignore all
+    ignore = File.read(GitIgnore).split
+    f = ignore.shift
+    error if f != '*'
+    ignore.each { |i| error if not i.start_with?('!*.') }
+    ignore.map { |i| i.sub('!*', '').strip }
+  end
+
+  Excludes = self.parse
+end
