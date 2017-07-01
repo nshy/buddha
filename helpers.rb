@@ -119,6 +119,7 @@ module CommonHelpers
 
   def find_simple_page
     url = request.path
+    return nil if not /\/$/ =~ url
     p = url.sub(/^\//, '').sub(/\/$/, '')
     find_page(p, 'html')
   end
