@@ -20,6 +20,10 @@ class DbFile
   end
 end
 
+def modmsg(prefix, path)
+  puts "#{prefix} #{path}"
+end
+
 def sync_schema(s)
   db = SiteHelpers.open(s)
 
@@ -39,16 +43,20 @@ def sync_schema(s)
 
   u, a, d = Cache.diff(db, :schema_files, files)
 
-  a.each do |p|
-    load p
-    DbFile.new(db, p).instance_eval { create }
-  end
+  u.each { |p| modmsg('U', p) }
+  a.each { |p| modmsg('A', p) }
+  d.each { |p| modmsg('D', p) }
 
-  d.each do |p|
+  (d + u).each do |p|
     e = db[:file_tables].where(path: p)
     names = e.map { |i| i[:name].to_sym }
     names.each { |n| db.drop_table(n) }
     db[:schema_files].where(path: p).delete
+  end
+
+  (u + a).each do |p|
+    load p
+    DbFile.new(db, p).instance_eval { create }
   end
 end
 
