@@ -1,6 +1,7 @@
 #!/bin/ruby
 
 require_relative 'helpers'
+require_relative 'utils'
 
 include CommonHelpers
 
@@ -159,7 +160,7 @@ class Site
   end
 
   def path(p)
-    "#{@dir}/#{p}"
+    File.join(@dir, p)
   end
 
   def inode(p)
@@ -167,30 +168,10 @@ class Site
   end
 
   def list
-    strip(list_(@dir))
-  end
-
- private
-  def full_path(dir, name)
-    "#{dir}/#{name}"
-  end
-
-  def list_(dir)
-    files = Dir.entries(dir).select do |e|
-      not e =~ /^\./ \
-        and File.file?(full_path(dir, e)) \
-        and not Excludes.include?(File.extname(e))
-    end
-    dirs = Dir.entries(dir).select do |e|
-      not e =~ /^\./ and File.directory?(full_path(dir, e))
-    end
-    files = files.map { |e| full_path(dir, e) }
-    dirs = dirs.map { |e| list_(full_path(dir, e)) }.flatten
-    files + dirs
-  end
-
-  def strip(files)
-    files.map { |p| path_split(p).slice(1..-1).join('/') }
+    l = Utils.list_recursively(@dir)
+    l = l.select { |p| not Excludes.include?(File.extname(p)) }
+    # remove first dir in path sequence
+    l.map { |p| path_split(p).slice(1..-1).join('/') }
   end
 end
 

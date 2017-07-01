@@ -85,3 +85,18 @@ def load_preamble(path, required)
 
   [ doc.content, doc.metadata ]
 end
+
+module Utils
+  def self.list_recursively(dir)
+    files = Dir.entries(dir).select do |e|
+      not e =~ /^\./ \
+        and File.file?(File.join(dir, e)) \
+    end
+    dirs = Dir.entries(dir).select do |e|
+      not e =~ /^\./ and File.directory?(File.join(dir, e))
+    end
+    files = files.map { |e| File.join(dir, e) }
+    dirs = dirs.map { |e| Utils.list_recursively(File.join(dir, e)) }.flatten
+    files + dirs
+  end
+end
