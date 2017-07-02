@@ -19,7 +19,7 @@ def sync_klass(k)
   klass.dirs.map do |dir|
     dir.files.each do |path|
       database[:disk_state].insert(path: path,
-                                   last_modified: File.mtime(path))
+                                   mtime: File.mtime(path))
     end
   end
 
@@ -31,8 +31,8 @@ def sync_klass(k)
 
   klass.dirs.map do |dir|
     updated = database[:disk_state].join_table(:left, table, path: :path).
-                where{ Sequel[table][:last_modified] <
-                       Sequel[:disk_state][:last_modified] }.
+                where{ Sequel[table][:mtime] <
+                       Sequel[:disk_state][:mtime] }.
                   select(Sequel[:disk_state][:path])
 
     added = database[:disk_state].join_table(:left, table, path: :path).
@@ -114,7 +114,7 @@ Sites.each do |s|
     database[:errors].delete
     database.create_table :disk_state, temp: true do
       String :path, primary_key: true
-      DateTime :last_modified , null: false
+      DateTime :mtime , null: false
     end
 
     sync_main

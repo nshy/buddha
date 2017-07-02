@@ -30,7 +30,7 @@ class Site
 end
 
 def insert_object(table, object, values = {})
-  cols = table.columns - [:id, :last_modified]
+  cols = table.columns - [:id, :mtime]
   cols = cols.select { |c| object.respond_to?(c) }
   v = cols.collect { |c| [ c, object.send(c) ] }.to_h
   values = v.merge(values)
@@ -52,7 +52,7 @@ def table_insert(klass, dir, p)
     database[:errors].insert(path: p, message: e.to_s)
   end
   table.where(path: p).
-    update(id: id, last_modified: File.mtime(p))
+    update(id: id, mtime: File.mtime(p))
 end
 
 def table_add(klass, dir, paths)

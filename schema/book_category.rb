@@ -3,7 +3,7 @@ def create
     String :id
     String :path, unique: true
     String :name, null: false
-    DateTime :last_modified
+    DateTime :mtime
   end
 
   create_table(:category_books) do

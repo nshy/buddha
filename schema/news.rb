@@ -8,6 +8,6 @@ def create
     String :body, null: false
     Boolean :is_dir, null: false
     String :buddha_node
-    DateTime :last_modified
+    DateTime :mtime
   end
 end

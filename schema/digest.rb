@@ -3,6 +3,6 @@ def create
     String :id
     String :path, unique: true
     String :digest, null: false
-    DateTime :last_modified
+    DateTime :mtime
   end
 end
