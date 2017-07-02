@@ -158,7 +158,7 @@ module Cache
             select(Sequel[:disk_state][:path])
 
     r = [ convert(u), convert(a), convert(d) ]
-    db[:disk_state].delete
+    db.drop_table(:disk_state)
     r
   end
 

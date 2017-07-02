@@ -41,8 +41,9 @@ def print_modification(prefix, p)
   puts "#{prefix} #{p}"
 end
 
-def table_insert(klass, dir, p)
+def table_insert(klass, p)
   table = database[klass.table]
+  dir = klass.dirs.find { |d| p.start_with?(d.dir) }
   id = dir.path_to_id(p)
   begin
     check_url_nice(p, klass.table == :digests)
@@ -55,20 +56,20 @@ def table_insert(klass, dir, p)
     update(id: id, mtime: File.mtime(p))
 end
 
-def table_add(klass, dir, paths)
+def table_add(klass, paths)
   table = database[klass.table]
   paths.each do |p|
     print_modification('b A', p)
-    table_insert(klass, dir, p)
+    table_insert(klass, p)
   end
 end
 
-def table_update(klass, dir, paths)
+def table_update(klass, paths)
   table = database[klass.table]
   table.where(path: paths).delete
   paths.each do |p|
     print_modification('b U', p)
-    table_insert(klass, dir, p)
+    table_insert(klass, p)
   end
 end
 

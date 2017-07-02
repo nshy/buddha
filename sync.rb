@@ -7,43 +7,15 @@ include CommonHelpers
 
 $stdout.sync = true
 
-def convert(set)
-  set.to_a.map { |v| v[:path] }
-end
-
-
 def sync_klass(k)
   klass = site_class(k)
-  table = klass.table
 
-  klass.dirs.map do |dir|
-    dir.files.each do |path|
-      database[:disk_state].insert(path: path,
-                                   mtime: File.mtime(path))
-    end
-  end
+  files = klass.dirs.collect { |d| d.files }.flatten
+  u, a, d = Cache.diff(database, klass.table, files)
 
-  deleted = database[table].join_table(:left, :disk_state, path: :path).
-              where(Sequel[:disk_state][:path] => nil).
-                select(Sequel[table][:path])
-
-  table_delete(klass, convert(deleted))
-
-  klass.dirs.map do |dir|
-    updated = database[:disk_state].join_table(:left, table, path: :path).
-                where{ Sequel[table][:mtime] <
-                       Sequel[:disk_state][:mtime] }.
-                  select(Sequel[:disk_state][:path])
-
-    added = database[:disk_state].join_table(:left, table, path: :path).
-              where(Sequel[table][:path] => nil).
-                select(Sequel[:disk_state][:path])
-
-    table_add(klass, dir, convert(added))
-    table_update(klass, dir, convert(updated))
-  end
-
-  database[:disk_state].delete
+  table_update(klass, u)
+  table_add(klass, a)
+  table_delete(klass, d)
 end
 
 
@@ -112,10 +84,6 @@ Sites.each do |s|
   Site.for(s).instance_eval do
     Dir.mkdir(build_dir) if not File.exists?(build_dir)
     database[:errors].delete
-    database.create_table :disk_state, temp: true do
-      String :path, primary_key: true
-      DateTime :mtime , null: false
-    end
 
     sync_main
     sync_news
