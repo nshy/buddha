@@ -8,10 +8,6 @@ include CommonHelpers
 
 $stdout.sync = true
 
-def filter(paths, dir)
-  paths.select { |p| dir.match(p) }
-end
-
 def listen_to(dir, options = {})
   l = Listen.to(dir, relative: true) do |u, a, d|
     database[:errors].where(path: u + a + d).delete
@@ -24,10 +20,9 @@ end
 def watch_klass(k)
   klass = site_class(k)
   klass.dirs.each do |dir|
-    listen_to(dir.dir) do |u, a, d|
-      table_add(klass, dir, filter(a, dir))
-      table_update(klass, dir, filter(u, dir))
-      table_delete(klass, filter(d, dir))
+    listen_to(dir.dir) do |*d|
+      d = d.map { |s| s.select { |p| dir.match(p) } }
+      table_update(klass, *d)
     end
   end
 end

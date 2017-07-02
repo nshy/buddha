@@ -20,9 +20,6 @@ class DbFile
   end
 end
 
-def modmsg(prefix, path)
-  puts "#{prefix} #{path}"
-end
 
 def sync_schema(s)
   db = SiteHelpers.open(s)
@@ -42,10 +39,7 @@ def sync_schema(s)
   files = dir_files('schema').select { |f| File.extname(f) == '.rb' }
 
   u, a, d = Cache.diff(db, :schema_files, files)
-
-  u.each { |p| modmsg('U', p) }
-  a.each { |p| modmsg('A', p) }
-  d.each { |p| modmsg('D', p) }
+  Cache.diffmsg(u, a, d)
 
   (d + u).each do |p|
     e = db[:file_tables].where(path: p)

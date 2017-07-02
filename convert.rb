@@ -37,10 +37,6 @@ def insert_object(table, object, values = {})
   table.insert(values)
 end
 
-def print_modification(prefix, p)
-  puts "#{prefix} #{p}"
-end
-
 def table_insert(klass, p)
   table = database[klass.table]
   dir = klass.dirs.find { |d| p.start_with?(d.dir) }
@@ -56,29 +52,10 @@ def table_insert(klass, p)
     update(id: id, mtime: File.mtime(p))
 end
 
-def table_add(klass, paths)
-  table = database[klass.table]
-  paths.each do |p|
-    print_modification('b A', p)
-    table_insert(klass, p)
-  end
-end
-
-def table_update(klass, paths)
-  table = database[klass.table]
-  table.where(path: paths).delete
-  paths.each do |p|
-    print_modification('b U', p)
-    table_insert(klass, p)
-  end
-end
-
-def table_delete(klass, paths)
-  table = database[klass.table]
-  table.where(path: paths).delete
-  paths.each do |p|
-    print_modification('b D', p)
-  end
+def table_update(klass, u, a, d)
+  Cache.diffmsg(u, a, d, 'b')
+  database[klass.table].where(path: u + d).delete
+  (a + u).each { |p| table_insert(klass, p) }
 end
 
 def site_class(klass)

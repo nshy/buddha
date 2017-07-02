@@ -165,4 +165,15 @@ module Cache
   def self.convert(set)
     set.to_a.map { |v| v[:path] }
   end
+
+  def self.diffmsg(u, a, d, prefix = nil)
+    d = [ [ u, 'U' ], [ a, 'A'], [d, 'D'] ]
+    d.each do |s|
+      s[0].each do |p|
+        m = "#{s[1]} #{p}"
+        m = "#{prefix} #{m}" if prefix
+        puts m
+      end
+    end
+  end
 end

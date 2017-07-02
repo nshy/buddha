@@ -9,15 +9,10 @@ $stdout.sync = true
 
 def sync_klass(k)
   klass = site_class(k)
-
   files = klass.dirs.collect { |d| d.files }.flatten
-  u, a, d = Cache.diff(database, klass.table, files)
-
-  table_update(klass, u)
-  table_add(klass, a)
-  table_delete(klass, d)
+  d = Cache.diff(database, klass.table, files)
+  table_update(klass, *d)
 end
-
 
 def clean_path(d, assets)
   a = clone
