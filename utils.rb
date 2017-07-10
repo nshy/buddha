@@ -101,9 +101,7 @@ module Utils
   end
 end
 
-module BinaryFile
-  GitIgnore = 'data-exclude'
-
+class GitIgnore
   Message = <<-END
 Неправильный формат файла #{GitIgnore}. Пример правильного файла:
 
@@ -115,24 +113,22 @@ module BinaryFile
 !*.yaml
   END
 
-  def self.error
-    puts Message
-    exit
+  def initialize(excludes)
+    @excludes = excludes
   end
 
-  def self.parse
+  def self.for(path)
     # skip first line which is ignore all
-    ignore = File.read(GitIgnore).split
-    error if ignore.shift != '*'
-    error if ignore.shift != '!*/'
+    ignore = File.read(path).split
+    raise Message if ignore.shift != '*'
+    raise Message if ignore.shift != '!*/'
     ignore.each { |i| error if not i.start_with?('!*.') }
-    ignore.map { |i| i.sub('!*', '').strip }
+    e = ignore.map { |i| i.sub('!*', '').strip }
+    new(e)
   end
 
-  Excludes = self.parse
-
-  def self.match(path)
-    not Excludes.include?(File.extname(path))
+  def match(path)
+    not @excludes.include?(File.extname(path))
   end
 end
 
