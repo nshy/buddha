@@ -12,6 +12,10 @@ Commands:
   init      init repository
   status    print repository status
   commit    commit workset changes
+  reset     reset work dir to last commited state
+
+reset options:
+  -f, --force     drop new content in working dir
 USAGE
 
 def usage
@@ -160,6 +164,46 @@ def commit
   cleanup_dirs(prepend_path(delete + dd, BASE))
 end
 
+def reset
+  check_initialized
+  force = false
+  while not ARGV.empty?
+    case ARGV.shift
+      when '-f', '--force' then force = true
+      else usage
+    end
+  end
+
+  rename, update, add, delete = sync_diff
+
+  if (not add.empty? or not update.empty?) and not force
+    puts 'Work dir has new content, to force reset use --force flag'
+    exit 1
+  end
+
+  update.each do |p|
+    File.unlink(WORK.path(p))
+    File.link(BASE.path(p), WORK.path(p))
+  end
+
+  if rename.empty?
+    da = dd = []
+  else
+    dd, da = rename.transpose
+  end
+
+  prepare_dirs(prepend_path(delete + dd, WORK))
+
+  rename.each { |r| File.unlink(WORK.path(r[1])) }
+  rename.each { |r| File.link(BASE.path(r[0]), WORK.path(r[0])) }
+
+  delete.each { |p| File.link(BASE.path(p), WORK.path(p)) }
+
+  add.each { |p| File.unlink(WORK.path(p)) }
+
+  cleanup_dirs(prepend_path(add + da, WORK))
+end
+
 usage if ARGV.size < 1
 cmd = ARGV.shift
 case cmd
@@ -169,6 +213,8 @@ case cmd
     status
   when 'commit'
     commit
+  when 'reset'
+    reset
   else
     usage
 end
