@@ -63,27 +63,26 @@ end
 def sync_diff
   b = BASE.list
   w = WORK.list
+  w, b, r = extract_rename(w, b)
   a = w - b
   d =  b - w
   u = (b - d).select { |p| BASE.inode(p) != WORK.inode(p) }
-  [ u, a, d ]
+  [ r, u, a, d ]
 end
 
-def extract_rename(add, delete)
-  map = delete.map { |p| [ BASE.inode(p), p ] }.to_h
-  rename = add.map do |a|
-    d = map[WORK.inode(a)]
-    d ? [d, a] : nil
+def extract_rename(work, base)
+  map = base.map { |p| [ BASE.inode(p), p ] }.to_h
+  rename = work.map do |w|
+    b = map[WORK.inode(w)]
+    b and b != w ? [b, w] : nil
   end
   rename = rename.compact
   if rename.empty?
-    dd = da = []
+    dw = db = []
   else
-    dd, da = rename.transpose
+    db, dw = rename.transpose
   end
-  add = add - da
-  delete = delete - dd
-  [ add, delete, rename ]
+  [ work - dw, base - db, rename ]
 end
 
 def print_status(files, prefix)
@@ -92,8 +91,7 @@ end
 
 def status
   check_initialized
-  u, a, d = sync_diff
-  a, d, r = extract_rename(a, d)
+  r, u, a, d = sync_diff
   print_status(u, 'U')
   print_status(a, 'A')
   print_status(d, 'D')
@@ -133,7 +131,7 @@ end
 
 def commit
   check_initialized
-  update, add, delete = sync_diff
+  rename, update, add, delete = sync_diff
 
   update.each do |p|
     File.unlink(BASE.path(p))
