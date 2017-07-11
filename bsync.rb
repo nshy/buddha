@@ -138,7 +138,17 @@ def commit
     File.link(WORK.path(p), BASE.path(p))
   end
 
-  prepare_dirs(prepend_path(add, BASE))
+  if rename.empty?
+    da = dd = []
+  else
+    dd, da = rename.transpose
+  end
+
+  prepare_dirs(prepend_path(add + da, BASE))
+
+  rename.each { |r| File.unlink(BASE.path(r[0])) }
+  rename.each { |r| File.link(WORK.path(r[1]), BASE.path(r[1])) }
+
   add.each do |p|
     w = WORK.path(p)
     File.chmod(File.stat(w).mode & 0555, w)
@@ -146,7 +156,8 @@ def commit
   end
 
   delete.each { |p| File.unlink(BASE.path(p)) }
-  cleanup_dirs(prepend_path(delete, BASE))
+
+  cleanup_dirs(prepend_path(delete + dd, BASE))
 end
 
 usage if ARGV.size < 1
