@@ -149,6 +149,16 @@ def prepare_dirs(files)
   end
 end
 
+def dir_empty(path)
+  (Dir.entries(path) - [ '.', '..' ]).empty?
+end
+
+def cleanup_dirs(files)
+  dirs_trace(files).reverse.each do |d|
+    Dir.unlink(d) if Dir.exist?(d) and dir_empty(d)
+  end
+end
+
 def reset
   check_initialized
 
@@ -168,11 +178,13 @@ def reset
     exit 1
   end
 
-  prepare_dirs(hashes.keys)
+  prepare_dirs(delete)
 
   delete.each { |p| File.link(db_object(hashes, p), p) }
   update.each { |p| force_link(db_object(hashes, p), p) }
   add.each { |p| File.unlink(p) }
+
+  cleanup_dirs(add)
 end
 
 usage if ARGV.size < 1
