@@ -53,6 +53,7 @@ def write_hashes(hashes)
 end
 
 def read_hashes
+  return {} if not File.exist?(COMMITED)
   l = File.read(COMMITED).split("\n")
   l.collect { |l| l.split(' ').reverse }.to_h
 end
