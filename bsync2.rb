@@ -93,7 +93,7 @@ def force_link(src, dst)
   File.rename(t, dst)
 end
 
-def add_object(hashes, p)
+def add_object(p)
   puts "Hashing #{p}"
   File.chmod(File.stat(p).mode & 0555, p)
   h = Digest::SHA1.file(p).hexdigest
@@ -103,7 +103,11 @@ def add_object(hashes, p)
   elsif File.stat(o).ino != File.stat(p).ino
     force_link(o, p)
   end
-  hashes[p] = h
+  h
+end
+
+def add_path(inodes, p)
+  inodes[File.stat(p).ino] || add_object(p)
 end
 
 def prune(hashes)
@@ -117,9 +121,13 @@ def commit
   check_initialized
 
   hashes = read_hashes
+  inodes = hashes.values.collect do |h|
+    o = File.join(OBJECTS, h)
+    [ File.stat(o).ino, h ]
+  end.to_h
   u, a, d = diff(hashes, list_work)
   d.each { |p| hashes.delete(p) }
-  (a + u).each { |p| add_object(hashes, p) }
+  (a + u).each { |p| hashes[p] = add_path(inodes, p) }
 
   write_hashes(hashes)
   prune(hashes)
