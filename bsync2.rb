@@ -121,10 +121,9 @@ def commit
   check_initialized
 
   hashes = read_hashes
-  inodes = hashes.values.collect do |h|
-    o = File.join(OBJECTS, h)
-    [ File.stat(o).ino, h ]
-  end.to_h
+  objs = Dir[File.join(OBJECTS, '*')]
+  inodes = objs.collect { |p| [ File.stat(p).ino, File.basename(p) ] }.to_h
+
   u, a, d = diff(hashes, list_work)
   d.each { |p| hashes.delete(p) }
   (a + u).each { |p| hashes[p] = add_path(inodes, p) }
