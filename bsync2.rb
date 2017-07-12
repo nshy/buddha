@@ -58,14 +58,17 @@ def read_hashes
   l.collect { |l| l.split(' ').reverse }.to_h
 end
 
+def db_object(hashes, p)
+  File.join(OBJECTS, hashes[p])
+end
+
 def diff(hashes, work)
   w = work
   b = hashes.keys
   a = w - b
   d = b - w
   u = (b - d).select do |p|
-    o = File.join(OBJECTS, hashes[p])
-    File.stat(p).ino != File.stat(o).ino
+    File.stat(p).ino != File.stat(db_object(hashes, p)).ino
   end
   [u, a, d]
 end
@@ -83,20 +86,22 @@ def status
   print_status(d, 'D')
 end
 
+def force_link(src, dst)
+  t = '.bsync2/object.tmp'
+  File.unlink(t) if File.exist?(t)
+  File.link(src, t)
+  File.rename(t, dst)
+end
+
 def add_object(hashes, p)
   puts "Hashing #{p}"
   File.chmod(File.stat(p).mode & 0555, p)
   h = Digest::SHA1.file(p).hexdigest
   o = File.join(OBJECTS, h)
-  if File.exist?(o)
-    if File.stat(o).ino != File.stat(p).ino
-      t = '.bsync2/object.tmp'
-      File.unlink(t) if File.exist?(t)
-      File.link(o, t)
-      File.rename(t, p)
-    end
-  else
+  if not File.exist?(o)
     File.link(p, o)
+  elsif File.stat(o).ino != File.stat(p).ino
+    force_link(o, p)
   end
   hashes[p] = h
 end
@@ -120,6 +125,49 @@ def commit
   prune(hashes)
 end
 
+def path_steps(path)
+  s = path_split(path)
+  (1..s.size).to_a.map { |l| s.slice(0, l).join('/') }
+end
+
+def dirs_trace(files)
+  dirs = files.map { |p| File.dirname(p) }.uniq
+  # make sure we have all parent dirs too
+  dirs = dirs.map { |p| path_steps(p) }.flatten.uniq.sort
+end
+
+def prepare_dirs(files)
+  dirs_trace(files).each do |d|
+    Dir.mkdir(d) if not File.exists?(d)
+  end
+end
+
+def reset
+  check_initialized
+
+  force = false
+  while not ARGV.empty?
+    case ARGV.shift
+      when '-f', '--force' then force = true
+      else usage
+    end
+  end
+
+  hashes = read_hashes
+  update, add, delete = diff(hashes, list_work)
+
+  if (not add.empty? or not update.empty?) and not force
+    puts 'Work dir has new content, to force reset use --force flag'
+    exit 1
+  end
+
+  prepare_dirs(hashes.keys)
+
+  delete.each { |p| File.link(db_object(hashes, p), p) }
+  update.each { |p| force_link(db_object(hashes, p), p) }
+  add.each { |p| File.unlink(p) }
+end
+
 usage if ARGV.size < 1
 cmd = ARGV.shift
 case cmd
@@ -129,6 +177,8 @@ case cmd
     status
   when 'commit'
     commit
+  when 'reset'
+    reset
   else
     usage
 end
