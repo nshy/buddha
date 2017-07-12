@@ -25,12 +25,12 @@ def usage
   exit 1
 end
 
-OBJECTS = ".bsync2/objects"
-COMMITED = ".bsync2/commited"
+OBJECTS = ".bsync/objects"
+COMMITED = ".bsync/commited"
 IGNORE = GitIgnore.for('.git/info/exclude')
 
 def init
-  Dir.mkdir(".bsync2") if not Dir.exist?(".bsync2")
+  Dir.mkdir(".bsync") if not Dir.exist?(".bsync")
   Dir.mkdir(OBJECTS) if not Dir.exist?(OBJECTS)
 end
 
@@ -87,7 +87,7 @@ def status
 end
 
 def force_link(src, dst)
-  t = '.bsync2/object.tmp'
+  t = '.bsync/object.tmp'
   File.unlink(t) if File.exist?(t)
   File.link(src, t)
   File.rename(t, dst)
