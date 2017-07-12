@@ -105,7 +105,7 @@ def prune(hashes)
   objs = Dir[File.join(OBJECTS, '*')]
   db = objs.collect { |p| File.basename(p) }
   orphans = db - hashes.values
-  orphans.each { |p| File.unlink(File.join(OBJECTS, p)) }
+  orphans.each { |h| File.unlink(File.join(OBJECTS, h)) }
 end
 
 def commit
