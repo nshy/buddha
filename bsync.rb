@@ -223,7 +223,6 @@ def snapshot
   File.write(File.join(SNAPSHOTS, peer), s)
 end
 
-usage if ARGV.size < 1
 cmd = ARGV.shift
 case cmd
   when 'status'
