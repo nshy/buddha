@@ -26,13 +26,6 @@ def usage
   exit 1
 end
 
-GIT_DIR = ENV['GIT_DIR'] || '.git'
-BSYNC_DIR = ENV['BSYNC_DIR'] || '.bsync'
-
-OBJECTS = "#{BSYNC_DIR}/objects"
-COMMITED = "#{BSYNC_DIR}/commited"
-IGNORE = GitIgnore.for("#{GIT_DIR}/info/exclude")
-
 def read_config(path)
   return {} if not File.exists?(path)
   out, err, code = Open3.capture3("git config --file=#{path} --get-regexp '.*'")
@@ -43,15 +36,27 @@ def read_config(path)
   out.split("\n").collect { |l| l.split(' ') }.to_h
 end
 
-CONFIG = read_config("#{BSYNC_DIR}/config")
-
 def init
   Dir.mkdir(BSYNC_DIR) if not Dir.exist?(BSYNC_DIR)
   Dir.mkdir(OBJECTS) if not Dir.exist?(OBJECTS)
 end
 
-def check_initialized
-  return if File.exist?(OBJECTS) and File.directory?(OBJECTS)
+GIT_DIR = ENV['GIT_DIR'] || '.git'
+BSYNC_DIR = ENV['BSYNC_DIR'] || '.bsync'
+
+OBJECTS = "#{BSYNC_DIR}/objects"
+COMMITED = "#{BSYNC_DIR}/commited"
+IGNOREFILE = "#{GIT_DIR}/info/exclude"
+
+CONFIG = read_config("#{BSYNC_DIR}/config")
+
+usage if ARGV.size < 1
+if ARGV[0] == 'init'
+    init
+    exit
+end
+
+if not File.exist?(OBJECTS) or not File.directory?(OBJECTS)
   puts "current directory is not bsync repository"
   exit 1
 end
@@ -94,8 +99,6 @@ def print_status(files, prefix)
 end
 
 def status
-  check_initialized
-
   u, a, d = diff(read_hashes, list_work)
   print_status(u, 'U')
   print_status(a, 'A')
@@ -134,8 +137,6 @@ def prune(hashes)
 end
 
 def commit
-  check_initialized
-
   hashes = read_hashes
   objs = Dir[File.join(OBJECTS, '*')]
   inodes = objs.collect { |p| [ File.stat(p).ino, File.basename(p) ] }.to_h
@@ -176,8 +177,6 @@ def cleanup_dirs(files)
 end
 
 def reset
-  check_initialized
-
   force = false
   while not ARGV.empty?
     case ARGV.shift
@@ -206,8 +205,6 @@ end
 usage if ARGV.size < 1
 cmd = ARGV.shift
 case cmd
-  when 'init'
-    init
   when 'status'
     status
   when 'commit'
