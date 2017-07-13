@@ -73,6 +73,8 @@ if not File.exist?(OBJECTS) or not File.directory?(OBJECTS)
 end
 
 UUID = File.read(UUIDFILE)
+LOCK = File.open(BSYNC_DIR)
+LOCK.flock(File::LOCK_EX)
 
 def list_work
   l = Dir[File.join('**', '*')]
