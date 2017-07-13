@@ -46,15 +46,19 @@ def init
   end
 end
 
+def path(p)
+  File.join(BSYNC_DIR, p)
+end
+
 GIT_DIR = ENV['GIT_DIR'] || '.git'
 BSYNC_DIR = ENV['BSYNC_DIR'] || '.bsync'
 
-OBJECTS = "#{BSYNC_DIR}/objects"
-COMMITED = "#{BSYNC_DIR}/commited"
-IGNOREFILE = "#{GIT_DIR}/info/exclude"
-UUIDFILE = File.join(BSYNC_DIR, 'uuid')
+OBJECTS = path('objects')
+COMMITED = path('commited')
+UUIDFILE = path('uuid')
+IGNOREFILE = File.join(GIT_DIR, '/info/exclude')
 
-CONFIG = read_config("#{BSYNC_DIR}/config")
+CONFIG = read_config(path('config'))
 
 usage if ARGV.size < 1
 if ARGV[0] == 'init'
@@ -114,7 +118,7 @@ def status
 end
 
 def force_link(src, dst)
-  t = "#{BSYNC_DIR}/object.tmp"
+  t = path('object.tmp')
   File.unlink(t) if File.exist?(t)
   File.link(src, t)
   File.rename(t, dst)
