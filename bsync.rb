@@ -5,6 +5,7 @@ require_relative 'helpers'
 require 'digest'
 require 'set'
 require 'open3'
+require 'securerandom'
 
 include CommonHelpers
 
@@ -39,6 +40,10 @@ end
 def init
   Dir.mkdir(BSYNC_DIR) if not Dir.exist?(BSYNC_DIR)
   Dir.mkdir(OBJECTS) if not Dir.exist?(OBJECTS)
+  if not File.exists?(UUIDFILE)
+    File.write(UUIDFILE, SecureRandom.uuid)
+    File.chmod(File.stat(UUIDFILE).mode & 0555, UUIDFILE)
+  end
 end
 
 GIT_DIR = ENV['GIT_DIR'] || '.git'
@@ -47,6 +52,7 @@ BSYNC_DIR = ENV['BSYNC_DIR'] || '.bsync'
 OBJECTS = "#{BSYNC_DIR}/objects"
 COMMITED = "#{BSYNC_DIR}/commited"
 IGNOREFILE = "#{GIT_DIR}/info/exclude"
+UUIDFILE = File.join(BSYNC_DIR, 'uuid')
 
 CONFIG = read_config("#{BSYNC_DIR}/config")
 
@@ -60,6 +66,8 @@ if not File.exist?(OBJECTS) or not File.directory?(OBJECTS)
   puts "current directory is not bsync repository"
   exit 1
 end
+
+UUID = File.read(UUIDFILE)
 
 def list_work
   l = Dir[File.join('**', '*')]
