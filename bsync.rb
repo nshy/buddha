@@ -86,10 +86,14 @@ def write_hashes(hashes)
   File.rename(tmp, COMMITED)
 end
 
-def read_hashes
-  return {} if not File.exist?(COMMITED)
-  l = File.read(COMMITED).split("\n")
+def read_hashes(path)
+  return {} if not File.exist?(path)
+  l = File.read(path).split("\n")
   l.collect { |l| l.split(' ').reverse }.to_h
+end
+
+def commited
+  read_hashes(COMMITED)
 end
 
 def db_object(hashes, p)
@@ -112,7 +116,7 @@ def print_status(files, prefix)
 end
 
 def status
-  u, a, d = diff(read_hashes, list_work)
+  u, a, d = diff(commited, list_work)
   print_status(u, 'U')
   print_status(a, 'A')
   print_status(d, 'D')
@@ -142,15 +146,18 @@ def add_path(inodes, p)
   inodes[File.stat(p).ino] || add_object(p)
 end
 
-def prune(hashes)
+def prune
   objs = Dir[File.join(OBJECTS, '*')]
   db = objs.collect { |p| File.basename(p) }
-  orphans = db - hashes.values
-  orphans.each { |h| File.unlink(File.join(OBJECTS, h)) }
+
+  lists = Dir[File.join(SNAPSHOTS, '*')] + [ COMMITED ]
+  used = lists.collect { |l| read_hashes(l).values }.reduce([], :|)
+
+  (db - used).each { |h| File.unlink(File.join(OBJECTS, h)) }
 end
 
 def commit
-  hashes = read_hashes
+  hashes = commited
   objs = Dir[File.join(OBJECTS, '*')]
   inodes = objs.collect { |p| [ File.stat(p).ino, File.basename(p) ] }.to_h
 
@@ -159,7 +166,7 @@ def commit
   (a + u).each { |p| hashes[p] = add_path(inodes, p) }
 
   write_hashes(hashes)
-  prune(hashes)
+  prune
 end
 
 def path_steps(path)
@@ -198,7 +205,7 @@ def reset
     end
   end
 
-  hashes = read_hashes
+  hashes = commited
   update, add, delete = diff(hashes, list_work)
 
   if (not add.empty? or not update.empty?) and not force
