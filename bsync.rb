@@ -68,7 +68,7 @@ if ARGV[0] == 'init'
 end
 
 if not File.exist?(OBJECTS) or not File.directory?(OBJECTS)
-  puts "current directory is not bsync repository"
+  puts "Not a bsync repository, bsyc dir is '#{BSYNC_DIR}'"
   exit 1
 end
 
