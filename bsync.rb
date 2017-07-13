@@ -4,6 +4,7 @@ require_relative 'utils'
 require_relative 'helpers'
 require 'digest'
 require 'set'
+require 'open3'
 
 include CommonHelpers
 
@@ -31,6 +32,18 @@ BSYNC_DIR = ENV['BSYNC_DIR'] || '.bsync'
 OBJECTS = "#{BSYNC_DIR}/objects"
 COMMITED = "#{BSYNC_DIR}/commited"
 IGNORE = GitIgnore.for("#{GIT_DIR}/info/exclude")
+
+def read_config(path)
+  return {} if not File.exists?(path)
+  out, err, code = Open3.capture3("git config --file=#{path} --get-regexp '.*'")
+  if not code.success?
+    puts err
+    exit
+  end
+  out.split("\n").collect { |l| l.split(' ') }.to_h
+end
+
+CONFIG = read_config("#{BSYNC_DIR}/config")
 
 def init
   Dir.mkdir(BSYNC_DIR) if not Dir.exist?(BSYNC_DIR)
