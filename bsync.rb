@@ -22,17 +22,20 @@ reset options:
   -f, --force     drop new content in working dir
 USAGE
 
-def usage
-  puts USAGE
+def fatal(msg)
+  puts msg
   exit 1
+end
+
+def usage
+  fatal USAGE
 end
 
 def read_config(path)
   return {} if not File.exists?(path)
   out, err, code = Open3.capture3("git config --file=#{path} --get-regexp '.*'")
   if not code.success?
-    puts err
-    exit
+    fatal err
   end
   out.split("\n").collect { |l| l.split(' ') }.to_h
 end
@@ -68,8 +71,7 @@ if ARGV[0] == 'init'
 end
 
 if not File.exist?(OBJECTS) or not File.directory?(OBJECTS)
-  puts "Not a bsync repository, bsyc dir is '#{BSYNC_DIR}'"
-  exit 1
+  fatal "Not a bsync repository, bsyc dir is '#{BSYNC_DIR}'"
 end
 
 UUID = File.read(UUIDFILE)
@@ -211,8 +213,7 @@ def reset
   update, add, delete = diff(hashes, list_work)
 
   if (not add.empty? or not update.empty?) and not force
-    puts 'Work dir has new content, to force reset use --force flag'
-    exit 1
+    fatal 'Work dir has new content, to force reset use --force flag'
   end
 
   prepare_dirs(delete)
