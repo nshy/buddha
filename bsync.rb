@@ -56,6 +56,7 @@ BSYNC_DIR = ENV['BSYNC_DIR'] || '.bsync'
 OBJECTS = path('objects')
 COMMITED = path('commited')
 UUIDFILE = path('uuid')
+SNAPSHOTS = path('snapshots')
 IGNOREFILE = File.join(GIT_DIR, '/info/exclude')
 
 CONFIG = read_config(path('config'))
@@ -214,6 +215,14 @@ def reset
   cleanup_dirs(add)
 end
 
+def snapshot
+  usage if ARGV.empty?
+  peer = ARGV.shift
+  Dir.mkdir(SNAPSHOTS) if not File.exist?(SNAPSHOTS)
+  s = File.read(COMMITED)
+  File.write(File.join(SNAPSHOTS, peer), s)
+end
+
 usage if ARGV.size < 1
 cmd = ARGV.shift
 case cmd
@@ -223,6 +232,9 @@ case cmd
     commit
   when 'reset'
     reset
+# these are internal commands
+  when 'snapshot'
+    snapshot
   else
     usage
 end
