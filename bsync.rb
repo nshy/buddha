@@ -6,6 +6,7 @@ require 'digest'
 require 'set'
 require 'open3'
 require 'securerandom'
+require 'uri'
 
 include CommonHelpers
 
@@ -17,9 +18,12 @@ Commands:
   status    print repository status
   commit    commit workset changes
   reset     reset work dir to last commited state
+  sync      sync with given remote
 
 reset options:
   -f, --force     drop new content in working dir
+
+sync <remote>
 USAGE
 
 def fatal(msg)
@@ -233,6 +237,26 @@ def snapshot
   File.write(File.join(SNAPSHOTS, peer), s)
 end
 
+def sync
+  usage if ARGV.empty?
+  remote = ARGV.shift
+  url = CONFIG["remote.#{remote}.url"]
+  if not url
+    fatal "Unknown remote '#{remote}'. Check your config."
+  end
+  if URI(url).absolute?
+    fatal "Inter host sync is not supported yet."
+  end
+  if not File.directory?(url)
+    fatal "Remote url '#{url}' does not point to directory."
+  end
+  env = { 'BSYNC_DIR' => nil }
+  out, code = Open3.capture2(env, "bsync.rb snapshot #{UUID}", chdir: url)
+  if not code.success?
+    fatal "Error making remote snapshot for url '#{url}': #{out}"
+  end
+end
+
 cmd = ARGV.shift
 case cmd
   when 'status'
@@ -241,6 +265,8 @@ case cmd
     commit
   when 'reset'
     reset
+  when 'sync'
+    sync
 # these are internal commands
   when 'snapshot'
     snapshot
