@@ -287,6 +287,17 @@ def cleanup_dirs(files)
   end
 end
 
+def apply(hashes, patch)
+  u, a, d = patch
+  prepare_dirs(d)
+
+  d.each { |p| File.link(db_object(hashes, p), p) }
+  u.each { |p| force_link(db_object(hashes, p), p) }
+  a.each { |p| File.unlink(p) }
+
+  cleanup_dirs(a)
+end
+
 def reset
   force = false
   while not ARGV.empty?
@@ -297,19 +308,13 @@ def reset
   end
 
   hashes = commited
-  update, add, delete = diff(hashes, list_work)
+  u, a, d = patch = diff(hashes, list_work)
 
-  if (not add.empty? or not update.empty?) and not force
+  if (not a.empty? or not u.empty?) and not force
     fatal 'Work dir has new content, to force reset use --force flag'
   end
 
-  prepare_dirs(delete)
-
-  delete.each { |p| File.link(db_object(hashes, p), p) }
-  update.each { |p| force_link(db_object(hashes, p), p) }
-  add.each { |p| File.unlink(p) }
-
-  cleanup_dirs(add)
+  apply(hashes, patch)
 end
 
 def copy(src, dst)
