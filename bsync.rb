@@ -386,6 +386,14 @@ def copy_theirs(url, c)
   end
 end
 
+def remote_bsync(url, cmd)
+  env = { 'BSYNC_DIR' => nil }
+  out, code = Open3.capture2(env, "bsync.rb #{cmd}", chdir: url)
+  if not code.success?
+    fatal "Error executing command '#{cmd}' for remote '#{url}': #{out}"
+  end
+end
+
 def sync
   usage if ARGV.empty?
   remote = ARGV.shift
@@ -414,11 +422,7 @@ def sync
     fatal "Remote url '#{url}' does not point to directory."
   end
   check_clean
-  env = { 'BSYNC_DIR' => nil }
-  out, code = Open3.capture2(env, "bsync.rb snapshot #{UUID}", chdir: url)
-  if not code.success?
-    fatal "Error making remote snapshot for url '#{url}': #{out}"
-  end
+  remote_bsync(url, "snapshot #{UUID}")
   Dir.mkdir(REMOTES) if not File.exist?(REMOTES)
   File.symlink(r, MERGEREMOTE)
   copy(File.join(url, BSYNC_DIR_DEFAULT, 'snapshots', UUID), rt)
