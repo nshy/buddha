@@ -247,8 +247,34 @@ def read_patch
   [ u, a, d ].collect { |l| l.to_a }
 end
 
+def invert_patch(p)
+  u, a, d = p
+  [ u, d, a ]
+end
+
 def commit_merge
-  print_diff(read_patch)
+  u, a, d = patch = read_patch
+  puts "Applying #{CONFLICTS}"
+  print_diff(patch)
+  hashes = commited
+  remote = read_hashes(MERGEREMOTE)
+
+  d.each { |p| hashes.delete(p) }
+  (a + u).each do |p|
+    h = remote[p]
+    hashes[p] = h
+    r = File.join(THEIR, p)
+    o = File.join(OBJECTS, h)
+    File.rename(r, o) if File.exist?(r) and not File.exist?(o)
+  end
+
+  Dir[File.join(THEIR, '*')].each { |p| File.unlink(p) }
+  Dir.rmdir(THEIR)
+
+  File.unlink(MERGEREMOTE)
+  File.unlink(CONFLICTS)
+  write_hashes(hashes)
+  apply(hashes, invert_patch(patch))
 end
 
 def commit
