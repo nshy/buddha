@@ -330,6 +330,15 @@ def snapshot
   copy(COMMITED, s) if not File.exist?(s)
 end
 
+def delete_snapshot
+  usage if ARGV.empty?
+  peer = ARGV.shift
+  s = File.join(SNAPSHOTS, peer)
+  File.unlink(s) if File.exist?(s)
+  Dir.rmdir(SNAPSHOTS) if dir_empty(SNAPSHOTS)
+  prune
+end
+
 def check_clean
   u, a, d = diff(commited, list_work)
   return if u.empty? and a.empty? and d.empty?
@@ -445,6 +454,8 @@ case cmd
 # these are internal commands
   when 'snapshot'
     snapshot
+  when 'snapshot-delete'
+    delete_snapshot
   else
     usage
 end
