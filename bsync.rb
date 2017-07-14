@@ -229,12 +229,16 @@ def reset
   cleanup_dirs(add)
 end
 
+def copy(src, dst)
+  s = File.read(src)
+  File.write(dst, s)
+end
+
 def snapshot
   usage if ARGV.empty?
   peer = ARGV.shift
   Dir.mkdir(SNAPSHOTS) if not File.exist?(SNAPSHOTS)
-  s = File.read(COMMITED)
-  File.write(File.join(SNAPSHOTS, peer), s)
+  copy(COMMITED, File.join(SNAPSHOTS, peer))
 end
 
 def sync
