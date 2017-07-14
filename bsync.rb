@@ -396,7 +396,11 @@ def sync
   r = File.join(REMOTES, remote)
   rt = ".#{remote}.tmp"
   if File.exist?(r)
-    puts "Sync is already done, but there are conflicts. Resolve them in #{CONFLICTS} file and then commit."
+    if File.exist?(CONFLICTS)
+      puts "Sync is already done, but there are conflicts. Resolve them in #{CONFLICTS} file and then commit."
+    else
+      puts "Sync is already done."
+    end
     exit
   end
   if File.exist?(MERGEREMOTE)
