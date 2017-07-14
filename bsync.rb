@@ -73,6 +73,7 @@ UUIDFILE = path('uuid')
 SNAPSHOTS = path('snapshots')
 REMOTES = path('remotes')
 CONFLICTS = path('conflicts')
+MERGEREMOTE = path('mergeremote')
 IGNOREFILE = File.join(GIT_DIR, '/info/exclude')
 TMPFILE = path('.tmp')
 THEIR = path('their')
@@ -320,6 +321,10 @@ def sync
     puts "Sync is already done, but there are conflicts. Resolve them in #{CONFLICTS} file and then commit."
     exit
   end
+  if File.exist?(MERGEREMOTE)
+    curremote = File.basename(File.readlink(MERGEREMOTE))
+    fatal "There is unfinished sync for remote '#{curremote}'. Finish that sync first."
+  end
   if URI(url).absolute?
     fatal "Inter host sync is not supported yet."
   end
@@ -333,6 +338,7 @@ def sync
     fatal "Error making remote snapshot for url '#{url}': #{out}"
   end
   Dir.mkdir(REMOTES) if not File.exist?(REMOTES)
+  File.symlink(r, MERGEREMOTE)
   copy(File.join(url, BSYNC_DIR_DEFAULT, 'snapshots', UUID), rt)
   c = conflicts(rt)
   copy_theirs(url, c)
