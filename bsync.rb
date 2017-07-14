@@ -173,16 +173,90 @@ def prune
   (db - used).each { |h| File.unlink(File.join(OBJECTS, h)) }
 end
 
-def commit
-  hashes = commited
+def inodes
   objs = Dir[File.join(OBJECTS, '*')]
   inodes = objs.collect { |p| [ File.stat(p).ino, File.basename(p) ] }.to_h
+end
+
+def commit_work
+  hashes = commited
 
   u, a, d = diff(hashes, list_work)
+  i = inodes
+
   d.each { |p| hashes.delete(p) }
-  (a + u).each { |p| hashes[p] = add_path(inodes, p) }
+  (a + u).each { |p| hashes[p] = add_path(i, p) }
 
   write_hashes(hashes)
+end
+
+def bad_patch(l, msg)
+  fatal "Error in #{CONFLICTS}:#{l} : #{msg}."
+end
+
+def read_patch
+  c = conflicts(MERGEREMOTE)
+  cm, ct, cc = c.collect { |l| Set.new(l) }
+
+  u = Set.new; a = Set.new; k = Set.new;
+  i = 0
+  lines = File.read(CONFLICTS).split("\n")
+  lines.each do |l|
+    i += 1
+    next if l.start_with?('#')
+    next if l.strip.empty?
+    if l[1] != ' '
+      bad_patch i, "second symbol must be space"
+    end
+    p = l.slice(1..-1).strip
+    case l[0]
+      when " "
+        if cc.include?(p)
+          bad_patch i, "path present on both sides, use either 't' or 'm'"
+        end
+        if ct.include?(p)
+          a << p
+        elsif cm.include?(p)
+          k << p
+        else
+          bad_patch i, "path '#{p}' don't need to be resolved"
+        end
+
+      when "t"
+        if not cc.include?(p)
+          bad_patch i, "'t' mark has only meaining in conflicts"
+        end
+        u << p
+        k << p
+
+      when "m"
+        if not cc.include?(p)
+          bad_patch i, "'m' mark has only meaining in conflicts"
+        end
+        k << p
+
+      when "C", "<", ">"
+        bad_patch i, "unresolved conflict"
+
+      else
+        bad_patch i, "unexpected first letter"
+    end
+  end
+  d = (cm - k) + (cc - k)
+
+  [ u, a, d ].collect { |l| l.to_a }
+end
+
+def commit_merge
+  print_diff(read_patch)
+end
+
+def commit
+  if File.exist?(CONFLICTS)
+    commit_merge
+  else
+    commit_work
+  end
   prune
 end
 
