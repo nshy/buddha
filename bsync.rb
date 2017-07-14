@@ -438,6 +438,7 @@ def sync
   c = conflicts(rt)
   copy_theirs(url, c)
   write_conflicts(c)
+  remote_bsync(url, "snapshot-delete #{UUID}")
   File.rename(rt, r)
 end
 
