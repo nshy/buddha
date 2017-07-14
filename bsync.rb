@@ -57,13 +57,16 @@ def path(p)
   File.join(BSYNC_DIR, p)
 end
 
+BSYNC_DIR_DEFAULT = '.bsync'
 GIT_DIR = ENV['GIT_DIR'] || '.git'
-BSYNC_DIR = ENV['BSYNC_DIR'] || '.bsync'
+BSYNC_DIR = ENV['BSYNC_DIR'] || BSYNC_DIR_DEFAULT
 
 OBJECTS = path('objects')
 COMMITED = path('commited')
 UUIDFILE = path('uuid')
 SNAPSHOTS = path('snapshots')
+REMOTES = path('remotes')
+CONFLICTS = path('conflicts')
 IGNOREFILE = File.join(GIT_DIR, '/info/exclude')
 
 CONFIG = read_config(path('config'))
@@ -247,6 +250,36 @@ def check_clean
   fatal "Working dis has changes. Reset them or commit before sync."
 end
 
+SYNC_NOTICE = <<END
+Local and remotes trees are not identical. You need to choose what result tree would look like.
+Edit #{(CONFLICTS)} file to make your choice. Instructions are inside this file.
+END
+
+CONFLICTS_HEADER = <<END
+# Legenda:
+#  < - their (file is present in remote and not present locally)
+#  > - mine  (reverse of above)
+#  C - conflict (present on both sides and differ)
+#
+# Edit:
+#  Deleted line to delete file from result. Replace < or > with just space
+#  to include file into result. Replace C with 't' or 'm' to choose on of
+#  the version.
+END
+
+def write_diff(their)
+  m = commited
+  t = read_hashes(their)
+  c = (t.keys & m.keys).select { |p| m[p] != t[p] }
+  dm = (m.keys - t.keys).collect { |p| "> #{p}" }
+  dt = (t.keys - m.keys).collect { |p| "< #{p}" }
+  dc = c.collect { |p| "C #{p}" }
+  ds = (dm + dt + dc).join("\n")
+  s = [CONFLICTS_HEADER, ds].join("\n")
+  File.write(CONFLICTS, s)
+  puts SYNC_NOTICE
+end
+
 def sync
   usage if ARGV.empty?
   remote = ARGV.shift
@@ -266,6 +299,10 @@ def sync
   if not code.success?
     fatal "Error making remote snapshot for url '#{url}': #{out}"
   end
+  Dir.mkdir(REMOTES) if not File.exist?(REMOTES)
+  r = File.join(REMOTES, remote)
+  copy(File.join(url, BSYNC_DIR_DEFAULT, 'snapshots', UUID), r)
+  write_diff(r)
 end
 
 cmd = ARGV.shift
