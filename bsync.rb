@@ -129,15 +129,14 @@ def diff(hashes, work)
   [u, a, d]
 end
 
-def print_status(files, prefix)
-  files.each { |p| puts "#{prefix} #{p}" }
+def print_diff(diff)
+  [ 'U', 'A', 'D' ].zip(diff).each do |i|
+    i[1].each { |p| puts "#{i[0]} #{p}" }
+  end
 end
 
 def status
-  u, a, d = diff(commited, list_work)
-  print_status(u, 'U')
-  print_status(a, 'A')
-  print_status(d, 'D')
+  print_diff(diff(commited, list_work))
 end
 
 def force_link(src, dst)
