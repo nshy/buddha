@@ -44,13 +44,19 @@ def read_config(path)
   out.split("\n").collect { |l| l.split(' ') }.to_h
 end
 
+def save(path, data, options = {})
+  default = { readonly: false }
+  options = default.merge(options)
+
+  File.write(TMPFILE, data)
+  File.chmod(File.stat(TMPFILE).mode & 0555, TMPFILE) if options[:readonly]
+  File.rename(TMPFILE, path)
+end
+
 def init
   Dir.mkdir(BSYNC_DIR) if not Dir.exist?(BSYNC_DIR)
   Dir.mkdir(OBJECTS) if not Dir.exist?(OBJECTS)
-  if not File.exists?(UUIDFILE)
-    File.write(UUIDFILE, SecureRandom.uuid)
-    File.chmod(File.stat(UUIDFILE).mode & 0555, UUIDFILE)
-  end
+  save(UUIDFILE, SecureRandom.uuid, readonly: true) if not File.exists?(UUIDFILE)
 end
 
 def path(p)
@@ -68,6 +74,7 @@ SNAPSHOTS = path('snapshots')
 REMOTES = path('remotes')
 CONFLICTS = path('conflicts')
 IGNOREFILE = File.join(GIT_DIR, '/info/exclude')
+TMPFILE = path('.tmp')
 
 CONFIG = read_config(path('config'))
 
@@ -92,9 +99,7 @@ end
 
 def write_hashes(hashes)
   s = hashes.to_a.collect { |i| i.reverse.join(' ') }.join("\n")
-  tmp = "#{COMMITED}.tmp"
-  File.write(tmp, s)
-  File.rename(tmp, COMMITED)
+  save(COMMITED, s)
 end
 
 def read_hashes(path)
@@ -234,7 +239,7 @@ end
 
 def copy(src, dst)
   s = File.read(src)
-  File.write(dst, s)
+  save(dst, s)
 end
 
 def snapshot
@@ -276,7 +281,7 @@ def write_diff(their)
   dc = c.collect { |p| "C #{p}" }
   ds = (dm + dt + dc).join("\n")
   s = [CONFLICTS_HEADER, ds].join("\n")
-  File.write(CONFLICTS, s)
+  save(CONFLICTS, s)
   puts SYNC_NOTICE
 end
 
