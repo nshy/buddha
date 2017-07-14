@@ -75,6 +75,7 @@ REMOTES = path('remotes')
 CONFLICTS = path('conflicts')
 IGNOREFILE = File.join(GIT_DIR, '/info/exclude')
 TMPFILE = path('.tmp')
+THEIR = path('their')
 
 CONFIG = read_config(path('config'))
 
@@ -271,6 +272,9 @@ CONFLICTS_HEADER = <<END
 #  Deleted line to delete file from result. Replace < or > with just space
 #  to include file into result. Replace C with 't' or 'm' to choose on of
 #  the version.
+#
+# Data:
+#  Their versions of files are available at ./their directory.
 END
 
 def conflicts(their)
@@ -294,12 +298,27 @@ def write_conflicts(c)
   puts SYNC_NOTICE
 end
 
+def copy_theirs(url, c)
+  cm, ct, cc = c
+  Dir.mkdir(THEIR) if not File.exist?(THEIR)
+  (ct + cc).each do |p|
+    t = File.join(THEIR, p)
+    File.link(File.join(url, p), t) if not File.exist?(t)
+  end
+end
+
 def sync
   usage if ARGV.empty?
   remote = ARGV.shift
   url = CONFIG["remote.#{remote}.url"]
   if not url
     fatal "Unknown remote '#{remote}'. Check your config."
+  end
+  r = File.join(REMOTES, remote)
+  rt = ".#{remote}.tmp"
+  if File.exist?(r)
+    puts "Sync is already done, but there are conflicts. Resolve them in #{CONFLICTS} file and then commit."
+    exit
   end
   if URI(url).absolute?
     fatal "Inter host sync is not supported yet."
@@ -314,10 +333,11 @@ def sync
     fatal "Error making remote snapshot for url '#{url}': #{out}"
   end
   Dir.mkdir(REMOTES) if not File.exist?(REMOTES)
-  r = File.join(REMOTES, remote)
-  copy(File.join(url, BSYNC_DIR_DEFAULT, 'snapshots', UUID), r)
-  c = conflicts(r)
+  copy(File.join(url, BSYNC_DIR_DEFAULT, 'snapshots', UUID), rt)
+  c = conflicts(rt)
+  copy_theirs(url, c)
   write_conflicts(c)
+  File.rename(rt, r)
 end
 
 cmd = ARGV.shift
