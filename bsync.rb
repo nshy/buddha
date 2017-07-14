@@ -246,7 +246,8 @@ def snapshot
   usage if ARGV.empty?
   peer = ARGV.shift
   Dir.mkdir(SNAPSHOTS) if not File.exist?(SNAPSHOTS)
-  copy(COMMITED, File.join(SNAPSHOTS, peer))
+  s = File.join(SNAPSHOTS, peer)
+  copy(COMMITED, s) if not File.exist?(s)
 end
 
 def check_clean
