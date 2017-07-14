@@ -273,12 +273,20 @@ CONFLICTS_HEADER = <<END
 #  the version.
 END
 
-def write_diff(their)
+def conflicts(their)
   m = commited
   t = read_hashes(their)
-  c = (t.keys & m.keys).select { |p| m[p] != t[p] }
-  dm = (m.keys - t.keys).collect { |p| "> #{p}" }
-  dt = (t.keys - m.keys).collect { |p| "< #{p}" }
+
+  cm = m.keys - t.keys
+  ct = t.keys - m.keys
+  cc = (t.keys & m.keys).select { |p| m[p] != t[p] }
+  [ cm, ct, cc ]
+end
+
+def write_conflicts(c)
+  m, t, c = c
+  dm = m.collect { |p| "> #{p}" }
+  dt = t.collect { |p| "< #{p}" }
   dc = c.collect { |p| "C #{p}" }
   ds = (dm + dt + dc).join("\n")
   s = [CONFLICTS_HEADER, ds].join("\n")
@@ -308,7 +316,8 @@ def sync
   Dir.mkdir(REMOTES) if not File.exist?(REMOTES)
   r = File.join(REMOTES, remote)
   copy(File.join(url, BSYNC_DIR_DEFAULT, 'snapshots', UUID), r)
-  write_diff(r)
+  c = conflicts(r)
+  write_conflicts(c)
 end
 
 cmd = ARGV.shift
