@@ -241,6 +241,12 @@ def snapshot
   copy(COMMITED, File.join(SNAPSHOTS, peer))
 end
 
+def check_clean
+  u, a, d = diff(commited, list_work)
+  return if u.empty? and a.empty? and d.empty?
+  fatal "Working dis has changes. Reset them or commit before sync."
+end
+
 def sync
   usage if ARGV.empty?
   remote = ARGV.shift
@@ -254,6 +260,7 @@ def sync
   if not File.directory?(url)
     fatal "Remote url '#{url}' does not point to directory."
   end
+  check_clean
   env = { 'BSYNC_DIR' => nil }
   out, code = Open3.capture2(env, "bsync.rb snapshot #{UUID}", chdir: url)
   if not code.success?
