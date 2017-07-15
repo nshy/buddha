@@ -23,7 +23,9 @@ Commands:
 reset options:
   -f, --force     drop new content in working dir
 
-sync <remote>
+sync [--abort] [<remote>]
+   <remote>  sync to <remote>
+   --abort   abort current sync
 USAGE
 
 def fatal(msg)
@@ -252,6 +254,18 @@ def invert_patch(p)
   [ u, d, a ]
 end
 
+def unlink_quiet(p)
+  File.unlink(p) if File.exist?(p)
+end
+
+def clean_sync
+  Dir[File.join(THEIR, '*')].each { |p| File.unlink(p) }
+  Dir.rmdir(THEIR) if File.exist?(THEIR)
+
+  unlink_quiet(CONFLICTS)
+  File.unlink(MERGEREMOTE)
+end
+
 def commit_merge
   u, a, d = patch = read_patch
   puts "Applying #{CONFLICTS}"
@@ -268,11 +282,7 @@ def commit_merge
     File.rename(r, o) if File.exist?(r) and not File.exist?(o)
   end
 
-  Dir[File.join(THEIR, '*')].each { |p| File.unlink(p) }
-  Dir.rmdir(THEIR)
-
-  File.unlink(MERGEREMOTE)
-  File.unlink(CONFLICTS)
+  clean_sync
   write_hashes(hashes)
   apply(hashes, invert_patch(patch))
 end
@@ -428,12 +438,31 @@ def remote_bsync(url, cmd)
   end
 end
 
+def abort_sync
+  if not File.symlink?(MERGEREMOTE)
+    fatal "No sync in progress."
+  end
+  remote = curremote
+  url = CONFIG["remote.#{remote}.url"]
+  remote_bsync(url, "snapshot-delete #{UUID}")
+  unlink_quiet(File.join(REMOTES, remote))
+  clean_sync
+end
+
 def curremote
   File.basename(File.readlink(MERGEREMOTE))
 end
 
 def sync
   usage if ARGV.empty?
+  while ARGV.first.start_with?('-')
+    case ARGV.shift
+      when '--abort'
+        abort_sync
+        exit
+      else usage
+    end
+  end
   remote = ARGV.shift
   url = CONFIG["remote.#{remote}.url"]
   check_clean
