@@ -497,6 +497,9 @@ def sync
     if File.exist?(CONFLICTS)
       puts "Sync is already done, but there are conflicts. " \
            "Resolve them in #{CONFLICTS} file and then commit."
+    elsif File.symlink?(MERGEREMOTE)
+      File.unlink(MERGEREMOTE)
+      puts "Local and remotes trees are identical. Sync is done."
     else
       puts "Sync is already done."
     end
