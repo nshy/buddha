@@ -361,7 +361,7 @@ def delete_snapshot
   peer = ARGV.shift
   s = File.join(SNAPSHOTS, peer)
   File.unlink(s) if File.exist?(s)
-  Dir.rmdir(SNAPSHOTS) if dir_empty(SNAPSHOTS)
+  Dir.rmdir(SNAPSHOTS) if Dir.exist?(SNAPSHOTS) and dir_empty(SNAPSHOTS)
   prune
 end
 
