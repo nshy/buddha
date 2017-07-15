@@ -428,6 +428,10 @@ def remote_bsync(url, cmd)
   end
 end
 
+def curremote
+  File.basename(File.readlink(MERGEREMOTE))
+end
+
 def sync
   usage if ARGV.empty?
   remote = ARGV.shift
@@ -454,9 +458,9 @@ def sync
     exit
   end
   if File.symlink?(MERGEREMOTE)
-    curremote = File.basename(File.readlink(MERGEREMOTE))
-    if curremote != remote
-      fatal "There is unfinished sync for remote '#{curremote}'. " \
+    c = curremote
+    if c != remote
+      fatal "There is unfinished sync for remote '#{c}'. " \
             "Finish that sync first."
     end
   else
