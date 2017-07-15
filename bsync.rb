@@ -87,7 +87,7 @@ if ARGV[0] == 'init'
 end
 
 if not File.exist?(OBJECTS) or not File.directory?(OBJECTS)
-  fatal "Not a bsync repository, bsyc dir is '#{BSYNC_DIR}'"
+  fatal "Not a bsync repository, bsync dir is '#{BSYNC_DIR}'"
 end
 
 UUID = File.read(UUIDFILE)
@@ -368,7 +368,7 @@ end
 def check_clean
   u, a, d = diff(commited, list_work)
   return if u.empty? and a.empty? and d.empty?
-  fatal "Working dis has changes. Reset them or commit before sync."
+  fatal "Working dir has changes. Reset them or commit before sync."
 end
 
 SYNC_NOTICE = <<END
