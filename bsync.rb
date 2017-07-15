@@ -174,6 +174,8 @@ def add_object(p)
   if not File.exist?(o)
     File.link(p, o)
   elsif File.stat(o).ino != File.stat(p).ino
+    # replace working copy with link to identical file
+    puts "  Relinking #{p}"
     force_link(o, p)
   end
   h
