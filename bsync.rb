@@ -297,6 +297,7 @@ def commit_merge
   if not File.exist?(MERGEREMOTE) or not File.exist?(CONFLICTS)
     fatal UNFINISHED_SYNC
   end
+  check_clean
 
   u, a, d = patch = read_patch
   puts "Applying #{CONFLICTS}"
@@ -409,7 +410,7 @@ end
 def check_clean
   u, a, d = diff(commited, list_work)
   return if u.empty? and a.empty? and d.empty?
-  fatal "Working dir has changes. Reset them or commit before sync."
+  fatal "Working dir has changes. Make it clean to proceed."
 end
 
 SYNC_NOTICE = "\
