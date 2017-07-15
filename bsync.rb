@@ -411,6 +411,11 @@ def conflicts(their)
   [ cm, ct, cc ]
 end
 
+def conflicts_empty?(c)
+  cm, ct, cc = c
+  cm.empty? and ct.empty? and cc.empty?
+end
+
 def write_conflicts(c)
   m, t, c = c
   dm = m.collect { |p| "> #{p}" }
@@ -510,6 +515,13 @@ def sync
   Dir.mkdir(REMOTES) if not File.exist?(REMOTES)
   copy(File.join(url, BSYNC_DIR_DEFAULT, 'snapshots', UUID), rt)
   c = conflicts(rt)
+  if not conflicts_empty?(c)
+    remote_bsync(url, "snapshot-delete #{UUID}")
+    File.rename(rt, r)
+    File.unlink(MERGEREMOTE)
+    puts "Local and remotes trees are identical. Sync is done."
+    exit
+  end
   copy_theirs(url, c)
   write_conflicts(c)
   remote_bsync(url, "snapshot-delete #{UUID}")
