@@ -180,10 +180,19 @@ def inodes
   inodes = objs.collect { |p| [ File.stat(p).ino, File.basename(p) ] }.to_h
 end
 
+def patch_empty?(p)
+  u, a, d = p
+  u.empty? and a.empty? and d.empty?
+end
+
 def commit_work
   hashes = commited
 
-  u, a, d = diff(hashes, list_work)
+  u, a, d = patch = diff(hashes, list_work)
+  if patch_empty?(patch)
+    puts "Nothing to commit."
+    exit
+  end
   i = inodes
 
   d.each { |p| hashes.delete(p) }
