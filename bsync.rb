@@ -371,10 +371,10 @@ def check_clean
   fatal "Working dir has changes. Reset them or commit before sync."
 end
 
-SYNC_NOTICE = <<END
-Local and remotes trees are not identical. You need to choose what result tree would look like.
-Edit #{(CONFLICTS)} file to make your choice. Instructions are inside this file.
-END
+SYNC_NOTICE = "\
+Local and remotes trees are not identical. You need to choose what result \
+tree would look like. Edit #{(CONFLICTS)} file to make your choice. \
+Instructions are inside this file."
 
 CONFLICTS_HEADER = <<END
 # Legenda:
@@ -440,7 +440,8 @@ def sync
   rt = ".#{remote}.tmp"
   if File.exist?(r)
     if File.exist?(CONFLICTS)
-      puts "Sync is already done, but there are conflicts. Resolve them in #{CONFLICTS} file and then commit."
+      puts "Sync is already done, but there are conflicts. " \
+           "Resolve them in #{CONFLICTS} file and then commit."
     else
       puts "Sync is already done."
     end
@@ -448,7 +449,8 @@ def sync
   end
   if File.exist?(MERGEREMOTE)
     curremote = File.basename(File.readlink(MERGEREMOTE))
-    fatal "There is unfinished sync for remote '#{curremote}'. Finish that sync first."
+    fatal "There is unfinished sync for remote '#{curremote}'. " \
+          "Finish that sync first."
   end
   if URI(url).absolute?
     fatal "Inter host sync is not supported yet."
