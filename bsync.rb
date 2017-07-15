@@ -293,8 +293,6 @@ def clean_sync
   File.unlink(MERGEREMOTE)
 end
 
-
-
 def commit_merge
   if not File.exist?(MERGEREMOTE) or not File.exist?(CONFLICTS)
     fatal UNFINISHED_SYNC
