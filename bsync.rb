@@ -430,12 +430,19 @@ def copy_theirs(url, c)
   end
 end
 
-def remote_bsync(url, cmd)
+def remote_bsync(url, cmd, die = true)
   env = { 'BSYNC_DIR' => nil }
   out, code = Open3.capture2(env, "bsync.rb #{cmd}", chdir: url)
   if not code.success?
-    fatal "Error executing command '#{cmd}' for remote '#{url}': #{out}"
+    msg = "Error executing command '#{cmd}' for remote '#{url}': #{out}"
+    if die
+      fatal msg
+    else
+      puts msg
+      return false
+    end
   end
+  true
 end
 
 def abort_sync
@@ -444,9 +451,13 @@ def abort_sync
   end
   remote = curremote
   url = CONFIG["remote.#{remote}.url"]
-  remote_bsync(url, "snapshot-delete #{UUID}")
+  r = remote_bsync(url, "snapshot-delete #{UUID}", false)
   unlink_quiet(File.join(REMOTES, remote))
   clean_sync
+  if not r
+    puts "Sync aborted but remote '#{remote}' cleanup was not successful. " \
+         "You may need to delete snapshot on remote for this repo manually."
+  end
 end
 
 def curremote
