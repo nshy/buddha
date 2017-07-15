@@ -433,8 +433,15 @@ def sync
   usage if ARGV.empty?
   remote = ARGV.shift
   url = CONFIG["remote.#{remote}.url"]
+  check_clean
   if not url
     fatal "Unknown remote '#{remote}'. Check your config."
+  end
+  if URI(url).absolute?
+    fatal "Inter host sync is not supported yet."
+  end
+  if not File.directory?(url)
+    fatal "Remote url '#{url}' does not point to directory."
   end
   r = File.join(REMOTES, remote)
   rt = ".#{remote}.tmp"
@@ -447,19 +454,15 @@ def sync
     end
     exit
   end
-  if File.exist?(MERGEREMOTE)
+  if File.symlink?(MERGEREMOTE)
     curremote = File.basename(File.readlink(MERGEREMOTE))
-    fatal "There is unfinished sync for remote '#{curremote}'. " \
-          "Finish that sync first."
+    if curremote != remote
+      fatal "There is unfinished sync for remote '#{curremote}'. " \
+            "Finish that sync first."
+    end
+  else
+    File.symlink(r, MERGEREMOTE)
   end
-  if URI(url).absolute?
-    fatal "Inter host sync is not supported yet."
-  end
-  if not File.directory?(url)
-    fatal "Remote url '#{url}' does not point to directory."
-  end
-  check_clean
-  File.symlink(r, MERGEREMOTE)
   remote_bsync(url, "snapshot #{UUID}")
   Dir.mkdir(REMOTES) if not File.exist?(REMOTES)
   copy(File.join(url, BSYNC_DIR_DEFAULT, 'snapshots', UUID), rt)
