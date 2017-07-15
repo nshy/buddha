@@ -276,6 +276,11 @@ def clean_sync
 end
 
 def commit_merge
+  if not File.exist?(MERGEREMOTE)
+    fatal "Fetch phase of sync is not finished. Run sync command " \
+          "until success result."
+  end
+
   u, a, d = patch = read_patch
   puts "Applying #{CONFLICTS}"
   print_diff(patch)
@@ -297,7 +302,7 @@ def commit_merge
 end
 
 def commit
-  if File.exist?(CONFLICTS)
+  if File.symlink?(MERGEREMOTE)
     commit_merge
   else
     commit_work
