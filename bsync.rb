@@ -556,7 +556,7 @@ def sync
   Dir.mkdir(REMOTES) if not File.exist?(REMOTES)
   copy(File.join(url, BSYNC_DIR_DEFAULT, 'snapshots', UUID), rt)
   c = conflicts(rt)
-  if not conflicts_empty?(c)
+  if conflicts_empty?(c)
     remote_bsync(url, "snapshot-delete #{UUID}")
     File.rename(rt, r)
     finish_zero_sync
