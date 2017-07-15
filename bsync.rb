@@ -276,7 +276,7 @@ def clean_sync
 end
 
 def commit_merge
-  if not File.exist?(MERGEREMOTE)
+  if not File.exist?(MERGEREMOTE) or not File.exist?(CONFLICTS)
     fatal "Fetch phase of sync is not finished. Run sync command " \
           "until success result."
   end
