@@ -133,12 +133,30 @@ end
 
 def print_diff(diff)
   [ 'U', 'A', 'D' ].zip(diff).each do |i|
-    i[1].each { |p| puts "#{i[0]} #{p}" }
+    i[1].each { |p| puts "  #{i[0]} #{p}" }
   end
 end
 
+UNFINISHED_SYNC = \
+  "Fetch phase of sync is not finished. Run sync command until success result."
+
 def status
-  print_diff(diff(commited, list_work))
+  if File.symlink?(MERGEREMOTE)
+    print "Status: \n  "
+    if not File.exist?(MERGEREMOTE) or not File.exist?(CONFLICTS)
+      puts UNFINISHED_SYNC
+    else
+      puts "Sync/pull merge is not finished. Resolve conflicts in " \
+           "#{CONFLICTS} and run commit."
+    end
+  end
+  patch = diff(commited, list_work)
+  if patch_empty?(patch)
+    puts "No workdir changes."
+  else
+    puts "Workdir changes:"
+    print_diff(patch)
+  end
 end
 
 def force_link(src, dst)
@@ -275,10 +293,11 @@ def clean_sync
   File.unlink(MERGEREMOTE)
 end
 
+
+
 def commit_merge
   if not File.exist?(MERGEREMOTE) or not File.exist?(CONFLICTS)
-    fatal "Fetch phase of sync is not finished. Run sync command " \
-          "until success result."
+    fatal UNFINISHED_SYNC
   end
 
   u, a, d = patch = read_patch
