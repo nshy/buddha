@@ -166,23 +166,16 @@ def force_link(src, dst)
   File.rename(t, dst)
 end
 
-def add_object(p)
-  puts "Hashing #{p}"
+def add_object(p, h)
   File.chmod(File.stat(p).mode & 0555, p)
-  h = Digest::SHA1.file(p).hexdigest
   o = File.join(OBJECTS, h)
   if not File.exist?(o)
     File.link(p, o)
   elsif File.stat(o).ino != File.stat(p).ino
     # replace working copy with link to identical file
-    puts "  Relinking #{p}"
+    puts "Relinking #{p}"
     force_link(o, p)
   end
-  h
-end
-
-def add_path(inodes, p)
-  inodes[File.stat(p).ino] || add_object(p)
 end
 
 def prune
@@ -195,7 +188,7 @@ def prune
   (db - used).each { |h| File.unlink(File.join(OBJECTS, h)) }
 end
 
-def inodes
+def inodes_db
   objs = Dir[File.join(OBJECTS, '*')]
   inodes = objs.collect { |p| [ File.stat(p).ino, File.basename(p) ] }.to_h
 end
@@ -203,6 +196,22 @@ end
 def patch_empty?(p)
   u, a, d = p
   u.empty? and a.empty? and d.empty?
+end
+
+def hash_files(hashes, files)
+  ib = inodes_db
+  iw = {}
+
+  files.each do |p|
+    i = File.stat(p).ino
+    h = ib[i] || iw[i]
+    if not h
+      puts "Hashing #{p}"
+      h = Digest::SHA1.file(p).hexdigest
+      iw[i] = h
+    end
+    hashes[p] = h
+  end
 end
 
 def commit_work
@@ -213,10 +222,11 @@ def commit_work
     puts "Nothing to commit."
     exit
   end
-  i = inodes
 
   d.each { |p| hashes.delete(p) }
-  (a + u).each { |p| hashes[p] = add_path(i, p) }
+  hash_files(hashes, a + u)
+
+  (a + u).each { |p| add_object(p, hashes[p]) }
 
   write_hashes(hashes)
 end
