@@ -323,6 +323,8 @@ def commit_merge
     hashes[p] = h
     r = File.join(THEIR, p)
     o = File.join(OBJECTS, h)
+    # first check helps to continue after commit interrupt
+    # second check handles indentical content on different paths
     File.rename(r, o) if File.exist?(r) and not File.exist?(o)
   end
 
@@ -475,6 +477,7 @@ def copy_theirs(url, c)
   Dir.mkdir(THEIR) if not File.exist?(THEIR)
   (ct + cc).each do |p|
     t = File.join(THEIR, p)
+    # check helps when sync is continued after interrupt
     File.link(File.join(url, p), t) if not File.exist?(t)
   end
 end
