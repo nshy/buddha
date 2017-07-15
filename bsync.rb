@@ -409,7 +409,6 @@ def write_conflicts(c)
   ds = (dm + dt + dc).join("\n")
   s = [CONFLICTS_HEADER, ds].join("\n")
   save(CONFLICTS, s)
-  puts SYNC_NOTICE
 end
 
 def copy_theirs(url, c)
@@ -471,6 +470,7 @@ def sync
   write_conflicts(c)
   remote_bsync(url, "snapshot-delete #{UUID}")
   File.rename(rt, r)
+  puts SYNC_NOTICE
 end
 
 cmd = ARGV.shift
