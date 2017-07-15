@@ -483,6 +483,12 @@ def curremote
   File.basename(File.readlink(MERGEREMOTE))
 end
 
+def finish_zero_sync
+  File.unlink(MERGEREMOTE)
+  puts "Local and remotes trees are identical. Sync is done."
+  exit
+end
+
 def sync
   usage if ARGV.empty?
   while ARGV.first.start_with?('-')
@@ -512,8 +518,7 @@ def sync
       puts "Sync is already done, but there are conflicts. " \
            "Resolve them in #{CONFLICTS} file and then commit."
     elsif File.symlink?(MERGEREMOTE)
-      File.unlink(MERGEREMOTE)
-      puts "Local and remotes trees are identical. Sync is done."
+      finish_zero_sync
     else
       puts "Sync is already done."
     end
@@ -535,9 +540,7 @@ def sync
   if not conflicts_empty?(c)
     remote_bsync(url, "snapshot-delete #{UUID}")
     File.rename(rt, r)
-    File.unlink(MERGEREMOTE)
-    puts "Local and remotes trees are identical. Sync is done."
-    exit
+    finish_zero_sync
   end
   copy_theirs(url, c)
   write_conflicts(c)
