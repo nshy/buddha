@@ -459,9 +459,9 @@ def sync
     fatal "Remote url '#{url}' does not point to directory."
   end
   check_clean
+  File.symlink(r, MERGEREMOTE)
   remote_bsync(url, "snapshot #{UUID}")
   Dir.mkdir(REMOTES) if not File.exist?(REMOTES)
-  File.symlink(r, MERGEREMOTE)
   copy(File.join(url, BSYNC_DIR_DEFAULT, 'snapshots', UUID), rt)
   c = conflicts(rt)
   copy_theirs(url, c)
