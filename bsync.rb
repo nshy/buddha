@@ -313,6 +313,7 @@ def clean_sync
 end
 
 def commit_merge
+  # second clause is check for unfinished zero sync
   if not File.exist?(MERGEREMOTE) or not File.exist?(CONFLICTS)
     fatal UNFINISHED_SYNC
   end
