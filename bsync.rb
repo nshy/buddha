@@ -69,7 +69,8 @@ BSYNC_DIR_DEFAULT = '.bsync'
 GIT_DIR = ENV['GIT_DIR'] || '.git'
 BSYNC_DIR = ENV['BSYNC_DIR'] || BSYNC_DIR_DEFAULT
 
-OBJECTS = path('objects')
+OBJECTS_DIR = 'objects'
+OBJECTS = path(OBJECTS_DIR)
 COMMITED = path('commited')
 UUIDFILE = path('uuid')
 SNAPSHOTS = path('snapshots')
@@ -478,13 +479,14 @@ def write_conflicts(c)
   save(CONFLICTS, s)
 end
 
-def copy_theirs(url, c)
+def copy_theirs(url, c, hashes)
   cm, ct, cc = c
   Dir.mkdir(THEIR) if not File.exist?(THEIR)
   (ct + cc).each do |p|
-    t = File.join(THEIR, p)
+    d = File.join(THEIR, p)
+    s = File.join(url, BSYNC_DIR_DEFAULT, OBJECTS_DIR, hashes[p])
     # check helps when sync is continued after interrupt
-    File.link(File.join(url, p), t) if not File.exist?(t)
+    File.link(s, d) if not File.exist?(d)
   end
 end
 
@@ -581,7 +583,7 @@ def sync
     File.rename(rt, r)
     finish_zero_sync
   end
-  copy_theirs(url, c)
+  copy_theirs(url, c, read_hashes(rt))
   write_conflicts(c)
   remote_bsync(url, "snapshot-delete #{UUID}")
   File.rename(rt, r)
