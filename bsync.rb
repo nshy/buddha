@@ -469,13 +469,14 @@ def conflicts_empty?(c)
   cm.empty? and ct.empty? and cc.empty?
 end
 
+def print_conflicts(c, pad = "")
+  c.zip(['>', '<', 'C']).collect do |g|
+    g[0].collect { |p| "#{pad}#{g[1]} #{p}" }
+  end.flatten.join("\n")
+end
+
 def write_conflicts(c)
-  m, t, c = c
-  dm = m.collect { |p| "> #{p}" }
-  dt = t.collect { |p| "< #{p}" }
-  dc = c.collect { |p| "C #{p}" }
-  ds = (dm + dt + dc).join("\n")
-  s = [CONFLICTS_HEADER, ds].join("\n")
+  s = [CONFLICTS_HEADER, print_conflicts(c)].join("\n")
   save(CONFLICTS, s)
 end
 
@@ -528,6 +529,13 @@ def finish_zero_sync
   File.unlink(MERGEREMOTE)
   puts "Local and remotes trees are identical. Sync is done."
   exit
+end
+
+def print_sync_finish(c)
+  puts SYNC_NOTICE
+  puts
+  puts "Conflicts:"
+  puts print_conflicts(c, "  ")
 end
 
 def sync
@@ -587,7 +595,7 @@ def sync
   write_conflicts(c)
   remote_bsync(url, "snapshot-delete #{UUID}")
   File.rename(rt, r)
-  puts SYNC_NOTICE
+  print_sync_finish(c)
 end
 
 cmd = ARGV.shift
