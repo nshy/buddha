@@ -6,3 +6,17 @@ height = 300, max(width) = 240
 bootstrap uses min-width: 768, 992, 1200
 we use max-width, thus we should have 767, 991, 1199
 480 is unknown to bootstrap so the our value could be anyone
+
+ BSYNC desing
+
+* Features
+ - Deduplication, identical files became hardlink (see Limitations)
+ - Tracking files thru their digests (MD5)
+ - Minimizing hash calculation
+   - renames are tracked thru inodes
+   - hardlinked files hash only once
+
+* Limitations
+ - no symlink support yet
+ - identical files became hardlinked
+ - commited files became read only
