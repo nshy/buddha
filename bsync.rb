@@ -223,6 +223,12 @@ def commit_work
     exit
   end
 
+  (a + u).each do |p|
+    if File.symlink?(p)
+      fatal "File #{p} is a symlink and symlinks are not yet supported."
+    end
+  end
+
   d.each { |p| hashes.delete(p) }
   hash_files(hashes, a + u)
 
