@@ -46,6 +46,8 @@ def read_config(path)
   out.split("\n").collect { |l| l.split(' ') }.to_h
 end
 
+# safe save function, make sure path # can not be seen with partial
+# data written. Also quietly overwrite any existing file.
 def save(path, data, options = {})
   default = { readonly: false }
   options = default.merge(options)
