@@ -218,7 +218,7 @@ module Digest
   end
 
   def dirs
-    [ DigestDir.new(site_dir, match: GitIgnore.for('data-exclude').method(:match),
+    [ DigestDir.new(site_dir, match: GitIgnore.for('bin-pattern').method(:match),
                               exclude: Digest.method(:data_exclude)),
       DigestDir.new(build_dir),
       DigestDir.new('public', exclude: Digest.method(:public_exclude)) ]
