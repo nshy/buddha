@@ -19,7 +19,8 @@ clone <from> <to>:
 
 USAGE
 
-BSYM_DIR = ENV['BSYM_DIR'] || '.bsym'
+GIT_DIR = ENV['GIT_DIR'] || '.git'
+BSYM_DIR = File.join(GIT_DIR, 'bsym')
 OBJECTS_DIR = File.join(BSYM_DIR, 'objects')
 BSYM_PATTERN = File.join(BSYM_DIR, 'pattern')
 
@@ -92,18 +93,15 @@ def clone
   usage if not from or not to
 
   if not File.directory?(File.join(from, BSYM_DIR))
-    fatal "#{from} is not a bsym repository"
+    fatal "#{from} does not have bsym repository"
   end
 
-  if not File.exist?(to)
-    Dir.mkdir(to)
-  elsif not File.directory?(to)
-    fatal "destination path #{to} already exists "\
-          "and is not an empty directory"
+  if not File.exist?(to) or not File.exist?(File.join(to, '.git'))
+    fatal "destination #{to} should be a git repository"
   end
 
   if File.exist?(File.join(to, BSYM_DIR))
-    fatal "destination path #{to} already exists and is not an empty directory"
+    fatal "destination #{to} already has bsym repo"
   end
   Dir.mkdir(File.join(to, BSYM_DIR))
   Dir.mkdir(File.join(to, OBJECTS_DIR))
