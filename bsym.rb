@@ -11,6 +11,7 @@ Commands:
   status    print not yet symlinked files
   convert   convert binary files to symlinks
   clone     clone repo
+  revert    turn symlinks back to files
 
 clone <from> <to>:
   from      repository to clone from
@@ -112,6 +113,17 @@ def clone
   l.each { |l| File.link(l, File.join(to, OBJECTS_DIR, File.basename(l))) }
 end
 
+def revert
+  binary = GitIgnore.for(BSYM_PATTERN)
+  l = Dir[File.join('**', '*')]
+  l = l.select { |p| File.symlink?(p) and binary.match(p) }
+  l.each do |p|
+    o = File.readlink(p)
+    File.unlink(p)
+    File.link(o, p)
+  end
+end
+
 cmd = ARGV.shift
 case cmd
   when 'status'
@@ -120,6 +132,8 @@ case cmd
     unlinked.each { |p| convert(p) }
   when 'clone'
     clone
+  when 'revert'
+    revert
   when 'check'
     check
   else
