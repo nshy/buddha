@@ -14,7 +14,7 @@ USAGE
 
 BSYM_DIR = '.bsym'
 OBJECTS_DIR = File.join(BSYM_DIR, 'objects')
-BINARY = GitIgnore.for(File.join(BSYM_DIR, 'pattern'))
+BSYM_PATTERN = File.join(BSYM_DIR, 'pattern')
 
 def fatal(msg)
   puts msg
@@ -26,8 +26,9 @@ def usage
 end
 
 def unlinked
+  binary = GitIgnore.for(BSYM_PATTERN)
   l = Dir[File.join('**', '*')]
-  l = l.select { |p| File.file?(p) and BINARY.match(p) }
+  l = l.select { |p| File.file?(p) and binary.match(p) }
   l.select { |p| not File.symlink?(p) }
 end
 
@@ -54,6 +55,8 @@ def check
     exit 1
   end
 
+  binary = GitIgnore.for(BSYM_PATTERN)
+
   # check that binary files are added as symlinks
   out = `git diff --cached --diff-filter=A HEAD`
   lines = out.split("\n")
@@ -65,7 +68,7 @@ def check
     m = lines.shift.sub(/^new file mode /, '').to_i(8)
 
     # check that file mode is 120000 which means it's symlink
-    if BINARY.match(n) and (m & 020000) == 0
+    if binary.match(n) and (m & 020000) == 0
       puts "File '#{n}' is binary and should be converted to symlink via bsym"
       exit 1
     end
