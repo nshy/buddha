@@ -8,10 +8,12 @@ usage: bsym <command>
 
 Commands:
   status    print not yet symlinked files
+  convert   convert binary files to symlinks
 
 USAGE
 
 BSYM_DIR = '.bsym'
+OBJECTS_DIR = File.join(BSYM_DIR, 'objects')
 BINARY = GitIgnore.for(File.join(BSYM_DIR, 'pattern'))
 
 def fatal(msg)
@@ -35,10 +37,10 @@ end
 
 def convert(path)
   u = SecureRandom.uuid
-  n = File.join(BSYM_DIR, u)
-  puts "#{u} <- #{path}"
+  n = File.join(OBJECTS_DIR, u)
   File.rename(path, n)
   File.symlink(n, path)
+  File.chmod(File.stat(n).mode & 0555, n)
 end
 
 def check
