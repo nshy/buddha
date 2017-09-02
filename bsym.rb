@@ -18,7 +18,7 @@ clone <from> <to>:
 
 USAGE
 
-BSYM_DIR = '.bsym'
+BSYM_DIR = ENV['BSYM_DIR'] || '.bsym'
 OBJECTS_DIR = File.join(BSYM_DIR, 'objects')
 BSYM_PATTERN = File.join(BSYM_DIR, 'pattern')
 
