@@ -2,6 +2,7 @@
 
 require_relative 'utils'
 require 'securerandom'
+require 'fileutils'
 
 USAGE = <<USAGE
 usage: bsym <command>
@@ -9,6 +10,11 @@ usage: bsym <command>
 Commands:
   status    print not yet symlinked files
   convert   convert binary files to symlinks
+  clone     clone repo
+
+clone <from> <to>:
+  from      repository to clone from
+  to        repository to clone to
 
 USAGE
 
@@ -79,12 +85,41 @@ def check
   end
 end
 
+def clone
+  from = ARGV.shift
+  to = ARGV.shift
+  usage if not from or not to
+
+  if not File.directory?(File.join(from, BSYM_DIR))
+    fatal "#{from} is not a bsym repository"
+  end
+
+  if not File.exist?(to)
+    Dir.mkdir(to)
+  elsif not File.directory?(to)
+    fatal "destination path #{to} already exists "\
+          "and is not an empty directory"
+  end
+
+  if File.exist?(File.join(to, BSYM_DIR))
+    fatal "destination path #{to} already exists and is not an empty directory"
+  end
+  Dir.mkdir(File.join(to, BSYM_DIR))
+  Dir.mkdir(File.join(to, OBJECTS_DIR))
+  FileUtils.copy_file(File.join(from, BSYM_PATTERN),
+                      File.join(to, BSYM_PATTERN))
+  l = Dir[File.join(from, OBJECTS_DIR, '*')]
+  l.each { |l| File.link(l, File.join(to, OBJECTS_DIR, File.basename(l))) }
+end
+
 cmd = ARGV.shift
 case cmd
   when 'status'
     status
   when 'convert'
     unlinked.each { |p| convert(p) }
+  when 'clone'
+    clone
   when 'check'
     check
   else
