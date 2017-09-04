@@ -11,6 +11,7 @@ Commands:
   status    print not yet symlinked files
   convert   convert binary files to symlinks
   revert    turn symlinks back to files
+  prune     prune stale objects
 
 USAGE
 
@@ -18,6 +19,7 @@ GIT_DIR = ENV['GIT_DIR'] || '.git'
 BSYM_DIR = '/bsym/ru.buddha'
 OBJECTS_DIR = File.join(BSYM_DIR, 'objects')
 BSYM_PATTERN = File.join(BSYM_DIR, 'pattern')
+REFS = File.join(BSYM_DIR, 'refs')
 
 def fatal(msg)
   puts msg
@@ -93,6 +95,28 @@ def revert
   end
 end
 
+def objects(path)
+  if not path.start_with?('/')
+    fatal "Paths in refs file must be absolute. #{path} is relative."
+  end
+  Dir[File.join(path, '**', '*')].collect do |f|
+    next nil if not File.symlink?(f)
+    l = File.readlink(f)
+    next nil if not l.start_with?(OBJECTS_DIR)
+    l
+  end.compact
+end
+
+def prune
+  refs = File.read(REFS).split("\n").select { |l| not l.start_with?('#') }
+  l = refs.collect { |p| objects(p) }
+  l = l.inject([]) { |res, a| res | a }
+  r = Dir[File.join(OBJECTS_DIR, '*')]
+  o = r - l
+  o.each { |p| File.unlink(p) }
+  puts "#{o.size} files pruned"
+end
+
 cmd = ARGV.shift
 case cmd
   when 'status'
@@ -101,6 +125,8 @@ case cmd
     unlinked.each { |p| convert(p) }
   when 'revert'
     revert
+  when 'prune'
+    prune
   when 'check'
     check
   else
