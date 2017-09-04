@@ -187,7 +187,10 @@ end
 
 # --------------------- digests --------------------------
 
-class Digest < Sequel::Model
+class Digest_SHA1 < Sequel::Model
+end
+
+class Digest_UUID < Sequel::Model
 end
 
 # --------------------- error --------------------------

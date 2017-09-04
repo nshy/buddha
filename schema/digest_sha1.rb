@@ -1,8 +1,8 @@
 def create
-  create_table(:digests) do
+  create_table(:digest_sha1s) do
     String :id
     String :path, unique: true
-    String :digest, null: false
+    String :sha1, null: false
     DateTime :mtime
   end
 end

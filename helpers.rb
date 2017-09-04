@@ -233,9 +233,11 @@ module CommonHelpers
     output_url = (@base_url and @base_url != request.path) ? full_url : url
 
     return output_url if settings.development?
-    digest = site_model(Cache::Digest).where(id: full_url).first
-    return output_url if digest.nil?
-    "#{output_url}?sha1=#{digest[:digest]}"
+    digest = site_model(Cache::Digest_SHA1).where(id: full_url).first
+    return "#{output_url}?sha1=#{digest[:sha1]}" if digest
+    digest = site_model(Cache::Digest_UUID).where(id: full_url).first
+    return "#{output_url}?uuid=#{digest[:uuid]}" if digest and digest[:uuid]
+    return output_url
   end
 
   def slideshow(dir)

@@ -42,7 +42,7 @@ def table_insert(klass, p)
   dir = klass.dirs.find { |d| p.start_with?(d.dir) }
   id = dir.path_to_id(p)
   begin
-    check_url_nice(p, klass.table == :digests)
+    check_url_nice(p, [:digest_sha1s, :digest_uuids].include?(klass.table))
     klass.load(p, id)
   rescue ModelException => e
     puts e
@@ -194,7 +194,7 @@ class DigestDir
   end
 
   def files
-    `find #{dir} -type f`.split.select { |path| match(path) }
+    Dir[File.join(dir, '**', '*')].select { |p| File.file?(p) and match(p) }
   end
 
   def match(path)
@@ -211,21 +211,16 @@ class DigestDir
   end
 end
 
-module Digest
+module Digest_SHA1
 
   def load(path, id)
-    database[:digests].insert(path: path, digest: ::Digest::SHA1.file(path).hexdigest)
+    database[:digest_sha1s].insert(path: path,
+                                   sha1: ::Digest::SHA1.file(path).hexdigest)
   end
 
   def dirs
-    [ DigestDir.new(site_dir, match: GitIgnore.for('bin-pattern').method(:match),
-                              exclude: Digest.method(:data_exclude)),
-      DigestDir.new(build_dir),
-      DigestDir.new('public', exclude: Digest.method(:public_exclude)) ]
-  end
-
-  def self.data_exclude(dir, path)
-    File.extname(path) == '.mp3'
+    [ DigestDir.new(build_dir),
+      DigestDir.new('public', exclude: Digest_SHA1.method(:public_exclude)) ]
   end
 
   def self.public_exclude(dir, path)
@@ -234,7 +229,20 @@ module Digest
   end
 end
 
-Klasses = [ Teaching, News, Book, BookCategory, Digest ]
+module Digest_UUID
+
+  def load(path, id)
+    uuid = File.symlink?(path) ? File.basename(File.readlink(path)) : nil
+    database[:digest_uuids].insert(path: path, uuid: uuid)
+  end
+
+  def dirs
+    [ DigestDir.new(site_dir, match: GitIgnore.for('bin-pattern').method(:match)) ]
+  end
+end
+
+
+Klasses = [ Teaching, News, Book, BookCategory, Digest_SHA1, Digest_UUID ]
 
 end
 
