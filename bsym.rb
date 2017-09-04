@@ -10,17 +10,12 @@ usage: bsym <command>
 Commands:
   status    print not yet symlinked files
   convert   convert binary files to symlinks
-  clone     clone repo
   revert    turn symlinks back to files
-
-clone <from> <to>:
-  from      repository to clone from
-  to        repository to clone to
 
 USAGE
 
 GIT_DIR = ENV['GIT_DIR'] || '.git'
-BSYM_DIR = File.join(GIT_DIR, 'bsym')
+BSYM_DIR = '/bsym/ru.buddha'
 OBJECTS_DIR = File.join(BSYM_DIR, 'objects')
 BSYM_PATTERN = File.join(BSYM_DIR, 'pattern')
 
@@ -87,30 +82,6 @@ def check
   end
 end
 
-def clone
-  from = ARGV.shift
-  to = ARGV.shift
-  usage if not from or not to
-
-  if not File.directory?(File.join(from, BSYM_DIR))
-    fatal "#{from} does not have bsym repository"
-  end
-
-  if not File.exist?(to) or not File.exist?(File.join(to, '.git'))
-    fatal "destination #{to} should be a git repository"
-  end
-
-  if File.exist?(File.join(to, BSYM_DIR))
-    fatal "destination #{to} already has bsym repo"
-  end
-  Dir.mkdir(File.join(to, BSYM_DIR))
-  Dir.mkdir(File.join(to, OBJECTS_DIR))
-  FileUtils.copy_file(File.join(from, BSYM_PATTERN),
-                      File.join(to, BSYM_PATTERN))
-  l = Dir[File.join(from, OBJECTS_DIR, '*')]
-  l.each { |l| File.link(l, File.join(to, OBJECTS_DIR, File.basename(l))) }
-end
-
 def revert
   binary = GitIgnore.for(BSYM_PATTERN)
   l = Dir[File.join('**', '*')]
@@ -128,8 +99,6 @@ case cmd
     status
   when 'convert'
     unlinked.each { |p| convert(p) }
-  when 'clone'
-    clone
   when 'revert'
     revert
   when 'check'
