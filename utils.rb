@@ -139,7 +139,7 @@ module Cache
       DateTime :mtime , null: false
     end
 
-    files.each { |p| db[:disk_state].insert(path: p, mtime: File.mtime(p)) }
+    files.each { |p| db[:disk_state].insert(path: p, mtime: File.lstat(p).mtime) }
 
     d = db[table].join_table(:left, :disk_state, path: :path).
           where(Sequel[:disk_state][:path] => nil).

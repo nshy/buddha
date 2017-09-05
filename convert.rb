@@ -49,7 +49,7 @@ def table_insert(klass, p)
     database[:errors].insert(path: p, message: e.to_s)
   end
   table.where(path: p).
-    update(id: id, mtime: File.mtime(p))
+    update(id: id, mtime: File.lstat(p).mtime)
 end
 
 def table_update(klass, u, a, d)
