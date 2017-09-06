@@ -13,6 +13,7 @@ Commands:
   revert    turn symlinks back to files
   prune     prune stale objects
   pull      pull from remote repo
+  push      push to remote repo
 
 USAGE
 
@@ -139,6 +140,14 @@ def pull
   exec(cmd)
 end
 
+def push
+  remote = CONFIG['bsym.remote']
+  fatal "remote is not configured" if not remote
+  cmd = "rsync -av #{OBJECTS_DIR}/ #{remote}:/bsym/#{REPO}/objects"
+  puts cmd
+  exec(cmd)
+end
+
 cmd = ARGV.shift
 case cmd
   when 'status'
@@ -151,6 +160,8 @@ case cmd
     prune
   when 'pull'
     pull
+  when 'push'
+    push
   when 'check'
     check
   else
