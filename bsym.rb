@@ -12,6 +12,7 @@ Commands:
   convert   convert binary files to symlinks
   revert    turn symlinks back to files
   prune     prune stale objects
+  pull      pull from remote repo
 
 USAGE
 
@@ -129,6 +130,15 @@ def prune
   puts "#{o.size} files pruned"
 end
 
+def pull
+  remote = CONFIG['bsym.remote']
+  opts = CONFIG['bsym.pulloptions']
+  fatal "remote is not configured" if not remote
+  cmd = "rsync -av #{opts} #{remote}:/bsym/#{REPO}/objects/ #{OBJECTS_DIR}"
+  puts cmd
+  exec(cmd)
+end
+
 cmd = ARGV.shift
 case cmd
   when 'status'
@@ -139,6 +149,8 @@ case cmd
     revert
   when 'prune'
     prune
+  when 'pull'
+    pull
   when 'check'
     check
   else
