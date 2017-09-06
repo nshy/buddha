@@ -15,16 +15,19 @@ Commands:
 
 USAGE
 
-GIT_DIR = ENV['GIT_DIR'] || '.git'
-BSYM_DIR = '/bsym/ru.buddha'
-OBJECTS_DIR = File.join(BSYM_DIR, 'objects')
-PATTERN = GitIgnore.for(File.join(BSYM_DIR, 'pattern'))
-REFS = File.join(BSYM_DIR, 'refs')
-
 def fatal(msg)
   puts msg
   exit 1
 end
+
+REPO = `git config --get bsym.repo`.strip
+fatal "bsym repo is not configured" if not $?.success?
+
+GIT_DIR = ENV['GIT_DIR'] || '.git'
+BSYM_DIR = "/bsym/#{REPO}"
+OBJECTS_DIR = File.join(BSYM_DIR, 'objects')
+PATTERN = GitIgnore.for(File.join(BSYM_DIR, 'pattern'))
+REFS = File.join(BSYM_DIR, 'refs')
 
 def usage
   fatal USAGE
