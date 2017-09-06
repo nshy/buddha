@@ -20,8 +20,21 @@ def fatal(msg)
   exit 1
 end
 
-REPO = `git config --get bsym.repo`.strip
-fatal "bsym repo is not configured" if not $?.success?
+def parse_kv(str)
+  p = str.index(' ')
+  return [ str, "" ] if not p
+  h = [ str[0..(p - 1)], str[(p + 1)..-1] ]
+end
+
+def read_config
+  c = `git config --get-regexp 'bsym\..*'`
+  fatal "can not read bsym config" if not $?.success?
+  c.split("\n").collect { |l| parse_kv(l) }.to_h
+end
+
+CONFIG = read_config
+REPO = CONFIG['bsym.repo']
+fatal "bsym repo is not configured" if not REPO
 
 GIT_DIR = ENV['GIT_DIR'] || '.git'
 BSYM_DIR = "/bsym/#{REPO}"
