@@ -73,7 +73,7 @@ def parse_diff(diff)
     l = lines.shift
     while l and l[0] == '@'
       hunk = Diff::Hunk.new
-      hunk.lnum = /^@@ -([^,]+)/.match(l)[1]
+      hunk.lnum = /^@@ -([^ ]+)/.match(l)[1].gsub(/,.*$/, '')
       l = lines.shift
       hunk.changes = []
       while l and [' ', '-', '+', '\\'].include?(c = l[0])
