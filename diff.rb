@@ -1,3 +1,5 @@
+require 'rack/utils.rb'
+
 def diff_path(path, action)
   if action == :changed
     path
@@ -7,57 +9,94 @@ def diff_path(path, action)
   end
 end
 
-def diff_to_html(diff)
+def make_html(patch, options)
   klasses = { ' ' => 'context', '+' => 'add', '-' => 'del' }
+  res = []
+  patch.each do |f|
+    res << \
+    <<-END
+<div class="file">
+  <div class="path #{f.mode}">#{diff_path(f.path, f.action)}</div>
+    END
+    f.hunks.each do |h|
+      if f.action == :changed
+        res << \
+        <<-END
+  <div class="line">
+    <span class="title">Строка:</span>
+    <span class="value">#{h.lnum}</span>
+  </div>
+        END
+      end
+      h.changes.each do |c|
+        res << "  <pre class='#{klasses[c[0]]}'>"
+        res << (options[:escape] ? Rack::Utils.escape_html(c) : c)
+        res << '  </pre>'
+      end
+    end
+    res << "</div>"
+  end
+  # remove newlines introduced by << string literals
+  res = res.collect { |h| h.rstrip }
+  res.join("\n")
+end
+
+module Diff
+  File = Struct.new(:path, :mode, :action, :hunks)
+  Hunk = Struct.new(:lnum, :changes)
+end
+
+def parse_diff(diff)
   lines = diff.split("\n")
   l = lines.shift
-  res = []
+  patch = []
   while l and l.start_with?('diff')
-    action = :changed
-    mode = :text
+    file = Diff::File.new
+    file.action = :changed
     l = lines.shift while not (l.start_with?('---') or l.start_with?('Binary files'))
     if l.start_with?('---')
       a = l.sub(/^--- /, '')
       l = lines.shift
       b = l.sub(/^\+\+\+ /, '')
+      file.mode = :text
     else
       m = /^Binary files (.+) and (.+) differ$/.match(l)
       a = m[1]
       b = m[2]
-      mode = :binary
+      file.mode = :binary
     end
-    action = :added if a == '/dev/null'
-    action = :deleted if b == '/dev/null'
-    path = a != '/dev/null' ? a : b
-    path = path.sub(/.\//, '')
-    res << \
-    <<-END
-      <div class="file">
-        <div class="path #{mode}">#{diff_path(path, action)}</div>
-    END
+    file.action = :added if a == '/dev/null'
+    file.action = :deleted if b == '/dev/null'
+    file.path = a != '/dev/null' ? a : b
+    file.path = file.path.sub(/.\//, '')
+    file.hunks = []
     l = lines.shift
     while l and l[0] == '@'
-      if action == :changed
-        lnum = /^@@ -([^,]+)/.match(l)[1]
-        res << \
-        <<-END
-          <div class="line">
-            <span class="title">Строка:</span>
-            <span class="value">#{lnum}</span>
-          </div>
-        END
-      end
+      hunk = Diff::Hunk.new
+      hunk.lnum = /^@@ -([^,]+)/.match(l)[1]
       l = lines.shift
-      while l and klasses.keys.include?(c = l[0])
-        res << "<pre class='#{klasses[c]}'>"
+      hunk.changes = []
+      while l and [' ', '-', '+'].include?(c = l[0])
+        lines_ = []
         while l and l[0] == c
-          res << Rack::Utils.escape_html(l)
+          lines_ << l
           l = lines.shift
         end
-        res << '</pre>'
+        hunk.changes << lines_.join("\n")
       end
+      file.hunks << hunk
     end
-    res << "</div>"
+    patch << file
   end
-  res.join("\n")
+  patch
+end
+
+def diff_to_html(diff, options = {})
+  default_options = {
+    escape: true
+  }
+  options = default_options.merge(options)
+
+  p = parse_diff(diff)
+  make_html(p, options)
 end
