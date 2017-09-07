@@ -76,7 +76,12 @@ def parse_diff(diff)
       hunk.lnum = /^@@ -([^,]+)/.match(l)[1]
       l = lines.shift
       hunk.changes = []
-      while l and [' ', '-', '+'].include?(c = l[0])
+      while l and [' ', '-', '+', '\\'].include?(c = l[0])
+        # skip technical git comments
+        if c == '\\'
+          l = lines.shift
+          next
+        end
         lines_ = []
         while l and l[0] == c
           lines_ << l
