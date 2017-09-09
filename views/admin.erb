@@ -16,7 +16,23 @@
   <div class="title"> Изменения </div>
 </div>
 
-<%= diff_to_html(@diff) %>
+<% @diff.each do |file| %>
+  <div class="file">
+    <div class="path <%= file.mode %>"> <%= diff_path(file) %> </div>
+    <% if file.mode == :text %>
+      <% file.hunks.each do |hunk| %>
+    <div class="line">
+      <span class="title">Строка:</span>
+      <span class="value"> <%= hunk.lnum %> </span>
+    </div>
+        <% hunk.changes.each do |change| %>
+          <pre class="<%= diff_class(change) %>"><%=
+                 Rack::Utils.escape_html(change) %></pre>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>
 
 <% if not session[:notice] and @diff.empty? %>
   <div id="notice" class="success"> Нет изменений </div>

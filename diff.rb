@@ -1,48 +1,3 @@
-require 'rack/utils.rb'
-
-def diff_path(path, action)
-  if action == :changed
-    path
-  else
-    present = { added: 'Добавлен', deleted: 'Удален' }
-    "#{path} [#{present[action]}]"
-  end
-end
-
-def make_html(patch, options)
-  klasses = { ' ' => 'context', '+' => 'add', '-' => 'del' }
-  res = []
-  patch.each do |f|
-    res << \
-    <<-END
-<div class="file">
-  <div class="path #{f.mode}">#{diff_path(f.path, f.action)}</div>
-    END
-    if f.mode == :binary
-      res << "</div>"
-      next
-    end
-    f.hunks.each do |h|
-      if f.action == :changed
-        res << \
-        <<-END
-  <div class="line">
-    <span class="title">Строка:</span>
-    <span class="value">#{h.lnum}</span>
-  </div>
-        END
-      end
-      h.changes.each do |c|
-        res << "<pre class='#{klasses[c[0]]}'>"
-        res << (options[:escape] ? Rack::Utils.escape_html(c) : c)
-        res << '</pre>'
-      end
-    end
-    res << "</div>"
-  end
-  res.join("\n")
-end
-
 module Diff
   File = Struct.new(:path, :mode, :action, :hunks)
   Hunk = Struct.new(:lnum, :changes)
@@ -101,14 +56,4 @@ def parse_diff(diff)
     patch << file
   end
   patch
-end
-
-def diff_to_html(diff, options = {})
-  default_options = {
-    escape: true
-  }
-  options = default_options.merge(options)
-
-  p = parse_diff(diff)
-  make_html(p, options)
 end

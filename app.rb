@@ -15,7 +15,7 @@ require_relative 'helpers'
 helpers TeachingsHelper, CommonHelpers
 helpers NewsHelpers, BookHelpers
 helpers TimetableHelper, LibraryHelper
-helpers SiteHelpers, AppSites
+helpers SiteHelpers, AppSites, AdminHelpers
 
 DB = AppSites.connect
 Sequel::Model.plugin :sharding
@@ -244,12 +244,13 @@ get '/admin/' do
     redirect to('/login')
     return
   end
-  @diff = `
+  s = `
     export GIT_DIR='../.git-edit'
     cd edit
     git add .
     git diff --staged --no-renames
   `
+  @diff = parse_diff(s)
   erb :admin
 end
 

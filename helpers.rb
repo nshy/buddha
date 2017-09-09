@@ -451,3 +451,18 @@ module TimetableHelper
       locals: { events: e, style: (place == 'Мытная') ? 'mytnaya' : nil }
   end
 end
+
+module AdminHelpers
+  def diff_path(file)
+    if file.action == :changed
+      file.path
+    else
+      present = { added: 'Добавлен', deleted: 'Удален' }
+      "#{file.path} [#{present[file.action]}]"
+    end
+  end
+
+  def diff_class(change)
+    { ' ' => 'context', '+' => 'add', '-' => 'del' }[change[0]]
+  end
+end
