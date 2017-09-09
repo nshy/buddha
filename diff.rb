@@ -36,8 +36,6 @@ def make_html(patch, options)
     end
     res << "</div>"
   end
-  # remove newlines introduced by << string literals
-  res = res.collect { |h| h.rstrip }
   res.join("\n")
 end
 
