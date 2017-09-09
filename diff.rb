@@ -18,6 +18,10 @@ def make_html(patch, options)
 <div class="file">
   <div class="path #{f.mode}">#{diff_path(f.path, f.action)}</div>
     END
+    if f.mode == :binary
+      res << "</div>"
+      next
+    end
     f.hunks.each do |h|
       if f.action == :changed
         res << \
