@@ -247,6 +247,7 @@ get '/admin/' do
   s = `
     export GIT_DIR='../.git-edit'
     cd edit
+    ../bsym.rb convert
     git add .
     git diff --staged --no-renames
   `
