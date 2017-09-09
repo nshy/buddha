@@ -82,10 +82,6 @@ def parse_diff(diff)
           l = lines.shift
           next
         end
-        if /.\/bsym\// =~ l
-          file.mode = :binary
-          break
-        end
         lines_ = []
         while l and l[0] == c
           lines_ << l
@@ -94,6 +90,11 @@ def parse_diff(diff)
         hunk.changes << lines_.join("\n")
       end
       file.hunks << hunk if file.mode == :text
+    end
+    if file.hunks.size == 1 and
+       file.hunks[0].changes.size == 1 and
+       file.hunks[0].changes[0] =~/.\/bsym\//
+      file.mode = :binary
     end
     patch << file
   end
