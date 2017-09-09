@@ -29,9 +29,9 @@ def make_html(patch, options)
         END
       end
       h.changes.each do |c|
-        res << "  <pre class='#{klasses[c[0]]}'>"
+        res << "<pre class='#{klasses[c[0]]}'>"
         res << (options[:escape] ? Rack::Utils.escape_html(c) : c)
-        res << '  </pre>'
+        res << '</pre>'
       end
     end
     res << "</div>"
