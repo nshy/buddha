@@ -94,8 +94,8 @@ def parse_diff(diff)
       file.hunks << hunk if file.mode == :text
     end
     if file.hunks.size == 1 and
-       file.hunks[0].changes.size == 1 and
-       file.hunks[0].changes[0] =~/.\/bsym\//
+       file.hunks[0].changes.size < 3 and
+       file.hunks[0].changes.all? { |c| c =~/.\/bsym\// }
       file.mode = :binary
     end
     patch << file
