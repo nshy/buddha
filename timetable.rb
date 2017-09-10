@@ -350,7 +350,7 @@ class Cancel
   def self.parse(value)
     a = parse_values(value)
 
-    date = Date.parse(a.shift)
+    date = ModelDate.parse(a.shift)
     periods = parse_periods(a)
     parse_check_tail(a)
 
