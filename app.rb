@@ -298,7 +298,7 @@ post '/commit' do
     git pull --ff-only edit master || \
       (cd ../edit; git --git-dir=../.git-edit reset HEAD~1; false)
   `
-  if $? != 0
+  if not $?.success?
     session[:notice] = <<-END
       Невозможно опубликовать изменения из за непредвиденной ошибки.
       Обратитесь к администратору сайта.
