@@ -16,13 +16,17 @@
   <div class="title"> Изменения </div>
 </div>
 
+<% if not @binary.empty? %>
 <h1> Бинарные файлы<a href="#filetype">*</a> </h1>
-<% @diff.select { |f| f.mode == :binary }.each do |file| %>
+<% end %>
+<% @binary.select { |f| f.mode == :binary }.each do |file| %>
 <div class="path"> <%= diff_path(file) %> </div>
 <% end %>
 
+<% if not @text.empty? %>
 <h1> Текстовые файлы<a href="#filetype">*</a> </h1>
-<% @diff.select { |f| f.mode == :text }.each do |file| %>
+<% end %>
+<% @text.each do |file| %>
   <div class="file">
     <div class="path"> <%= diff_path(file) %> </div>
     <% file.hunks.each do |hunk| %>
@@ -73,11 +77,13 @@
 о центре: обновить фотографии с Мытной на Спартаковскую</pre>
 <% end %>
 
+<% if not @diff.empty? %>
 <p id="filetype">* Для бинарных файлов не хранится история всех изменений
 в отличие от текстовых файлов. Как результат, после публикации удаленные
 бинарные файлы уже нельзя будет воcстановить, так же как нельзя будет вернуть
 предыдущую версию измененного бинарного файла. Для текстовых же файлов это
 возможно. Бинарные файлы это файлы с изображениями, аудизаписи и подобное.
 </p>
+<% end %>
 
 </div>

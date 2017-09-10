@@ -252,6 +252,8 @@ get '/admin/' do
     git diff --staged --no-renames
   `
   @diff = parse_diff(s)
+  @binary = @diff.select { |f| f.mode == :binary }
+  @text = @diff.select { |f| f.mode == :text }
   erb :admin
 end
 
