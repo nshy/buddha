@@ -16,21 +16,27 @@
   <div class="title"> Изменения </div>
 </div>
 
-<% @diff.each do |file| %>
+<h1> Бинарные файлы<a href="#filetype">*</a> </h1>
+<% @diff.select { |f| f.mode == :binary }.each do |file| %>
+<div class="file">
+  <div class="path <%= file.mode %>"> <%= diff_path(file) %> </div>
+</div>
+<% end %>
+
+<h1> Текстовые файлы<a href="#filetype">*</a> </h1>
+<% @diff.select { |f| f.mode == :text }.each do |file| %>
   <div class="file">
     <div class="path <%= file.mode %>"> <%= diff_path(file) %> </div>
-    <% if file.mode == :text %>
-      <% file.hunks.each do |hunk| %>
-        <% if file.mode == :changed %>
+    <% file.hunks.each do |hunk| %>
+      <% if file.mode == :changed %>
     <div class="line">
       <span class="title">Строка:</span>
       <span class="value"> <%= hunk.lnum %> </span>
     </div>
-        <% end %>
-        <% hunk.changes.each do |change| %>
-          <pre class="<%= diff_class(change) %>"><%=
-                 Rack::Utils.escape_html(change) %></pre>
-        <% end %>
+      <% end %>
+      <% hunk.changes.each do |change| %>
+        <pre class="<%= diff_class(change) %>"><%=
+               Rack::Utils.escape_html(change) %></pre>
       <% end %>
     <% end %>
   </div>
@@ -59,7 +65,7 @@
 как правило, с его помощью формулировки получаются более короткими. Для глагола
 изменения принято использовать повелительное наклонение. Описание ограничено 70
 символами, желательно даже не выходить за рамки 50 символов. Ниже примеры
-описаний.<p>
+описаний.</p>
 
 <pre class="messages">новости: добавить новость о Мандале Будды Медицины (2017-05-31-1)
 новости: обновить расписание в 2017-05-31-1
@@ -68,5 +74,12 @@
 все: унифицировать написание названия Дхарма-центра
 о центре: обновить фотографии с Мытной на Спартаковскую</pre>
 <% end %>
+
+<p id="filetype">* Для бинарных файлов не хранится история всех изменений
+в отличие от текстовых файлов. Как результат, после публикации удаленные
+бинарные файлы уже нельзя будет воcстановить, так же как нельзя будет вернуть
+предыдущую версию измененного бинарного файла. Для текстовых же файлов это
+возможно. Бинарные файлы это файлы с изображениями, аудизаписи и подобное.
+</p>
 
 </div>
