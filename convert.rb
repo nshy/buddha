@@ -54,7 +54,8 @@ end
 
 def table_update(klass, u, a, d)
   Cache.diffmsg(u, a, d, 'b')
-  database[klass.table].where(path: u + d).delete
+  # on move "added" can be generated for existing files
+  database[klass.table].where(path: u + a + d).delete
   (a + u).each { |p| table_insert(klass, p) }
 end
 
