@@ -18,15 +18,13 @@
 
 <h1> Бинарные файлы<a href="#filetype">*</a> </h1>
 <% @diff.select { |f| f.mode == :binary }.each do |file| %>
-<div class="file">
-  <div class="path <%= file.mode %>"> <%= diff_path(file) %> </div>
-</div>
+<div class="path"> <%= diff_path(file) %> </div>
 <% end %>
 
 <h1> Текстовые файлы<a href="#filetype">*</a> </h1>
 <% @diff.select { |f| f.mode == :text }.each do |file| %>
   <div class="file">
-    <div class="path <%= file.mode %>"> <%= diff_path(file) %> </div>
+    <div class="path"> <%= diff_path(file) %> </div>
     <% file.hunks.each do |hunk| %>
       <% if file.action == :changed %>
     <div class="line">

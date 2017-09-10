@@ -6,17 +6,16 @@ form.logout {
 }
 
 .file {
-  border: 1px solid #333;
-  margin-bottom: 40px;
-  border-radius: 3px;
+  margin-bottom: 20px;
 }
 
 .path {
-  font-size: 23px;
-  padding: 5px 0 5px 20px;
+  font-size: 18px;
   color: #333;
+}
+
+.file .path {
   border-bottom: 1px solid #333;
-  &.binary { border-bottom: none; }
 }
 
 .line {
