@@ -11,7 +11,15 @@ form.logout {
 
 .path {
   font-size: 18px;
+  font-family: monospace;
   color: #333;
+}
+
+.action {
+  padding: 0 5px 0 5px;
+  &.added { background-color: #7f7; }
+  &.changed { background-color: #ff7; }
+  &.deleted { background-color: #f77; }
 }
 
 .file .path {
@@ -20,7 +28,7 @@ form.logout {
 
 .line {
   background-color: #eee;
-  padding: 5px 0 5px 20px;
+  padding: 5px 0 5px 32px;
 }
 
 .file pre, pre.messages {

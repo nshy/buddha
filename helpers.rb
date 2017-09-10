@@ -454,12 +454,8 @@ end
 
 module AdminHelpers
   def diff_path(file)
-    if file.action == :changed
-      file.path
-    else
-      present = { added: 'Добавлен', deleted: 'Удален' }
-      "#{file.path} [#{present[file.action]}]"
-    end
+    l = { added: "A", deleted: "D", changed: "M" }[file.action]
+    "<span class='action #{file.action}'>#{l}</span> #{file.path}"
   end
 
   def diff_class(change)
