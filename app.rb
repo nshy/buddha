@@ -26,7 +26,13 @@ require_relative 'timetable'
 require_relative 'cache'
 require_relative 'diff'
 
+def whitelist_address
+  port = ":#{SiteConfig::PORT}" if SiteConfig::PORT != 80
+  "http://#{SiteConfig::DOMAIN}#{port}"
+end
+
 enable :sessions
+set :protection, origin_whitelist: [ whitelist_address ]
 set :session_secret, SiteConfig::SESSION_SECRET
 set :sessions, :domain => SiteConfig::DOMAIN
 set :sessions, :path => '/'
