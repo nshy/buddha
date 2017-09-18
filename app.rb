@@ -62,6 +62,7 @@ before do
      and request.path != '/logout'
     raise DbExeption.new
   end
+  cache_control :private if session[:login]
 end
 
 not_found do
