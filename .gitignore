@@ -1,5 +1,6 @@
 /main
 /edit
+/.cache
 /config.rb
 /main.db
 /edit.db

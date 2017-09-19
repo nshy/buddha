@@ -315,6 +315,7 @@ post '/commit' do
     redirect to('/admin/#notice')
     return
   end
+  FileUtils.rm_rf(Dir[File.join('.cache', '*')])
   session[:result] = true
   session[:notice] = 'Изменения успешно опубликованы'
   redirect to('/admin/#notice')
