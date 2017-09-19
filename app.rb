@@ -32,7 +32,8 @@ def whitelist_address
 end
 
 enable :sessions
-set :protection, origin_whitelist: [ whitelist_address ]
+set :protection, origin_whitelist: [ whitelist_address ],
+                 except: :remote_token
 set :session_secret, SiteConfig::SESSION_SECRET
 set :sessions, :domain => SiteConfig::DOMAIN
 set :sessions, :path => '/'
