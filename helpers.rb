@@ -2,7 +2,7 @@ Sites = [ :main, :edit ]
 
 module SiteHelpers
   def SiteHelpers.file(site)
-    "#{site}.db"
+    ".#{site}.db"
   end
 
   def SiteHelpers.open(site)
@@ -17,7 +17,7 @@ module SiteHelpers
   end
 
   def build_dir
-    "build/#{site}"
+    ".build/#{site}"
   end
 
   def site_path(path)
@@ -147,6 +147,8 @@ module CommonHelpers
 
   def check_url_nice(path, assets = false)
     s = path_split(path)
+    # shift is for the first directory that can contain '.' like '.build'
+    s.shift
     s.last.sub!(/\..+$/, '')
     a = "-a-zA-Z0-9"
     a += "_" if assets

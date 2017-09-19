@@ -2,11 +2,11 @@
 /edit
 /.cache
 /config.rb
-/main.db
-/edit.db
-/build
+/.bsym
+/.main.db
+/.edit.db
+/.build
 /.git-edit
-/.binbase
 /import/news/tmp
 /import/news-site/tmp
 /import/old-news/tmp

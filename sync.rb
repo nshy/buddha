@@ -74,7 +74,7 @@ def sync_main
   concat if File.mtime(StyleDst) > File.mtime(Bundle) or assets_changed?
 end
 
-Dir.mkdir("build") if not File.exists?("build")
+Dir.mkdir(".build") if not File.exists?(".build")
 Sites.each do |s|
   Site.for(s).instance_eval do
     Dir.mkdir(build_dir) if not File.exists?(build_dir)

@@ -199,7 +199,8 @@ class DigestDir
   end
 
   def match(path)
-    return false if path_split(path).any? { |e| /^\./ =~ e }
+    # slice is for the first directory that can contain '.' like '.build'
+    return false if path_split(path).slice(1..-1).any? { |e| /^\./ =~ e }
     return false if @exclude and @exclude.call(dir, path)
     return false if @match and not @match.call(path)
     true
