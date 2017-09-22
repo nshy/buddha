@@ -54,7 +54,19 @@ I18n.default_locale = :ru
 class DbExeption < RuntimeError
 end
 
+LastSeen = '.lastseen'
+
 before do
+  # break session if user has not been seen more than 1 hour
+  if session[:login] and
+     File.exist?(LastSeen) and
+     File.stat(LastSeen).mtime + 3600 < Time.now
+    session[:login] = false
+    cookies[:nocache] = 0
+  end
+
+  FileUtils.touch(LastSeen) if session[:login]
+
   @menu = Menu::Document.load('menu.xml')
   @extra_styles = []
   if not site_errors.empty? \
@@ -235,6 +247,7 @@ post '/login' do
   if params[:password] == SiteConfig::ADMIN_SECRET
     session[:login] = true
     cookies[:nocache] = 1
+    FileUtils.touch(LastSeen)
     redirect to('/')
   else
     redirect to('/login')
