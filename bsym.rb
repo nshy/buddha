@@ -47,7 +47,7 @@ end
 work_tree = nil
 git_dir = nil
 
-while ARGV.first.start_with?('--')
+while not ARGV.empty? and ARGV.first.start_with?('--')
   case ARGV.shift
     when '--git-dir' then git_dir = ARGV.shift
     when '--work-tree' then work_tree = ARGV.shift
