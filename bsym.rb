@@ -6,7 +6,7 @@ require 'fileutils'
 require 'pathname'
 
 USAGE = <<USAGE
-usage: bsym [<common options>] <command>
+usage: bsym.rb [<common options>] <command>
 
 Commands:
   status    print not yet symlinked files
