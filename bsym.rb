@@ -3,9 +3,10 @@
 require_relative 'utils'
 require 'securerandom'
 require 'fileutils'
+require 'pathname'
 
 USAGE = <<USAGE
-usage: bsym <command>
+usage: bsym [<common options>] <command>
 
 Commands:
   status    print not yet symlinked files
@@ -14,6 +15,10 @@ Commands:
   prune     prune stale objects
   pull      pull from remote repo
   push      push to remote repo
+
+Common options:
+  --git-dir <path>        path to git directory
+  --work-tree <path>      path to working directory
 
 USAGE
 
@@ -28,25 +33,44 @@ def parse_kv(str)
   h = [ str[0..(p - 1)], str[(p + 1)..-1] ]
 end
 
-def read_config
-  c = `git config --get-regexp 'bsym\..*'`
+def read_config(git_dir)
+  o = "--git-dir=#{git_dir}" if git_dir
+  c = `git #{o} config --get-regexp 'bsym\..*'`
   fatal "can not read bsym config" if not $?.success?
   c.split("\n").collect { |l| parse_kv(l) }.to_h
 end
 
-CONFIG = read_config
+def usage
+  fatal USAGE
+end
+
+work_tree = nil
+git_dir = nil
+
+while ARGV.first.start_with?('--')
+  case ARGV.shift
+    when '--git-dir' then git_dir = ARGV.shift
+    when '--work-tree' then work_tree = ARGV.shift
+    else usage
+  end
+end
+
+Dir.chdir(work_tree) if work_tree
+
+if git_dir and work_tree
+  g = Pathname.new(git_dir)
+  w = Pathname.new(work_tree)
+  git_dir = g.relative_path_from(w)
+end
+
+CONFIG = read_config(git_dir)
 REPO = CONFIG['bsym.repo']
 fatal "bsym repo is not configured" if not REPO
 
-GIT_DIR = ENV['GIT_DIR'] || '.git'
 BSYM_DIR = "/bsym/#{REPO}"
 OBJECTS_DIR = File.join(BSYM_DIR, 'objects')
 PATTERN = GitIgnore.for(File.join(BSYM_DIR, 'pattern'))
 REFS = File.join(BSYM_DIR, 'refs')
-
-def usage
-  fatal USAGE
-end
 
 def unlinked
   l = Dir[File.join('**', '*')]
