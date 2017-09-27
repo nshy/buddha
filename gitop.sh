@@ -39,16 +39,16 @@ function diff()
 
 function publish()
 {
-    MESSAGE="$1"
-    [ -z "$MESSAGE" ] && usage
+  MESSAGE="$1"
+  [ -z "$MESSAGE" ] && usage
 
-    add
-    git_edit commit -m "$MESSAGE"
-    git_main pull --ff-only edit master || {
-      # plain git_edit reset does not work for some reason
-      cd edit
-      git --git-dir='../.git-edit' reset HEAD~1; false
-    }
+  add
+  git_edit commit -m "$MESSAGE"
+  git_main pull --ff-only edit master || {
+    # plain git_edit reset does not work for some reason
+    cd edit
+    git --git-dir='../.git-edit' reset HEAD~1; false
+  }
 }
 
 CMD="$1"
