@@ -12,6 +12,7 @@ Commands:
   diff                          Show editor diff
   publish <commit message>      Publish editor diff
   rebase                        Rebase editor work onto upstream
+  log                           Show upstream commits not in editor branch
 END
   exit 1
 }
@@ -61,6 +62,12 @@ function rebase()
   git_edit_cwd reset HEAD~1
 }
 
+function log()
+{
+  git_edit fetch origin
+  git_edit l ..origin/master
+}
+
 CMD="$1"
 [ -z "$CMD" ] && usage
 shift
@@ -75,6 +82,9 @@ case "$CMD" in
     ;;
   rebase)
     rebase
+    ;;
+  log)
+    log
     ;;
 
   *)
