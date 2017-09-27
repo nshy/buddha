@@ -11,6 +11,7 @@ Usage:
 Commands:
   diff                          Show editor diff
   publish <commit message>      Publish editor diff
+  rebase                        Rebase editor work onto upstream
 END
   exit 1
 }
@@ -18,6 +19,11 @@ END
 function git_edit()
 {
   git --git-dir='.git-edit' --work-tree='edit' "$@"
+}
+
+function git_edit_cwd()
+{
+  (cd edit; git --git-dir='../.git-edit' "$@")
 }
 
 function git_main()
@@ -44,11 +50,15 @@ function publish()
 
   add
   git_edit commit -m "$MESSAGE"
-  git_main pull --ff-only edit master || {
-    # plain git_edit reset does not work for some reason
-    cd edit
-    git --git-dir='../.git-edit' reset HEAD~1; false
-  }
+  git_main pull --ff-only edit master || { git_edit_cwd reset HEAD~1; false; }
+}
+
+function rebase()
+{
+  add
+  git_edit commit -m "REBASE COMMIT"
+  git_edit pull -r || { git_edit_cwd rebase --abort; }
+  git_edit_cwd reset HEAD~1
 }
 
 CMD="$1"
@@ -62,6 +72,9 @@ case "$CMD" in
 
   publish)
     publish "$1"
+    ;;
+  rebase)
+    rebase
     ;;
 
   *)
