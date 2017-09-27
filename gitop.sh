@@ -17,12 +17,12 @@ END
 
 function git_edit()
 {
-  git --git-dir='.git-edit' --work-tree='edit' $@
+  git --git-dir='.git-edit' --work-tree='edit' "$@"
 }
 
 function git_main()
 {
-  git --git-dir='main/.git' --work-tree='main' $@
+  git --git-dir='main/.git' --work-tree='main' "$@"
 }
 
 function add()
