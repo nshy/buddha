@@ -248,7 +248,13 @@ post '/login' do
     session[:login] = true
     cookies[:nocache] = 1
     FileUtils.touch(LastSeen)
-    redirect to('/')
+    execute("./gitop.sh rebase 1>&2")
+    l = execute("./gitop.sh log")
+    if l.split("\n").empty?
+      redirect to('/')
+    else
+      erb :conflicts
+    end
   else
     redirect to('/login')
   end
