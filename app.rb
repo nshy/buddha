@@ -265,14 +265,7 @@ get '/admin/' do
     redirect to('/login')
     return
   end
-  s = `
-    export GIT_DIR='../.git-edit'
-    cd edit
-    ../bsym.rb convert
-    git add .
-    git diff --staged --no-renames
-  `
-  @diff = parse_diff(s)
+  @diff = parse_diff(execute("./gitop.sh diff"))
   @binary = @diff.select { |f| f.mode == :binary }
   @text = @diff.select { |f| f.mode == :text }
   erb :admin
@@ -289,12 +282,7 @@ post '/commit' do
     redirect to('/admin/#notice')
     return
   end
-  diff = `
-    export GIT_DIR='../.git-edit'
-    cd edit
-    git add .
-    git diff --staged --no-renames
-  `
+  diff = execute("./gitop.sh diff")
   if diff.empty?
     session[:notice] = <<-END
       Нет изменений для публикации. Вероятно, вы не обновили страницу
@@ -312,23 +300,8 @@ post '/commit' do
     redirect to('/admin/#notice')
     return
   end
-  logger.info `
-    set -xe
-    cd edit
-    git --git-dir=../.git-edit add .
-    git --git-dir=../.git-edit commit -m '#{params[:message]}'
-    cd ../main
-    git pull --ff-only edit master || \
-      (cd ../edit; git --git-dir=../.git-edit reset HEAD~1; false)
-  `
-  if not $?.success?
-    session[:notice] = <<-END
-      Невозможно опубликовать изменения из за непредвиденной ошибки.
-      Обратитесь к администратору сайта.
-    END
-    redirect to('/admin/#notice')
-    return
-  end
+
+  execute("./gitop.sh publish #{params[:message]} 1>&2")
   FileUtils.rm_rf(Dir[File.join('.cache', '*')])
   session[:result] = true
   session[:notice] = 'Изменения успешно опубликованы'

@@ -1,3 +1,5 @@
+require 'open3'
+
 Sites = [ :main, :edit ]
 
 module SiteHelpers
@@ -111,6 +113,15 @@ module TeachingsHelper
 end
 
 module CommonHelpers
+  def execute(cmd)
+    o, e, s = Open3.capture3(cmd)
+    if not s.success?
+      logger.error(e)
+      raise "Command execution error: #{cmd}"
+    end
+    o
+  end
+
   def send_app_file(p)
     cache_control :public, max_age: 0 if settings.development?
     d = :attachment if /\.(doc|pdf)$/ =~ p
