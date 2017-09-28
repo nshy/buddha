@@ -319,6 +319,15 @@ post '/commit' do
     redirect to('/admin/#notice')
     return
   end
+  if not execute("./gitop.sh log").split("\n").empty?
+    session[:notice] = <<-END
+     Вами и администратором одновременно внесены изменения в одни и
+     те же места сайта. Ввиду этой неоднозначности для проведения публикации
+     обратитесь к администратору сайта.
+    END
+    redirect to('/admin/#notice')
+    return
+  end
 
   execute("./gitop.sh publish #{params[:message]} 1>&2")
   FileUtils.rm_rf(Dir[File.join('.cache', '*')])
