@@ -58,9 +58,15 @@ function publish()
 function rebase()
 {
   add
-  git_edit commit -m "REBASE COMMIT"
+  s=`git_edit status --porcelain=v1`
+
+  # make a commit if there is anything to
+  [ -n "$s" ] && git_edit commit -m "REBASE COMMIT" ||:
+
   git_edit pull -r || { git_edit_cwd rebase --abort; }
-  git_edit_cwd reset HEAD~1
+
+  # drop artificial commit if it was done before
+  [ -n "$s" ] && git_edit_cwd reset HEAD~1 ||:
 }
 
 function log()
