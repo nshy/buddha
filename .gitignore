@@ -7,6 +7,7 @@
 /.edit.db
 /.build
 /.git-edit
+/.lastseen
 /import/news/tmp
 /import/news-site/tmp
 /import/old-news/tmp
