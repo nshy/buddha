@@ -78,6 +78,7 @@ function log()
 function reset()
 {
   git_edit checkout .
+  git_edit pull -r
 }
 
 CMD="$1"
