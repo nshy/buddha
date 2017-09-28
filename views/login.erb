@@ -2,6 +2,7 @@
   <% if session[:login] %>
   <div> Вы уже авторизованы </div>
   <% else %>
+  <p><strong>Внимание</strong>: закройте все файлы на сетевом диске сайта до авторизации.</p>
   <form action="/login" method="post">
     <input type="password" placeholder="Введите пароль" name="password"/>
     <button class="site-button" type="submit">Войти</button>

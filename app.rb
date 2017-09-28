@@ -72,6 +72,8 @@ before do
   if not site_errors.empty? \
      and request.path != '/admin/' \
      and request.path != '/commit' \
+     and request.path != '/reset' \
+     and request.path != '/conflicts' \
      and request.path != '/logout'
     raise DbExeption.new
   end
@@ -258,6 +260,17 @@ post '/login' do
   else
     redirect to('/login')
   end
+end
+
+get '/reset' do
+  if not session[:login]
+    redirect to('/login')
+    return
+  end
+  execute("./gitop.sh reset")
+  # hack, give some time for watch process to update cache
+  sleep(3)
+  redirect to('/')
 end
 
 post '/logout' do
