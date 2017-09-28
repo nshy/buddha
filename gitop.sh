@@ -64,7 +64,7 @@ function rebase()
 
 function log()
 {
-  git_edit fetch origin
+  git_edit_cwd fetch origin
   git_edit l ..origin/master
 }
 
