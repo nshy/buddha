@@ -329,7 +329,7 @@ post '/commit' do
     return
   end
 
-  execute("./gitop.sh publish #{params[:message]} 1>&2")
+  execute("./gitop.sh publish '#{params[:message]}' 1>&2")
   FileUtils.rm_rf(Dir[File.join('.cache', '*')])
   session[:result] = true
   session[:notice] = 'Изменения успешно опубликованы'
