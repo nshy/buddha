@@ -319,6 +319,7 @@ post '/commit' do
     redirect to('/admin/#notice')
     return
   end
+  execute("./gitop.sh rebase 1>&2")
   if not execute("./gitop.sh log").split("\n").empty?
     session[:notice] = <<-END
      Вами и администратором одновременно внесены изменения в одни и
