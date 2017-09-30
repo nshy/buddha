@@ -1,4 +1,4 @@
-#!/bin/ruby
+#!/usr/bin/ruby
 
 require_relative '../../routines.rb'
 include CommonHelpers

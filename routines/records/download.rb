@@ -1,4 +1,4 @@
-#!/bin/ruby
+#!/usr/bin/ruby
 
 require 'nokogiri'
 require_relative '../../helpers.rb'

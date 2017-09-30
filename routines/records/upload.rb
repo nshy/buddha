@@ -1,4 +1,4 @@
-#!/bin/ruby
+#!/usr/bin/ruby
 
 # NOTE youtube-upload must be in $PATH
 # thus if it is installed in user home then path must be adjusted
