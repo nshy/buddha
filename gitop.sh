@@ -58,7 +58,7 @@ function publish()
 function rebase()
 {
   add
-  s=`git_edit status --porcelain=v1`
+  s=`git_edit status --porcelain`
 
   # make a commit if there is anything to
   [ -n "$s" ] && git_edit commit -m "REBASE COMMIT" ||:
