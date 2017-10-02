@@ -6,6 +6,7 @@ set -xe
 cd main
 git fetch server
 git rebase server/master
+../bsym.rb pull
 cd ..
 
 ssh buddha.ru <<-END
@@ -19,6 +20,7 @@ END
 git push
 cd main
 git push
+../bsym.rb push
 cd ..
 
 ssh buddha.ru <<-END
