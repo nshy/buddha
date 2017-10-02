@@ -24,6 +24,9 @@ cd ..
 ssh buddha.ru <<-END
 set -xe
 
+export LANG=ru_RU.utf8
+export LC_MESSAGES=en_US.utf8
+
 cd buddha
 git pull
 
