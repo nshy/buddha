@@ -153,6 +153,7 @@ module CommonHelpers
   def simple_page(p)
     @html, header = load_preamble(p, ['menu'])
     @menu_active = header['menu']
+    @extra_scripts += page_scripts(header['scripts'])
     erb "<%= html_render(@html) %>"
   end
 

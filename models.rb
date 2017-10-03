@@ -1,9 +1,10 @@
 require_relative 'xmldsl'
 require_relative 'utils'
 require 'date'
+require 'yaml'
 
 class NewsDocument
-  attr_reader :date, :title, :cut, :body, :is_dir, :buddha_node
+  attr_reader :date, :title, :cut, :body, :is_dir, :buddha_node, :scripts
 
   PageCut = /(.*)<!--[\t ]*page-cut[\t ]*-->(.*)/m
   PageCutSimple = /(.*)<!--[\t ]*page-cut-simple[\t ]*-->/m
@@ -36,6 +37,7 @@ class NewsDocument
       end
     end
     @date = d
+    @scripts = YAML.dump(header['scripts']) if header['scripts']
   end
 
   def path_is_dir(path)

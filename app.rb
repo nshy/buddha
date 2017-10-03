@@ -69,6 +69,7 @@ before do
 
   @menu = Menu::Document.load('menu.xml')
   @extra_styles = []
+  @extra_scripts = []
   if not site_errors.empty? \
      and request.path != '/admin/' \
      and request.path != '/commit' \
@@ -180,6 +181,7 @@ get '/news/:id/' do |id|
   @news = site_model(Cache::News).by_id(id)
   halt 404 if @news.nil?
   @extra_styles = news_styles([ @news ])
+  @extra_scripts += @news.scripts
   @menu_active = 'НОВОСТИ'
   erb :'news-single'
 end

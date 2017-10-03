@@ -7,6 +7,7 @@ def create
     String :cut
     String :body, null: false
     Boolean :is_dir, null: false
+    String :scripts
     String :buddha_node
     DateTime :mtime
   end

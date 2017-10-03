@@ -86,6 +86,12 @@ def load_preamble(path, required)
   [ doc.content, doc.metadata ]
 end
 
+def page_scripts(scripts)
+  return [] if not scripts
+  return [ scripts ] if not scripts.kind_of?(Array)
+  scripts
+end
+
 module Utils
   def self.list_recursively(dir)
     files = Dir.entries(dir).select do |e|

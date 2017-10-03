@@ -57,6 +57,7 @@ end
 #
 class News < Sequel::Model
   alias_method :cut_plain, :cut
+  alias_method :scripts_plain, :scripts
 
   def has_more
     not cut_plain.nil?
@@ -66,6 +67,9 @@ class News < Sequel::Model
     cut_plain.nil? ? body : cut_plain
   end
 
+  def scripts
+    scripts_plain ? page_scripts(YAML.load(scripts_plain)) : []
+  end
 
   dataset_module do
     def years
