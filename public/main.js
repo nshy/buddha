@@ -9,7 +9,8 @@ $(document).ready(function() {
     });
     // set fotorama defaults
     $('.fotorama').fotorama({
-      allowfullscreen: 'native'
+      allowfullscreen: 'native',
+      fit: 'scaledown'
     });
     $('.fotorama.quotes').fotorama({
       allowfullscreen: false
