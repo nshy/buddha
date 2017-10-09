@@ -10,14 +10,14 @@
 
   <%  week = Week.new + @skip %>
   <%= erb :'partials/classes', locals:
-    { title: "Текущие",
-      classes: @timetable.classes.select { |c| c.actual?(week) },
+    { title: "Будущие",
+      classes: @timetable.classes.select { |c| c.future?(week) },
       week: week,
     } %>
 
   <%= erb :'partials/classes', locals:
-    { title: "Будущие",
-      classes: @timetable.classes.select { |c| c.future?(week) },
+    { title: "Текущие",
+      classes: @timetable.classes.select { |c| c.actual?(week) },
       week: week,
     } %>
 </div>
