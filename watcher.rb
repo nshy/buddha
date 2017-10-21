@@ -42,7 +42,6 @@ def watch_main
       c = mixin(Assets::Public).src_files
     else
       c = u + a
-      c.delete(Assets::Public::Mixins)
     end
     update_assets(c, d, Assets::Public)
     concat
