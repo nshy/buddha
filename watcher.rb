@@ -10,7 +10,6 @@ $stdout.sync = true
 
 def listen_to(dir, options = {})
   l = Listen.to(dir, relative: true) do |u, a, d|
-    database[:errors].where(path: u + a + d).delete
     yield u, a, d
   end
   l.only(options[:only]) if options[:only]
@@ -20,8 +19,9 @@ end
 def watch_klass(k)
   klass = site_class(k)
   klass.dirs.each do |dir|
-    listen_to(dir.dir) do |*d|
-      d = d.map { |s| s.select { |p| dir.match(p) } }
+    listen_to(dir.dir) do |u, a, d|
+      database[:errors].where(path: u + a + d).delete
+      d = [u, a, d].map { |s| s.select { |p| dir.match(p) } }
       table_update(klass, *d)
     end
   end
@@ -29,6 +29,7 @@ end
 
 def watch_news
   listen_to(site_path("news"), only: /\.scss$/) do |u, a, d|
+    database[:errors].where(path: u + a + d).delete
     Cache.diffmsg(u, a, d, 'a')
     update_assets(u + a, d, Assets::News)
   end
@@ -49,9 +50,9 @@ def watch_main
   end
 end
 
+watch_main
 Sites.each do |s|
   Site.for(s).instance_eval do
-    watch_main
     watch_news
     Sync::Klasses.each { |k| watch_klass(k) }
   end
