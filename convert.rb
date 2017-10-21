@@ -298,6 +298,10 @@ end
 module Public
   include Extensions
 
+  Mixins = "assets/css/_mixins.scss"
+  Bundle = 'public/bundle.css'
+  SrcDir = 'assets/css'
+
   def dst(path)
     css(path.gsub(/^assets/, 'public'))
   end
@@ -312,7 +316,7 @@ module Public
 
   def src_files
     files = dir_files('assets/css')
-    files.delete('assets/css/_mixins.scss')
+    files.delete(Mixins)
     files
   end
 
@@ -326,7 +330,7 @@ end
 def compile(assets, path)
   input = File.read(path)
   input = assets.preprocess(path, input) if assets.respond_to?(:preprocess)
-  options = { style: :expanded, load_paths: [ StyleSrc ] }
+  options = { style: :expanded, load_paths: [ Assets::Public::SrcDir ] }
   begin
     res = SassC::Engine.new(input, options).render
     File.write(assets.dst(path), res)
@@ -337,30 +341,10 @@ def compile(assets, path)
   end
 end
 
-StyleSrc = 'assets/css'
-StyleDst = 'public/css'
-Bundle = 'public/bundle.css'
-Mixins = "#{StyleSrc}/_mixins.scss"
-
-def list_files(dir, ext, skip = [])
-  Dir.entries(dir).each do |e|
-    next if not /\.#{ext}$/ =~ e or skip.include?(e)
-    yield "#{dir}/#{e}"
-  end
-end
-
-def each_css(&block)
-  list_files(StyleDst, 'css', &block)
-end
-
-def each_scss(&block)
-  list_files(StyleSrc, 'scss', [ '_mixins.scss'], &block)
-end
-
 def concat
   bundle = ""
-  each_css { |p| bundle += File.read(p) }
-  File.write(Bundle, bundle)
+  mixin(Assets::Public).dst_files.each { |p| bundle += File.read(p) }
+  File.write(Assets::Public::Bundle, bundle)
 end
 
 def mixin(assets)

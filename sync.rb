@@ -39,18 +39,18 @@ def sync_news
 end
 
 def mixin_changed?
-  mixtime = File.mtime(Mixins)
-  each_css { |p| return true if File.mtime(p) < mixtime }
+  mixtime = File.mtime(Assets::Public::Mixins)
+  mixin(Assets::Public).dst_files.each { |p| return true if File.mtime(p) < mixtime }
   false
 end
 
 def sync_main
   u, a, d = find_changes(Assets::Public)
-  c = u + a
   if mixin_changed?
-    puts "a U #{Mixins}"
-    c = []
-    each_scss { |s| c << s }
+    puts "a U #{Assets::Public::Mixins}"
+    c = mixin(Assets::Public).src_files
+  else
+    c = u + a
   end
   update_assets(c, d, Assets::Public)
   concat if not c.empty? or not d.empty?

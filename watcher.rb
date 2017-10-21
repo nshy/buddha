@@ -36,14 +36,13 @@ def watch_news
 end
 
 def watch_main
-  listen_to(StyleSrc, only: /\.scss$/) do |u, a, d|
+  listen_to(Assets::Public::SrcDir, only: /\.scss$/) do |u, a, d|
     Cache.diffmsg(u, a, d, 'a')
-    if u.include?(Mixins)
-      c = []
-      each_scss { |s| c << s }
+    if u.include?(Assets::Public::Mixins)
+      c = mixin(Assets::Public).src_files
     else
       c = u + a
-      c.delete(Mixins)
+      c.delete(Assets::Public::Mixins)
     end
     update_assets(c, d, Assets::Public)
     concat
