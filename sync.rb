@@ -84,13 +84,13 @@ def sync_main
   concat if File.mtime(StyleDst) > File.mtime(Bundle) or assets_changed?
 end
 
+sync_main
 Dir.mkdir(".build") if not File.exists?(".build")
 Sites.each do |s|
   Site.for(s).instance_eval do
     Dir.mkdir(build_dir) if not File.exists?(build_dir)
     database[:errors].delete
 
-    sync_main
     sync_news
     Sync::Klasses.each { |k| sync_klass(k) }
   end
