@@ -37,17 +37,28 @@ def sync_path(s, assets)
   end
 end
 
-def sync_news
-  dir = site_path("news")
-  build = site_build_path("news")
-  list_files(build, 'css') { |p| clean_path(p, Assets::News) }
-  Dir.entries(dir).each do |e|
-    p = "#{dir}/#{e}"
-    next if not File.directory?(p) or e == '.' or e == '..'
-    f = "#{p}/style.scss"
-    next if not File.exists?(f)
-    sync_path(f, Assets::News)
+def find_changes(assets)
+  mixin(assets).instance_eval do
+    u = src_files.collect do |s|
+      d = dst(s)
+      (File.exist?(d) and File.mtime(s) > File.mtime(d)) ? s : nil
+    end.compact
+    a = src_files.collect do |s|
+      d = dst(s)
+      (not File.exist?(d)) ? s : nil
+    end.compact
+    d = dst_files.collect do |d|
+      s = src(d)
+      (not File.exist?(s)) ? s : nil
+    end.compact
+    Cache.diffmsg(u, a, d, 'a')
+    [u, a, d]
   end
+end
+
+def sync_news
+  u, a, d = find_changes(Assets::News)
+  update_assets(u + a, d, Assets::News)
 end
 
 def assets_changed?

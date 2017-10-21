@@ -268,9 +268,21 @@ module News
     site_build_path("news/#{id}.css")
   end
 
+  def dst_files
+    dir_files(site_build_path("news"))
+  end
+
   def src(path)
     id = File.basename(path, '.*')
     site_path("news/#{id}/style.scss")
+  end
+
+  def src_files
+    files = dir_files(site_path("news")).collect do |e|
+      f = "#{e}/style.scss"
+      File.exist?(f) ? f : nil
+    end
+    files.compact
   end
 
   def preprocess(path, input)
@@ -343,4 +355,18 @@ end
 
 def compile_all
   each_scss { |s| compile(Assets::Public, s) }
+end
+
+def mixin(assets)
+  a = clone
+  a.extend(assets)
+end
+
+def update_assets(updated, deleted, assets)
+  a = mixin(assets)
+  deleted.each do |p|
+    css = a.dst(p)
+    File.delete(css) if File.exists?(css)
+  end
+  updated.each { |p| compile(a, p) }
 end

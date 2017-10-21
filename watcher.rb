@@ -27,20 +27,10 @@ def watch_klass(k)
   end
 end
 
-def sync_watch_paths(updated, deleted, assets)
-  a = clone
-  a.extend(assets)
-  deleted.each do |p|
-    css = a.dst(p)
-    File.delete(css) if File.exists?(css)
-  end
-  updated.each { |p| compile(a, p) }
-end
-
 def watch_news
   listen_to(site_path("news"), only: /\.scss$/) do |u, a, d|
     Cache.diffmsg(u, a, d, 'a')
-    sync_watch_paths(u + a, d, Assets::News)
+    update_assets(u + a, d, Assets::News)
   end
 end
 
@@ -54,7 +44,7 @@ def watch_main
       c = u + a
       c.delete(Mixins)
     end
-    sync_watch_paths(c, d, Assets::Public)
+    update_assets(c, d, Assets::Public)
     concat
   end
 end
