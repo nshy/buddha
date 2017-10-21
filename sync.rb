@@ -40,7 +40,6 @@ end
 def sync_news
   dir = site_path("news")
   build = site_build_path("news")
-  Dir.mkdir(build) if not File.exists?(build)
   list_files(build, 'css') { |p| clean_path(p, Assets::News) }
   Dir.entries(dir).each do |e|
     p = "#{dir}/#{e}"
