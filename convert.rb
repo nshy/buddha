@@ -360,3 +360,10 @@ def update_assets(updated, deleted, assets)
   end
   updated.each { |p| compile(a, p) }
 end
+
+def update_assets_main(u, a, d, mixin_changed)
+  c = mixin_changed ? mixin(Assets::Public).src_files : u + a
+  return if c.empty? and d.empty?
+  update_assets(c, d, Assets::Public)
+  concat
+end

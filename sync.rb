@@ -46,14 +46,9 @@ end
 
 def sync_main
   u, a, d = find_changes(Assets::Public)
-  if mixin_changed?
-    puts "a U #{Assets::Public::Mixins}"
-    c = mixin(Assets::Public).src_files
-  else
-    c = u + a
-  end
-  update_assets(c, d, Assets::Public)
-  concat if not c.empty? or not d.empty?
+  mixin_changed = mixin_changed?
+  puts "a U #{Assets::Public::Mixins}" if mixin_changed?
+  update_assets_main(u, a, d, mixin_changed)
 end
 
 sync_main

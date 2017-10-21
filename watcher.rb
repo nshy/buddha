@@ -38,13 +38,8 @@ end
 def watch_main
   listen_to(Assets::Public::SrcDir, only: /\.scss$/) do |u, a, d|
     Cache.diffmsg(u, a, d, 'a')
-    if u.include?(Assets::Public::Mixins)
-      c = mixin(Assets::Public).src_files
-    else
-      c = u + a
-    end
-    update_assets(c, d, Assets::Public)
-    concat
+    mixin_changed = u.delete(Assets::Public::Mixins) != nil
+    update_assets_main(u, a, d, mixin_changed)
   end
 end
 
