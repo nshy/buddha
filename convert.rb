@@ -302,8 +302,18 @@ module Public
     css(path.gsub(/^assets/, 'public'))
   end
 
+  def dst_files
+    dir_files('public/css')
+  end
+
   def src(path)
     scss(path.gsub(/^public/, 'assets'))
+  end
+
+  def src_files
+    files = dir_files('assets/css')
+    files.delete('assets/css/_mixins.scss')
+    files
   end
 
   def shorten(path)
@@ -351,10 +361,6 @@ def concat
   bundle = ""
   each_css { |p| bundle += File.read(p) }
   File.write(Bundle, bundle)
-end
-
-def compile_all
-  each_scss { |s| compile(Assets::Public, s) }
 end
 
 def mixin(assets)
