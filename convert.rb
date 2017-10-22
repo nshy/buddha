@@ -226,7 +226,7 @@ module Digest_SHA1
   end
 
   def self.public_exclude(dir, path)
-    ex = [ '3d-party', 'logs', 'css', 'fonts' ]
+    ex = [ '3d-party', 'css', 'fonts' ]
     ex.any? { |e| path.start_with?("#{dir}/#{e}") }
   end
 end
