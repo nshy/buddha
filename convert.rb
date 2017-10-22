@@ -61,7 +61,7 @@ def table_update(klass, u, a, d)
 end
 
 def data_dir(dir, ext)
-  [ DirFiles.new(site_path(dir), "page", ext, DirFiles::BOTH) ]
+  [ DirFiles.new(site_path(dir), ext, DirFiles::BOTH, name: "page") ]
 end
 
 def site_class(klass)
@@ -80,12 +80,15 @@ class DirFiles
   IN_DIR = 2
   BOTH = 3
 
-  def initialize(dir, name, ext, mode)
+  def initialize(dir, ext, mode, options = {})
     @dir = dir
     @ext = ext
-    @name = name
+    @options = options
     @size = path_split(dir).size
     @mode = mode
+    if (@mode & IN_DIR) and not @options[:name]
+      raise "If directory mode is requested then name option must be set"
+    end
   end
 
   def path_to_id(path)
@@ -95,7 +98,7 @@ class DirFiles
 
   def files
     files = dir_files(dir, sorted: true).map do |path|
-      dirpath = "#{path}/#{@name}.#{@ext}"
+      dirpath = "#{path}/#{@options[:name]}.#{@ext}"
       if (@mode & PLAIN) and File.file?(path) and path =~ /\.#{@ext}$/
         path
       elsif (@mode & IN_DIR) and File.exists?(dirpath)
@@ -111,7 +114,7 @@ class DirFiles
     p = path_split(path)
     d = p.size - @size
     ((@mode & PLAIN) and d == 1 and p.last =~ /\.#{@ext}$/) or
-      ((@mode & IN_DIR) and d == 2 and p.last == "#{@name}.#{@ext}")
+      ((@mode & IN_DIR) and d == 2 and p.last == "#{@options[:name]}.#{@ext}")
   end
 end
 
