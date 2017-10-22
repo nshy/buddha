@@ -258,19 +258,7 @@ end
 
 module Assets
 
-module Extensions
-  def css(path)
-    path.gsub(/\.scss$/, '.css')
-  end
-
-  def scss(path)
-    path.gsub(/\.css$/, '.scss')
-  end
-end
-
 module News
-  include Extensions
-
   def dst(path)
     id = path_split(path)[2]
     site_build_path("news/#{id}.css")
@@ -304,14 +292,13 @@ module News
 end
 
 module Public
-  include Extensions
-
   Mixins = "assets/css/_mixins.scss"
   Bundle = '.build/bundle.css'
   SrcDir = 'assets/css'
 
   def dst(path)
-    css(path.gsub(/^assets/, '.build'))
+    id = File.basename(path, '.*')
+    ".build/css/#{id}.css"
   end
 
   def dst_files
@@ -319,7 +306,8 @@ module Public
   end
 
   def src(path)
-    scss(path.gsub(/^.build/, 'assets'))
+    id = File.basename(path, '.*')
+    "assets/css/#{id}.scss"
   end
 
   def src_files
