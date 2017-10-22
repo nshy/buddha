@@ -13,8 +13,6 @@
 /import/old-news/tmp
 /import/old-news/buddhadb.dump
 /import/records/tmp
-/public/css
-/public/bundle.css
 /routines/records/download
 /routines/records/tmp
 /routines/records/secrets.json

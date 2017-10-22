@@ -39,6 +39,7 @@ end
 
 def table_insert(klass, p)
   table = database[klass.table]
+  # search dir
   dir = klass.dirs.find { |d| p.start_with?(d.dir) }
   id = dir.path_to_id(p)
   begin
@@ -221,12 +222,19 @@ module Digest_SHA1
   end
 
   def dirs
+    # order is significant because of dir search approach in table_insert
     [ DigestDir.new(site_build_dir),
+      DigestDir.new(build_dir, exclude: Digest_SHA1.method(:build_exclude)),
       DigestDir.new('public', exclude: Digest_SHA1.method(:public_exclude)) ]
   end
 
   def self.public_exclude(dir, path)
-    ex = [ '3d-party', 'css', 'fonts' ]
+    ex = [ '3d-party', 'fonts' ]
+    ex.any? { |e| path.start_with?("#{dir}/#{e}") }
+  end
+
+  def self.build_exclude(dir, path)
+    ex = Sites + ['css']
     ex.any? { |e| path.start_with?("#{dir}/#{e}") }
   end
 end
@@ -299,19 +307,19 @@ module Public
   include Extensions
 
   Mixins = "assets/css/_mixins.scss"
-  Bundle = 'public/bundle.css'
+  Bundle = '.build/bundle.css'
   SrcDir = 'assets/css'
 
   def dst(path)
-    css(path.gsub(/^assets/, 'public'))
+    css(path.gsub(/^assets/, '.build'))
   end
 
   def dst_files
-    dir_files('public/css')
+    dir_files('.build/css')
   end
 
   def src(path)
-    scss(path.gsub(/^public/, 'assets'))
+    scss(path.gsub(/^.build/, 'assets'))
   end
 
   def src_files

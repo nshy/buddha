@@ -82,11 +82,10 @@ before do
 end
 
 not_found do
-  r = request.path
-  p = site_build_path(r)
-  return send_app_file(p) if File.file?(p)
-  p = site_path(r)
-  return send_app_file(p) if File.file?(p)
+  dirs = [build_dir, site_build_dir, site_dir]
+  paths = dirs.collect { |d| File.join(d, request.path) }
+  p = paths.find { |p| File.file?(p) }
+  return send_app_file(p) if p
 
   begin
     p = find_simple_page
