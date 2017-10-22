@@ -82,7 +82,7 @@ class DirFiles
 
   def initialize(dir, ext, mode, options = {})
     @dir = dir
-    @ext = ext
+    @ext = ".#{ext}"
     @options = options
     @size = path_split(dir).size
     @mode = mode
@@ -99,6 +99,10 @@ class DirFiles
     @options[:exclude]
   end
 
+  def full_name
+    "#{name}#{ext}"
+  end
+
   def path_to_id(path)
     name = path_split(path)[@size]
     File.basename(name, '.*')
@@ -107,9 +111,9 @@ class DirFiles
   def id_to_path(id)
     case @mode
     when IN_DIR
-      File.join(dir, id, "#{name}.#{ext}")
+      File.join(dir, id, full_name)
     when PLAIN
-      File.join(dir, "#{id}.#{ext}")
+      File.join(dir, "#{id}#{ext}")
     else
       raise "This operation is not defined for this mode"
     end
@@ -117,8 +121,8 @@ class DirFiles
 
   def files
     files = dir_files(dir, sorted: true).map do |path|
-      dirpath = "#{path}/#{@options[:name]}.#{@ext}"
-      if (@mode & PLAIN) and File.file?(path) and path =~ /\.#{@ext}$/
+      dirpath = File.join(path, full_name)
+      if (@mode & PLAIN) and File.file?(path) and File.extname(path) == ext
         path
       elsif (@mode & IN_DIR) and File.exists?(dirpath)
         dirpath
@@ -134,8 +138,8 @@ class DirFiles
   def match(path)
     p = path_split(path)
     d = p.size - @size
-    ((@mode & PLAIN) and d == 1 and p.last =~ /\.#{@ext}$/) or
-      ((@mode & IN_DIR) and d == 2 and p.last == "#{@options[:name]}.#{@ext}")
+    ((@mode & PLAIN) and d == 1 and File.extname(p.last) == ext) or
+      ((@mode & IN_DIR) and d == 2 and p.last == full_name)
   end
 end
 
