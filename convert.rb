@@ -60,6 +60,10 @@ def table_update(klass, u, a, d)
   (a + u).each { |p| table_insert(klass, p) }
 end
 
+def data_dir(dir, ext)
+  [ DirFiles.new(site_path(dir), "page", ext) ]
+end
+
 def site_class(klass)
   k = clone
   k.extend(klass)
@@ -69,14 +73,13 @@ def site_class(klass)
   k
 end
 
-module Sync
-
 class DirFiles
   attr_reader :dir
 
-  def initialize(dir, ext)
+  def initialize(dir, name, ext)
     @dir = dir
     @ext = ext
+    @name = name
     @size = path_split(dir).size
   end
 
@@ -87,7 +90,7 @@ class DirFiles
 
   def files
     files = dir_files(dir, sorted: true).map do |path|
-      dirpath = "#{path}/page.#{@ext}"
+      dirpath = "#{path}/#{@name}.#{@ext}"
       if File.file?(path) and path =~ /\.#{@ext}$/
         path
       elsif File.exists?(dirpath)
@@ -103,9 +106,11 @@ class DirFiles
     p = path_split(path)
     d = p.size - @size
     (d == 1 and p.last =~ /\.#{@ext}$/) or
-      (d == 2 and p.last == "page.#{@ext}")
+      (d == 2 and p.last == "#{@name}.#{@ext}")
   end
 end
+
+module Sync
 
 # --------------------- teachings --------------------------
 
@@ -124,7 +129,7 @@ module Teaching
   end
 
   def dirs
-    [ DirFiles.new(site_path("teachings"), "xml") ]
+    data_dir("teachings", "xml")
   end
 end
 
@@ -137,7 +142,7 @@ module News
   end
 
   def dirs
-    [ DirFiles.new(site_path("news"), "html") ]
+    data_dir("news", "html")
   end
 end
 
@@ -150,7 +155,7 @@ module Book
   end
 
   def dirs
-    [ DirFiles.new(site_path("books"), "xml") ]
+    data_dir("books", "xml")
   end
 end
 
@@ -179,7 +184,7 @@ module BookCategory
   end
 
   def dirs
-    [ DirFiles.new(site_path("book-categories"), "xml") ]
+    data_dir("book-categories", "xml")
   end
 end
 
