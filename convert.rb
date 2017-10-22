@@ -367,3 +367,7 @@ def update_assets_main(u, a, d, mixin_changed)
   update_assets(c, d, Assets::Public)
   concat
 end
+
+def clean_errors(u, a, d)
+  database[:errors].where(path: u + a + d).delete
+end

@@ -19,9 +19,9 @@ end
 def watch_klass(k)
   klass = site_class(k)
   klass.dirs.each do |dir|
-    listen_to(dir.dir) do |u, a, d|
-      database[:errors].where(path: u + a + d).delete
-      d = [u, a, d].map { |s| s.select { |p| dir.match(p) } }
+    listen_to(dir.dir) do |*d|
+      d = d.map { |s| s.select { |p| dir.match(p) } }
+      clean_errors(*d)
       table_update(klass, *d)
     end
   end
@@ -29,8 +29,8 @@ end
 
 def watch_news
   listen_to(site_path("news"), only: /\.scss$/) do |u, a, d|
-    database[:errors].where(path: u + a + d).delete
     Cache.diffmsg(u, a, d, 'a')
+    clean_errors(u, a, d)
     update_assets(u + a, d, Assets::News)
   end
 end
