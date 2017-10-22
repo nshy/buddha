@@ -289,6 +289,10 @@ module News
   def shorten(path)
     path_from_db(path)
   end
+
+  def compile(path)
+    compile_css(self, path)
+  end
 end
 
 module Public
@@ -319,11 +323,15 @@ module Public
   def shorten(path)
     path
   end
+
+  def compile(path)
+    compile_css(self, path)
+  end
 end
 
 end
 
-def compile(assets, path)
+def compile_css(assets, path)
   input = File.read(path)
   input = assets.preprocess(path, input) if assets.respond_to?(:preprocess)
   options = { style: :expanded, load_paths: [ Assets::Public::SrcDir ] }
@@ -354,7 +362,7 @@ def update_assets(updated, deleted, assets)
     css = a.dst(p)
     File.delete(css) if File.exists?(css)
   end
-  updated.each { |p| compile(a, p) }
+  updated.each { |p| a.compile(p) }
 end
 
 def update_assets_main(u, a, d, mixin_changed)
