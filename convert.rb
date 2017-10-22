@@ -272,7 +272,7 @@ end
 module Assets
 
 module News
-  def dst(path)
+  def src_to_dst(path)
     id = path_split(path)[2]
     site_build_path("news/#{id}.css")
   end
@@ -281,7 +281,7 @@ module News
     dir_files(site_build_path("news"))
   end
 
-  def src(path)
+  def dst_to_src(path)
     id = File.basename(path, '.*')
     site_path("news/#{id}/style.scss")
   end
@@ -313,7 +313,7 @@ module Public
   Bundle = '.build/bundle.css'
   SrcDir = 'assets/css'
 
-  def dst(path)
+  def src_to_dst(path)
     id = File.basename(path, '.*')
     ".build/css/#{id}.css"
   end
@@ -322,7 +322,7 @@ module Public
     dir_files('.build/css')
   end
 
-  def src(path)
+  def dst_to_src(path)
     id = File.basename(path, '.*')
     "assets/css/#{id}.scss"
   end
@@ -350,7 +350,7 @@ def compile_css(assets, path)
   options = { style: :expanded, load_paths: [ Assets::Public::SrcDir ] }
   begin
     res = SassC::Engine.new(input, options).render
-    File.write(assets.dst(path), res)
+    File.write(assets.src_to_dst(path), res)
   rescue SassC::SyntaxError => e
     msg = "Ошибка компиляции файла #{assets.shorten(path)}:\n #{e}"
     database[:errors].insert(path: path, message: msg)
@@ -372,7 +372,7 @@ end
 def update_assets(updated, deleted, assets)
   a = mixin(assets)
   deleted.each do |p|
-    css = a.dst(p)
+    css = a.src_to_dst(p)
     File.delete(css) if File.exists?(css)
   end
   updated.each { |p| a.compile(p) }
