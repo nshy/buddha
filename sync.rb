@@ -55,7 +55,7 @@ sync_main
 Dir.mkdir(".build") if not File.exists?(".build")
 Sites.each do |s|
   Site.for(s).instance_eval do
-    Dir.mkdir(build_dir) if not File.exists?(build_dir)
+    Dir.mkdir(site_build_dir) if not File.exists?(site_build_dir)
     # We can not clean errors in update functions based on (u, a, d) triplet.
     # Because we can not detect deleted file in case of error as there
     # is no product object.

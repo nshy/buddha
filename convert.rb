@@ -221,7 +221,7 @@ module Digest_SHA1
   end
 
   def dirs
-    [ DigestDir.new(build_dir),
+    [ DigestDir.new(site_build_dir),
       DigestDir.new('public', exclude: Digest_SHA1.method(:public_exclude)) ]
   end
 

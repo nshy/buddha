@@ -19,7 +19,11 @@ module SiteHelpers
   end
 
   def build_dir
-    ".build/#{site}"
+    '.build'
+  end
+
+  def site_build_dir
+    File.join(build_dir, site_dir)
   end
 
   def site_path(path)
@@ -27,7 +31,7 @@ module SiteHelpers
   end
 
   def site_build_path(path)
-    "#{build_dir}/#{path}"
+    "#{site_build_dir}/#{path}"
   end
 end
 
