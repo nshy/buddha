@@ -27,11 +27,11 @@ module SiteHelpers
   end
 
   def site_path(path)
-    "#{site_dir}/#{path}"
+    File.join(site_dir, path)
   end
 
   def site_build_path(path)
-    "#{site_build_dir}/#{path}"
+    File.join(site_build_dir, path)
   end
 end
 
