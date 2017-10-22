@@ -16,16 +16,16 @@ end
 
 def find_changes(assets)
   mixin(assets).instance_eval do
-    u = src_files.collect do |s|
-      d = src_to_dst(s)
+    u = src.files.collect do |s|
+      d = src_to_dst(self, s)
       (File.exist?(d) and File.mtime(s) > File.mtime(d)) ? s : nil
     end.compact
-    a = src_files.collect do |s|
-      d = src_to_dst(s)
+    a = src.files.collect do |s|
+      d = src_to_dst(self, s)
       (not File.exist?(d)) ? s : nil
     end.compact
-    d = dst_files.collect do |d|
-      s = dst_to_src(d)
+    d = dst.files.collect do |d|
+      s = dst_to_src(self, d)
       (not File.exist?(s)) ? s : nil
     end.compact
     Cache.diffmsg(u, a, d, 'a')
@@ -40,7 +40,7 @@ end
 
 def mixin_changed?
   mixtime = File.mtime(Assets::Public::Mixins)
-  mixin(Assets::Public).dst_files.each { |p| return true if File.mtime(p) < mixtime }
+  mixin(Assets::Public).dst.files.each { |p| return true if File.mtime(p) < mixtime }
   false
 end
 
