@@ -546,8 +546,10 @@ class Event
 end
 
 class Banner
-  def active?
-    OpenRange.new(self.begin, self.end).cover?(Date.today)
+  def active?(week)
+    b = self.begin ? Week.new(self.begin) : nil
+    e = self.end ? Week.new(self.end) : nil
+    OpenRange.new(b, e).cover?(week)
   end
 end
 

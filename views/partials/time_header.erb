@@ -17,7 +17,7 @@
   <a class="<%= "active" if selected == :schedule %>"
      href="<%= timetable_link('schedule', @skip) %>">ПЛАН</a>
 </div>
-<% if banner.active? %>
+<% if banner.active?(Week.new + @skip) %>
 <div class="site-baner">
     <img src="<%= digest_url('/images/wheel.png') %>">
     <div class="message"> <%= banner.message %> </div>
