@@ -61,7 +61,7 @@ def table_update(klass, u, a, d)
 end
 
 def data_dir(dir, ext)
-  [ DirFiles.new(site_path(dir), "page", ext) ]
+  [ DirFiles.new(site_path(dir), "page", ext, DirFiles::BOTH) ]
 end
 
 def site_class(klass)
@@ -76,11 +76,16 @@ end
 class DirFiles
   attr_reader :dir
 
-  def initialize(dir, name, ext)
+  PLAIN = 1
+  IN_DIR = 2
+  BOTH = 3
+
+  def initialize(dir, name, ext, mode)
     @dir = dir
     @ext = ext
     @name = name
     @size = path_split(dir).size
+    @mode = mode
   end
 
   def path_to_id(path)
@@ -91,9 +96,9 @@ class DirFiles
   def files
     files = dir_files(dir, sorted: true).map do |path|
       dirpath = "#{path}/#{@name}.#{@ext}"
-      if File.file?(path) and path =~ /\.#{@ext}$/
+      if (@mode & PLAIN) and File.file?(path) and path =~ /\.#{@ext}$/
         path
-      elsif File.exists?(dirpath)
+      elsif (@mode & IN_DIR) and File.exists?(dirpath)
         dirpath
       else
         nil
@@ -105,8 +110,8 @@ class DirFiles
   def match(path)
     p = path_split(path)
     d = p.size - @size
-    (d == 1 and p.last =~ /\.#{@ext}$/) or
-      (d == 2 and p.last == "#{@name}.#{@ext}")
+    ((@mode & PLAIN) and d == 1 and p.last =~ /\.#{@ext}$/) or
+      ((@mode & IN_DIR) and d == 2 and p.last == "#{@name}.#{@ext}")
   end
 end
 
