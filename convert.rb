@@ -86,7 +86,7 @@ class DirFiles
     @options = options
     @size = path_split(dir).size
     @mode = mode
-    if (@mode & IN_DIR) and not @options[:name]
+    if (@mode & IN_DIR) != 0 and not @options[:name]
       raise "If directory mode is requested then name option must be set"
     end
   end
