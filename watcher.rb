@@ -27,26 +27,24 @@ def watch_klass(k)
   end
 end
 
-def watch_news
-  listen_to(site_path("news"), only: /\.scss$/) do |u, a, d|
+def watch_assets(assets)
+  s = mixin(assets)
+  listen_to(s.src.dir, only: /\.scss$/) do |u, a, d|
     Cache.diffmsg(u, a, d, 'a')
-    clean_errors(u, a, d)
-    update_assets(u + a, d, Assets::News)
+    mixin_changed = false
+    if s.respond_to?(:mixins)
+      mixin_changed = u.delete(s.mixins) != nil
+    else
+      clean_errors(u, a, d)
+    end
+    update_assets(s, u, a, d, mixin_changed)
   end
 end
 
-def watch_main
-  listen_to(Assets::Public::SrcDir, only: /\.scss$/) do |u, a, d|
-    Cache.diffmsg(u, a, d, 'a')
-    mixin_changed = u.delete(Assets::Public::Mixins) != nil
-    update_assets_main(u, a, d, mixin_changed)
-  end
-end
-
-watch_main
+watch_assets(Assets::Public)
 Sites.each do |s|
   Site.for(s).instance_eval do
-    watch_news
+    watch_assets(Assets::News)
     Sync::Klasses.each { |k| watch_klass(k) }
   end
 end

@@ -15,7 +15,7 @@ def sync_klass(k)
 end
 
 def find_changes(assets)
-  mixin(assets).instance_eval do
+  assets.instance_eval do
     u = src.files.collect do |s|
       d = src_to_dst(self, s)
       (File.exist?(d) and File.mtime(s) > File.mtime(d)) ? s : nil
@@ -28,30 +28,30 @@ def find_changes(assets)
       s = dst_to_src(self, d)
       (not File.exist?(s)) ? s : nil
     end.compact
+    a.delete(assets.mixins) if assets.respond_to?(:mixins)
     Cache.diffmsg(u, a, d, 'a')
     [u, a, d]
   end
 end
 
-def sync_news
-  u, a, d = find_changes(Assets::News)
-  update_assets(u + a, d, Assets::News)
-end
-
-def mixin_changed?
-  mixtime = File.mtime(Assets::Public::Mixins)
-  mixin(Assets::Public).dst.files.each { |p| return true if File.mtime(p) < mixtime }
+def mixin_changed?(assets)
+  t = File.mtime(assets.mixins)
+  assets.dst.files.each { |p| return true if File.mtime(p) < t }
   false
 end
 
-def sync_main
-  u, a, d = find_changes(Assets::Public)
-  mixin_changed = mixin_changed?
-  puts "a U #{Assets::Public::Mixins}" if mixin_changed?
-  update_assets_main(u, a, d, mixin_changed)
+def sync_assets(assets)
+  a = mixin(assets)
+  c = find_changes(a)
+  mixin_changed = false
+  if a.respond_to?(:mixins) and mixin_changed?(a)
+    puts "a U #{a.mixins}"
+    mixin_changed = true
+  end
+  update_assets(a, *c, mixin_changed)
 end
 
-sync_main
+sync_assets(Assets::Public)
 Dir.mkdir(".build") if not File.exists?(".build")
 Sites.each do |s|
   Site.for(s).instance_eval do
@@ -61,7 +61,7 @@ Sites.each do |s|
     # is no product object.
     database[:errors].delete
 
-    sync_news
+    sync_assets(Assets::News)
     Sync::Klasses.each { |k| sync_klass(k) }
   end
 end

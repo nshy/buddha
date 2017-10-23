@@ -321,16 +321,16 @@ module News
 end
 
 module Public
-  Mixins = "assets/css/_mixins.scss"
-  Bundle = '.build/bundle.css'
-  SrcDir = 'assets/css'
-
   def src
-    DirFiles.new("assets/css", "scss", DirFiles::PLAIN, exclude: [Mixins])
+    DirFiles.new("assets/css", "scss", DirFiles::PLAIN)
   end
 
   def dst
     DirFiles.new(".build/css", "css", DirFiles::PLAIN)
+  end
+
+  def mixins
+    "assets/css/_mixins.scss"
   end
 
   def shorten(path)
@@ -340,6 +340,13 @@ module Public
   def compile(path)
     compile_css(self, path)
   end
+
+  # create bundle
+  def postupdate
+    bundle = ""
+    dst.files.each { |p| bundle += File.read(p) }
+    File.write('.build/bundle.css', bundle)
+  end
 end
 
 end
@@ -347,7 +354,7 @@ end
 def compile_css(assets, path)
   input = File.read(path)
   input = assets.preprocess(path, input) if assets.respond_to?(:preprocess)
-  options = { style: :expanded, load_paths: [ Assets::Public::SrcDir ] }
+  options = { style: :expanded, load_paths: [ "assets/css"] }
   begin
     res = SassC::Engine.new(input, options).render
     File.write(src_to_dst(assets, path), res)
@@ -358,31 +365,25 @@ def compile_css(assets, path)
   end
 end
 
-def concat
-  bundle = ""
-  mixin(Assets::Public).dst.files.each { |p| bundle += File.read(p) }
-  File.write(Assets::Public::Bundle, bundle)
-end
-
 def mixin(assets)
   a = clone
   a.extend(assets)
 end
 
-def update_assets(updated, deleted, assets)
-  a = mixin(assets)
-  deleted.each do |p|
-    css = src_to_dst(a, p)
-    File.delete(css) if File.exists?(css)
+def update_assets(assets, u, a, d, mixin_changed)
+  if mixin_changed
+    r = assets.src.files
+    r.delete(assets.mixins)
+  else
+    r = u + a
   end
-  updated.each { |p| a.compile(p) }
-end
-
-def update_assets_main(u, a, d, mixin_changed)
-  c = mixin_changed ? mixin(Assets::Public).src.files : u + a
-  return if c.empty? and d.empty?
-  update_assets(c, d, Assets::Public)
-  concat
+  return if r.empty? and d.empty?
+  d.each do |p|
+    f = src_to_dst(assets, p)
+    File.delete(f) if File.exists?(f)
+  end
+  r.each { |p| assets.compile(p) }
+  assets.postupdate if assets.respond_to?(:postupdate)
 end
 
 def clean_errors(u, a, d)
