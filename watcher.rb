@@ -9,18 +9,17 @@ include CommonHelpers
 $stdout.sync = true
 
 def listen_to(dir, options = {})
-  l = Listen.to(dir, relative: true) do |u, a, d|
-    yield u, a, d
+  l = Listen.to(dir.dir, relative: true) do |*d|
+    d = d.map { |s| s.select { |p| dir.match(p) } }
+    yield *d
   end
-  l.only(options[:only]) if options[:only]
   l.start
 end
 
 def watch_klass(k)
   klass = site_class(k)
   klass.dirs.each do |dir|
-    listen_to(dir.dir) do |*d|
-      d = d.map { |s| s.select { |p| dir.match(p) } }
+    listen_to(dir) do |*d|
       clean_errors(*d)
       table_update(klass, *d)
     end
@@ -29,7 +28,7 @@ end
 
 def watch_assets(assets)
   s = mixin(assets)
-  listen_to(s.src.dir, only: /\.scss$/) do |u, a, d|
+  listen_to(s.src) do |u, a, d|
     Cache.diffmsg(u, a, d, 'a')
     mixin_changed = false
     if s.respond_to?(:mixins)
