@@ -7,6 +7,7 @@ require_relative 'helpers'
 include CommonHelpers
 
 $stdout.sync = true
+sync_lock
 
 def listen_to(dir, options = {})
   l = Listen.to(dir.dir, relative: true) do |*d|

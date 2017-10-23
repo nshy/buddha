@@ -401,3 +401,12 @@ end
 def src_to_dst(assets, path)
   map_path(path, assets.src, assets.dst)
 end
+
+def sync_lock
+  f = File.open('.sync.lock', File::RDWR | File::CREAT, 0644)
+  if f.flock(File::LOCK_NB | File::LOCK_EX) == false
+    puts "Can not get sync lock"
+    exit 1
+  end
+  @sync_lock = f
+end

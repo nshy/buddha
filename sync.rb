@@ -6,6 +6,7 @@ require_relative 'convert'
 include CommonHelpers
 
 $stdout.sync = true
+sync_lock
 
 def sync_klass(k)
   klass = site_class(k)
