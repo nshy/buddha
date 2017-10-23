@@ -11,6 +11,7 @@ $stdout.sync = true
 def listen_to(dir, options = {})
   l = Listen.to(dir.dir, relative: true) do |*d|
     d = d.map { |s| s.select { |p| dir.match(p) } }
+    Cache.diffmsg(*d, 'a')
     yield *d
   end
   l.start
@@ -29,7 +30,6 @@ end
 def watch_assets(assets)
   s = mixin(assets)
   listen_to(s.src) do |u, a, d|
-    Cache.diffmsg(u, a, d, 'a')
     mixin_changed = false
     if s.respond_to?(:mixins)
       mixin_changed = u.delete(s.mixins) != nil

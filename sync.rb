@@ -11,6 +11,7 @@ def sync_klass(k)
   klass = site_class(k)
   files = klass.dirs.collect { |d| d.files }.flatten
   d = Cache.diff(database, klass.table, files)
+  Cache.diffmsg(*d, 'b')
   table_update(klass, *d)
 end
 
