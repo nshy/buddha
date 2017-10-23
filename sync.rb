@@ -2,6 +2,7 @@
 
 require_relative 'helpers'
 require_relative 'convert'
+require_relative 'assets'
 
 include CommonHelpers
 

@@ -3,6 +3,7 @@
 require 'listen'
 require_relative 'convert'
 require_relative 'helpers'
+require_relative 'assets'
 
 include CommonHelpers
 
