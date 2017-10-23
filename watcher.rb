@@ -46,7 +46,7 @@ watch_assets(Assets::Public)
 Sites.each do |s|
   Site.for(s).instance_eval do
     watch_assets(Assets::News)
-    Sync::Klasses.each { |k| watch_klass(k) }
+    Resources::Klasses.each { |k| watch_klass(k) }
   end
 end
 

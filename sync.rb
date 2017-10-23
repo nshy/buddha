@@ -65,6 +65,6 @@ Sites.each do |s|
     database[:errors].delete
 
     sync_assets(Assets::News)
-    Sync::Klasses.each { |k| sync_klass(k) }
+    Resources::Klasses.each { |k| sync_klass(k) }
   end
 end

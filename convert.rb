@@ -142,7 +142,7 @@ class DirFiles
   end
 end
 
-module Sync
+module Resources
 
 # --------------------- teachings --------------------------
 
@@ -290,7 +290,7 @@ end
 
 Klasses = [ Teaching, News, Book, BookCategory, Digest_SHA1, Digest_UUID ]
 
-end
+end # module Resources
 
 def compile_css(assets, path)
   input = File.read(path)
