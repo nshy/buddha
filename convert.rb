@@ -156,9 +156,9 @@ def compile_css(assets, path)
   end
 end
 
-def mixin(assets)
-  a = clone
-  a.extend(assets)
+def mixin(mod)
+  o = clone
+  o.extend(mod)
 end
 
 def update_assets(assets, u, a, d, mixin_changed)
