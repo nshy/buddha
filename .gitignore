@@ -8,6 +8,7 @@
 /.build
 /.git-edit
 /.lastseen
+/.sync.lock
 /import/news/tmp
 /import/news-site/tmp
 /import/old-news/tmp
