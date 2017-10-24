@@ -22,8 +22,7 @@ def listen_to(dir, options = {})
   l.start
 end
 
-def handle_klass(k)
-  klass = site_class(k)
+def handle_klass(klass)
   klass.dirs.each do |dir|
     listen_to(dir) do |*d|
       clean_errors(*d)
@@ -33,15 +32,14 @@ def handle_klass(k)
 end
 
 def handle_assets(assets)
-  s = mixin(assets)
-  listen_to(s.src) do |u, a, d|
+  listen_to(assets.src) do |u, a, d|
     mixin_changed = false
-    if s.respond_to?(:mixins)
-      mixin_changed = u.delete(s.mixins) != nil
+    if assets.respond_to?(:mixins)
+      mixin_changed = u.delete(assets.mixins) != nil
     else
       clean_errors(u, a, d)
     end
-    update_assets(s, u, a, d, mixin_changed)
+    update_assets(assets, u, a, d, mixin_changed)
   end
 end
 

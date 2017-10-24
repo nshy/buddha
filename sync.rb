@@ -12,8 +12,7 @@ sync_lock
 
 module Sync
 
-def handle_klass(k)
-  klass = site_class(k)
+def handle_klass(klass)
   files = klass.dirs.collect { |d| d.files }.flatten
   d = Cache.diff(database, klass.table, files)
   Cache.diffmsg(*d, 'b')
@@ -47,14 +46,13 @@ def mixin_changed?(assets)
 end
 
 def handle_assets(assets)
-  a = mixin(assets)
-  c = find_changes(a)
+  c = find_changes(assets)
   mixin_changed = false
-  if a.respond_to?(:mixins) and mixin_changed?(a)
-    puts "a U #{a.mixins}"
+  if assets.respond_to?(:mixins) and mixin_changed?(assets)
+    puts "a U #{assets.mixins}"
     mixin_changed = true
   end
-  update_assets(a, *c, mixin_changed)
+  update_assets(assets, *c, mixin_changed)
 end
 
 end # module Sync

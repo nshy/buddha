@@ -204,7 +204,7 @@ def sync_lock
 end
 
 def sync(method, reset)
-  mixin(method).handle_assets(Assets::Public)
+  mixin(method).handle_assets(mixin(Assets::Public))
   Dir.mkdir(".build") if not File.exists?(".build")
   Sites.each do |s|
     Site.for(s).instance_eval do
@@ -216,8 +216,8 @@ def sync(method, reset)
       database[:errors].delete if reset
 
       m = mixin(method)
-      m.handle_assets(Assets::News)
-      Resources::Klasses.each { |k| m.handle_klass(k) }
+      m.handle_assets(mixin(Assets::News))
+      Resources::Klasses.each { |k| m.handle_klass(site_class(k)) }
     end
   end
 end
