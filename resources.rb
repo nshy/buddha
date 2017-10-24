@@ -144,6 +144,6 @@ module Digest_UUID
   end
 end
 
-Klasses = [ Teaching, News, Book, BookCategory, Digest_SHA1, Digest_UUID ]
+All = [ Teaching, News, Book, BookCategory, Digest_SHA1, Digest_UUID ]
 
 end # module Resources

@@ -12,11 +12,11 @@ sync_lock
 
 module Sync
 
-def handle_klass(klass)
-  files = klass.dirs.collect { |d| d.files }.flatten
-  d = Cache.diff(database, klass.table, files)
+def handle_resource(resource)
+  files = resource.dirs.collect { |d| d.files }.flatten
+  d = Cache.diff(database, resource.table, files)
   Cache.diffmsg(*d, 'b')
-  table_update(klass, *d)
+  table_update(resource, *d)
 end
 
 def find_changes(assets)

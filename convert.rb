@@ -37,14 +37,14 @@ def insert_object(table, object, values = {})
   table.insert(values)
 end
 
-def table_insert(klass, p)
-  table = database[klass.table]
+def table_insert(resource, p)
+  table = database[resource.table]
   # search dir
-  dir = klass.dirs.find { |d| p.start_with?(d.dir) }
+  dir = resource.dirs.find { |d| p.start_with?(d.dir) }
   id = dir.path_to_id(p)
   begin
-    check_url_nice(p, [:digest_sha1s, :digest_uuids].include?(klass.table))
-    klass.load(p, id)
+    check_url_nice(p, [:digest_sha1s, :digest_uuids].include?(resource.table))
+    resource.load(p, id)
   rescue ModelException => e
     puts e
     database[:errors].insert(path: p, message: e.to_s)
@@ -53,23 +53,14 @@ def table_insert(klass, p)
     update(id: id, mtime: File.lstat(p).mtime)
 end
 
-def table_update(klass, u, a, d)
+def table_update(resource, u, a, d)
   # on move "added" can be generated for existing files
-  database[klass.table].where(path: u + a + d).delete
-  (a + u).each { |p| table_insert(klass, p) }
+  database[resource.table].where(path: u + a + d).delete
+  (a + u).each { |p| table_insert(resource, p) }
 end
 
 def data_dir(dir, ext)
   [ DirFiles.new(site_path(dir), ext, DirFiles::BOTH, name: "page") ]
-end
-
-def site_class(klass)
-  k = clone
-  k.extend(klass)
-  k.define_singleton_method(:table) do
-    klass.to_s.demodulize.tableize.to_sym
-  end
-  k
 end
 
 class DirFiles
@@ -217,7 +208,12 @@ def sync(method, reset)
 
       m = mixin(method)
       m.handle_assets(mixin(Assets::News))
-      Resources::Klasses.each { |k| m.handle_klass(site_class(k)) }
+      Resources::All.each { |r|
+        ro = mixin(r)
+        ro.define_singleton_method(:table) do
+          r.to_s.demodulize.tableize.to_sym
+        end
+        m.handle_resource(ro) }
     end
   end
 end

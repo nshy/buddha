@@ -22,11 +22,11 @@ def listen_to(dir, options = {})
   l.start
 end
 
-def handle_klass(klass)
-  klass.dirs.each do |dir|
+def handle_resource(resource)
+  resource.dirs.each do |dir|
     listen_to(dir) do |*d|
       clean_errors(*d)
-      table_update(klass, *d)
+      table_update(resource, *d)
     end
   end
 end
