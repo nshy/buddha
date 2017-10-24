@@ -11,6 +11,8 @@ include CommonHelpers
 $stdout.sync = true
 sync_lock
 
+module Watch
+
 def listen_to(dir, options = {})
   l = Listen.to(dir.dir, relative: true) do |*d|
     d = d.map { |s| s.select { |p| dir.match(p) } }
@@ -20,7 +22,7 @@ def listen_to(dir, options = {})
   l.start
 end
 
-def watch_klass(k)
+def handle_klass(k)
   klass = site_class(k)
   klass.dirs.each do |dir|
     listen_to(dir) do |*d|
@@ -30,7 +32,7 @@ def watch_klass(k)
   end
 end
 
-def watch_assets(assets)
+def handle_assets(assets)
   s = mixin(assets)
   listen_to(s.src) do |u, a, d|
     mixin_changed = false
@@ -43,12 +45,7 @@ def watch_assets(assets)
   end
 end
 
-watch_assets(Assets::Public)
-Sites.each do |s|
-  Site.for(s).instance_eval do
-    watch_assets(Assets::News)
-    Resources::Klasses.each { |k| watch_klass(k) }
-  end
-end
+end # module Watch
 
+sync(Watch, false)
 sleep

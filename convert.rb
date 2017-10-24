@@ -202,3 +202,22 @@ def sync_lock
   end
   @sync_lock = f
 end
+
+def sync(method, reset)
+  mixin(method).handle_assets(Assets::Public)
+  Dir.mkdir(".build") if not File.exists?(".build")
+  Sites.each do |s|
+    Site.for(s).instance_eval do
+      Dir.mkdir(site_build_dir) if not File.exists?(site_build_dir)
+
+      # We can not clean errors in update functions based on (u, a, d) triplet.
+      # Because we can not detect deleted file in case of error as there
+      # is no product object.
+      database[:errors].delete if reset
+
+      m = mixin(method)
+      m.handle_assets(Assets::News)
+      Resources::Klasses.each { |k| m.handle_klass(k) }
+    end
+  end
+end

@@ -10,7 +10,9 @@ include CommonHelpers
 $stdout.sync = true
 sync_lock
 
-def sync_klass(k)
+module Sync
+
+def handle_klass(k)
   klass = site_class(k)
   files = klass.dirs.collect { |d| d.files }.flatten
   d = Cache.diff(database, klass.table, files)
@@ -44,7 +46,7 @@ def mixin_changed?(assets)
   false
 end
 
-def sync_assets(assets)
+def handle_assets(assets)
   a = mixin(assets)
   c = find_changes(a)
   mixin_changed = false
@@ -55,17 +57,6 @@ def sync_assets(assets)
   update_assets(a, *c, mixin_changed)
 end
 
-sync_assets(Assets::Public)
-Dir.mkdir(".build") if not File.exists?(".build")
-Sites.each do |s|
-  Site.for(s).instance_eval do
-    Dir.mkdir(site_build_dir) if not File.exists?(site_build_dir)
-    # We can not clean errors in update functions based on (u, a, d) triplet.
-    # Because we can not detect deleted file in case of error as there
-    # is no product object.
-    database[:errors].delete
+end # module Sync
 
-    sync_assets(Assets::News)
-    Resources::Klasses.each { |k| sync_klass(k) }
-  end
-end
+sync(Sync, true)
