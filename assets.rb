@@ -26,6 +26,23 @@ module News
   end
 end
 
+module Books
+  def src
+    DirFiles.new(site_path("books"), "jpg", DirFiles::IN_DIR, name: "cover-original")
+  end
+
+  def dst
+    DirFiles.new(site_build_path("books"), "jpg", DirFiles::PLAIN)
+  end
+
+  def compile(src)
+    dst = src_to_dst(self, src)
+    `convert #{src} -resize x210 -gravity Center -crop 160x210+0+0 #{dst}`
+  end
+end
+
+All = [News, Books]
+
 module Public
   def src
     DirFiles.new("assets/css", "scss", DirFiles::PLAIN)

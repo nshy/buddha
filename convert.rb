@@ -207,7 +207,7 @@ def sync(method, reset)
       database[:errors].delete if reset
 
       m = mixin(method)
-      m.handle_assets(mixin(Assets::News))
+      Assets::All.each { |a| m.handle_assets(mixin(a)) }
       Resources::All.each { |r|
         ro = mixin(r)
         ro.define_singleton_method(:table) do
