@@ -44,6 +44,8 @@ def mixin_changed?(assets)
 end
 
 def handle_assets(assets)
+  d = assets.dst.dir
+  Dir.mkdir(d) if not File.exist?(d)
   c = find_changes(assets)
   mixin_changed = false
   if assets.respond_to?(:mixins) and mixin_changed?(assets)
