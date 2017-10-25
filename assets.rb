@@ -28,7 +28,7 @@ end
 
 module Books
   def src
-    DirFiles.new(site_path("books"), "jpg", DirFiles::IN_DIR, name: "cover-original")
+    DirFiles.new(site_path("books"), "jpg", DirFiles::IN_DIR, name: "cover")
   end
 
   def dst
