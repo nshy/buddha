@@ -411,7 +411,7 @@ module BookHelpers
   end
 
   def book_cover_url(id, size)
-    digest_url("/books/#{id}/cover-#{size}.jpg")
+    digest_url("/books/#{id}.jpg")
   end
 
   def book_thumb(book)
