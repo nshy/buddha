@@ -59,10 +59,10 @@ end # module Sync
 
 module Watch
 
-def listen_to(dir, options = {})
+def listen_to(dir, options)
   l = Listen.to(dir.dir, relative: true) do |*d|
     d = d.map { |s| s.select { |p| dir.match(p) } }
-    Cache.diffmsg(*d, 'a')
+    Cache.diffmsg(*d, options[:prefix])
     yield *d
   end
   l.start
@@ -70,7 +70,7 @@ end
 
 def handle_resource(resource)
   resource.dirs.each do |dir|
-    listen_to(dir) do |*d|
+    listen_to(dir, prefix: "b") do |*d|
       clean_errors(*d)
       table_update(resource, *d)
     end
@@ -78,7 +78,7 @@ def handle_resource(resource)
 end
 
 def handle_assets(assets)
-  listen_to(assets.src) do |u, a, d|
+  listen_to(assets.src, prefix: "a") do |u, a, d|
     mixin_changed = false
     if assets.respond_to?(:mixins)
       mixin_changed = u.delete(assets.mixins) != nil
