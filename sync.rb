@@ -109,8 +109,8 @@ while not ARGV.empty? and ARGV.first.start_with?('--')
   end
 end
 
-sync(Sync, true)
+sync(Sync)
 if watch
-  sync(Watch, false)
+  sync(Watch)
   sleep
 end

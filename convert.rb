@@ -206,13 +206,13 @@ def sync_lock
   @sync_lock = f
 end
 
-def sync(method, reset)
+def sync(method)
   # We can not clean errors in update functions based on (u, a, d) triplet.
   # Because we can not detect deleted file in case of error as there
   # is no product object.
   #
   # We also need to clean errors before compiling public assets
-  if reset
+  if method == Sync
     Sites.each do |s|
       Site.for(s).instance_eval do
         database[:errors].delete
