@@ -75,7 +75,9 @@ before do
      and request.path != '/commit' \
      and request.path != '/reset' \
      and request.path != '/conflicts' \
-     and request.path != '/logout'
+     and request.path != '/logout' \
+     and request.path != '/login'
+
     raise DbExeption.new
   end
   cache_control :private if session[:login]
