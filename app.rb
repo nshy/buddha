@@ -76,7 +76,9 @@ before do
      and request.path != '/reset' \
      and request.path != '/conflicts' \
      and request.path != '/logout' \
-     and request.path != '/login'
+     and request.path != '/login' \
+     and request.path != '/bundle.css' \
+     and not request.path.start_with?('/css/')
 
     raise DbExeption.new
   end
