@@ -125,8 +125,33 @@ h3 {
   font-weight: 600;
 }
 
+h4 {
+  color: $site-header-color;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 5px;
+  margin-top: 15px;
+}
+
+small {
+  font-style: italic;
+  font-weight: 300;
+}
+
 strong {
   color: #333;
+}
+
+pre {
+  // first undo style brought by bootstrap
+  padding: 0;
+  margin: 0;
+  line-height: 20px;
+  background-color: white;
+  border: none;
+  border-radius: 0;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
 }
 
 .site-tab {
