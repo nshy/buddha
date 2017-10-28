@@ -82,9 +82,8 @@ def handle_assets(assets)
     mixin_changed = false
     if assets.respond_to?(:mixins)
       mixin_changed = u.delete(assets.mixins) != nil
-    else
-      clean_errors(u, a, d)
     end
+    clean_errors(u, a, d)
     update_assets(assets, u, a, d, mixin_changed)
   end
 end
