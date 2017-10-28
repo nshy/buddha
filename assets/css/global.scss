@@ -212,7 +212,7 @@ pre {
 
 .site-2-columns {
   font-size: 0px;
-  > .side {
+  > .side, .pagenum {
     display: inline-block;
     vertical-align: top;
     font-size: 14px;
@@ -225,11 +225,19 @@ pre {
       padding-left: 15px;
     }
 
+  }
+  > .side {
     > img {
       display: block;
       width: 100%;
       margin: 20px 0 20px;
     }
+
+  }
+  > .pagenum {
+    text-align: center;
+    font-weight: 600;
+    margin-bottom: 40px;
   }
   > span.space {
     display: block;
@@ -425,6 +433,9 @@ table.site-sber-table {
     display: none;
   }
   hr {
+    display: none;
+  }
+  > .pagenum {
     display: none;
   }
 }
