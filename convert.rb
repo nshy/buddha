@@ -133,6 +133,18 @@ class DirFiles
   end
 end
 
+def context_database
+  if respond_to?(:database)
+    yield database
+  else
+    Sites.each do |s|
+      Site.for(s).instance_eval do
+        yield database
+      end
+    end
+  end
+end
+
 def compile_css(assets, path)
   input = File.read(path)
   input = assets.preprocess(path, input) if assets.respond_to?(:preprocess)
@@ -142,15 +154,7 @@ def compile_css(assets, path)
     File.write(src_to_dst(assets, path), res)
   rescue SassC::SyntaxError => e
     msg = "Ошибка компиляции файла #{assets.shorten(path)}:\n #{e}"
-    if respond_to?(:database)
-      database[:errors].insert(path: path, message: msg)
-    else
-      Sites.each do |s|
-        Site.for(s).instance_eval do
-          database[:errors].insert(path: path, message: msg)
-        end
-      end
-    end
+    context_database { |db| db[:errors].insert(path: path, message: msg) }
     puts msg
   end
 end
@@ -177,7 +181,7 @@ def update_assets(assets, u, a, d, mixin_changed)
 end
 
 def clean_errors(u, a, d)
-  database[:errors].where(path: u + a + d).delete
+  context_database { |db| db[:errors].where(path: u + a + d).delete }
 end
 
 def map_path(path, src, dst)
