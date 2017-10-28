@@ -142,7 +142,15 @@ def compile_css(assets, path)
     File.write(src_to_dst(assets, path), res)
   rescue SassC::SyntaxError => e
     msg = "Ошибка компиляции файла #{assets.shorten(path)}:\n #{e}"
-    database[:errors].insert(path: path, message: msg)
+    if respond_to?(:database)
+      database[:errors].insert(path: path, message: msg)
+    else
+      Sites.each do |s|
+        Site.for(s).instance_eval do
+          database[:errors].insert(path: path, message: msg)
+        end
+      end
+    end
     puts msg
   end
 end
@@ -195,17 +203,23 @@ def sync_lock
 end
 
 def sync(method, reset)
+  # We can not clean errors in update functions based on (u, a, d) triplet.
+  # Because we can not detect deleted file in case of error as there
+  # is no product object.
+  #
+  # We also need to clean errors before compiling public assets
+  if reset
+    Sites.each do |s|
+      Site.for(s).instance_eval do
+        database[:errors].delete
+      end
+    end
+  end
   mixin(method).handle_assets(mixin(Assets::Public))
   Dir.mkdir(".build") if not File.exists?(".build")
   Sites.each do |s|
     Site.for(s).instance_eval do
       Dir.mkdir(site_build_dir) if not File.exists?(site_build_dir)
-
-      # We can not clean errors in update functions based on (u, a, d) triplet.
-      # Because we can not detect deleted file in case of error as there
-      # is no product object.
-      database[:errors].delete if reset
-
       m = mixin(method)
       Assets::All.each { |a| m.handle_assets(mixin(a)) }
       Resources::All.each do |r|
