@@ -409,8 +409,11 @@ table.site-sber-table {
       padding-left: 0px;
     }
   }
-  > space.space {
-    padding-top: 0px;
+  > span.space {
+    display: none;
+  }
+  hr {
+    display: none;
   }
 }
 
