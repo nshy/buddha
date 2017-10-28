@@ -219,9 +219,9 @@ pre {
       margin: 20px 0 20px;
     }
   }
-  > .space {
+  > span.space {
     display: block;
-    padding-top: 100px;
+    margin-top: 30px;
   }
 
 }
@@ -409,7 +409,7 @@ table.site-sber-table {
       padding-left: 0px;
     }
   }
-  > .space {
+  > space.space {
     padding-top: 0px;
   }
 }
