@@ -1,5 +1,9 @@
 @import 'mixins';
 
+.fotorama {
+  margin: 20px 0 20px;
+}
+
 .fotorama__nav--dots .fotorama__nav__frame { width: 22px; }
 
 .fotorama__dot {
