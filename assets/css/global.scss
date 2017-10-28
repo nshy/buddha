@@ -218,10 +218,6 @@ pre {
       width: 100%;
       margin: 20px 0 20px;
     }
-
-    h2:first-child, h3:first-child {
-      margin-top: 0;
-    }
   }
   > .space {
     display: block;
@@ -381,6 +377,16 @@ table.site-sber-table {
 @media (max-width: 1199px) {
 
 .site-baner .message { font-size: 20px; }
+
+}
+
+
+@media (min-width: 992px) {
+
+.site-2-columns > .side {
+  > *:first-child { margin-top: 0; }
+  > *:last-child { margin-bottom: 0; }
+}
 
 }
 
