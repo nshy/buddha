@@ -1,6 +1,14 @@
 @import 'mixins';
 
 .yandex-map {
+  display: block;
+  width: 100%;
+  border: 1px solid #dedede;
+  background-image: url(/images/map_icon.svg?v=1);
+  background-position: 50% 46%;
+  background-size: 142px 77px;
+  background-repeat: no-repeat;
+  border-radius: 2px;
   margin: 20px 0 20px;
 }
 

@@ -1,25 +1,11 @@
 .page-contacts {
 
-#map {
-  display: block;
-  width: 100%;
-  height: 600px;
-  border: 1px solid #dedede;
-  background-image: url(/images/map_icon.svg?v=1);
-  background-position: 50% 46%;
-  background-size: 142px 77px;
-  background-repeat: no-repeat;
-  border-radius: 2px;
-}
+#map { height: 600px; }
 
 
 @media (max-width: 767px) {
 
-#map {
-  display: block;
-  width: 100%;
-  height: 300px;
-}
+#map { height: 300px; }
 
 }
 
