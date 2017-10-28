@@ -208,12 +208,13 @@ def sync(method, reset)
 
       m = mixin(method)
       Assets::All.each { |a| m.handle_assets(mixin(a)) }
-      Resources::All.each { |r|
+      Resources::All.each do |r|
         ro = mixin(r)
         ro.define_singleton_method(:table) do
           r.to_s.demodulize.tableize.to_sym
         end
-        m.handle_resource(ro) }
+        m.handle_resource(ro)
+      end
     end
   end
 end
