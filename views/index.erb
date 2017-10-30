@@ -9,7 +9,7 @@
   <%= @index.welcome %>
   <a href="/about/">ПОДРОБНЕЕ О ЦЕНТРЕ&nbsp;&rarr;</a>
 </div>
-<% if @index.announce and @index.announce.end >= Date.today %>
+<% if @index.announce and (not @index.announce.end or @index.announce.end >= Date.today) %>
 <a class="photos" href="<%= @index.announce.link %>">
   <img src="<%= digest_url("#{@index.announce.image}") %>"/>
 </a>
