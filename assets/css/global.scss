@@ -254,6 +254,11 @@ pre {
     font-weight: 600;
     margin: 10px 0 40px;
   }
+  > .pagenum.pre {
+    text-align: left;
+    white-space: pre;
+    font-family: monospace;
+  }
   > span.space {
     display: block;
     margin-top: 30px;
