@@ -3,7 +3,13 @@
 #map { height: 600px; }
 
 table {
-  min-width: 450px;
+  tr:first-child td {
+    font-weight: 400;
+    font-size: 18px;
+    padding-bottom: 10px;
+    text-decoration: underline;
+  }
+
   tr td:first-child {
     width: 120px;
     padding-right: 15px;
@@ -11,6 +17,9 @@ table {
     text-align: right;
   }
 }
+
+table.spartakovskaya { min-width: 450px; }
+table.mytnaya { min-width: 320px; }
 
 
 @media (max-width: 767px) {
