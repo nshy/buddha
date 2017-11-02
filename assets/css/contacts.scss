@@ -2,6 +2,16 @@
 
 #map { height: 600px; }
 
+table {
+  min-width: 450px;
+  tr td:first-child {
+    width: 120px;
+    padding-right: 15px;
+    font-weight: 600;
+    text-align: right;
+  }
+}
+
 
 @media (max-width: 767px) {
 
