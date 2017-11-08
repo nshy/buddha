@@ -47,7 +47,7 @@ class Record < Sequel::Model
 
   dataset_module do
     def latest(num)
-      order(:record_date).reverse.limit(num).all
+      order(:record_date, :order).reverse.limit(num).all
     end
   end
 end

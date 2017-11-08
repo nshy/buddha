@@ -10,8 +10,10 @@ module Teaching
     teachings.theme.each do |theme|
       theme_id = insert_object(database[:themes], theme,
                                teaching_id: id, teaching_path: path)
-      theme.record.each do |record|
-        insert_object(database[:records], record, theme_id: theme_id)
+      theme.record.each_with_index do |record, i|
+        insert_object(database[:records], record,
+                      theme_id: theme_id,
+                      order: i)
       end
     end
   end

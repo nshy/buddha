@@ -23,6 +23,7 @@ def create
     String :audio_url
     Integer :audio_size
     String :youtube_id
+    Integer :order, null: false
     foreign_key :theme_id, :themes, on_delete: :cascade
   end
 end
