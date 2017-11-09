@@ -1,5 +1,18 @@
 .page-contacts {
 
+.metro {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  margin-right: 5px;
+}
+
+.metro.red { background-color: #c00; }
+.metro.blue { background-color: #039; }
+.metro.grey { background-color: #a2a5b4; }
+.metro.yellow { background-color: #ff7f00; }
+
 #map { height: 600px; }
 
 table {
