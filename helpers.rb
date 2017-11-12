@@ -106,6 +106,7 @@ module TeachingsHelper
     return if not (record.audio_url and record.audio_size)
     download = ""
     download = "download" if not /yadi.sk/ =~ record.audio_url
+    @base_url = "/teachings/#{record.theme.teaching.id}/"
     url = digest_url(record.audio_url)
     text = "mp3&nbsp;&nbsp;#{record.audio_size}&nbsp;Mб"
     "<a class='site-button' href='#{url}' #{download}>#{text}</a>"

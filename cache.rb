@@ -45,6 +45,7 @@ end
 
 class Record < Sequel::Model
 
+  many_to_one :theme
   dataset_module do
     def latest(num)
       order(:record_date, :order).reverse.limit(num).all
