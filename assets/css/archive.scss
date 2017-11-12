@@ -36,8 +36,9 @@ a {
   border: $separator-style;
   border-radius: 6px;
   padding: 20px 20px;
-  margin-bottom: 40px;
 }
+
+.side { margin-bottom: 40px; }
 
 .theme {
   background-image: url(/images/folder.svg?v=1);
