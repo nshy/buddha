@@ -24,16 +24,25 @@ table {
   }
 
   tr td:first-child {
-    width: 120px;
+    width: 92px;
     padding-right: 15px;
     font-weight: 600;
     text-align: right;
   }
 }
 
-table.spartakovskaya { min-width: 450px; }
+table.spartakovskaya {
+  min-width: 320px;
+  max-width: 450px;
+}
+
 table.mytnaya { min-width: 320px; }
 
+td.email {
+  a, span {  display: inline-block; }
+  a { width: 110px; }
+  span { width: 150px; }
+}
 
 @media (max-width: 767px) {
 
