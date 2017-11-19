@@ -23,13 +23,21 @@
     <% end %>
   </div>
 
-  <% if timetable_mytnaya? %>
+  <% if timetable_place?('Мытная') %>
   <div class="footnote">
-    <div class="marker color">&nbsp;</div>
+    <div class="marker color yellow">&nbsp;</div>
     <div class="text">
     занятия, отмеченные этим цветом, проводятся в старом помещении Центра по
     <a href="https://yandex.ru/maps/-/C6qjYU4o">адресу</a>
     ул.&nbsp;Мытная&nbsp;23,&nbsp;к.1.
+    </div>
+  </div>
+  <% end %>
+  <% if timetable_place?('Весна') %>
+  <div class="footnote">
+    <div class="marker color green">&nbsp;</div>
+    <div class="text">
+      занятия, отмеченные этим цветом, проводятся на втором этаже
     </div>
   </div>
   <% end %>

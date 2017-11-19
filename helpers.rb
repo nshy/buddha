@@ -458,18 +458,18 @@ module TimetableHelper
     settings.development? or session[:login]
   end
 
-  def timetable_mytnaya?
+  def timetable_place?(place)
     cur = Week.new + @skip
     nex = cur + 1
     events = (cur.monday..nex.sunday).collect { |d| @timetable.events(d) }.flatten
-    events.any? { |e| e.place == 'Мытная' }
+    events.any? { |e| e.place == place }
   end
 
   def timetable_place_events(events, place)
     e = events.select { |e| e.place == place }
     return if e.empty?
-    erb :'partials/week_day_short',
-      locals: { events: e, style: (place == 'Мытная') ? 'mytnaya' : nil }
+    s = { 'Мытная' => 'mytnaya', 'Весна' => 'vesna' }[place]
+    erb :'partials/week_day_short', locals: { events: e, style: s}
   end
 end
 

@@ -61,8 +61,10 @@ class Document < XDSL::Element
       next if events[i].cancelled?
       p = events[i].period
       j = i + 1
-      while j < events.size and events[j].period.cross(p)
-        not events[j].cancelled?
+      while j < events.size and events[j].period.cross(p) and
+        not events[j].cancelled? and
+        events[i].place == events[j].place
+
         events[j].conflict = true
         events[i].conflict = true
         j += 1
@@ -218,9 +220,10 @@ module ParseHelper
 
   def parse_place(a)
     place = a.shift || 'Спартаковская'
-    if not ['Спартаковская', 'Мытная'].include?(place)
+    if not ['Спартаковская', 'Мытная', 'Весна'].include?(place)
       raise ModelException.new \
-        "Место проведения должно быть либо 'Спартаковская' либо 'Мытная'"
+        "Место проведения должно быть либо 'Спартаковская' либо 'Мытная' "
+        " либо 'Весна'"
     end
     place
   end
