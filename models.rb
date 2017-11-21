@@ -69,7 +69,6 @@ module Teachings
 class Document < XDSL::Element
   root :teachings
   element :title, String, required: true
-  element :year
   elements :theme do
     element :title, String, required: true
     element :buddha_node
