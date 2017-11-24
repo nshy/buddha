@@ -481,8 +481,10 @@ class Classes
   end
 
   def announces(week)
-    a = (changes + schedule).select { |c| c.visible?(week) }
-    a.collect { |a| a.announce }.join(' ')
+    v = (changes + schedule).select { |c| c.visible?(week) }
+    a = v.collect { |a| a.announce.capitalize }
+    a.first.downcase! if not a.empty?
+    a.collect { |a| a}.join(' ')
   end
 
   def timeshort(week)
