@@ -471,6 +471,12 @@ module TimetableHelper
     s = { 'Мытная' => 'mytnaya', 'Весна' => 'vesna' }[place]
     erb :'partials/week_day_short', locals: { events: e, style: s}
   end
+
+  def timetable_announces(a)
+    a = a.collect { |a| a.capitalize }
+    a.first.downcase! if not a.empty?
+    a.collect { |a| a}.join(' ')
+  end
 end
 
 module AdminHelpers

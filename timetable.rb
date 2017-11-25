@@ -482,9 +482,7 @@ class Classes
 
   def announces(week)
     v = (changes + schedule).select { |c| c.visible?(week) }
-    a = v.collect { |a| a.announce.capitalize }
-    a.first.downcase! if not a.empty?
-    a.collect { |a| a}.join(' ')
+    v.collect { |a| a.announce }
   end
 
   def timeshort(week)

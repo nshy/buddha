@@ -7,7 +7,7 @@
   <div class="description">
     <div class="title"> <%= c.title %> </div>
     <div class="timeshort"> <%= c.timeshort(week) %> </div>
-    <% a = c.announces(week) %>
+    <% a = timetable_announces(c.announces(week)) %>
     <% if not a.empty? %>
     <div class="changes">
       <span class="note"> Изменения: </span>
