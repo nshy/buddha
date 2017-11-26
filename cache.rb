@@ -7,7 +7,7 @@ archive = DB[:teachings].
             join(:records, theme_id: :id).
               select_group(Sequel[:teachings][:id]).
               select_append(Sequel[:teachings][:title]).
-              select_append{ min(record_date).as(begin_date) }.
+              select_append{ min(Sequel[:themes][:begin_date]).as(begin_date) }.
                 order(:begin_date).reverse
 
 themes = DB[:themes].
@@ -15,7 +15,7 @@ themes = DB[:themes].
               select_group(Sequel[:themes][:id]).
               select_append(Sequel[:themes][:title], :teaching_id).
               select_append{ count(records[:id]).as(count) }.
-              select_append{ min(record_date).as(begin_date) }.
+              select_append(Sequel[:themes][:begin_date]).
                 order(Sequel[:themes][:id])
 
 
