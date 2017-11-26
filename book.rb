@@ -22,6 +22,7 @@ class BookHeadings
       level = stack.size - 1
       if indent == (2 * level + 1)
         headings.last[:name] << ' ' << line
+        next
       elsif indent % 2 == 1
         raise ModelException.new \
           "Строка:\n#{original}Используйте два пробела для организации" \
