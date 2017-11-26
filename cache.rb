@@ -172,6 +172,7 @@ class Book < Sequel::Model
                   left_key: :book_id,
                   right_key: :category_id,
                   join_table: :category_books,
+                  distinct: true,
                   class: Category,
                   :select => [Sequel[:book_categories][:id], :name, :count]
 
