@@ -74,6 +74,7 @@ class Document < XDSL::Element
     element :buddha_node
     element :geshe_node
     element :annotation
+    element :begin_date, ModelDate
     elements :record do
       element :description
       element :record_date, ModelDate, required: true
@@ -92,7 +93,11 @@ class Document < XDSL::Element
 end
 
 class Theme
+  alias_method :begin_date_explicit, :begin_date
+
   def begin_date
+    d = begin_date_explicit
+    return d if d
     r = record.min { |a, b| a.record_date <=> b.record_date }
     r.record_date
   end
