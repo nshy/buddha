@@ -482,7 +482,7 @@ class Classes
 
   def announces(week)
     v = (changes + schedule).select { |c| c.visible?(week) }
-    v.collect { |a| a.announce }
+    v.collect { |a| a.announce }.compact
   end
 
   def timeshort(week)
