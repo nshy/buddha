@@ -5,6 +5,9 @@
 <div class="page-teachings">
   <% @teachings.theme.each do |theme| %>
   <span class="title"> <%= theme.title %> </span>
+  <div class="site-centered">
+    <%= theme.annotation %>
+  </div>
   <div class="records">
     <% theme.record.each_with_index do |record, idx| %>
     <%= teachings_record(record, idx + 1) %>
