@@ -6,7 +6,9 @@
 %>
 
 <div class="page-classes">
+  <div class="site-centered">
   <%= @timetable.annual %>
+  </div>
 
   <%  week = Week.new + @skip %>
   <%= erb :'partials/classes', locals:
