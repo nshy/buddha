@@ -205,7 +205,7 @@ end
 
 get '/library/' do
   @sections = load_sections
-  @books = site_model(Cache::Book).recent(5)
+  @books = site_model(Cache::Book).recent(3)
   @menu_active = 'БИБЛИОТЕКА'
   erb :library
 end

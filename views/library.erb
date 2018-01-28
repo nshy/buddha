@@ -5,12 +5,19 @@
   <a href="/texts/">ОНЛАЙН</a>
   <a class="active" href="/library/">ОФФЛАЙН</a>
 </div>
+
+<div class="site-centered">
+<p>В этом разделе представлены книги библиотеки Дхарма-центра.
+Библиотека открыта для всех желающих и работает в
+<a href="/contacts/">приемные часы</a> центра. В онлайн каталоге
+пока представлена только часть из всех имеющихся книг и журналов.
+Tакже в нашем центре можно прибрести книги магазина буддийской
+литературы <a href="http://www.himalai.ru"><b>HIMALAI</b></a>.</p>
+</div>
+
 <div class="page-library">
   <div class="recent widescreen">
-    <span class="title"> Последние добавленные </span>
-    <% @books.each do |book| %>
-      <%= book_thumb(book) %>
-    <% end %>
+    <%= erb :'partials/library_recent', locals: { books: @books } %>
   </div>
 
   <% @sections.each do |section| %>
@@ -23,9 +30,6 @@
   <% end %>
 
   <div class="recent tabletscreen">
-    <span class="title"> Последние добавленные </span>
-    <% @books.each do |book| %>
-      <%= book_thumb(book) %>
-    <% end %>
+    <%= erb :'partials/library_recent', locals: { books: @books } %>
   </div>
 </div>
