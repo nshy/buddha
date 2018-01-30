@@ -174,46 +174,6 @@ end
 
 end # module Menu
 
-module Quotes
-
-class Document < XDSL::Element
-  root :quotes
-  elements :begin, ModelDate
-  elements :quote
-
-  def current_quotes
-    num = 5
-    w = Week.new
-    b = self.begin.select { |b| b <= w.monday }.last
-
-    wb = Week.new(b)
-    wb += 1 if not b.monday?
-    (quote + quote.slice(0, num)).slice((w - wb) % quote.length, num)
-  end
-
-  def doc_check
-    if self.begin.empty?
-      raise ModelException.new \
-        "Не указно начало отсчета цитат"\
-        "(начало нового года по лунному календарю)"
-    end
-
-    if quote.size < 5
-      raise ModelException.new \
-        "Должно быть по крайней мере 5 цитат"
-    end
-
-    b = self.begin
-    if b != b.sort
-      raise ModelException.new \
-        "Даты первых дней лунных лет должны быть упорядочены. " \
-        "Более поздние должны идти ниже"
-    end
-  end
-end
-
-end # module Quotes
-
 module Index
 
 class Document < XDSL::Element
@@ -227,3 +187,20 @@ class Document < XDSL::Element
 end
 
 end # module Index
+
+def load_quotes(path, today = Date.today)
+  ret = Array.new(5, "Цитата на эту неделю не задана")
+  w = Week.new(today)
+  Dir[File.join(path, '*.txt')].each do |p|
+    d = ModelDate.parse(File.basename(p, '.*'))
+    q = File.read(p).strip.split(/\n{2,}/)
+    b = Week.new(d)
+    b = b + 1 if not d.monday?
+    e = b + q.size
+    5.times do |i|
+      c = w + i
+      ret[i] = q[c - b] if c >= b and c < e
+    end
+  end
+  ret
+end

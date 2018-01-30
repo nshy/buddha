@@ -231,7 +231,7 @@ get '/' do
   @news = site_model(Cache::News).latest(3)
   @extra_styles = news_styles(@news)
   @timetable = Timetable::Document.load(site_path('timetable/timetable.xml'))
-  @quotes = Quotes::Document.load(site_path('quotes.xml'))
+  @quotes = load_quotes(site_path('quotes'))
   @records = site_model(Cache::Record).latest(3)
   @index = Index::Document.load(site_path('index.xml'))
   erb :index

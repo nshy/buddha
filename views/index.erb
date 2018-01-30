@@ -22,8 +22,8 @@
   <div class="geshela"> Досточтимый Геше Джампа Тинлей </div>
 </a>
 <div class="fotorama quotes" data-arrows="false" data-width="100%">
-  <% @quotes.current_quotes.each do |quote| %>
-  <div> <%= quote.strip %> </div>
+  <% @quotes.each do |quote| %>
+  <div> <%= quote %> </div>
   <% end %>
 </div>
 <hr/>
