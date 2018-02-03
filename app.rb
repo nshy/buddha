@@ -25,6 +25,7 @@ require_relative 'book'
 require_relative 'timetable'
 require_relative 'cache'
 require_relative 'diff'
+require_relative 'gesheru'
 
 def whitelist_address
   port = ":#{SiteConfig::PORT}" if SiteConfig::PORT != 80
@@ -234,6 +235,7 @@ get '/' do
   @quotes = load_quotes(site_path('quotes'))
   @records = site_model(Cache::Record).latest(3)
   @index = Index::Document.load(site_path('index.xml'))
+  @geshe_news = Gesheru.load(site)
   erb :index
 end
 

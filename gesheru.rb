@@ -67,4 +67,9 @@ def self.watch
   end
 end
 
+def self.load(site)
+  db = SiteHelpers.open(site)
+  db[:gesheru].order(:date).reverse.limit(3).to_a
+end
+
 end #module Gesheru
