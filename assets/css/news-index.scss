@@ -50,6 +50,7 @@
 .site-2-columns > hr {
   margin: 30px 0 30px;
 
+  display: block;
   &:nth-of-type(odd) { display: block; }
   &:last-of-type { display: none; }
 }
