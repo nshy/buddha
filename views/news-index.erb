@@ -3,11 +3,25 @@
 </div>
 <div class="page-news-index">
   <% first = @news.shift %>
+  <div class="block">
+  <h3>По годам</h3>
   <div class="menu">
     <%= link_if(!@year.nil?, "/news?top=true", 'Последние') %> <br/>
     <% @years.each do |year| %>
     <%= link_if(@year != year.to_s, "/news?year=#{year}", year) %>
     <% end %>
+  </div>
+  <h3>Новости geshe.ru
+    <a href="http://geshe.ru" target="_blank">&nbsp;&rarr;</a>
+  </h3>
+  <% @geshe_news.each do |news| %>
+    <div class="geshela">
+      <%= news[:date].strftime('%Y.%m.%d') %>&nbsp;&nbsp;
+      <a href="http://geshe.ru/<%= news[:href] %>" target="_blank">
+        <%= news[:title] %>
+      </a>
+    </div>
+  <% end %>
   </div>
   <div class="site-news top"> <%= news_item(first, true) %> </div>
   <hr/>
