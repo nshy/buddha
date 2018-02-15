@@ -78,7 +78,7 @@ class News < Sequel::Model
     end
 
     def latest(num)
-      order(:date).limit(num).reverse.all
+      where(hidden: false).order(:date).limit(num).reverse.all
     end
 
     def by_id(id)
@@ -86,7 +86,7 @@ class News < Sequel::Model
     end
 
     def by_year(year)
-      where{{strftime('%Y', date) => year}}.order(:date).reverse.all
+      where{{strftime('%Y', date) => year}}.where(hidden: false).order(:date).reverse.all
     end
   end
 end

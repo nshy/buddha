@@ -4,7 +4,8 @@ require 'date'
 require 'yaml'
 
 class NewsDocument
-  attr_reader :date, :title, :cut, :body, :is_dir, :buddha_node, :scripts
+  attr_reader :date, :title, :cut, :body, :is_dir, :buddha_node, :scripts,
+              :hidden
 
   PageCut = /(.*)<!--[\t ]*page-cut[\t ]*-->(.*)/m
   PageCutSimple = /(.*)<!--[\t ]*page-cut-simple[\t ]*-->/m
@@ -38,6 +39,11 @@ class NewsDocument
     end
     @date = d
     @scripts = YAML.dump(header['scripts']) if header['scripts']
+    @hidden = header['hidden']
+    @hidden = false if not @hidden
+    if not (@hidden.class == TrueClass or @hidden.class == FalseClass)
+      raise format_file_error(path, "Параметр hidden должен быть true или false")
+    end
   end
 
   def path_is_dir(path)

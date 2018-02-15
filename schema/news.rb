@@ -9,6 +9,7 @@ def create
     Boolean :is_dir, null: false
     String :scripts
     String :buddha_node
+    TrueClass :hidden, default: false
     DateTime :mtime
   end
 end
