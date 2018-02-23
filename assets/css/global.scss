@@ -330,8 +330,6 @@ table.site-sber-table {
 
 .site-events {
   vertical-align: top;
-  border-left: 10px solid transparent;
-  padding-left: 3px;
   margin-bottom: 10px;
 
   .event {
@@ -360,8 +358,6 @@ table.site-sber-table {
     }
   }
 
-  &.mytnaya { border-left: 10px solid #ffcc66; }
-  &.vesna { border-left: 10px solid #cdf93e; }
   &:last-child { margin-bottom: 0px; }
 }
 

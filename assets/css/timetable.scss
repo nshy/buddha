@@ -60,9 +60,14 @@ $border-style: 1px solid #cccccc;
 }
 
 .site-events {
+  padding-left: 3px;
   margin-left: 65px;
   .time { width: 120px; }
   .title { margin-left: 120px; }
+
+  border-left: 10px solid transparent;
+  &.mytnaya { border-left: 10px solid #ffcc66; }
+  &.vesna { border-left: 10px solid #cdf93e; }
 }
 
 .day:nth-child(2n + 1) { border-right: $border-style; }
