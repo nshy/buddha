@@ -1,5 +1,11 @@
+<% if index and explicit %>
+  <a class="place" href="/contacts/"> <%= place %> </a>
+<% end %>
 <% clazz = "site-events" %>
-<% clazz += " #{style}" if style %>
+<% if not index %>
+  <% style = { 'Мытная' => 'mytnaya', 'Весна' => 'vesna' }[place]
+     clazz += " #{style}" if style %>
+<% end %>
 <div class="<%= clazz %>">
   <% events.each do |event| %>
     <% clazz = "event" %>

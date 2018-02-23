@@ -113,9 +113,19 @@ overflow: auto;
   padding: 15px;
 }
 
-> .block.timetable .noevents {
+> .block.timetable {
+
+a.place {
+  font-size: 15px;
+  text-decoration: underline;
+  color: #000;
+}
+
+.noevents {
   color: #a0a9b8;
   text-align: center;
+}
+
 }
 
 > .geshela .news { margin-top: 15px; }

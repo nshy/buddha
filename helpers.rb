@@ -461,11 +461,19 @@ module TimetableHelper
     events.any? { |e| e.place == place }
   end
 
-  def timetable_events(events, place)
+  def index_events(events, place)
+    timetable_events(events, place, true)
+  end
+
+  def timetable_events(events, place, index = false)
     e = events.select { |e| e.place == place }
+    s = events.select { |e| e.place == 'Спартаковская' }
     return if e.empty?
-    s = { 'Мытная' => 'mytnaya', 'Весна' => 'vesna' }[place]
-    erb :'partials/timetable_events', locals: { events: e, style: s}
+    erb :'partials/timetable_events',
+        locals: { events: e,
+                  place: place,
+                  index: index,
+                  explicit: s.size != events.size }
   end
 
   def timetable_announces(a)
