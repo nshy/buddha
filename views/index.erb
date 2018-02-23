@@ -39,14 +39,19 @@
   <hr/>
   <% end %>
 </div>
-<div class="block">
+<div class="block timetable">
   <div class="index-header">
     <div> Сегодня в центре </div>
     <a href="/timetable?show=week">ВСЕ РАСПИСАНИЕ&nbsp;&rarr;</a>
   </div>
   <hr/>
-  <%= erb :'partials/week_day_places',
-          locals: { events: @timetable.events(Date.today) } %>
+  <% events = @timetable.events(Date.today) %>
+  <%= timetable_place_events(events, 'Спартаковская') %>
+  <%= timetable_place_events(events, 'Мытная') %>
+  <%= timetable_place_events(events, 'Весна') %>
+  <% if events.empty? %>
+  <div class="noevents"> Нет занятий </div>
+  <% end %>
 </div>
 <div class="block geshela">
   <div class="index-header">

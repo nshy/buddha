@@ -5,5 +5,16 @@
     <div class="month-day"> <%= date.day %> </div>
     <div class="week-day"> <%= Russian::strftime(date, "%a") %> </div>
   </div>
-  <%= erb :'partials/week_day_places', locals: { events: @timetable.events(date) } %>
+  <% events = @timetable.events(date) %>
+  <%= timetable_place_events(events, 'Спартаковская') %>
+  <%= timetable_place_events(events, 'Мытная') %>
+  <%= timetable_place_events(events, 'Весна') %>
+  <% if events.empty? %>
+  <div class="site-events">
+    <div class="event">
+      <div class="time"> </div>
+      <div class="title empty"> Нет занятий </div>
+    </div>
+  </div>
+  <% end %>
 </div> <%# day %>
