@@ -45,7 +45,8 @@
     <a href="/timetable?show=week">ВСЕ РАСПИСАНИЕ&nbsp;&rarr;</a>
   </div>
   <hr/>
-  <%= timetable_day_events(Date.today) %>
+  <%= erb :'partials/week_day_places',
+          locals: { events: @timetable.events(Date.today) } %>
 </div>
 <div class="block geshela">
   <div class="index-header">

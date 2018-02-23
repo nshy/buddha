@@ -450,10 +450,6 @@ module TimetableHelper
       base
   end
 
-  def timetable_day_events(date)
-    erb :'partials/week_day_places', locals: { events: @timetable.events(date) }
-  end
-
   def timetable_enhanced?
     settings.development? or session[:login]
   end
