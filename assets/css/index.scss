@@ -129,6 +129,7 @@ a.place {
 }
 
 > .geshela .news { margin-top: 15px; }
+> .geshela br { display: none; }
 
 .site-events {
   .time { width: 110px; }
@@ -199,6 +200,8 @@ a.place {
   .time { float: none; }
   .title { margin-left: 0; }
 }
+
+> .geshela br { display: inline; }
 
 }
 
