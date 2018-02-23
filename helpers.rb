@@ -440,8 +440,8 @@ module TimetableHelper
     end
   end
 
-  def week_day(date)
-    erb :'partials/week_day', locals: { date: date }
+  def timetable_day(date)
+    erb :'partials/timetable_day', locals: { date: date }
   end
 
   def timetable_link(selected, skip)
@@ -461,11 +461,11 @@ module TimetableHelper
     events.any? { |e| e.place == place }
   end
 
-  def timetable_place_events(events, place)
+  def timetable_events(events, place)
     e = events.select { |e| e.place == place }
     return if e.empty?
     s = { 'Мытная' => 'mytnaya', 'Весна' => 'vesna' }[place]
-    erb :'partials/week_day_short', locals: { events: e, style: s}
+    erb :'partials/timetable_events', locals: { events: e, style: s}
   end
 
   def timetable_announces(a)

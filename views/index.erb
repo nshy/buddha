@@ -46,9 +46,9 @@
   </div>
   <hr/>
   <% events = @timetable.events(Date.today) %>
-  <%= timetable_place_events(events, 'Спартаковская') %>
-  <%= timetable_place_events(events, 'Мытная') %>
-  <%= timetable_place_events(events, 'Весна') %>
+  <%= timetable_events(events, 'Спартаковская') %>
+  <%= timetable_events(events, 'Мытная') %>
+  <%= timetable_events(events, 'Весна') %>
   <% if events.empty? %>
   <div class="noevents"> Нет занятий </div>
   <% end %>

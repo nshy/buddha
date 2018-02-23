@@ -7,19 +7,19 @@
   <div class="two-weeks">
     <% Week.cwdays.each do |day| %>
     <div class="day-line">
-      <%= week_day(cur.day(day)) %>
-      <%= week_day(nex.day(day)) %>
+      <%= timetable_day(cur.day(day)) %>
+      <%= timetable_day(nex.day(day)) %>
     </div>
     <% end %>
   </div>
   <div class="one-week">
     <% cur.dates.each do |date| %>
-      <%= week_day(date) %>
+      <%= timetable_day(date) %>
     <% end %>
   </div>
   <div class="one-week">
     <% nex.dates.each do |date| %>
-      <%= week_day(date) %>
+      <%= timetable_day(date) %>
     <% end %>
   </div>
 
