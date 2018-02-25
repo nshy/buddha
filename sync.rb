@@ -113,6 +113,13 @@ end
 sync(Sync)
 if watch
   sync(Watch)
-  Gesheru.watch
+
+  Thread.new do
+    while true
+      Gesheru.update
+      sleep(3600)
+    end
+  end
+
   sleep
 end

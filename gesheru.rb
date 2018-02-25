@@ -58,15 +58,6 @@ def self.update
   end
 end
 
-def self.watch
-  Thread.new do
-    while true
-      update
-      sleep(3600)
-    end
-  end
-end
-
 def self.load(site)
   db = SiteHelpers.open(site)
   db[:gesheru].order(:date).reverse.limit(3).to_a
