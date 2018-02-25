@@ -212,4 +212,16 @@ end
 class Error < Sequel::Model
 end
 
+# --------------------- himalai --------------------------
+
+class HimalaiBook < Sequel::Model(:himalai)
+  def cover
+    "/himalai/#{image}"
+  end
+
+  def href
+    "http://www.himalai.ru/#{rel_href}"
+  end
+end
+
 end

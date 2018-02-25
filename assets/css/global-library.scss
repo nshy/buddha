@@ -25,8 +25,15 @@ a:hover {
   color: #717783;
 }
 
+display: inline-block;
+width: 160px;
+vertical-align: top;
+margin-right: 20px;
+margin-bottom: 20px;
 
-img {
+}
+
+.book-thumb.local img {
   border-style: solid;
   border-width: 1px;
   border-color: #cfcfcf;
@@ -36,11 +43,14 @@ img {
   box-shadow: 0px 3px 10px 0px rgba(74,92,97,0.3);
 }
 
-display: inline-block;
-width: 160px;
-vertical-align: top;
-margin-right: 20px;
-margin-bottom: 20px;
+.book-thumb.himalai {
+
+img {
+  width: 160px;
+  height: 223px;
+}
+
+.author, .title { text-align: center; }
 
 }
 

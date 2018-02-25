@@ -413,8 +413,8 @@ module BookHelpers
     erb :'partials/headings', locals: { headings: headings }
   end
 
-  def book_thumb(book)
-    erb :'partials/book_thumb', locals: { book: book }
+  def book_thumb(book, local = true)
+    erb :'partials/book_thumb', locals: { book: book, local: local }
   end
 
   def book_category(category, upcase = true)

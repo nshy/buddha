@@ -104,12 +104,6 @@ overflow: hidden;
 }
 
 
-@media (max-width: 991px) and (min-width: 768px) {
-// so that 4 book columns can fit
-.book-thumb:nth-of-type(4n) { margin-right: 0px; }
-}
-
-
 @media (max-width: 480px) {
 
 .page-library {

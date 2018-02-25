@@ -1,5 +1,9 @@
-<div class="book-thumb">
+<div class="<%= local ? "book-thumb local" : "book-thumb himalai" %>">
+  <% if not local %>
+  <a href="<%= book.href %>" target="_blank">
+  <% else %>
   <a href="<%= book.href %>">
+  <% end %>
     <img class="cover" src="<%= digest_url(book.cover) %>"/>
     <div class="title"> <%= book.title %> </div>
   </a>

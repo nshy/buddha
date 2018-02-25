@@ -6,6 +6,7 @@ require_relative 'convert'
 require_relative 'assets'
 require_relative 'resources'
 require_relative 'gesheru'
+require_relative 'himalai'
 
 include CommonHelpers
 
@@ -117,6 +118,7 @@ if watch
   Thread.new do
     while true
       Gesheru.update
+      Himalai.update
       sleep(3600)
     end
   end

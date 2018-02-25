@@ -19,3 +19,9 @@
 <% books.each do |book| %>
   <%= book_thumb(book) %>
 <% end %>
+<span class="title">
+  Новинки <a href="http://www.himalai.ru" target="_blank"> HIMALAI.RU </a>
+</span>
+<% himalai.each do |book| %>
+  <%= book_thumb(book, false) %>
+<% end %>

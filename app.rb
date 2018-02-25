@@ -26,6 +26,7 @@ require_relative 'timetable'
 require_relative 'cache'
 require_relative 'diff'
 require_relative 'gesheru'
+require_relative 'himalai'
 
 def whitelist_address
   port = ":#{SiteConfig::PORT}" if SiteConfig::PORT != 80
@@ -208,6 +209,7 @@ end
 get '/library/' do
   @sections = load_sections
   @books = site_model(Cache::Book).recent(3)
+  @himalai = site_model(Cache::HimalaiBook).all
   @menu_active = 'БИБЛИОТЕКА'
   erb :library
 end

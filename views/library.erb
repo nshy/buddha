@@ -17,7 +17,8 @@ Tакже в нашем центре можно прибрести книги м
 
 <div class="page-library">
   <div class="recent widescreen">
-    <%= erb :'partials/library_recent', locals: { books: @books } %>
+    <%= erb :'partials/library_recent',
+            locals: { books: @books, himalai: @himalai } %>
   </div>
 
   <% @sections.each do |section| %>
@@ -30,6 +31,7 @@ Tакже в нашем центре можно прибрести книги м
   <% end %>
 
   <div class="recent tabletscreen">
-    <%= erb :'partials/library_recent', locals: { books: @books } %>
+    <%= erb :'partials/library_recent',
+            locals: { books: @books, himalai: @himalai } %>
   </div>
 </div>
