@@ -114,6 +114,8 @@ overflow: hidden;
 
 .recent > .title {
   @include site-element-level-2-480px;
+  text-align: center;
+  margin-bottom: 25px;
 }
 
 .book-thumb {
