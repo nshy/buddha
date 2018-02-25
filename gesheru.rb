@@ -12,7 +12,7 @@ Article = Struct.new(:title, :date, :href)
 class SyncException < RuntimeError
 end
 
-def self.parse_news(doc)
+def self.parse(doc)
   articles = []
   doc.css(".art-Post .art-Post").each do |article|
     a = article.at_css(".art-PostHeader a")
@@ -44,7 +44,7 @@ end
 def self.update
   puts 'Updating geshe.ru news'
   begin
-    articles = parse_news(Nokogiri::HTML(open("http://geshe.ru/archive")))
+    articles = parse(Nokogiri::HTML(open("http://geshe.ru/archive")))
 
     Sites.each do |s|
       db = SiteHelpers.open(s)
