@@ -180,6 +180,14 @@ class Book < Sequel::Model
     self[:group]
   end
 
+  def cover
+    "/books/#{id}.jpg"
+  end
+
+  def href
+    "/books/#{id}/"
+  end
+
   dataset_module do
     def recent(num)
       order(:added).reverse.limit(num)

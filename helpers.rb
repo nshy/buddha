@@ -413,10 +413,6 @@ module BookHelpers
     erb :'partials/headings', locals: { headings: headings }
   end
 
-  def book_cover_url(id, size)
-    digest_url("/books/#{id}.jpg")
-  end
-
   def book_thumb(book)
     erb :'partials/book_thumb', locals: { book: book }
   end

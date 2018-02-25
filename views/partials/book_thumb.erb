@@ -1,6 +1,6 @@
 <div class="book-thumb">
-  <a href="<%= "/books/#{book.id}/" %>">
-    <img class="cover" src="<%= book_cover_url(book.id, :medium) %>"/>
+  <a href="<%= book.href %>">
+    <img class="cover" src="<%= digest_url(book.cover) %>"/>
     <div class="title"> <%= book.title %> </div>
   </a>
   <% if not book.authors.nil? %>
