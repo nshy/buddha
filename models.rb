@@ -5,7 +5,7 @@ require 'yaml'
 
 class NewsDocument
   attr_reader :date, :title, :cut, :body, :is_dir, :buddha_node, :scripts,
-              :hidden
+              :hidden, :pin
 
   PageCut = /(.*)<!--[\t ]*page-cut[\t ]*-->(.*)/m
   PageCutSimple = /(.*)<!--[\t ]*page-cut-simple[\t ]*-->/m
@@ -43,6 +43,11 @@ class NewsDocument
     @hidden = false if not @hidden
     if not (@hidden.class == TrueClass or @hidden.class == FalseClass)
       raise format_file_error(path, "Параметр hidden должен быть true или false")
+    end
+    @pin = header['pin']
+    @pin = false if not @pin
+    if not (@pin.class == TrueClass or @pin.class == FalseClass)
+      raise format_file_error(path, "Параметр pin должен быть true или false")
     end
   end
 

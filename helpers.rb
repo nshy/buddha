@@ -370,8 +370,8 @@ module NewsHelpers
     body.inner_html
   end
 
-  def news_item(news, index = false)
-    erb :'partials/news', locals: { news: news, index: index }
+  def news_item(news, index = false, latest = false)
+    erb :'partials/news', locals: { news: news, index: index, latest: latest }
   end
 
   def news_single_class(news)

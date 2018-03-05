@@ -78,7 +78,7 @@ class News < Sequel::Model
     end
 
     def latest(num)
-      where(hidden: false).order(:date).limit(num).reverse.all
+      where(hidden: false).order(:pin, :date).limit(num).reverse.all
     end
 
     def by_id(id)

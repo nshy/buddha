@@ -10,6 +10,7 @@ def create
     String :scripts
     String :buddha_node
     TrueClass :hidden, default: false
+    TrueClass :pin, default: false
     DateTime :mtime
   end
 end

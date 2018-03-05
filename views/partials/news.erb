@@ -1,4 +1,7 @@
-<div class="date"> <%= Russian::strftime(news.date, "%d %B") %> </div>
+<span class="date"> <%= Russian::strftime(news.date, "%d %B") %> </span>
+<% if news.pin and index and latest %>
+  <span class="pin"> наверх </span>
+<% end %>
 <div class="title"> <%= news.title %> </div>
 <div id="<%= "news-#{news.id}" %>" class="body"> <%= render_news(news, index) %> </div>
 <% if index and news.has_more %>

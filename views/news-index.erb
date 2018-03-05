@@ -23,11 +23,11 @@
     </div>
   <% end %>
   </div>
-  <div class="site-news top"> <%= news_item(first, true) %> </div>
+  <div class="site-news top"> <%= news_item(first, true, @year == nil) %> </div>
   <hr/>
   <div class="site-2-columns">
     <% @news.each do |news| %>
-    <div class="site-news side"> <%= news_item(news, true) %> </div>
+    <div class="site-news side"> <%= news_item(news, true, @year == nil) %> </div>
     <hr/>
     <% end %>
   </div>
