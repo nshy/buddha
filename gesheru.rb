@@ -53,7 +53,7 @@ def self.update
         db[:gesheru].insert(title: a.title, date: a.date, href: a.href)
       end
     end
-  rescue OpenURI::HTTPError, SocketError, RuntimeError => e
+  rescue OpenURI::HTTPError, SocketError, RuntimeError, Errno::EHOSTUNREACH => e
     puts "Can not update gesheru news: #{e}"
   end
 end
