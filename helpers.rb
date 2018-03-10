@@ -4,7 +4,7 @@ Sites = [ :main, :edit ]
 
 module SiteHelpers
   def SiteHelpers.file(site)
-    ".#{site}.db"
+    File.join(File.dirname(__FILE__), ".#{site}.db")
   end
 
   def SiteHelpers.open(site)
