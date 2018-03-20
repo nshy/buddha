@@ -81,7 +81,7 @@ class Document < XDSL::Element
   root :teachings
   element :title, String, required: true
   elements :theme do
-    element :title, String, required: true
+    element :title, String
     element :buddha_node
     element :geshe_node
     element :annotation

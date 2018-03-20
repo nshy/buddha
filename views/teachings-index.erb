@@ -24,10 +24,12 @@
     <% by_year[year].each do |teachings| %>
       <a href="<%= "/teachings/#{teachings.id}/" %>"> <%= teachings.title %> </a>
       <% teachings.themes.each do |theme| %>
+      <% if theme.title %>
       <div class="theme"><span class="title"><%=
         theme.title %></span>&nbsp;&nbsp;<span class="size"><%=
         theme.count %></span>
       </div>
+      <% end %>
       <% end %>
       <hr/>
     <% end %>

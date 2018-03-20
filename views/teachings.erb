@@ -4,7 +4,9 @@
 </div>
 <div class="page-teachings">
   <% @teachings.theme.each do |theme| %>
-  <span class="title"> <%= theme.title %> </span>
+  <% if theme.title %>
+    <span class="title"> <%= theme.title %> </span>
+  <% end %>
   <div class="site-centered">
     <%= theme.annotation %>
   </div>
