@@ -159,7 +159,7 @@ def pull
   remote = CONFIG['bsym.remote']
   opts = CONFIG['bsym.pulloptions']
   fatal "remote is not configured" if not remote
-  cmd = "rsync -av #{opts} #{remote}:/bsym/#{REPO}/objects/ #{OBJECTS_DIR}"
+  cmd = "rsync --progress -av #{opts} #{remote}:/bsym/#{REPO}/objects/ #{OBJECTS_DIR}"
   puts cmd
   exec(cmd)
 end
@@ -167,7 +167,7 @@ end
 def push
   remote = CONFIG['bsym.remote']
   fatal "remote is not configured" if not remote
-  cmd = "rsync -av #{OBJECTS_DIR}/ #{remote}:/bsym/#{REPO}/objects"
+  cmd = "rsync --progress -av #{OBJECTS_DIR}/ #{remote}:/bsym/#{REPO}/objects"
   puts cmd
   exec(cmd)
 end
