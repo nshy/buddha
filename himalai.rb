@@ -49,7 +49,10 @@ def self.update
         Dir.mkdir(dir) if not File.exist?(dir)
         FileUtils.rm(Dir.glob("#{dir}/*"))
         books.each do |b|
-          image = "#{File.basename(b.href)}#{File.extname(b.image)}"
+          href = File.basename(b.href)
+          href = href.gsub(/[^_\-a-zA-Z0-9]/, '')
+          ext = File.extname(b.image)
+          image = "#{href}#{ext}"
           database[:himalai].insert(title: b.title, authors: b.authors,
                                     rel_href: b.href, image: image)
           File.open(File.join(dir, image), "w") do |file|
