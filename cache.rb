@@ -224,4 +224,14 @@ class HimalaiBook < Sequel::Model(:himalai)
   end
 end
 
+# --------------------- gesheru --------------------------
+
+class Gesheru < Sequel::Model(:gesheru)
+  dataset_module do
+    def recent
+      order(:date).reverse.limit(3)
+    end
+  end
+end
+
 end
