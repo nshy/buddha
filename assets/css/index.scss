@@ -128,8 +128,20 @@ a.place {
 
 }
 
-> .geshela .news { margin-top: 15px; }
-> .geshela br { display: none; }
+> .geshela {
+  .date {
+    position: absolute;
+    float: left;
+  }
+  a.news {
+    display: block;
+    text-indent: 85px;
+    margin-bottom: 15px;
+    &:last-child { margin-bottom: 0; }
+  }
+  br { display: none; }
+}
+
 
 .site-events {
   .time { width: 110px; }

@@ -61,12 +61,10 @@
   </div>
   <hr/>
   <% @geshe_news.each do |news| %>
-    <div class="news">
-      <%= news[:date].strftime('%Y.%m.%d') %>&nbsp;&nbsp;
-      <a href="http://geshe.ru/<%= news[:href] %>" target="_blank">
+      <div class="date"><%= news[:date].strftime('%Y.%m.%d') %>&nbsp;&nbsp;</div>
+      <a class="news" href="http://geshe.ru/<%= news[:href] %>" target="_blank">
         <%= news[:title] %>
       </a>
-    </div>
   <% end %>
 </div>
 <div class="block">
