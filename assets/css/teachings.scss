@@ -48,6 +48,7 @@
     padding-bottom: 15px;
   }
 
+  .date.narrow { display: none; }
   .date { width: 115px; }
 
   .download {
@@ -92,11 +93,7 @@
 }
 
 .site-record {
-  position: relative;
-  .index {
-    position: absolute;
-    padding: 0;
-  }
+  .index { float: left; }
   > div { margin-left: 30px; }
   .index { margin-left: 0px; }
   .download { text-align: left; }

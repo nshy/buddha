@@ -81,7 +81,8 @@ border-bottom: $separator-style;
 
 &:first-child { padding-top: 0px; }
 
-.date { margin-top: 5px; }
+.date { margin-bottom: 10px; }
+.date.wide { display: none; }
 
 .description a {
   text-indent: 21px;

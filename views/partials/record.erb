@@ -2,8 +2,9 @@
   <% if idx %>
     <div class="index"> <%= idx %> </div>
   <% end %>
+  <div class="date narrow"> <%= record_date(record) %> </div>
   <!-- wrapper for a is to simplify button image layout -->
   <div class="description"> <%= record_link(record, idx) %> </div>
-  <div class="date"> <%= record_date(record) %> </div>
+  <div class="date wide"> <%= record_date(record) %> </div>
   <div class="download"> <%= record_download(record) %> </div>
 </div>
