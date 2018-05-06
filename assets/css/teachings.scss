@@ -94,7 +94,7 @@
 
 .site-record {
   .index { float: left; }
-  > div { margin-left: 30px; }
+  > div, .description { margin-left: 30px; }
   .index { margin-left: 0px; }
   .download { text-align: left; }
 }

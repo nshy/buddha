@@ -369,7 +369,7 @@ table.site-sber-table {
 
   .description { font-weight: 400; }
 
-  .description a {
+  a.description {
     display: block;
     padding-left: 21px;
 
@@ -379,7 +379,7 @@ table.site-sber-table {
     background-position: left 5px;
   }
 
-  .description a:hover {
+  a.description:hover {
     background-image: url(/images/play_video_cyan.svg?v=1);
   }
 

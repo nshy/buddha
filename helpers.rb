@@ -99,7 +99,7 @@ module TeachingsHelper
     link = nil
     id = record.youtube_id
     link = "http://www.youtube.com/watch?v=#{id}" if id
-    link(link, record_description(record, idx))
+    link(link, record_description(record, idx), "description")
   end
 
   def record_download(record)
@@ -209,9 +209,13 @@ module CommonHelpers
     date.strftime('%d/%m/%y')
   end
 
-  def link(link, title)
-    return title if link.nil?
-    "<a href=#{link}>#{title}</a>"
+  def link(link, title, klass = nil)
+    return "<div class='#{klass}'>#{title}</div>" if link.nil?
+    if klass
+      "<a class='#{klass}' href='#{link}'>#{title}</a>"
+    else
+      "<a href='#{link}'>#{title}</a>"
+    end
   end
 
   def link_if(show, link, title)
