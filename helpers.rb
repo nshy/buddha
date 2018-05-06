@@ -113,10 +113,6 @@ module TeachingsHelper
     text = "mp3&nbsp;&nbsp;#{record.audio_size}&nbsp;Mб"
     "<a class='site-button' href='#{url}' #{download}>#{text}</a>"
   end
-
-  def teachings_record(record, idx = nil)
-    erb :'partials/record', locals: { record: record, idx: idx }
-  end
 end
 
 module CommonHelpers

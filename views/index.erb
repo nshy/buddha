@@ -77,7 +77,7 @@
   <hr/>
   <div class="records">
     <% @records.each do |record| %>
-    <%= teachings_record(record) %>
+      <%= erb :'partials/record', locals: { record: record, idx: nil } %>
     <% end %>
   </div>
 </div>

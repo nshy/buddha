@@ -12,7 +12,7 @@
   </div>
   <div class="records">
     <% theme.record.each_with_index do |record, idx| %>
-    <%= teachings_record(record, idx + 1) %>
+      <%= erb :'partials/record', locals: { record: record, idx: idx + 1 } %>
     <% end %>
   </div>
   <% end %>
