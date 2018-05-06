@@ -222,11 +222,6 @@ module CommonHelpers
     end
   end
 
-  def div_if(condition, c, content)
-    return if not condition
-    "<div class='#{c}'>#{content}</div>"
-  end
-
   def slug(title)
     title.downcase.strip.gsub(' ', '-').gsub(/[^\w-]/, '')
   end

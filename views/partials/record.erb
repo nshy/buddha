@@ -1,5 +1,7 @@
 <div class="site-record">
-  <%= div_if(idx, "index", idx) %>
+  <% if idx %>
+    <div class="index"> <%= idx %> </div>
+  <% end %>
   <!-- wrapper for a is to simplify button image layout -->
   <div class="description"> <%= record_link(record, idx) %> </div>
   <div class="date"> <%= record_date(record) %> </div>
