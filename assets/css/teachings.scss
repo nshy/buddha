@@ -28,12 +28,12 @@
 .site-record {
   display: table-row;
 
-  > div {
+  > * {
     border-bottom: $separator-style;
     display: table-cell;
   }
 
-  &:last-child > div {
+  &:last-child > * {
     border-bottom: none;
   }
 
