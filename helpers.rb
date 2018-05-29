@@ -472,6 +472,16 @@ module TimetableHelper
     a.first.downcase! if not a.empty?
     a.collect { |a| a}.join(' ')
   end
+
+  def index_place(place)
+    if place == 'Спартаковская'
+      '3 этаж'
+    elsif place == 'Весна'
+      '1 или 2 этаж'
+    else
+      place
+    end
+  end
 end
 
 module AdminHelpers
