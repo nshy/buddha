@@ -249,6 +249,13 @@ pre {
       font-weight: 400;
       margin: 0 0 7px;
     }
+
+    > li {
+      display: block;
+      float: left;
+    }
+
+    > li + pre { margin-left: 25px; }
   }
   > .pagenum {
     text-align: center;
