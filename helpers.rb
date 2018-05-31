@@ -470,7 +470,7 @@ module TimetableHelper
   def timetable_announces(a)
     a = a.collect { |a| a.capitalize }
     a.first.downcase! if not a.empty?
-    a.collect { |a| a}.join(' ')
+    a.collect { |a| a}.join('. ')
   end
 
   def index_place(place)
