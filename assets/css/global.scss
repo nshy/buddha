@@ -308,6 +308,7 @@ pre {
       tr:last-of-type { border-bottom: $separator-style; }
       &:last-of-type tr:last-of-type { border-bottom: none; }
       &:first-of-type tr:first-of-type td { padding-top: 0px; }
+      &:last-of-type tr:last-of-type td { padding-bottom: 0px; }
     }
   }
 }
