@@ -440,6 +440,15 @@ table.site-sber-table {
 
 .yandex-money { overflow: auto; }
 
+.site-vehicle.sutra { display: none; }
+.site-vehicle.tantra {
+  display: inline;
+  color: #b00;
+  &:hover { color: #f00; }
+  &::after { content: "тантра"; }
+}
+
+
 @media (max-width: 1199px) {
 
 .site-baner .message { font-size: 20px; }

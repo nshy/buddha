@@ -5,10 +5,18 @@
 <div class="page-teachings">
   <% @teachings.theme.each do |theme| %>
   <% if theme.title %>
-    <span class="title"> <%= theme.title %> </span>
+    <% vehicle = theme.tantra ? "tantra" : "sutra" %>
+    <span class="title"><%= theme.title %><sup class="site-vehicle <%= vehicle%>"></sup> </span>
   <% end %>
   <div class="site-centered">
-    <%= theme.annotation %>
+    <% if theme.annotation %>
+      <p><%= theme.annotation %></p>
+    <% end %>
+    <% if theme.tantra %>
+      <p>Тантрические учения могут получать те, кто получал Благословение Белой
+      Тары или Благословение Манджушри, либо какие бы то ни было посвящения
+      любого класса тантры.</p>
+    <% end %>
   </div>
   <div class="records">
     <% theme.record.each_with_index do |record, idx| %>

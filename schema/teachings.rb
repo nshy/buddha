@@ -9,6 +9,7 @@ def create
   create_table(:themes) do
     primary_key :id
     String :title
+    TrueClass :tantra
     String :buddha_node
     Date :begin_date, null: false
     foreign_key :teaching_path, :teachings,

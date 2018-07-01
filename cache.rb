@@ -16,6 +16,7 @@ themes = DB[:themes].
               select_append(Sequel[:themes][:title], :teaching_id).
               select_append{ count(records[:id]).as(count) }.
               select_append(Sequel[:themes][:begin_date]).
+              select_append(Sequel[:themes][:tantra]).
                 order(Sequel[:themes][:id])
 
 
