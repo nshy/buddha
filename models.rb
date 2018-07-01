@@ -75,6 +75,18 @@ def String.parse(v)
   v
 end
 
+class Boolean
+  def self.parse(v)
+    if v == "true"
+      true
+    elsif v == "false"
+      false
+    else
+      raise ArgumentError.new
+    end
+  end
+end
+
 module Teachings
 
 class Document < XDSL::Element
@@ -82,6 +94,7 @@ class Document < XDSL::Element
   element :title, String, required: true
   elements :theme do
     element :title, String
+    element :tantra, Boolean
     element :buddha_node
     element :geshe_node
     element :annotation

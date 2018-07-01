@@ -16,7 +16,9 @@ module ElementClass
     else
       scalar_parser = lambda do |e|
         t = e.inner_html.strip
-        return nil if t.empty?
+        if t.empty?
+          return scalar_klass == Boolean ? true : nil
+        end
         return t if not scalar_klass
         begin
           scalar_klass.parse(t)
@@ -43,7 +45,7 @@ module ElementClass
             "#{spec(e)}:\nЭлемент #{name} должен присутствовать " \
             "в одном экземпляре"
         end
-        v = nil
+        v = scalar_klass == Boolean ? false : nil
         v = scalar_parser.call(c[0]) if not c.empty?
         if not v and options[:required]
           raise ModelException.new \
