@@ -1,6 +1,7 @@
 #!/usr/bin/ruby
 
 require 'listen'
+require 'sigdump/setup'
 require_relative 'helpers'
 require_relative 'convert'
 require_relative 'assets'
