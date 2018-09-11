@@ -117,6 +117,8 @@ if watch
   sync(Watch)
 
   Thread.new do
+    Thread.current.abort_on_exception = true
+
     while true
       Gesheru.update
       Himalai.update
