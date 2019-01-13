@@ -215,15 +215,18 @@ end # module Index
 def load_quotes(path, today = Date.today)
   ret = Array.new(5, "Цитата на эту неделю не задана")
   w = Week.new(today)
-  Dir[File.join(path, '*.txt')].each do |p|
+  # sort because order is significant, if week has
+  # quotes from 2 years we should be careful and
+  # take the quote depending on @today date and
+  # new moon year beginning
+  Dir[File.join(path, '*.txt')].sort.each do |p|
     d = ModelDate.parse(File.basename(p, '.*'))
     q = File.read(p).strip.split(/\n{2,}/)
     b = Week.new(d)
-    b = b + 1 if not d.monday?
     e = b + q.size
     5.times do |i|
       c = w + i
-      ret[i] = q[c - b] if c >= b and c < e
+      ret[i] = q[c - b] if (c > b and c < e) or (c == b and d <= today)
     end
   end
   ret
