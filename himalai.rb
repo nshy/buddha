@@ -63,7 +63,7 @@ def self.update
       end
     end
   rescue OpenURI::HTTPError, SocketError, RuntimeError, Errno::EHOSTUNREACH => e
-    puts "Can not update gesheru news: #{e}"
+    puts "Can not update himalai.ru books: #{e}"
   end
 end
 
