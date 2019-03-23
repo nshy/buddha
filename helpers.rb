@@ -468,8 +468,7 @@ module TimetableHelper
   end
 
   def timetable_announces(a)
-    a = a.collect { |a| a.capitalize }
-    a.first.downcase! if not a.empty?
+    a.first[0] = a.first[0].downcase if not a.empty?
     a.collect { |a| a}.join('. ')
   end
 
