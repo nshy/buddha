@@ -194,6 +194,8 @@ a.place {
 
 > .fotorama.quotes {
   margin-left: 50%;
+  .fotorama__stage { height: 180px; }
+  .fotorama__nav-wrap { margin-top: 0px; }
   .fotorama__html { text-align: center; }
 }
 
@@ -265,6 +267,8 @@ a.place {
   width: 100%;
   margin-left: 0;
   margin-top: 20px;
+  .fotorama__stage { height: 150px; }
+  .fotorama__nav-wrap { margin-top: 0px; }
 }
 
 > .news {
@@ -308,6 +312,11 @@ a.place {
     width: 140px;
     br:nth-child(2) { display: none; }
   }
+}
+
+> .fotorama.quotes {
+  .fotorama__stage { height: 200px; }
+  .fotorama__nav-wrap { margin-top: 0px; }
 }
 
 }
