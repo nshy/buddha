@@ -46,7 +46,7 @@ a.facebook {
   float: left;
   background-image: url(/images/phone.svg?v=1);
   color:#cbd6e2;
-  &:hover { color: $link-color-hover; }
+  a:hover { color: $link-color-hover; }
 }
 
 a.old-site {
