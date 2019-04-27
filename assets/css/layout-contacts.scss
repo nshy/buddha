@@ -43,15 +43,25 @@ a.facebook {
 }
 
 .phone {
-  float: left;
+  vertical-align: top;
+  display: inline-block;
   background-image: url(/images/phone.svg?v=1);
   color:#cbd6e2;
   a:hover { color: $link-color-hover; }
+  margin-right: 20px;
+  margin-bottom: 5px;
+}
+
+.phones {
+  vertical-align: top;
+  display: inline-block;
+  margin-bottom: 7px;
 }
 
 a.old-site {
-  display: block;
-  text-align: right;
+  vertical-align: top;
+  display: inline-block;
+  padding-left: 20px;
   color: #99a5b2;
   &:hover { color: $link-color-hover; }
 }
