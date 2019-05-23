@@ -170,6 +170,9 @@ class Period
     @end = e
   end
 
+  @@HideBegin = Time.parse("00:00")
+  @@HideEnd = Time.parse("23:59")
+
   def self.parse(v)
     begin
       a = v.split('-')
@@ -193,6 +196,9 @@ class Period
   end
 
   def to_s
+    if @begin == @@HideBegin && @end == @@HideEnd
+      return ""
+    end
     "#{@begin} - #{@end}"
   end
 end
