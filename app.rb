@@ -239,6 +239,11 @@ get '/' do
   @records = site_model(Cache::Record).latest(3)
   @index = Index::Document.load(site_path('index.xml'))
   @geshe_news = site_model(Cache::Gesheru).recent
+  @banner = nil
+  b = site_path('banner.html')
+  if File.exists?(b)
+    @banner = File.read(b).strip
+  end
   erb :index
 end
 
