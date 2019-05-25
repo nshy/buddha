@@ -1,8 +1,8 @@
 <div class="page-news-single">
-  <a class="backlink" href="/news?year=<%= @news.date.year %>">
-    &larr; ДРУГИЕ НОВОСТИ <%= @news.date.year %> ГОДА
-  </a>
   <div class="<%= news_single_class(@news) %>">
+    <a class="backlink" href="/news?year=<%= @news.date.year %>">
+      &larr; ДРУГИЕ НОВОСТИ <%= @news.date.year %> ГОДА
+    </a>
     <%= news_item(@news) %>
   </div>
 </div>

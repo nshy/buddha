@@ -2,13 +2,14 @@
 
 .page-news-single {
 
-> a.backlink {
-  display: block;
-  margin: 30px 0px 20px;
-  @include site-backlink;
-}
-
 .site-news {
+
+  > a.backlink {
+    display: block;
+    margin: 20px 0px 10px;
+    @include site-backlink;
+  }
+
   > .title {
     @include site-element-level-1;
     margin-bottom: 15px;
@@ -20,8 +21,8 @@
   }
 
   &.short {
-    display: inline-block;
-    width: 50%;
+    width: 720px;
+    margin: 0px auto;
   }
 }
 
