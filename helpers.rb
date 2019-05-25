@@ -388,8 +388,26 @@ module NewsHelpers
   end
 
   def news_date(news)
-    f = news.date.year == Date.today.year ? "%d %B" : "%d %B %Y"
-    Russian::strftime(news.date, f)
+    months = [
+      'января',
+      'февраля',
+      'марта',
+      'апреля',
+      'мая',
+      'июня',
+      'июля',
+      'августа',
+      'сентября',
+      'октября',
+      'ноября',
+      'декабря',
+    ]
+    d = news.date
+    if d.year == Date.today.year
+      "#{d.day} #{months[d.month - 1]}"
+    else
+      "#{d.day} #{months[d.month - 1]} #{d.year}"
+    end
   end
 end
 
