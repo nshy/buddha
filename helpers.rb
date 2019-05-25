@@ -386,6 +386,11 @@ module NewsHelpers
     end
     styles.compact
   end
+
+  def news_date(news)
+    f = news.date.year == Date.today.year ? "%d %B" : "%d %B %Y"
+    Russian::strftime(news.date, f)
+  end
 end
 
 module BookHelpers

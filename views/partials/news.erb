@@ -1,4 +1,4 @@
-<span class="date"> <%= Russian::strftime(news.date, "%d %B") %> </span>
+<span class="date"> <%= news_date(news) %> </span>
 <% if news.pin and index and latest %>
   <span class="pin"> наверх </span>
 <% end %>
