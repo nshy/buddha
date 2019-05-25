@@ -36,3 +36,12 @@
 }
 
 }
+
+
+@media (max-width: 767px) {
+
+.page-news-single .site-news > .title {
+    @include site-element-level-2;
+}
+
+}
