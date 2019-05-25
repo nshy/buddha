@@ -15,6 +15,10 @@
     line-height: 1.2;
   }
 
+  &.short > .title {
+    @include site-element-level-2;
+  }
+
   &.short {
     display: inline-block;
     width: 50%;
