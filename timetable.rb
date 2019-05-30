@@ -180,7 +180,7 @@ class Period
       b = Time.parse(a[0]); e = nil
       return nil if not b
       if a.size == 1
-        e = Time.new(b.hour + 2, b.minute)
+        e = @@HideEnd
       elsif a.size == 2
         e = Time.parse(a[1])
       end
@@ -199,6 +199,8 @@ class Period
   def to_s
     if @begin == @@HideBegin && @end == @@HideEnd
       return ""
+    elsif @end == @@HideEnd
+      return @begin.to_s
     end
     "#{@begin} - #{@end}"
   end
