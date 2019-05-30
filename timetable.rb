@@ -175,6 +175,7 @@ class Period
 
   def self.parse(v)
     begin
+      return new(@@HideBegin, @@HideEnd) if v.empty?
       a = v.split('-')
       b = Time.parse(a[0]); e = nil
       return nil if not b
@@ -216,6 +217,7 @@ module ParseHelper
       periods << period
       a.shift
     end
+    periods << Period.parse('') if periods.empty?
     b = periods.collect { |p| p.begin }
     if b.sort != b
       raise ModelException.new \
