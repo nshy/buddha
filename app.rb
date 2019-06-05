@@ -232,7 +232,7 @@ get '/timetable' do
 end
 
 get '/' do
-  @news = site_model(Cache::News).latest(4)
+  @news = site_model(Cache::News).latest(5)
   @extra_styles = news_styles(@news)
   @timetable = Timetable::Document.load(site_path('timetable/timetable.xml'))
   @quotes = load_quotes(site_path('quotes'))
