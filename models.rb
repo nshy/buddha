@@ -4,7 +4,7 @@ require 'date'
 require 'yaml'
 
 class NewsDocument
-  attr_reader :date, :title, :cut, :body, :is_dir, :buddha_node, :scripts,
+  attr_reader :date, :title, :cut, :body, :is_dir, :buddha_node,
               :hidden, :pin
 
   PageCut = /(.*)<!--[\t ]*page-cut[\t ]*-->(.*)/m
@@ -38,7 +38,6 @@ class NewsDocument
       end
     end
     @date = d
-    @scripts = YAML.dump(header['scripts']) if header['scripts']
     @hidden = header['hidden']
     @hidden = false if not @hidden
     if not (@hidden.class == TrueClass or @hidden.class == FalseClass)

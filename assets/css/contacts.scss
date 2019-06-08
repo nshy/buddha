@@ -13,7 +13,7 @@
 .metro.grey { background-color: #a2a5b4; }
 .metro.yellow { background-color: #ff7f00; }
 
-#map { height: 600px; }
+.yandex-map { height: 600px; }
 
 table {
   tr:first-child td {
@@ -46,7 +46,7 @@ td.email {
 
 @media (max-width: 767px) {
 
-#map { height: 300px; }
+.yandex-map { height: 300px; }
 
 }
 

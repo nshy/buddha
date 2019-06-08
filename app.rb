@@ -188,7 +188,9 @@ get '/news/:id/' do |id|
   @news = site_model(Cache::News).by_id(id)
   halt 404 if @news.nil?
   @extra_styles = news_styles([ @news ])
-  @extra_scripts += @news.scripts
+  if has_yandex_map?(@news.body)
+    @extra_scripts << YANDEX_MAP_JS_URL
+  end
   @menu_active = 'НОВОСТИ'
   erb :'news-single'
 end

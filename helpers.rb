@@ -1,6 +1,7 @@
 require 'open3'
 
 Sites = [ :main, :edit ]
+YANDEX_MAP_JS_URL = 'https://api-maps.yandex.ru/2.1/?lang=ru_RU'
 
 module SiteHelpers
   def SiteHelpers.file(site)
@@ -116,6 +117,11 @@ module TeachingsHelper
 end
 
 module CommonHelpers
+  def has_yandex_map?(html)
+    d = Nokogiri::HTML(html)
+    d.css('yandex-map') != nil
+  end
+
   def execute(cmd)
     o, e, s = Open3.capture3(cmd)
     if not s.success?
@@ -156,7 +162,9 @@ module CommonHelpers
   def simple_page(p)
     @html, header = load_preamble(p, ['menu'])
     @menu_active = header['menu']
-    @extra_scripts += page_scripts(header['scripts'])
+    if has_yandex_map?(@html)
+      @extra_scripts << YANDEX_MAP_JS_URL
+    end
     erb "<%= html_render(@html) %>"
   end
 
