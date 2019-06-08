@@ -237,7 +237,7 @@ get '/' do
   @extra_styles = news_styles(@news)
   @timetable = Timetable::Document.load(site_path('timetable/timetable.xml'))
   @quotes = load_quotes(site_path('quotes'))
-  @records = site_model(Cache::Record).latest(3)
+  @records = site_model(Cache::Record).latest(@index.records.num)
   @geshe_news = site_model(Cache::Gesheru).recent
   @banner = nil
   b = site_path('banner.html')
