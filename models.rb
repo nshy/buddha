@@ -214,6 +214,9 @@ class Document < XDSL::Element
   element :records do
     element :num, Integer, required: true
   end
+  element :geshe_news do
+    element :num, Integer, required: true
+  end
 end
 
 end # module Index

@@ -166,6 +166,7 @@ get '/teachings/:id/' do |id|
 end
 
 get '/news' do
+  @index = Index::Document.load(site_path('index.xml'))
   @params = params
   if params['top'] == 'true'
     @news = site_model(Cache::News).latest(10)
@@ -174,7 +175,7 @@ get '/news' do
     @year = params.delete('year')
     @news = site_model(Cache::News).by_year(@year)
   end
-  @geshe_news = site_model(Cache::Gesheru).recent
+  @geshe_news = site_model(Cache::Gesheru).recent(@index.geshe_news.num)
   params.delete('captures')
   halt 404 if @news.nil? or @news.empty? or not params.empty?
   @years = site_model(Cache::News).years
@@ -238,7 +239,7 @@ get '/' do
   @timetable = Timetable::Document.load(site_path('timetable/timetable.xml'))
   @quotes = load_quotes(site_path('quotes'))
   @records = site_model(Cache::Record).latest(@index.records.num)
-  @geshe_news = site_model(Cache::Gesheru).recent
+  @geshe_news = site_model(Cache::Gesheru).recent(@index.geshe_news.num)
   @banner = nil
   b = site_path('banner.html')
   if File.exists?(b)

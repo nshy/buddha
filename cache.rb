@@ -229,8 +229,8 @@ end
 
 class Gesheru < Sequel::Model(:gesheru)
   dataset_module do
-    def recent
-      order(:date).reverse.limit(3)
+    def recent(num)
+      order(:date).reverse.limit(num)
     end
   end
 end
