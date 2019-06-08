@@ -240,11 +240,6 @@ get '/' do
   @quotes = load_quotes(site_path('quotes'))
   @records = site_model(Cache::Record).latest(@index.records.num)
   @geshe_news = site_model(Cache::Gesheru).recent(@index.geshe_news.num)
-  @banner = nil
-  b = site_path('banner.html')
-  if File.exists?(b)
-    @banner = File.read(b).strip
-  end
   erb :index
 end
 
