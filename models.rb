@@ -208,6 +208,9 @@ class Document < XDSL::Element
     element :link, String, required: true
     element :end, ModelDate
   end
+  element :news do
+    element :num, Integer, required: true
+  end
 end
 
 end # module Index

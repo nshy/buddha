@@ -232,12 +232,12 @@ get '/timetable' do
 end
 
 get '/' do
-  @news = site_model(Cache::News).latest(5)
+  @index = Index::Document.load(site_path('index.xml'))
+  @news = site_model(Cache::News).latest(@index.news.num)
   @extra_styles = news_styles(@news)
   @timetable = Timetable::Document.load(site_path('timetable/timetable.xml'))
   @quotes = load_quotes(site_path('quotes'))
   @records = site_model(Cache::Record).latest(3)
-  @index = Index::Document.load(site_path('index.xml'))
   @geshe_news = site_model(Cache::Gesheru).recent
   @banner = nil
   b = site_path('banner.html')
