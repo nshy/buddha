@@ -117,9 +117,44 @@ module TeachingsHelper
 end
 
 module CommonHelpers
-  def has_yandex_map?(html)
-    d = Nokogiri::HTML(html)
-    d.css('yandex-map') != nil
+  def check_yandex_map(path, html)
+    doc = Nokogiri::HTML(html)
+    maps = doc.css('.yandex-map')
+    maps.each_with_index do |map, i|
+      a = map.attribute('placemark')
+      if not a
+        raise format_file_error(path,
+                                "В элементе yandex-map (под номером #{i + 1}) "\
+                                "отсутствует атрибут placemark");
+      end
+      begin
+        c = a.value.split(',')
+        raise ArgumentError if c.size != 2
+        lat, long = c.map { |v| Float(v) }
+        raise ArgumentError if lat < -90 || lat > 90
+        raise ArgumentError if long < -180 || long > 180
+      rescue ArgumentError
+        raise format_file_error(path,
+                                "В элементе yandex-map (под номером #{i + 1}) "\
+                                "неправильный формат атрибута placemark");
+      end
+      a = map.attribute('zoom')
+      if not a
+        raise format_file_error(path,
+                                "В элементе yandex-map (под номером #{i + 1}) "\
+                                "отсутствует атрибут zoom");
+      end
+      begin
+        Float(a.value)
+      rescue ArgumentError
+        raise format_file_error(path,
+                                "В элементе yandex-map (под номером #{i + 1}) "\
+                                "неправильный формат атрибута zoom");
+      end
+    end
+    if not maps.empty?
+      @extra_scripts << YANDEX_MAP_JS_URL
+    end
   end
 
   def execute(cmd)
@@ -162,9 +197,7 @@ module CommonHelpers
   def simple_page(p)
     @html, header = load_preamble(p, ['menu'])
     @menu_active = header['menu']
-    if has_yandex_map?(@html)
-      @extra_scripts << YANDEX_MAP_JS_URL
-    end
+    check_yandex_map(p, @html)
     erb "<%= html_render(@html) %>"
   end
 
