@@ -246,8 +246,7 @@ module ParseHelper
 end
 
 class DayWeekly
-  Days = [ 'Monday', 'Tuesday', 'Wednesday', 'Thursday',
-           'Friday', 'Saturday', 'Sunday' ]
+  Days = [ 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс' ]
 
   attr_reader :cwday
 
