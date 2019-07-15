@@ -20,6 +20,11 @@ $(document).ready(function() {
       return s.split(',').map(function(v) { return Number.parseFloat(v); });
     }
 
+
+    if (typeof ymaps === 'undefined') {
+      return;
+    }
+
     ymaps.ready(function() {
       document.querySelectorAll('.yandex-map').forEach(function(e) {
         placemark = toCoordinates(e.getAttribute('placemark'));
