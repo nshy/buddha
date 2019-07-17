@@ -389,8 +389,18 @@ module NewsHelpers
       options = { full_path: false, sorted: true }
       p = site_path(get_full_url(dir))
       next if not File.directory?(p)
+      thumbs = File.exists?(File.join(p, 'thumbs'))
       each_file(p, options) do |name|
-        a = doc.create_element('a', href: digest_url("#{dir}/#{name}"))
+        next if File.directory?(File.join(p, name))
+        a = nil
+        if thumbs
+          img = digest_url(File.join(dir, name))
+          thumb = digest_url(File.join(dir, 'thumbs', name))
+          a = doc.create_element('a', href: thumb, 'data-full': img)
+        else
+          img = digest_url(File.join(dir, name))
+          a = doc.create_element('a', href: img)
+        end
         div.add_child(a)
         div.add_child("\n")
       end
