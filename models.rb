@@ -202,6 +202,7 @@ module Index
 class Document < XDSL::Element
   root :index
   element :welcome, String, required: true
+  element :slides_dir, String, required: true
   element :announce do
     element :image, String, required: true
     element :link, String, required: true
