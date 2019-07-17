@@ -1,6 +1,17 @@
 <div class="fotorama">
   <% options = { full_path: false, sorted: true } %>
-  <% each_file(site_path(get_full_url(directory)), options) do |name| %>
-  <a href="<%= digest_url("#{directory}/#{name}") %>"></a>
+  <% p = site_path(get_full_url(directory)) %>
+  <% thumbs = File.exists?(File.join(p, 'thumbs')) %>
+  <% each_file(p, options) do |name| %>
+    <% next if File.directory?(File.join(p, name)) %>
+    <% a = nil %>
+    <% if thumbs %>
+      <% img = digest_url(File.join(directory, name)) %>
+      <% thumb = digest_url(File.join(directory, 'thumbs', name)) %>
+  <a href="<%= thumb %>" data-full="<%= img %>"></a>
+    <% else %>
+      <% img = digest_url(File.join(directory, name)) %>
+  <a href="<%= img %>"></a>
+    <% end %>
   <% end %>
 </div>
