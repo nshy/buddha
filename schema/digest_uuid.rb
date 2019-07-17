@@ -1,3 +1,5 @@
+# increment next number on algo updates
+# VERSION: 1
 def create
   create_table(:digest_uuids) do
     String :id

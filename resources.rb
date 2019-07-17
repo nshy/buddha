@@ -137,7 +137,11 @@ end
 module Digest_UUID
 
   def load(path, id)
-    uuid = File.symlink?(path) ? File.basename(File.readlink(path)) : nil
+    p = path
+    while File.symlink?(p)
+      p = File.join(File.dirname(p), File.readlink(p))
+    end
+    uuid = p != path ? File.basename(p) : nil
     database[:digest_uuids].insert(path: path, uuid: uuid)
   end
 
