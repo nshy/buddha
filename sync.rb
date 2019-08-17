@@ -7,7 +7,7 @@ require_relative 'convert'
 require_relative 'assets'
 require_relative 'resources'
 require_relative 'gesheru'
-require_relative 'himalai'
+require_relative 'bookshop'
 
 include CommonHelpers
 
@@ -121,7 +121,7 @@ if watch
 
     while true
       Gesheru.update
-      Himalai.update
+      Bookshop.update
       sleep(3600)
     end
   end

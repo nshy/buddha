@@ -12,13 +12,13 @@
 <a href="/contacts/">приемные часы</a> центра. В онлайн каталоге
 пока представлена только часть из всех имеющихся книг и журналов.
 Tакже в нашем центре можно прибрести книги магазина буддийской
-литературы <a href="http://www.himalai.ru" target="_blank"><b>HIMALAI</b></a>.</p>
+литературы <a href="http://www.buddhabook.ru" target="_blank"><b>BOODHABOOK</b></a>.</p>
 </div>
 
 <div class="page-library">
   <div class="recent widescreen">
     <%= erb :'partials/library_recent',
-            locals: { books: @books, himalai: @himalai } %>
+            locals: { books: @books, bookshop: @bookshop } %>
   </div>
 
   <% @sections.each do |section| %>
@@ -32,6 +32,6 @@ Tакже в нашем центре можно прибрести книги м
 
   <div class="recent tabletscreen">
     <%= erb :'partials/library_recent',
-            locals: { books: @books, himalai: @himalai } %>
+            locals: { books: @books, bookshop: @bookshop } %>
   </div>
 </div>

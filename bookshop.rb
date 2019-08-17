@@ -6,7 +6,7 @@ require 'fileutils'
 require_relative 'helpers'
 require_relative 'convert'
 
-module Himalai
+module Bookshop
 
 Book = Struct.new(:title, :authors, :href, :image)
 
@@ -37,15 +37,15 @@ def self.parse(doc)
 end
 
 def self.update
-  puts 'Updating himalai.ru new books'
+  puts 'Updating buddhabook.ru new books'
   begin
-    books = parse(Nokogiri::HTML(open("http://www.himalai.ru/catalog/novinki/")))
+    books = parse(Nokogiri::HTML(open("http://www.buddhabook.ru/catalog/novinki/")))
     books = books.slice(0, 3)
 
     Sites.each do |s|
       Site.for(s).instance_eval do
-        database[:himalai].delete
-        dir = site_build_path('himalai')
+        database[:bookshop].delete
+        dir = site_build_path('bookshop')
         Dir.mkdir(dir) if not File.exist?(dir)
         FileUtils.rm(Dir.glob("#{dir}/*"))
         books.each do |b|
@@ -53,17 +53,17 @@ def self.update
           href = href.gsub(/[^_\-a-zA-Z0-9]/, '')
           ext = File.extname(b.image)
           image = "#{href}#{ext}"
-          database[:himalai].insert(title: b.title, authors: b.authors,
+          database[:bookshop].insert(title: b.title, authors: b.authors,
                                     rel_href: b.href, image: image)
           File.open(File.join(dir, image), "w") do |file|
-            url = File.join("http://www.himalai.ru", b.image)
+            url = File.join("http://www.bookshop.ru", b.image)
             file << open(URI.escape(url)).read
           end
         end
       end
     end
   rescue OpenURI::HTTPError, SocketError, RuntimeError, Errno::EHOSTUNREACH => e
-    puts "Can not update himalai.ru books: #{e}"
+    puts "Can not update bookshop.ru books: #{e}"
   end
 end
 

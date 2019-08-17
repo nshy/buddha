@@ -208,15 +208,15 @@ end
 class Error < Sequel::Model
 end
 
-# --------------------- himalai --------------------------
+# --------------------- buddhabook.ru --------------------------
 
-class HimalaiBook < Sequel::Model(:himalai)
+class ShopBook < Sequel::Model(:bookshop)
   def cover
-    "/himalai/#{image}"
+    "/bookshop/#{image}"
   end
 
   def href
-    "http://www.himalai.ru/#{rel_href}"
+    "http://www.buddhabook.ru/#{rel_href}"
   end
 end
 

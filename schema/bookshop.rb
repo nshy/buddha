@@ -1,5 +1,5 @@
 def create
-  create_table(:himalai) do
+  create_table(:bookshop) do
     primary_key :id
     String :title, null: false
     String :authors, null: false
