@@ -21,7 +21,7 @@ GEM
       mini_portile2 (~> 2.3.0)
     preamble (0.0.3)
       rspec
-    rack (2.0.4)
+    rack (2.0.8)
     rack-protection (2.0.1)
       rack
     rb-fsevent (0.10.2)
