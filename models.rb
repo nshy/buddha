@@ -222,6 +222,8 @@ end
 
 end # module Index
 
+# every quote file should be named by date when
+# moon year is starting
 def load_quotes(path, today = Date.today)
   ret = Array.new(5, "Цитата на эту неделю не задана")
   w = Week.new(today)
