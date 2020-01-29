@@ -229,8 +229,8 @@ module ParseHelper
   end
 
   def parse_place(a)
-    place = a.shift || 'Спартаковская'
-    if not ['Спартаковская', 'Мытная', 'Весна'].include?(place)
+    place = a.shift
+    if not place.nil? and not ['Спартаковская', 'Мытная', 'Весна'].include?(place)
       raise ModelException.new \
         "Место проведения должно быть либо 'Спартаковская' либо 'Мытная' "
         " либо 'Весна'"
@@ -334,7 +334,7 @@ class Day
         "Нет ни одного времени проведения занятий"
     end
 
-    place = parse_place(a)
+    place = parse_place(a) || 'Спартаковская'
     parse_check_tail(a)
 
     new(day, periods, place)
