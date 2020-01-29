@@ -17,7 +17,7 @@
       <% if /href/ =~ event.title %>
         <%= event.title %>
       <% else %>
-      <a href="/timetable?show=schedule#<%= slug(Russian::transliterate(event.title)) %>">
+      <a href="/timetable?show=schedule#<%= event.slug %>">
         <%= "#{event.title}" %>
       </a>
       <% end %>

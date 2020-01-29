@@ -267,10 +267,6 @@ module CommonHelpers
     end
   end
 
-  def slug(title)
-    title.downcase.strip.gsub(' ', '-').gsub(/[^\w-]/, '')
-  end
-
   def get_full_url(url)
     if url[0] == '/'
       full_url = url

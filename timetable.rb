@@ -1,5 +1,6 @@
 require 'date'
 require 'nokogiri'
+require 'russian'
 require_relative 'models'
 
 module Timetable
@@ -105,13 +106,14 @@ class OpenRange
 end
 
 class EventLine
-  attr_accessor :title, :period, :place
+  attr_accessor :title, :period, :place, :slug
 
   attr_writer :conflict, :cancelled
 
-  def initialize(period, place)
+  def initialize(period, place, title = nil)
     @period = period
     @place = place
+    @title = title
   end
 
   def conflict?
@@ -173,9 +175,13 @@ class Period
   @@HideBegin = Time.parse("00:00")
   @@HideEnd = Time.parse("23:59")
 
+  def self.whole_day()
+      new(@@HideBegin, @@HideEnd)
+  end
+
   def self.parse(v)
     begin
-      return new(@@HideBegin, @@HideEnd) if v.empty?
+      return whole_day() if v.empty?
       a = v.split('-')
       b = Time.parse(a[0]); e = nil
       return nil if not b
@@ -204,6 +210,10 @@ class Period
     end
     "#{@begin} - #{@end}"
   end
+
+  def ==(other)
+    @begin == other.begin and @end == other.end
+  end
 end
 
 module ParseHelper
@@ -215,7 +225,7 @@ module ParseHelper
     periods = []
     while a.first
       period = Period.parse(a.first)
-      break if period.nil?
+      break if period.nil? or (period == Period.whole_day() and not periods.empty?())
       periods << period
       a.shift
     end
@@ -230,7 +240,8 @@ module ParseHelper
 
   def parse_place(a)
     place = a.shift
-    if not place.nil? and not ['Спартаковская', 'Мытная', 'Весна'].include?(place)
+    return nil if place.nil? or place.empty?
+    if not ['Спартаковская', 'Мытная', 'Весна'].include?(place)
       raise ModelException.new \
         "Место проведения должно быть либо 'Спартаковская' либо 'Мытная' "
         " либо 'Весна'"
@@ -318,10 +329,11 @@ class Day
 
   attr_reader :day, :place, :periods
 
-  def initialize(day, periods, place)
+  def initialize(day, periods, place, title)
     @periods = periods
     @place = place
     @day = day
+    @title = title
   end
 
   def self.parse(value, daytype)
@@ -335,13 +347,14 @@ class Day
     end
 
     place = parse_place(a) || 'Спартаковская'
+    title = a.shift
     parse_check_tail(a)
 
-    new(day, periods, place)
+    new(day, periods, place, title)
   end
 
   def events
-     @periods.collect { |p| EventLine.new(p, @place) }
+     @periods.collect { |p| EventLine.new(p, @place, @title) }
   end
 
   def to_s
@@ -481,6 +494,11 @@ class Classes
     OpenRange.new(schedule.first.range.begin, schedule.last.range.end)
   end
 
+  def slug
+    t = Russian::transliterate(title)
+    t.downcase.strip.gsub(' ', '-').gsub(/[^\w-]/, '')
+  end
+
   def events(d)
     events = changes.reverse.collect { |c| c.events(d) }.find { |e| e }
     events = schedule.collect { |s| s.events(d) }.compact.flatten if not events
@@ -489,7 +507,10 @@ class Classes
     Utils.mark_cancels(d, events, cancel)
     hides = hide.select { |h| h.date == d }
     events = events.select { |e| not hides.any? { |h| h.affect?(e) } }
-    events.each { |e| e.title = title }
+    events.each do |e|
+      e.title = title if e.title.nil?
+      e.slug = slug
+    end
   end
 
   def announces(week)

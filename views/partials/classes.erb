@@ -2,7 +2,7 @@
 <hr/>
 <div class="title"> <%= title %> </div>
 <% classes.each do |c| %>
-<div class="class site-anchor" id="<%= slug(Russian::transliterate(c.title)) %>">
+<div class="class site-anchor" id="<%= c.slug %>">
   <img src="<%= digest_url("/timetable/#{c.image}") %>"/>
   <div class="description">
     <div class="title"> <%= c.title %> </div>
