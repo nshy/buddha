@@ -354,9 +354,10 @@ class Cancel
 
   attr_reader :date, :periods
 
-  def initialize(date, periods)
+  def initialize(date, periods, place)
     @periods = periods
     @date = date
+    @place = place
   end
 
   def self.parse(value)
@@ -364,13 +365,15 @@ class Cancel
 
     date = ModelDate.parse(a.shift)
     periods = parse_periods(a)
+    place = parse_place(a)
     parse_check_tail(a)
 
-    new(date, periods)
+    new(date, periods, place)
   end
 
   def affect?(e)
-    @periods.empty? || @periods.any? { |p| p.cross(e.period) }
+    a1 = @periods.empty? || @periods.any? { |p| p.cross(e.period) }
+    a2 = @place.nil? || e.place == @place
   end
 end
 
