@@ -2,6 +2,13 @@
     locals: { selected: :week, banner: @timetable.banner } %>
 
 <div class="page-timetable">
+  <div class="site-centered">
+
+  <p>В <a href="/contacts/">часы работы</a>, когда не идут занятия,
+  приведенные расписании, в центре можно выполнять индивидуальные практики,
+  такие как чтение молитв и простирания.</p>
+
+  </div>
   <% cur = Week.new + @skip; nex = cur + 1 %>
   <div class="months"> <%= timetable_months(cur) %></div>
   <div class="two-weeks">
