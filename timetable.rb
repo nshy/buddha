@@ -387,6 +387,7 @@ class Cancel
   def affect?(e)
     a1 = @periods.empty? || @periods.any? { |p| p.cross(e.period) }
     a2 = @place.nil? || e.place == @place
+    a1 and a2
   end
 end
 
