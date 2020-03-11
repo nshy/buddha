@@ -149,7 +149,7 @@ class Time
   def self.parse(v)
     m = /^(\d{1,2}):(\d{1,2})$/.match(v)
     return nil if not m
-    t = new(Integer(m[1]), Integer(m[2]))
+    t = new(m[1].to_i, m[2].to_i)
     raise ArgumentError if t.to_s != v
     t
   end
