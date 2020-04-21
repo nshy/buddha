@@ -121,7 +121,7 @@ if watch
 
     while true
       Gesheru.update
-      Bookshop.update
+      # Bookshop.update
       sleep(3600)
     end
   end
