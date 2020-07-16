@@ -16,27 +16,15 @@
 .yandex-map { height: 600px; }
 
 table {
-  tr:first-child td {
-    font-weight: 400;
-    font-size: 18px;
-    padding-bottom: 10px;
-    text-decoration: underline;
-  }
-
   tr td:first-child {
     width: 92px;
     padding-right: 15px;
     font-weight: 600;
     text-align: right;
   }
-}
-
-table.spartakovskaya {
   min-width: 320px;
   max-width: 450px;
 }
-
-table.mytnaya { min-width: 320px; }
 
 td.email {
   a, span {  display: inline-block; }
