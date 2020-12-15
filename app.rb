@@ -1,11 +1,12 @@
 #!/usr/bin/ruby
 
-require 'rubygems'
-require 'bundler'
+require 'bundler/setup'
 
 require_relative 'config'
-Bundler.require
 
+require 'sinatra'
+require 'sequel'
+require 'unicode'
 require 'tilt/erubis'
 require 'sinatra/capture'
 require 'set'
