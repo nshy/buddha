@@ -12,9 +12,5 @@ gem 'sequel'
 gem 'sassc'
 gem 'sigdump', require: 'sigdump/setup'
 gem 'rake'
-
 gem 'sinatra-contrib'
-
-group :tools do
-  gem 'activesupport'
-end
+gem 'activesupport'
