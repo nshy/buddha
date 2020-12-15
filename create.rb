@@ -1,5 +1,6 @@
 #!/usr/bin/ruby
 
+require 'bundler/setup'
 require 'sequel'
 require_relative 'helpers'
 require_relative 'utils'

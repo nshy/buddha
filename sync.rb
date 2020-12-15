@@ -1,5 +1,6 @@
 #!/usr/bin/ruby
 
+require 'bundler/setup'
 require 'listen'
 require 'sigdump/setup'
 require_relative 'helpers'
