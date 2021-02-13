@@ -245,6 +245,22 @@ pre {
       margin: 20px 0 20px;
     }
 
+    .video {
+      display: block;
+      width: 100%;
+      margin: 20px 0 20px;
+
+      position: relative;
+      padding-bottom: 56.25%;
+      iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+    }
+
     > .contents {
       > a, > div {
         display: block;
