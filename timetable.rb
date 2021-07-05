@@ -199,7 +199,7 @@ class Period
   end
 
   def cross(p)
-    not (p.begin > @end or p.end < @begin)
+    not (p.begin >= @end or p.end <= @begin)
   end
 
   def to_s
